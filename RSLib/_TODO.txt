@@ -1,0 +1,36 @@
+--------------------
+------- TODO -------
+--------------------
+
+
+- Vectors
+    - Vector2 Align to closest Cardinal (ou truc générique avec x directions)
+    - Rotate (cos/sin et quaternion)
+    - Average
+- Queue.Shuffle()
+- Check duplicate in collections
+- Pool Editor (button clear, add element, check duplicates, etc.)
+- Bresenham
+- SpriteAnimator & ImageAnimator
+- Maths
+	- dot product avec angle
+    - points around circle
+    - Gauss
+- XML Database
+
+
+
+
+Plugged joysticks visualizer
+
+public static Vector2 Rotate(this Vector2 vector, float degrees)
+{
+   float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
+   float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
+
+   float tx = vector.x;
+   float ty = vector.y;
+   vector.x = (cos * tx) - (sin * ty);
+   vector.y = (sin * tx) + (cos * ty);
+   return vector;
+}

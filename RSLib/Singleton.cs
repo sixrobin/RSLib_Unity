@@ -1,4 +1,4 @@
-﻿namespace RSLib
+﻿namespace RSLib.Framework
 {
     using UnityEngine;
 
@@ -6,6 +6,9 @@
     {
         [SerializeField]
         private bool dontDestroy = false;
+
+        [SerializeField]
+        private bool verbose = false;
 
         private static T instance;
 
@@ -28,6 +31,8 @@
             set => instance = value;
         }
 
+        public bool Verbose => this.verbose;
+
         public static bool Exists()
         {
             return Instance != null;
@@ -46,12 +51,18 @@
 
         public void Log(string message)
         {
-            Debug.Log($"{typeof(T).Name}: {message}");
+            if (this.verbose)
+            {
+                Debug.Log($"{typeof(T).Name}: {message}");
+            }
         }
 
         public void Log(string message, Object context)
         {
-            Debug.Log($"{typeof(T).Name}: {message}", context);
+            if (this.verbose)
+            {
+                Debug.Log($"{typeof(T).Name}: {message}", context);
+            }
         }
 
         public void LogError(string message)
@@ -84,6 +95,7 @@
 
                 if (this.dontDestroy)
                 {
+                    this.transform.SetParent(null);
                     DontDestroyOnLoad(this.gameObject);
                 }
             }

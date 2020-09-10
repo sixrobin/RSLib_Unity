@@ -1,4 +1,4 @@
-﻿namespace RSLib
+﻿namespace RSLib.Framework.Collections
 {
     public class Heap<T> where T : IHeapElement<T>
     {

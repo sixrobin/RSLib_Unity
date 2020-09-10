@@ -227,6 +227,16 @@
 
 		#endregion ROUND
 
+		#region SWAP
+
+		/// <summary>Swaps x and y components of a vector.</summary>
+		public static Vector2 Swap(this Vector2 v)
+        {
+			return new Vector2(v.y, v.x);
+        }
+
+		#endregion SWAP
+
 		#region WITH
 
 		/// <summary>Gets a vector's copy with new x value.</summary>
@@ -263,10 +273,10 @@
 
 		#region VECTOR3
 
-		#region ABS
+        #region ABS
 
-		/// <summary>Gets a vector copy with all components absolute values.</summary>
-		public static Vector3 AbsAll(this Vector3 v)
+        /// <summary>Gets a vector copy with all components absolute values.</summary>
+        public static Vector3 AbsAll(this Vector3 v)
 		{
 			return new Vector3(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
 		}

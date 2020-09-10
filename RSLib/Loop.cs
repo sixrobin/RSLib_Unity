@@ -1,4 +1,4 @@
-﻿namespace RSLib
+﻿namespace RSLib.Framework.Collections
 {
 	using System.Collections;
 	using System.Collections.Generic;

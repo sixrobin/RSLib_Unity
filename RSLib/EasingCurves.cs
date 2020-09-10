@@ -2,6 +2,41 @@
 {
 	using static System.Math;
 
+	public enum Curve
+	{
+		Linear,
+		InBack,
+		InBounce,
+		InCirc,
+		InCubic,
+		InElastic,
+		InExpo,
+		InQuad,
+		InQuart,
+		InQuint,
+		InSine,
+		OutBack,
+		OutBounce,
+		OutCirc,
+		OutCubic,
+		OutElastic,
+		OutExpo,
+		OutQuad,
+		OutQuart,
+		OutQuint,
+		OutSine,
+		InOutBack,
+		InOutBounce,
+		InOutCirc,
+		InOutCubic,
+		InOutElastic,
+		InOutExpo,
+		InOutQuad,
+		InOutQuart,
+		InOutQuint,
+		InOutSine
+	}
+
 	/// <summary>
 	/// Methods representing some easing curves where t is clamped between 0 and 1. Should be used to tweek the t parameter of Unity Lerp methods.
 	/// Warning : some of the methods below will return a result below 0 or above 1, that will require Unity's LerpUnclamped.
@@ -9,41 +44,6 @@
 	/// </summary>
 	public static class Easing
 	{
-		public enum Curve
-		{
-			Linear,
-			InBack,
-			InBounce,
-			InCirc,
-			InCubic,
-			InElastic,
-			InExpo,
-			InQuad,
-			InQuart,
-			InQuint,
-			InSine,
-			OutBack,
-			OutBounce,
-			OutCirc,
-			OutCubic,
-			OutElastic,
-			OutExpo,
-			OutQuad,
-			OutQuart,
-			OutQuint,
-			OutSine,
-			InOutBack,
-			InOutBounce,
-			InOutCirc,
-			InOutCubic,
-			InOutElastic,
-			InOutExpo,
-			InOutQuad,
-			InOutQuart,
-			InOutQuint,
-			InOutSine
-		}
-
 		public static float Ease(this float t, Curve c)
 		{
 			switch (c)

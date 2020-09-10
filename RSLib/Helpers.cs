@@ -1,4 +1,4 @@
-﻿namespace RSLib.Helpers
+﻿namespace RSLib
 {
     public static class Helpers
     {
