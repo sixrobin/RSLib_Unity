@@ -4,7 +4,7 @@
 
 	public static class IListExtensions
 	{
-		private static System.Random rnd = new System.Random();
+		private static System.Random s_rnd = new System.Random();
 
 		#region CONVERSION
 
@@ -14,12 +14,8 @@
 		public static Queue<T> ToQueue<T>(this IList<T> list, bool enqueueFromStart = true)
 		{
 			Queue<T> queue = new Queue<T>();
-			for (int i = enqueueFromStart ? 0 : list.Count - 1;
-				enqueueFromStart ? (i < list.Count) : (i >= 0);
-				i += enqueueFromStart ? 1 : -1)
-			{
+			for (int i = enqueueFromStart ? 0 : list.Count - 1; enqueueFromStart ? (i < list.Count) : (i >= 0); i += enqueueFromStart ? 1 : -1)
 				queue.Enqueue(list[i]);
-			}
 
 			return queue;
 		}
@@ -30,12 +26,8 @@
 		public static Stack<T> ToStack<T>(this IList<T> list, bool stackFromStart = true)
 		{
 			Stack<T> stack = new Stack<T>();
-			for (int i = stackFromStart ? 0 : list.Count - 1;
-				stackFromStart ? (i < list.Count) : (i >= 0);
-				i += stackFromStart ? 1 : -1)
-			{
+			for (int i = stackFromStart ? 0 : list.Count - 1; stackFromStart ? (i < list.Count) : (i >= 0); i += stackFromStart ? 1 : -1)
 				stack.Push(list[i]);
-			}
 
 			return stack;
 		}
@@ -45,11 +37,9 @@
 		/// <returns>String with the list elements.</returns>
 		public static string ToStringImproved<T>(this IList<T> list)
 		{
-			string str = "";
+			string str = string.Empty;
 			for (int i = 0; i < list.Count; ++i)
-			{
 				str += list[i].ToString() + (i == list.Count - 1 ? "" : ", ");
-			}
 
 			return str;
 		}
@@ -60,11 +50,9 @@
 		/// <returns>String with the list elements.</returns>
 		public static string ToStringImproved<T>(this IList<T> list, char split)
 		{
-			string str = "";
+			string str = string.Empty;
 			for (int i = 0; i < list.Count; ++i)
-			{
 				str += list[i].ToString() + (i == list.Count - 1 ? "" : split.ToString());
-			}
 
 			return str;
 		}
@@ -75,11 +63,9 @@
 		/// <returns>String with the list elements.</returns>
 		public static string ToStringImproved<T>(this IList<T> list, string split)
 		{
-			string str = "";
+			string str = string.Empty;
 			for (int i = 0; i < list.Count; ++i)
-			{
 				str += list[i].ToString() + (i == list.Count - 1 ? "" : string.IsNullOrEmpty(split) ? " / " : split);
-			}
 
 			return str;
 		}
@@ -93,7 +79,7 @@
 		/// <returns>Any element.</returns>
 		public static T Any<T>(this IList<T> list)
 		{
-			return list[rnd.Next(list.Count)];
+			return list[s_rnd.Next(list.Count)];
 		}
 
 		/// <summary>
@@ -107,14 +93,10 @@
 		public static IList<T> Any<T>(this IList<T> list, int quantity)
 		{
 			if (quantity <= 0)
-			{
 				return new List<T>();
-			}
 
 			if (quantity >= list.Count)
-			{
 				return list;
-			}
 
 			IList<T> copy = list;
 			IList<T> choice = new List<T>();
@@ -135,9 +117,7 @@
 		{
 			int n = list.Count;
 			while (n > 1)
-			{
-				list.Swap(rnd.Next(n--), n);
-			}
+				list.Swap(s_rnd.Next(n--), n);
 		}
 
 		/// <summary>Shuffles the list in a new list.</summary>
@@ -147,15 +127,11 @@
 		{
 			IList<T> copy = new List<T>();
 			for (int i = list.Count - 1; i >= 0; --i)
-			{
 				copy.Add(list[i]);
-			}
 
 			int n = copy.Count;
 			while (n > 1)
-			{
-				copy.Swap(rnd.Next(n--), n);
-			}
+				copy.Swap(s_rnd.Next(n--), n);
 
 			return copy;
 		}

@@ -4,7 +4,7 @@
 
     public static class BoxCollider2DExtensions
     {
-		private static Transform cachedTransform = null;
+		private static Transform s_cachedTransform = null;
 
 		public enum BoxSide
 		{
@@ -33,11 +33,11 @@
 		public static Vector2[] Corners(this BoxCollider2D box)
 		{
 			Vector2[] corners = new Vector2[4];
-			cachedTransform = box.transform;
+			s_cachedTransform = box.transform;
 
-			Vector2 position = cachedTransform.position;
-			Quaternion rotation = cachedTransform.localRotation;
-			Vector2 scale = cachedTransform.localScale;
+			Vector2 position = s_cachedTransform.position;
+			Quaternion rotation = s_cachedTransform.localRotation;
+			Vector2 scale = s_cachedTransform.localScale;
 
 			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
 			Vector2 angledDiagonal = rotation * diagonal;
@@ -53,16 +53,39 @@
 			return corners;
 		}
 
+		/// <summary>Gets bottom corners of a BoxCollider2D, without considering parents transforms.</summary>
+		/// <returns>Array of two Vector2, bottom left and bottom right.</returns>
+		public static Vector2[] CornersBottom(this BoxCollider2D box)
+		{
+			Vector2[] corners = new Vector2[2];
+			s_cachedTransform = box.transform;
+
+			Vector2 position = s_cachedTransform.position;
+			Quaternion rotation = s_cachedTransform.localRotation;
+			Vector2 scale = s_cachedTransform.localScale;
+
+			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
+			Vector2 angledDiagonal = rotation * diagonal;
+			Vector2 angledDiagonalOpposite = rotation * diagonal.WithX(-diagonal.x);
+
+			position += (Vector2)(rotation * Vector2.Scale(box.offset, scale));
+
+			corners[0] += position + new Vector2(-angledDiagonal.x, -angledDiagonal.y);
+			corners[1] += position + new Vector2(-angledDiagonalOpposite.x, -angledDiagonalOpposite.y);
+
+			return corners;
+		}
+
 		/// <summary>Gets left corners of a BoxCollider2D, without considering parents transforms.</summary>
 		/// <returns>Array of two Vector2, bottom left and top left.</returns>
 		public static Vector2[] CornersLeft(this BoxCollider2D box)
 		{
 			Vector2[] corners = new Vector2[2];
-			cachedTransform = box.transform;
+			s_cachedTransform = box.transform;
 
-			Vector2 position = cachedTransform.position;
-			Quaternion rotation = cachedTransform.localRotation;
-			Vector2 scale = cachedTransform.localScale;
+			Vector2 position = s_cachedTransform.position;
+			Quaternion rotation = s_cachedTransform.localRotation;
+			Vector2 scale = s_cachedTransform.localScale;
 
 			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
 			Vector2 angledDiagonal = rotation * diagonal;
@@ -81,11 +104,11 @@
 		public static Vector2[] CornersRight(this BoxCollider2D box)
 		{
 			Vector2[] corners = new Vector2[2];
-			cachedTransform = box.transform;
+			s_cachedTransform = box.transform;
 
-			Vector2 position = cachedTransform.position;
-			Quaternion rotation = cachedTransform.localRotation;
-			Vector2 scale = cachedTransform.localScale;
+			Vector2 position = s_cachedTransform.position;
+			Quaternion rotation = s_cachedTransform.localRotation;
+			Vector2 scale = s_cachedTransform.localScale;
 
 			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
 			Vector2 angledDiagonal = rotation * diagonal;
@@ -104,11 +127,11 @@
 		public static Vector2[] CornersTop(this BoxCollider2D box)
 		{
 			Vector2[] corners = new Vector2[2];
-			cachedTransform = box.transform;
+			s_cachedTransform = box.transform;
 
-			Vector2 position = cachedTransform.position;
-			Quaternion rotation = cachedTransform.localRotation;
-			Vector2 scale = cachedTransform.localScale;
+			Vector2 position = s_cachedTransform.position;
+			Quaternion rotation = s_cachedTransform.localRotation;
+			Vector2 scale = s_cachedTransform.localScale;
 
 			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
 			Vector2 angledDiagonal = rotation * diagonal;
@@ -118,29 +141,6 @@
 
 			corners[0] += position + new Vector2(+angledDiagonalOpposite.x, +angledDiagonalOpposite.y);
 			corners[1] += position + new Vector2(+angledDiagonal.x, +angledDiagonal.y);
-
-			return corners;
-		}
-
-		/// <summary>Gets bottom corners of a BoxCollider2D, without considering parents transforms.</summary>
-		/// <returns>Array of two Vector2, bottom left and bottom right.</returns>
-		public static Vector2[] CornersBottom(this BoxCollider2D box)
-		{
-			Vector2[] corners = new Vector2[2];
-			cachedTransform = box.transform;
-
-			Vector2 position = cachedTransform.position;
-			Quaternion rotation = cachedTransform.localRotation;
-			Vector2 scale = cachedTransform.localScale;
-
-			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
-			Vector2 angledDiagonal = rotation * diagonal;
-			Vector2 angledDiagonalOpposite = rotation * diagonal.WithX(-diagonal.x);
-
-			position += (Vector2)(rotation * Vector2.Scale(box.offset, scale));
-
-			corners[0] += position + new Vector2(-angledDiagonal.x, -angledDiagonal.y);
-			corners[1] += position + new Vector2(-angledDiagonalOpposite.x, -angledDiagonalOpposite.y);
 
 			return corners;
 		}
@@ -156,9 +156,7 @@
         public static Vector2[] PointsAlongSide(this BoxCollider2D box, BoxSide side, int count)
 		{
 			if (count <= 2)
-			{
 				return box.Corners(side);
-			}
 
 			Vector2[] points = new Vector2[count];
 			Vector2[] corners = box.Corners(side);
@@ -169,9 +167,7 @@
 			float pointsCount = count;
 
 			for (int i = 0; i <= count; ++i)
-			{
 				points[i] = start * (1 - i / pointsCount) + end * (i / pointsCount);
-			}
 
 			return points;
 		}

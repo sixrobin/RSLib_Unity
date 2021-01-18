@@ -18,17 +18,6 @@
 
 		#region MATERIALS
 
-		/// <summary>Sets the renderer shared material at a given index.</summary>
-		/// <param name="index">Index of the changed shared material.</param>
-		/// <param name="newMaterial">Material to set.</param>
-		/// <returns>True if change has been made successfully.</returns>
-		public static void ChangeSharedMaterialAtIndex(this Renderer rend, int index, Material newMaterial)
-		{
-			Material[] sharedMaterialsCopy = rend.sharedMaterials;
-			sharedMaterialsCopy[index] = newMaterial;
-			rend.sharedMaterials = sharedMaterialsCopy;
-		}
-
 		/// <summary>Sets the renderer material at a given index.</summary>
 		/// <param name="index">Index of the changed material.</param>
 		/// <param name="newMaterial">Material to set.</param>
@@ -38,6 +27,17 @@
 			Material[] materialsCopy = renderer.materials;
 			materialsCopy[index] = newMaterial;
 			renderer.materials = materialsCopy;
+		}
+
+		/// <summary>Sets the renderer shared material at a given index.</summary>
+		/// <param name="index">Index of the changed shared material.</param>
+		/// <param name="newMaterial">Material to set.</param>
+		/// <returns>True if change has been made successfully.</returns>
+		public static void ChangeSharedMaterialAtIndex(this Renderer rend, int index, Material newMaterial)
+		{
+			Material[] sharedMaterialsCopy = rend.sharedMaterials;
+			sharedMaterialsCopy[index] = newMaterial;
+			rend.sharedMaterials = sharedMaterialsCopy;
 		}
 
 		#endregion MATERIALS

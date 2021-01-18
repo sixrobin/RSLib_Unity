@@ -6,17 +6,20 @@
 - Vectors
     - Vector2 Align to closest Cardinal (ou truc générique avec x directions)
     - Rotate (cos/sin et quaternion)
-    - Average
 - Queue.Shuffle()
 - Check duplicate in collections
-- Pool Editor (button clear, add element, check duplicates, etc.)
+- Pool : Editor (button clear, add element, check duplicates, etc.)
 - Bresenham
+- Color Extension ToRGB / ToHex pour éviter ColorUtility.
 - SpriteAnimator & ImageAnimator
 - Maths
 	- dot product avec angle
     - points around circle
     - Gauss
 - XML Database
+- Shared yield : wait for frames pool ne marche pas ?
+- Animator : SetInteger (ou autre) if different
+- Transform.SetX, Y, Z
 
 
 

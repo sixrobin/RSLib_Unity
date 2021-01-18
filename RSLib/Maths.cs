@@ -1,5 +1,7 @@
 ﻿namespace RSLib.Maths
 {
+    using System.Linq;
+    
     public static class Maths
     {
         #region AVERAGE
@@ -10,11 +12,8 @@
         public static float ComputeAverageValue(params byte[] values)
         {
             byte sum = 0;
-
-            for (int valueIndex = values.Length - 1; valueIndex >= 0; --valueIndex)
-            {
-                sum += values[valueIndex];
-            }
+            for (int i = values.Length - 1; i >= 0; --i)
+                sum += values[i];
 
             return (float)sum / values.Length;
         }
@@ -25,11 +24,8 @@
         public static float ComputeAverageValue(params int[] values)
         {
             int sum = 0;
-
-            for (int valueIndex = values.Length - 1; valueIndex >= 0; --valueIndex)
-            {
-                sum += values[valueIndex];
-            }
+            for (int i = values.Length - 1; i >= 0; --i)
+                sum += values[i];
 
             return (float)sum / values.Length;
         }
@@ -40,11 +36,8 @@
         public static float ComputeAverageValue(params float[] values)
         {
             float sum = 0;
-
-            for (int valueIndex = values.Length - 1; valueIndex >= 0; --valueIndex)
-            {
-                sum += values[valueIndex];
-            }
+            for (int i = values.Length - 1; i >= 0; --i)
+                sum += values[i];
 
             return sum / values.Length;
         }
@@ -55,13 +48,68 @@
         public static double ComputeAverageValue(params double[] values)
         {
             double sum = 0;
-
-            for (int valueIndex = values.Length - 1; valueIndex >= 0; --valueIndex)
-            {
-                sum += values[valueIndex];
-            }
+            for (int i = values.Length - 1; i >= 0; --i)
+                sum += values[i];
 
             return sum / values.Length;
+        }
+
+        /// <summary>
+        /// Computes the average position between Vector2s.
+        /// This method uses Linq and a foreach loop, using an array would be better if possible.
+        /// </summary>
+        /// <param name="vectors">Collection of vectors.</param>
+        /// <returns>Computed Vector2.</returns>
+        public static UnityEngine.Vector2 ComputeAverageVector(System.Collections.Generic.IEnumerable<UnityEngine.Vector2> vectors)
+        {
+            UnityEngine.Vector2 average = UnityEngine.Vector2.zero;
+            foreach (UnityEngine.Vector2 v in vectors)
+                average += v;
+
+            average /= vectors.Count();
+            return average;
+        }
+
+        /// <summary>Computes the average position between Vector2s.</summary>
+        /// <param name="vectors">Array of vectors, or multiple vectors as multiple arguments.</param>
+        /// <returns>Computed Vector2.</returns>
+        public static UnityEngine.Vector2 ComputeAverageVector(params UnityEngine.Vector2[] vectors)
+        {
+            UnityEngine.Vector2 average = UnityEngine.Vector2.zero;
+            for (int i = vectors.Length - 1; i >= 0; --i)
+                average += vectors[i];
+
+            average /= vectors.Length;
+            return average;
+        }
+
+        /// <summary>
+        /// Computes the average position between Vector3s.
+        /// This method uses Linq and a foreach loop, using an array would be better if possible.
+        /// </summary>
+        /// <param name="vectors">Collection of vectors.</param>
+        /// <returns>Computed Vector3.</returns>
+        public static UnityEngine.Vector3 ComputeAverageVector(System.Collections.Generic.IEnumerable<UnityEngine.Vector3> vectors)
+        {
+            UnityEngine.Vector3 average = UnityEngine.Vector3.zero;
+            foreach (UnityEngine.Vector3 v in vectors)
+                average += v;
+
+            average /= vectors.Count();
+            return average;
+        }
+
+        /// <summary>Computes the average position between Vector3s.</summary>
+        /// <param name="vectors">Array of vectors, or multiple vectors as multiple arguments.</param>
+        /// <returns>Computed Vector3.</returns>
+        public static UnityEngine.Vector3 ComputeAverageVector(params UnityEngine.Vector3[] vectors)
+        {
+            UnityEngine.Vector3 average = UnityEngine.Vector3.zero;
+            for (int i = vectors.Length - 1; i >= 0; --i)
+                average += vectors[i];
+
+            average /= vectors.Length;
+            return average;
         }
 
         #endregion AVERAGE
@@ -161,11 +209,8 @@
         public static int Factorial(this int i)
         {
             int factorial = 1;
-
-            for (int productIndex = i; productIndex >= 1; --productIndex)
-            {
-                factorial *= productIndex;
-            }
+            for (int p = i; p >= 1; --p)
+                factorial *= p;
 
             return factorial;
         }
@@ -264,9 +309,7 @@
         {
             a %= 360f;
             if (a < 0)
-            {
                 a += 360f;
-            }
 
             return a;
         }

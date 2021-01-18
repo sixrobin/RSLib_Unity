@@ -11,7 +11,7 @@
 		/// <returns>String with the stack elements.</returns>
 		public static string ToStringImproved<T>(this Stack<T> stack)
 		{
-			string str = "";
+			string str = string.Empty;
 			int elementIndex = 0;
 
 			foreach (T element in stack)
@@ -29,7 +29,7 @@
 		/// <returns>String with the stack elements.</returns>
 		public static string ToStringImproved<T>(this Stack<T> stack, char split)
 		{
-			string str = "";
+			string str = string.Empty;
 			int elementIndex = 0;
 
 			foreach (T element in stack)
@@ -47,7 +47,7 @@
 		/// <returns>String with the stack elements.</returns>
 		public static string ToStringImproved<T>(this Stack<T> stack, string split)
 		{
-			string str = "";
+			string str = string.Empty;
 			int elementIndex = 0;
 
 			foreach (T element in stack)
@@ -68,9 +68,7 @@
 		public static void ForEach<T>(this Stack<T> stack, System.Action<T> action)
 		{
 			foreach (T element in stack)
-			{
 				action(element);
-			}
 		}
 
 		/// <summary>Pushes all the elements of an IEnumerable.</summary>
@@ -78,9 +76,7 @@
 		public static void Push<T>(this Stack<T> stack, IEnumerable<T> collection)
 		{
 			foreach (T element in collection)
-			{
 				stack.Push(element);
-			}
 		}
 
 		#endregion GENERAL

@@ -20,9 +20,7 @@
         public static bool HasLayer(this LayerMask layerMask, string layer)
         {
             if (string.IsNullOrEmpty(layer))
-            {
                 return false;
-            }
 
             return layerMask.value == (layerMask.value | 1 << LayerMask.NameToLayer(layer));
         }

@@ -5,9 +5,9 @@
 
     public static class SharedYields
     {
-        private static Dictionary<int, WaitForFrames> waitForFramesCollection = new Dictionary<int, WaitForFrames>(100, new Framework.CustomComparers.IntComparer());
+        private static Dictionary<int, WaitForFrames> s_waitForFramesCollection = new Dictionary<int, WaitForFrames>(100, new Framework.CustomComparers.IntComparer());
 
-        private static Dictionary<float, WaitForSeconds> waitsForSeconds = new Dictionary<float, WaitForSeconds>(100, new Framework.CustomComparers.FloatComparer());
+        private static Dictionary<float, WaitForSeconds> s_waitsForSeconds = new Dictionary<float, WaitForSeconds>(100, new Framework.CustomComparers.FloatComparer());
 
         public static WaitForEndOfFrame WaitForEndOfFrame { get; } = new WaitForEndOfFrame();
         public static WaitForFixedUpdate WaitForFixedUpdate { get; } = new WaitForFixedUpdate();
@@ -17,10 +17,8 @@
         /// <returns>WaitForFrames instance.</returns>
         public static WaitForFrames WaitForFrames(int framesCount)
         {
-            if (!waitForFramesCollection.TryGetValue(framesCount, out WaitForFrames wait))
-            {
-                waitForFramesCollection.Add(framesCount, wait = new WaitForFrames(framesCount));
-            }
+            if (!s_waitForFramesCollection.TryGetValue(framesCount, out WaitForFrames wait))
+                s_waitForFramesCollection.Add(framesCount, wait = new WaitForFrames(framesCount));
 
             return wait;
         }
@@ -30,10 +28,8 @@
         /// <returns>WaitForSeconds instance.</returns>
         public static WaitForSeconds WaitForSeconds(float duration)
         {
-            if (!waitsForSeconds.TryGetValue(duration, out WaitForSeconds wait))
-            {
-                waitsForSeconds.Add(duration, wait = new WaitForSeconds(duration));
-            }
+            if (!s_waitsForSeconds.TryGetValue(duration, out WaitForSeconds wait))
+                s_waitsForSeconds.Add(duration, wait = new WaitForSeconds(duration));
 
             return wait;
         }
@@ -41,13 +37,25 @@
 
     public class WaitForFrames : CustomYieldInstruction
     {
-        private int framesCount = 0;
+        private int _framesCount = 0;
 
-        public WaitForFrames(int framesCount = 1)
+        public WaitForFrames(int framesCount = 1) : base()
         {
-            this.framesCount = framesCount;
+            _framesCount = framesCount;
         }
 
-        public override bool keepWaiting => this.framesCount-- > 0;
+        public override bool keepWaiting => _framesCount-- > 0;
+    }
+
+    public class WaitWhile : CustomYieldInstruction
+    {
+        private System.Func<bool> _predicate;
+
+        public WaitWhile(System.Func<bool> predicate)
+        {
+            _predicate = predicate;
+        }
+
+        public override bool keepWaiting => _predicate();
     }
 }

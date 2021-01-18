@@ -5,11 +5,11 @@
 
     public static class RomanNumeralConverter
     {
-        private const int numberOfRomanNumeralMaps = 13;
-        private const int maxRomanNumeralLength = 15;
-        private const string invalidStringOnWrongValue = "INVALID_ROMAN_NUMERAL";
+        private const int NB_OF_ROMAN_NUMERAL_MAPS = 13;
+        private const int MAX_ROMAN_NUMERAL_LENGTH = 15;
+        private const string INVALID_STR_ON_WRONG_VALUE = "INVALID_ROMAN_NUMERAL";
 
-        private static readonly Dictionary<string, int> romanNumerals = new Dictionary<string, int>(numberOfRomanNumeralMaps)
+        private static readonly Dictionary<string, int> s_romanNumerals = new Dictionary<string, int>(NB_OF_ROMAN_NUMERAL_MAPS)
         {
             { "M", 1000 },
             { "CM", 900 },
@@ -41,29 +41,25 @@
         public static int ParseRomanNumeralToInt(this string str)
         {
             if (str == null)
-            {
                 return -1;
-            }
 
             str = str.ToUpperInvariant().Trim();
 
             int length = str.Length;
 
             if (length == 0 || !str.IsValidRomanNumeral())
-            {
                 return -1;
-            }
 
             int total = 0;
             int strLength = length;
 
             while (strLength > 0)
             {
-                int digit = romanNumerals[str[--strLength].ToString()];
+                int digit = s_romanNumerals[str[--strLength].ToString()];
 
                 if (strLength > 0)
                 {
-                    int previousDigit = romanNumerals[str[strLength - 1].ToString()];
+                    int previousDigit = s_romanNumerals[str[strLength - 1].ToString()];
 
                     if (previousDigit < digit)
                     {
@@ -87,13 +83,11 @@
             const int MaxValue = 3999;
 
             if (i < MinValue || i > MaxValue)
-            {
-                return invalidStringOnWrongValue;
-            }
+                return INVALID_STR_ON_WRONG_VALUE;
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder(maxRomanNumeralLength);
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(MAX_ROMAN_NUMERAL_LENGTH);
 
-            foreach (KeyValuePair<string, int> pair in romanNumerals)
+            foreach (KeyValuePair<string, int> pair in s_romanNumerals)
             {
                 while (i / pair.Value > 0)
                 {

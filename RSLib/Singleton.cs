@@ -4,111 +4,100 @@
 
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        [SerializeField]
-        private bool dontDestroy = false;
+        [SerializeField] private bool _dontDestroy = false;
+        [SerializeField] private bool _verbose = false;
 
-        [SerializeField]
-        private bool verbose = false;
-
-        private static T instance;
+        private static T s_instance;
 
         public static T Instance
         {
             get
             {
-                if (instance == null)
+                if (s_instance == null)
                 {
-                    instance = FindObjectOfType<T>();
-                    if (instance == null)
-                    {
+                    s_instance = FindObjectOfType<T>();
+                    if (s_instance == null)
                         Debug.LogError($"No {typeof(T).Name} instance found in the scene to make a singleton.");
-                    }
                 }
 
-                return instance;
+                return s_instance;
             }
 
-            set => instance = value;
+            set => s_instance = value;
         }
 
-        public bool Verbose => this.verbose;
+        protected bool Valid => s_instance == this;
+
+        public bool Verbose => _verbose;
 
         public static bool Exists()
         {
-            return Instance != null;
+            return s_instance != null;
         }
 
         public static void Kill()
         {
-            if (instance != null)
+            if (s_instance != null)
             {
-                Destroy(instance.gameObject);
-                instance = null;
+                Destroy(s_instance.gameObject);
+                s_instance = null;
             }
         }
 
         #region LOG
 
-        public void Log(string message)
+        public void Log(string msg)
         {
-            if (this.verbose)
-            {
-                Debug.Log($"{typeof(T).Name}: {message}");
-            }
+            if (_verbose)
+                Debug.Log($"{typeof(T).Name}: {msg}");
         }
 
-        public void Log(string message, Object context)
+        public void Log(string msg, Object context)
         {
-            if (this.verbose)
-            {
-                Debug.Log($"{typeof(T).Name}: {message}", context);
-            }
+            if (_verbose)
+                Debug.Log($"{typeof(T).Name}: {msg}", context);
         }
 
-        public void LogError(string message)
+        public void LogError(string msg)
         {
-            Debug.LogError($"{typeof(T).Name}: {message}");
+            Debug.LogError($"{typeof(T).Name}: {msg}");
         }
 
-        public void LogError(string message, Object context)
+        public void LogError(string msg, Object context)
         {
-            Debug.LogError($"{typeof(T).Name}: {message}", context);
+            Debug.LogError($"{typeof(T).Name}: {msg}", context);
         }
 
-        public void LogWarning(string message)
+        public void LogWarning(string msg)
         {
-            Debug.LogWarning($"{typeof(T).Name}: {message}");
+            Debug.LogWarning($"{typeof(T).Name}: {msg}");
         }
 
-        public void LogWarning(string message, Object context)
+        public void LogWarning(string msg, Object context)
         {
-            Debug.LogWarning($"{typeof(T).Name}: {message}", context);
+            Debug.LogWarning($"{typeof(T).Name}: {msg}", context);
         }
 
         #endregion LOG
 
         protected virtual void Awake()
         {
-            if (instance == null)
-            {
-                Instance = this as T;
+            if (s_instance == null)
+                s_instance = this as T;
 
-                if (this.dontDestroy)
-                {
-                    this.transform.SetParent(null);
-                    DontDestroyOnLoad(this.gameObject);
-                }
-            }
-
-            if (instance != this)
+            if (s_instance != this)
             {
-                if (instance.gameObject == this.gameObject)
-                {
+                if (s_instance.gameObject == gameObject)
                     DestroyImmediate(this);
-                }
                 else
+                    DestroyImmediate(gameObject);
+            }
+            else
+            {
+                if (_dontDestroy)
                 {
-                    DestroyImmediate(this.gameObject);
+                    transform.SetParent(null);
+                    DontDestroyOnLoad(gameObject);
                 }
             }
         }

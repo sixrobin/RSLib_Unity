@@ -11,7 +11,7 @@
     {
         #region FIELDS
 
-        private int health;
+        private int _health;
 
         #endregion FIELDS
 
@@ -19,8 +19,8 @@
 
         public HealthSystem(int initHealth)
         {
-            this.MaxHealth = initHealth;
-            this.Health = initHealth;
+            MaxHealth = initHealth;
+            Health = initHealth;
         }
 
         #endregion CONSTRUCTORS
@@ -37,21 +37,19 @@
 
         public int Health
         {
-            get => this.health;
+            get => _health;
             set
             {
-                this.health = value.Clamp(0, this.MaxHealth);
-                if (this.IsDead)
-                {
-                    this.Killed?.Invoke();
-                }
+                _health = value.Clamp(0, MaxHealth);
+                if (IsDead)
+                    Killed?.Invoke();
             }
         }
 
         /// <summary>Current health percentage as a value from 0 to 1.</summary>
-        public float HealthPercentage => (float)this.Health / this.MaxHealth;
+        public float HealthPercentage => (float)Health / MaxHealth;
 
-        public bool IsDead => this.Health == 0;
+        public bool IsDead => Health == 0;
 
         public int MaxHealth { get; private set; }
 
@@ -64,24 +62,20 @@
         /// <param name="increaseHealth">Does health also increase if new maximum health is higher than its previous value.</param>
         public void ChangeMaxHealth(int newValue, bool increaseHealth = true)
         {
-            int previousMaxHealth = this.MaxHealth;
-            this.MaxHealth = newValue;
+            int previousMaxHealth = MaxHealth;
+            MaxHealth = newValue;
 
-            if (this.MaxHealth > previousMaxHealth && increaseHealth)
-            {
-                this.Health += this.MaxHealth - previousMaxHealth;
-            }
-            else if (this.MaxHealth < this.Health)
-            {
-                this.Health = this.MaxHealth;
-            }
+            if (MaxHealth > previousMaxHealth && increaseHealth)
+                Health += MaxHealth - previousMaxHealth;
+            else if (MaxHealth < Health)
+                Health = MaxHealth;
         }
 
         /// <summary>Removes a given amount of health points.</summary>
         /// <param name="amount">Amount to remove.</param>
         public void Damage(int amount)
         {
-            this.Health -= amount;
+            Health -= amount;
         }
 
         /// <summary>Restores a given amount of health points.</summary>
@@ -89,36 +83,32 @@
         /// <param name="ignoreIfDead">If true, heal is not applied if current health is equal to 0.</param>
         public void Heal(int amount, bool ignoreIfDead = true)
         {
-            if (this.IsDead && ignoreIfDead)
-            {
+            if (IsDead && ignoreIfDead)
                 return;
-            }
 
-            this.Health += amount;
+            Health += amount;
         }
 
         /// <summary>Sets health value to maximum health value.</summary>
         /// <param name="ignoreIfDead">If true, heal is not applied if current health is equal to 0.</param>
         public void HealFull(bool ignoreIfDead = true)
         {
-            if (this.IsDead && ignoreIfDead)
-            {
+            if (IsDead && ignoreIfDead)
                 return;
-            }
 
-            this.Health = this.MaxHealth;
+            Health = MaxHealth;
         }
 
         /// <summary>Sets health value to 0, and then kills the unit and triggers the Killed event.</summary>
         public void Kill()
         {
-            if (this.IsDead)
+            if (IsDead)
             {
                 UnityEngine.Debug.LogWarning("LivingUnit.Kill() WARNING: Can not kill an already dead unit, aborting.");
                 return;
             }
 
-            this.Health = 0;
+            Health = 0;
         }
 
         #endregion METHODS

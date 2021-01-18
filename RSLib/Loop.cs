@@ -13,8 +13,8 @@
 	{
         #region FIELDS
 
-        private List<T> loop = new List<T>();
-		private int peeksCount = 0;
+        private List<T> _loop = new List<T>();
+		private int _peeksCount = 0;
 
         #endregion FIELDS
 
@@ -26,23 +26,21 @@
 
 		public Loop(bool shuffleOnLoopCompleted)
 		{
-			this.ShuffleOnLoopCompleted = shuffleOnLoopCompleted;
+			ShuffleOnLoopCompleted = shuffleOnLoopCompleted;
 		}
 
 		public Loop(IEnumerable<T> content)
 		{
-			this.loop = content.ToList();
+			_loop = content.ToList();
 		}
 
 		public Loop(IEnumerable<T> content, bool shuffleOnLoopCompleted, bool shuffledOnInit)
 		{
-			this.loop = content.ToList();
-			this.ShuffleOnLoopCompleted = shuffleOnLoopCompleted;
+			_loop = content.ToList();
+			ShuffleOnLoopCompleted = shuffleOnLoopCompleted;
 
 			if (shuffledOnInit)
-			{
-				this.Shuffle();
-			}
+				Shuffle();
 		}
 
 		#endregion CONSTRUCTORS
@@ -59,7 +57,7 @@
 
 		public bool ShuffleOnLoopCompleted { get; set; }
 
-		public int Count => this.loop.Count;
+		public int Count => _loop.Count;
 
 		public bool IsReadOnly => true;
 
@@ -69,35 +67,33 @@
 
 		public void Add(T element)
 		{
-			this.loop.Add(element);
+			_loop.Add(element);
 		}
 
 		public void AddRange(IEnumerable<T> collection)
 		{
 			foreach (T element in collection.ToArray())
-			{
-				this.loop.Add(element);
-			}
+				_loop.Add(element);
 		}
 
 		public void Clear()
 		{
-			this.loop.Clear();
+			_loop.Clear();
 		}
 
 		public bool Contains(T element)
 		{
-			return this.loop.Contains(element);
+			return _loop.Contains(element);
 		}
 
 		public IEnumerator<T> GetEnumerator()
 		{
-			return this.loop.GetEnumerator();
+			return _loop.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return this.loop.GetEnumerator();
+			return _loop.GetEnumerator();
 		}
 
 		/// <summary>
@@ -107,26 +103,22 @@
 		/// <returns>Next item.</returns>
 		public T Next()
 		{
-			if (this.loop.Count == 0)
-			{
+			if (_loop.Count == 0)
 				return default;
-			}
 
-			this.peeksCount++;
+			_peeksCount++;
 
-			T item = this.loop[0];
-			this.loop.RemoveAt(0);
-			this.loop.Add(item);
+			T item = _loop[0];
+			_loop.RemoveAt(0);
+			_loop.Add(item);
 
-			if (this.peeksCount == this.Count)
+			if (_peeksCount == Count)
 			{
-				this.peeksCount = 0;
-				if (this.ShuffleOnLoopCompleted)
-				{
-					this.Shuffle();
-				}
+				_peeksCount = 0;
+				if (ShuffleOnLoopCompleted)
+					Shuffle();
 
-				this.LoopPointReached?.Invoke();
+				LoopPointReached?.Invoke();
 			}
 
 			return item;
@@ -134,24 +126,19 @@
 
 		public void Remove(T element)
 		{
-			if (this.Contains(element))
-			{
-				this.loop.Remove(element);
-			}
+			if (Contains(element))
+				_loop.Remove(element);
 		}
 
 		public void Replace(T replacedElement, T newElement, bool allOccurences = true)
 		{
-			for (int elementIndex = 0; elementIndex < this.Count; ++elementIndex)
+			for (int i = 0; i < Count; ++i)
 			{
-				if (this.loop[elementIndex].Equals(replacedElement))
+				if (_loop[i].Equals(replacedElement))
 				{
-					this.loop[elementIndex] = newElement;
-
+					_loop[i] = newElement;
 					if (!allOccurences)
-					{
 						return;
-					}
 				}
 			}
 		}
@@ -159,42 +146,42 @@
 		public void Shuffle()
 		{
 			System.Random rnd = new System.Random();
-			int n = this.Count;
+			int n = Count;
 			while (n > 1)
 			{
 				int rndNb = rnd.Next(n--);
-				(this.loop[rndNb], this.loop[n]) = (this.loop[n], this.loop[rndNb]);
+				(_loop[rndNb], _loop[n]) = (_loop[n], _loop[rndNb]);
 			}
 		}
 
 		public void Sort()
 		{
-			this.loop.Sort();
+			_loop.Sort();
 		}
 
 		public void Sort(IComparer<T> comparer)
 		{
-			this.loop.Sort(comparer);
+			_loop.Sort(comparer);
 		}
 
 		public void Sort(System.Comparison<T> comparison)
 		{
-			this.loop.Sort(comparison);
+			_loop.Sort(comparison);
 		}
 
 		public void CopyTo(T[] array, int arrayIndex)
 		{
-			this.loop.CopyTo(array, arrayIndex);
+			_loop.CopyTo(array, arrayIndex);
 		}
 
 		bool ICollection<T>.Remove(T element)
 		{
 			bool result = false;
 
-			if (this.Contains(element))
+			if (Contains(element))
 			{
 				result = true;
-				this.loop.Remove(element);
+				_loop.Remove(element);
 			}
 
 			return result;
@@ -202,12 +189,10 @@
 
 		public override string ToString()
 		{
-			string str = "";
+			string str = string.Empty;
 
-			for (int i = 0; i < this.loop.Count; ++i)
-			{
-				str += this.loop[i].ToString() + (i == this.Count - 1 ? "" : ", ");
-			}
+			for (int i = 0; i < _loop.Count; ++i)
+				str += _loop[i].ToString() + (i == Count - 1 ? "" : ", ");
 
 			return str;
 		}

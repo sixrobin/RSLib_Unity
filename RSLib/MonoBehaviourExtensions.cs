@@ -13,9 +13,7 @@
         public static void DoAfter(this MonoBehaviour coroutineRunner, float delay, System.Action callback)
         {
             if (callback != null)
-            {
                 coroutineRunner.StartCoroutine(DoAfter(delay, callback));
-            }
         }
 
         private static System.Collections.IEnumerator DoAfter(float delay, System.Action callback)

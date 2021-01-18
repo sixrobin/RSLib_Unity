@@ -11,9 +11,7 @@
         public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> dict, System.Action<TKey, TValue> action)
         {
             foreach (KeyValuePair<TKey, TValue> kvp in dict)
-            {
                 action(kvp.Key, kvp.Value);
-            }
         }
 
         /// <summary>Checks the value for key TKey and returns it, or returns the default value for TValue if key was not found.</summary>
@@ -33,9 +31,7 @@
         public static TValue GetOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, System.Action defaultUsedCallback, TValue customDefault = default)
         {
             if (dict.TryGetValue(key, out TValue value))
-            {
                 return value;
-            }
 
             defaultUsedCallback?.Invoke();
             return customDefault;
@@ -47,9 +43,7 @@
         public static TValue GetOrInsertNew<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key) where TValue : new()
         {
             if (dict.TryGetValue(key, out TValue value))
-            {
                 return value;
-            }
 
             TValue newObj = new TValue();
             dict[key] = newObj;
@@ -63,9 +57,7 @@
         public static TValue GetOrInsertNew<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, System.Action insertNewCallback) where TValue : new()
         {
             if (dict.TryGetValue(key, out TValue value))
-            {
                 return value;
-            }
 
             TValue newObj = new TValue();
             dict[key] = newObj;

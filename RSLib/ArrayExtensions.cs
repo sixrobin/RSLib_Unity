@@ -5,7 +5,7 @@
 
 	public static class ArrayExtensions
 	{
-		private static System.Random rnd = new System.Random();
+		private static System.Random s_rnd = new System.Random();
 
 		#region CONVERSION
 
@@ -15,12 +15,8 @@
 		public static Queue<T> ToQueue<T>(this T[] arr, bool enqueueFromStart = true)
 		{
 			Queue<T> queue = new Queue<T>();
-			for (int i = enqueueFromStart ? 0 : arr.Length - 1;
-				enqueueFromStart ? (i < arr.Length) : (i >= 0);
-				i += enqueueFromStart ? 1 : -1)
-			{
+			for (int i = enqueueFromStart ? 0 : arr.Length - 1; enqueueFromStart ? (i < arr.Length) : (i >= 0); i += enqueueFromStart ? 1 : -1)
 				queue.Enqueue(arr[i]);
-			}
 
 			return queue;
 		}
@@ -31,12 +27,8 @@
 		public static Stack<T> ToStack<T>(this T[] arr, bool stackFromStart = true)
 		{
 			Stack<T> stack = new Stack<T>();
-			for (int i = stackFromStart ? 0 : arr.Length - 1;
-				stackFromStart ? (i < arr.Length) : (i >= 0);
-				i += stackFromStart ? 1 : -1)
-			{
+			for (int i = stackFromStart ? 0 : arr.Length - 1; stackFromStart ? (i < arr.Length) : (i >= 0); i += stackFromStart ? 1 : -1)
 				stack.Push(arr[i]);
-			}
 
 			return stack;
 		}
@@ -46,11 +38,9 @@
 		/// <returns>String with the array elements.</returns>
 		public static string ToStringImproved<T>(this T[] arr)
 		{
-			string str = "";
+			string str = string.Empty;
 			for (int i = 0; i < arr.Length; ++i)
-			{
 				str += arr[i].ToString() + (i == arr.Length - 1 ? "" : ", ");
-			}
 
 			return str;
 		}
@@ -61,11 +51,9 @@
 		/// <returns>String with the array elements.</returns>
 		public static string ToStringImproved<T>(this T[] arr, char split = ',')
 		{
-			string str = "";
+			string str = string.Empty;
 			for (int i = 0; i < arr.Length; ++i)
-			{
 				str += arr[i].ToString() + (i == arr.Length - 1 ? "" : split.ToString());
-			}
 
 			return str;
 		}
@@ -76,11 +64,9 @@
 		/// <returns>String with the array elements.</returns>
 		public static string ToStringImproved<T>(this T[] arr, string split = ",")
 		{
-			string str = "";
+			string str = string.Empty;
 			for (int i = 0; i < arr.Length; ++i)
-			{
 				str += arr[i].ToString() + (i == arr.Length - 1 ? "" : string.IsNullOrEmpty(split) ? " / " : split);
-			}
 
 			return str;
 		}
@@ -94,7 +80,7 @@
 		/// <returns>Any element.</returns>
 		public static T Any<T>(this T[] arr)
 		{
-			return arr[rnd.Next(arr.Length)];
+			return arr[s_rnd.Next(arr.Length)];
 		}
 
 		/// <summary>
@@ -108,14 +94,10 @@
 		public static T[] Any<T>(this T[] arr, int quantity)
 		{
 			if (quantity <= 0)
-			{
 				return new T[0];
-			}
 
 			if (quantity >= arr.Length)
-			{
 				return arr;
-			}
 
 			List<T> list = arr.ToList();
 			T[] choice = new T[quantity];
@@ -140,14 +122,10 @@
 			T[] concatenated = new T[concatLength];
 
 			for (int i = 0; i < firstLength; ++i)
-			{
 				concatenated[i] = arr[i];
-			}
 
 			for (int i = firstLength; i < concatLength; ++i)
-			{
 				concatenated[i] = second[i - firstLength];
-			}
 
 			return concatenated;
 		}
@@ -200,9 +178,7 @@
 		{
 			int n = arr.Length;
 			while (n > 1)
-			{
-				arr.Swap(rnd.Next(n--), n);
-			}
+				arr.Swap(s_rnd.Next(n--), n);
 		}
 
 		/// <summary>Shuffles the elements in a new array.</summary>
@@ -215,9 +191,7 @@
 
 			int n = copy.Length;
 			while (n > 1)
-			{
-				copy.Swap(rnd.Next(n--), n);
-			}
+				copy.Swap(s_rnd.Next(n--), n);
 
 			return copy;
 		}

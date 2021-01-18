@@ -4,7 +4,7 @@
     {
         #region FIELDS
 
-        private T[] elements;
+        private T[] _elements;
 
         #endregion FIELDS
 
@@ -12,7 +12,7 @@
 
         public Heap(int maxSize)
         {
-            this.elements = new T[maxSize];
+            _elements = new T[maxSize];
         }
 
         #endregion CONSTRUCTORS
@@ -29,11 +29,11 @@
         /// <returns>First element.</returns>
         public T RemoveFirst()
         {
-            T first = this.elements[0];
-            this.Count--;
-            this.elements[0] = this.elements[this.Count];
-            this.elements[0].HeapIndex = 0;
-            this.SortDown(this.elements[0]);
+            T first = _elements[0];
+            Count--;
+            _elements[0] = _elements[Count];
+            _elements[0].HeapIndex = 0;
+            SortDown(_elements[0]);
 
             return first;
         }
@@ -42,10 +42,10 @@
         /// <param name="element">Item to add.</param>
         public void Add(T element)
         {
-            element.HeapIndex = this.Count;
-            this.elements[this.Count] = element;
-            this.SortUp(element);
-            this.Count++;
+            element.HeapIndex = Count;
+            _elements[Count] = element;
+            SortUp(element);
+            Count++;
         }
 
         /// <summary>Checks if the heap tree contains the given element.</summary>
@@ -53,7 +53,7 @@
         /// <returns>True if the heap contains the element, else false.</returns>
         public bool Contains(T element)
         {
-            return Equals(this.elements[element.HeapIndex], element);
+            return Equals(_elements[element.HeapIndex], element);
         }
 
         /// <summary>Swaps two items positions in the heap and their indexes.</summary>
@@ -61,7 +61,7 @@
         /// <param name="b">Second item.</param>
         private void Swap(T a, T b)
         {
-            (this.elements[a.HeapIndex], this.elements[b.HeapIndex]) = (this.elements[b.HeapIndex], this.elements[a.HeapIndex]);
+            (_elements[a.HeapIndex], _elements[b.HeapIndex]) = (_elements[b.HeapIndex], _elements[a.HeapIndex]);
             (a.HeapIndex, b.HeapIndex) = (b.HeapIndex, a.HeapIndex);
         }
 
@@ -72,15 +72,11 @@
             int parentIndex = (element.HeapIndex - 1) / 2;
             while (true)
             {
-                T parentItem = this.elements[parentIndex];
+                T parentItem = _elements[parentIndex];
                 if (element.CompareTo(parentItem) > 0)
-                {
-                    this.Swap(element, parentItem);
-                }
+                    Swap(element, parentItem);
                 else
-                {
                     break;
-                }
 
                 parentIndex = (element.HeapIndex - 1) / 2;
             }
@@ -95,24 +91,18 @@
                 int leftChildIndex = element.HeapIndex * 2 + 1;
                 int rightChildIndex = element.HeapIndex * 2 + 2;
 
-                if (leftChildIndex >= this.Count)
-                {
+                if (leftChildIndex >= Count)
                     return;
-                }
 
                 int swapIndex = leftChildIndex;
 
-                if (rightChildIndex < this.Count && this.elements[leftChildIndex].CompareTo(this.elements[rightChildIndex]) < 0)
-                {
+                if (rightChildIndex < Count && _elements[leftChildIndex].CompareTo(_elements[rightChildIndex]) < 0)
                     swapIndex = rightChildIndex;
-                }
 
-                if (element.CompareTo(this.elements[swapIndex]) >= 0)
-                {
+                if (element.CompareTo(_elements[swapIndex]) >= 0)
                     return;
-                }
 
-                this.Swap(element, this.elements[swapIndex]);
+                Swap(element, _elements[swapIndex]);
             }
         }
 

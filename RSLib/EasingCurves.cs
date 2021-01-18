@@ -114,19 +114,13 @@
 		public static float OutBounce(this float t)
 		{
 			if (t < 1f / 2.75f)
-			{
 				return 7.5625f * t * t;
-			}
 
 			if (t < 2f / 2.75f)
-			{
 				return 7.5625f * (t - 1.5f / 2.75f) * (t - 1.5f / 2.75f) + 0.75f;
-			}
 
 			if (t < 2.5f / 2.75f)
-			{
 				return 7.5625f * (t - 2.25f / 2.75f) * (t - 2.25f / 2.75f) + 0.9375f;
-			}
 
 			return 7.5625f * (t - 2.625f / 2.75f) * (t - 2.625f / 2.75f) + 0.984375f;
 		}
@@ -175,9 +169,7 @@
 		public static float InElastic(this float t)
 		{
 			if (t == 0f || t == 1f)
-			{
 				return t;
-			}
 
 			float f = 0.3f;
 			float s = f * 0.25f;
@@ -188,9 +180,7 @@
 		public static float OutElastic(this float t)
 		{
 			if (t == 0f || t == 1f)
-			{
 				return t;
-			}
 
 			float f = 0.3f;
 			float s = f * 0.25f;
@@ -201,9 +191,7 @@
 		public static float InOutElastic(this float t)
 		{
 			if (t == 0f || (t /= 0.5f) == 2f)
-			{
 				return t;
-			}
 
 			float f = 0.3f;
 			float s = f * 0.25f;

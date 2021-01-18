@@ -13,9 +13,7 @@
             T component = go.GetComponent<T>();
 
             if (component == null)
-            {
                 component = go.AddComponent<T>();
-            }
 
             return component;
         }
@@ -55,9 +53,7 @@
         {
             Transform[] children = new Transform[go.transform.childCount];
             for (int i = children.Length - 1; i >= 0; --i)
-            {
                 children[i] = go.transform.GetChild(i);
-            }
 
             for (int i = children.Length - 1; i >= 0; --i)
             {
@@ -76,9 +72,7 @@
         {
             go.layer = layer;
             foreach (Transform child in go.transform)
-            {
                 child.gameObject.SetChildrenLayers(layer);
-            }
         }
 
         /// <summary>Sets the layer of the gameObject and all its children and subchildren.</summary>
@@ -89,9 +83,7 @@
 
             go.layer = layer;
             foreach (Transform child in go.transform)
-            {
                 child.gameObject.SetChildrenLayers(layer);
-            }
         }
 
         #endregion LAYER

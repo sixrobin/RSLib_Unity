@@ -11,7 +11,7 @@
 		/// <returns>String with the queue elements.</returns>
 		public static string ToStringImproved<T>(this Queue<T> queue)
 		{
-			string str = "";
+			string str = string.Empty;
 			int elementIndex = 0;
 
 			foreach (T element in queue)
@@ -29,7 +29,7 @@
 		/// <returns>String with the queue elements.</returns>
 		public static string ToStringImproved<T>(this Queue<T> queue, char split)
 		{
-			string str = "";
+			string str = string.Empty;
 			int elementIndex = 0;
 
 			foreach (T element in queue)
@@ -47,7 +47,7 @@
 		/// <returns>String with the queue elements.</returns>
 		public static string ToStringImproved<T>(this Queue<T> queue, string split)
 		{
-			string str = "";
+			string str = string.Empty;
 			int elementIndex = 0;
 
 			foreach (T element in queue)
@@ -68,9 +68,7 @@
 		public static void Enqueue<T>(this Queue<T> queue, IEnumerable<T> collection)
 		{
 			foreach (T element in collection)
-			{
 				queue.Enqueue(element);
-			}
 		}
 
 		/// <summary>Loops through all elements in the queue and executes an action.</summary>
@@ -78,9 +76,7 @@
 		public static void ForEach<T>(this Queue<T> queue, System.Action<T> action)
 		{
 			foreach (T element in queue)
-			{
 				action(element);
-			}
 		}
 
 		/// <summary>Dequeues an object from the queue and reenqueues it.</summary>

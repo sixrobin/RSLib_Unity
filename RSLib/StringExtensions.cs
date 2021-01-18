@@ -12,9 +12,7 @@
         public static T ToEnum<T>(this string str) where T : System.Enum
         {
             if (str == null || !System.Enum.IsDefined(typeof(T), str))
-            {
                 return default;
-            }
 
             return (T)System.Enum.Parse(typeof(T), str);
         }
@@ -84,17 +82,13 @@
         public static string Reverse(this string str)
         {
             if (string.IsNullOrWhiteSpace(str))
-            {
                 return string.Empty;
-            }
 
             int stringLength = str.Length;
             char[] reversed = new char[stringLength];
 
             for (int i = str.Length - 1; i >= 0; --i)
-            {
                 reversed[stringLength - i - 1] = str[i];
-            }
 
             return new string(reversed);
         }
@@ -104,9 +98,7 @@
         public static string UpperFirst(this string str)
         {
             if (string.IsNullOrEmpty(str))
-            {
                 return str;
-            }
 
             char[] copy = str.ToCharArray();
             copy[0] = char.ToUpper(copy[0]);
@@ -114,5 +106,54 @@
         }
 
         #endregion GENERAL
+
+        #region STYLES
+
+        /// <summary>Adds bold tag to the given string.</summary>
+        /// <returns>String with bold tag.</returns>
+        public static string ToBold(this string str)
+        {
+            return $"<b>{str}</b>";
+        }
+
+        /// <summary>Adds bold tag to the given string if a condition is fulfilled.</summary>
+        /// <returns>String with bold tag if condition is fulfilled.</returns>
+        public static string ToBoldIf(this string str, bool condition)
+        {
+            return condition ? $"<b>{str}</b>" : str;
+        }
+
+        /// <summary>Adds color tag to the given string.</summary>
+        /// <param name="color">Color to apply to the string.</param>
+        /// <returns>String with color tag.</returns>
+        public static string ToColored(this string str, UnityEngine.Color color)
+        {
+            return $"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGB(color)}>{str}</color>";
+        }
+
+        /// <summary>Adds color tag to the given string if a condition is fulfilled.</summary>
+        /// <param name="color">Color to apply to the string.</param>
+        /// <param name="condition">Conditions to color the string.</param>
+        /// <returns>String with color tag if condition is fulfilled.</returns>
+        public static string ToColoredIf(this string str, UnityEngine.Color color, bool condition)
+        {
+            return condition ? $"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGB(color)}>{str}</color>" : str;
+        }
+
+        /// <summary>Adds bold italic to the given string.</summary>
+        /// <returns>String with italic tag.</returns>
+        public static string ToItalic(this string str)
+        {
+            return $"<i>{str}</i>";
+        }
+
+        /// <summary>Adds italic tag to the given string if a condition is fulfilled.</summary>
+        /// <returns>String with italic tag if condition is fulfilled.</returns>
+        public static string ToItalicIf(this string str, bool condition)
+        {
+            return condition ? $"<i>{str}</i>" : str;
+        }
+
+        #endregion STYLES
     }
 }

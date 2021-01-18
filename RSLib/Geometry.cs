@@ -173,17 +173,13 @@
 
             float d = (a2.x - a1.x) * (b2.y - b1.y) - (a2.y - a1.y) * (b2.x - b1.x);
             if (d == 0.0f)
-            {
                 return false;
-            }
 
             float u = ((b1.x - a1.x) * (b2.y - b1.y) - (b1.y - a1.y) * (b2.x - b1.x)) / d;
             float v = ((b1.x - a1.x) * (a2.y - a1.y) - (b1.y - a1.y) * (a2.x - a1.x)) / d;
 
             if (u < 0.0f || u > 1.0f || v < 0.0f || v > 1.0f)
-            {
                 return false;
-            }
 
             intersection.x = a1.x + u * (a2.x - a1.x);
             intersection.y = a1.y + u * (a2.y - a1.y);
@@ -200,9 +196,7 @@
 
             UnityEngine.Vector2[] polygonCopy = new UnityEngine.Vector2[polygon.Length + 1];
             for (int i = 0; i < polygon.Length; ++i)
-            {
                 polygonCopy[i] = polygon[i];
-            }
 
             polygonCopy[polygon.Length] = polygon[0];
 
@@ -211,22 +205,14 @@
                 if (polygonCopy[i].x <= point.x)
                 {
                     if (polygonCopy[i + 1].x > point.x)
-                    {
                         if (IsPointLeftToSegment(polygonCopy[i].x, polygonCopy[i].y, polygonCopy[i + 1].x, polygonCopy[i + 1].y, point.x, point.y) > 0)
-                        {
                             windingNumber++;
-                        }
-                    }
                 }
                 else
                 {
                     if (polygonCopy[i + 1].x <= point.x)
-                    {
                         if (IsPointLeftToSegment(polygonCopy[i].x, polygonCopy[i].y, polygonCopy[i + 1].x, polygonCopy[i + 1].y, point.x, point.y) < 0)
-                        {
                             windingNumber--;
-                        }
-                    }
                 }
             }
 
@@ -243,9 +229,7 @@
 
             UnityEngine.Vector3[] polygonCopy = new UnityEngine.Vector3[polygon.Length + 1];
             for (int i = 0; i < polygon.Length; ++i)
-            {
                 polygonCopy[i] = polygon[i];
-            }
 
             polygonCopy[polygon.Length] = polygon[0];
 
@@ -254,22 +238,14 @@
                 if (polygonCopy[i].x <= point.x)
                 {
                     if (polygonCopy[i + 1].x > point.x)
-                    {
                         if (IsPointLeftToSegment(polygonCopy[i].x, polygonCopy[i].y, polygonCopy[i + 1].x, polygonCopy[i + 1].y, point.x, point.y) > 0)
-                        {
                             windingNumber++;
-                        }
-                    }
                 }
                 else
                 {
                     if (polygonCopy[i + 1].x <= point.x)
-                    {
                         if (IsPointLeftToSegment(polygonCopy[i].x, polygonCopy[i].y, polygonCopy[i + 1].x, polygonCopy[i + 1].y, point.x, point.y) < 0)
-                        {
                             windingNumber--;
-                        }
-                    }
                 }
             }
 
