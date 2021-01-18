@@ -19,7 +19,6 @@
 - XML Database
 - Shared yield : wait for frames pool ne marche pas ?
 - Animator : SetInteger (ou autre) if different
-- Transform.SetX, Y, Z
 
 
 

@@ -9,53 +9,38 @@
     /// </summary>
     public class HealthSystem
     {
-        #region FIELDS
-
         private int _health;
-
-        #endregion FIELDS
-
-        #region CONSTRUCTORS
 
         public HealthSystem(int initHealth)
         {
             MaxHealth = initHealth;
             Health = initHealth;
         }
-
-        #endregion CONSTRUCTORS
-
-        #region EVENTS
-
+        
         public delegate void KilledEventHandler();
+        public delegate void HealthChangedEventHandler(int newHealth);
 
         public event KilledEventHandler Killed;
-
-        #endregion EVENTS
-
-        #region PROPERTIES
+        public event HealthChangedEventHandler HealthChanged;
 
         public int Health
         {
             get => _health;
-            set
+            private set
             {
                 _health = value.Clamp(0, MaxHealth);
                 if (IsDead)
                     Killed?.Invoke();
+                else
+                    HealthChanged?.Invoke(_health);
             }
         }
 
-        /// <summary>Current health percentage as a value from 0 to 1.</summary>
         public float HealthPercentage => (float)Health / MaxHealth;
 
         public bool IsDead => Health == 0;
 
         public int MaxHealth { get; private set; }
-
-        #endregion PROPERTIES
-
-        #region METHODS
 
         /// <summary>Instantly changes the maximum health. Health is reduced if new maximum health is less than health value.</summary>
         /// <param name="newValue">New maximum health value.</param>
@@ -86,6 +71,7 @@
             if (IsDead && ignoreIfDead)
                 return;
 
+            int previousHealth = Health;
             Health += amount;
         }
 
@@ -96,6 +82,7 @@
             if (IsDead && ignoreIfDead)
                 return;
 
+            int previousHealth = Health;
             Health = MaxHealth;
         }
 
@@ -104,13 +91,11 @@
         {
             if (IsDead)
             {
-                UnityEngine.Debug.LogWarning("LivingUnit.Kill() WARNING: Can not kill an already dead unit, aborting.");
+                UnityEngine.Debug.LogWarning("HealthSystem.Kill() WARNING: Can not kill an already dead unit, aborting.");
                 return;
             }
 
             Health = 0;
         }
-
-        #endregion METHODS
     }
 }

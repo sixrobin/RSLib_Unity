@@ -178,6 +178,46 @@
 
 		#endregion CONVERSION
 
+		#region FLIP
+
+		/// <summary>Gets a vector copy with all components flipped (opposite values).</summary>
+		public static Vector2 FlipAll(this Vector2 v)
+		{
+			return new Vector2(-v.x, -v.y);
+		}
+
+		/// <summary>Gets a vector copy with all components flipped (opposite values).</summary>
+		public static Vector2Int FlipAll(this Vector2Int v)
+		{
+			return new Vector2Int(-v.x, -v.y);
+		}
+
+		/// <summary>Gets a vector copy with x component flipped (opposite value).</summary>
+		public static Vector2 FlipX(this Vector2 v)
+		{
+			return new Vector2(-v.x, v.y);
+		}
+
+		/// <summary>Gets a vector copy with x component flipped (opposite value).</summary>
+		public static Vector2Int FlipX(this Vector2Int v)
+		{
+			return new Vector2Int(-v.x, v.y);
+		}
+
+		/// <summary>Gets a vector copy with y component flipped (opposite value).</summary>
+		public static Vector2 FlipY(this Vector2 v)
+		{
+			return new Vector2(v.x, -v.y);
+		}
+
+		/// <summary>Gets a vector copy with y component flipped (opposite value).</summary>
+		public static Vector2Int FlipY(this Vector2Int v)
+		{
+			return new Vector2Int(v.x, -v.y);
+		}
+
+		#endregion FLIP
+
 		#region NORMAL
 
 		/// <summary>Computes the vector normal. Use NormalNormalized to get it normalized.</summary>
@@ -486,6 +526,58 @@
 		}
 
 		#endregion CONVERSION
+
+		#region FLIP
+
+		/// <summary>Gets a vector copy with all components flipped (opposite values).</summary>
+		public static Vector3 FlipAll(this Vector3 v)
+		{
+			return new Vector3(-v.x, -v.y, -v.z);
+		}
+
+		/// <summary>Gets a vector copy with all components flipped (opposite values).</summary>
+		public static Vector3Int FlipAll(this Vector3Int v)
+		{
+			return new Vector3Int(-v.x, -v.y, -v.z);
+		}
+
+		/// <summary>Gets a vector copy with x component flipped (opposite value).</summary>
+		public static Vector3 FlipX(this Vector3 v)
+		{
+			return new Vector3(-v.x, v.y, v.z);
+		}
+
+		/// <summary>Gets a vector copy with x component flipped (opposite value).</summary>
+		public static Vector3Int FlipX(this Vector3Int v)
+		{
+			return new Vector3Int(-v.x, v.y, v.z);
+		}
+
+		/// <summary>Gets a vector copy with y component flipped (opposite value).</summary>
+		public static Vector3 FlipY(this Vector3 v)
+		{
+			return new Vector3(v.x, -v.y, v.z);
+		}
+
+		/// <summary>Gets a vector copy with y component flipped (opposite value).</summary>
+		public static Vector3Int FlipY(this Vector3Int v)
+		{
+			return new Vector3Int(v.x, -v.y, v.z);
+		}
+
+		/// <summary>Gets a vector copy with z component flipped (opposite value).</summary>
+		public static Vector3 FlipZ(this Vector3 v)
+		{
+			return new Vector3(v.x, v.y, -v.z);
+		}
+
+		/// <summary>Gets a vector copy with z component flipped (opposite value).</summary>
+		public static Vector3Int FlipZ(this Vector3Int v)
+		{
+			return new Vector3Int(v.x, v.y, -v.z);
+		}
+
+		#endregion FLIP
 
 		#region NORMAL
 
