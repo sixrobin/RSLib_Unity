@@ -9,19 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4047af06f33da5b4a9f86d79c9df9872, type: 3}
-  m_Name: Default Input Map
+  m_Script: {fileID: 11500000, guid: da3a8a7f1445ea84cbf9c68dedaa0fbc, type: 3}
+  m_Name: Demo Input Map
   m_EditorClassIdentifier: 
   _bindings:
-  - _id: Jump
-    _action: 1
-    _btn: 32
-    _altBtn: 330
-  - _id: Roll
-    _action: 2
-    _btn: 308
-    _altBtn: 331
-  - _id: Attack
-    _action: 3
+  - _actionId: Interact
+    _btn: 101
+    _altBtn: 333
+  - _actionId: Attack
     _btn: 323
-    _altBtn: 332
+    _altBtn: 331

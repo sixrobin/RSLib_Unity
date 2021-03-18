@@ -9,13 +9,12 @@
         [SerializeField] private InputMapDatas _defaultMapDatas = null;
         [SerializeField] private bool _disableMapLoading = false;
 
-        public delegate void KeyAssignedEventHandler(InputAction action, KeyCode btn, bool alt);
+        public delegate void KeyAssignedEventHandler(string actionId, KeyCode btn, bool alt);
 
         private static InputMap s_inputMap;
 
         private static System.Collections.IEnumerator s_assignKeyCoroutine;
         private static KeyCode[] s_allKeyCodes;
-        private static InputAction[] s_allActions;
 
         public static bool IsAssigningKey => s_assignKeyCoroutine != null;
 
@@ -24,44 +23,44 @@
             s_inputMap = new InputMap(Instance._defaultMapDatas);
         }
 
-        public static void AssignKey(InputAction action, bool alt, KeyAssignedEventHandler callback = null)
+        public static void AssignKey(string actionId, bool alt, KeyAssignedEventHandler callback = null)
         {
             if (IsAssigningKey)
                 return;
 
-            s_assignKeyCoroutine = AssignKeyCoroutine(action, alt, callback);
+            s_assignKeyCoroutine = AssignKeyCoroutine(actionId, alt, callback);
             Instance.StartCoroutine(s_assignKeyCoroutine);
         }
 
-        public static bool GetInput(InputAction action)
+        public static bool GetInput(string actionId)
         {
-            (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(action);
+            (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(actionId);
             return Input.GetKey(btn) || Input.GetKey(altBtn);
         }
 
-        public static bool GetInputDown(InputAction action)
+        public static bool GetInputDown(string actionId)
         {
-            (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(action);
+            (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(actionId);
             return Input.GetKeyDown(btn) || Input.GetKeyDown(altBtn);
         }
-
-        public static bool GetInputUp(InputAction action)
+        
+        public static bool GetInputUp(string actionId)
         {
-            (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(action);
+            (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(actionId);
             return Input.GetKeyUp(btn) || Input.GetKeyUp(altBtn);
         }
 
-        public static System.Collections.Generic.Dictionary<InputAction, (KeyCode btn, KeyCode altBtn)> GetMapCopy()
+        public static System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)> GetMapCopy()
         {
             return s_inputMap.MapCopy;
         }
 
-        private static System.Collections.IEnumerator AssignKeyCoroutine(InputAction action, bool alt, KeyAssignedEventHandler callback = null)
+        private static System.Collections.IEnumerator AssignKeyCoroutine(string actionId, bool alt, KeyAssignedEventHandler callback = null)
         {
-            Instance.Log($"Assigning key for action {action.ToString()}...");
+            Instance.Log($"Assigning key for action Id {actionId}...");
 
             for (int i = 0; i < 2; ++i)
-                yield return RSLib.Yield.SharedYields.WaitForEndOfFrame;
+                yield return Yield.SharedYields.WaitForEndOfFrame;
 
             yield return new WaitUntil(() => Input.anyKeyDown);
 
@@ -73,15 +72,15 @@
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Instance.Log($"Cancelling key assignment for action {action.ToString()}.");
-                callback?.Invoke(action, alt ? s_inputMap.GetActionKeyCodes(action).altBtn : s_inputMap.GetActionKeyCodes(action).btn, alt);
+                Instance.Log($"Cancelling key assignment for action Id {actionId}.");
+                callback?.Invoke(actionId, alt ? s_inputMap.GetActionKeyCodes(actionId).altBtn : s_inputMap.GetActionKeyCodes(actionId).btn, alt);
                 s_assignKeyCoroutine = null;
                 yield break;
             }
 
-            Instance.Log($"Assigning key {keyDown.ToString()} to {(alt ? "alternate " : "")}button for action {action.ToString()}.");
-            s_inputMap.SetActionButton(action, keyDown, alt);
-            callback?.Invoke(action, keyDown, alt);
+            Instance.Log($"Assigning key {keyDown.ToString()} to {(alt ? "alternate " : "")}button for action Id {actionId}.");
+            s_inputMap.SetActionButton(actionId, keyDown, alt);
+            callback?.Invoke(actionId, keyDown, alt);
             s_assignKeyCoroutine = null;
         }
 
@@ -92,15 +91,8 @@
             if (_disableMapLoading || !TryLoadMap())
                 RestoreDefaultMap();
 
-            s_allKeyCodes = RSLib.Helpers.GetEnumValues<KeyCode>();
-            s_allActions = RSLib.Helpers.GetEnumValues<InputAction>();
+            s_allKeyCodes = Helpers.GetEnumValues<KeyCode>();
         }
-
-        //private void Update()
-        //{
-        //    if (Input.GetKeyDown(KeyCode.S))
-        //        SaveCurrentMap();
-        //}
     }
 
     public partial class InputManager : Singleton<InputManager>
@@ -113,16 +105,15 @@
 
             XContainer container = new XElement("InputMap");
 
-            // XContainer content generation.
-            for (int i = s_allActions.Length - 1; i >= 0; --i)
+            foreach (System.Collections.Generic.KeyValuePair<string, (KeyCode btn, KeyCode altBtn)> binding in s_inputMap.MapCopy)
             {
-                if (!s_inputMap.HasAction(s_allActions[i]))
+                if (!s_inputMap.HasAction(binding.Key))
                     continue;
 
-                XElement actionElement = new XElement(s_allActions[i].ToString());
-                (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(s_allActions[i]);
-                actionElement.Add(new XElement("Btn", btn.ToString()));
-                actionElement.Add(new XElement("AltBtn", altBtn.ToString()));
+                XElement actionElement = new XElement(binding.Key);
+                (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(binding.Key);
+                actionElement.Add(new XAttribute("Btn", btn.ToString()));
+                actionElement.Add(new XAttribute("AltBtn", altBtn.ToString()));
 
                 container.Add(actionElement);
             }
@@ -170,6 +161,12 @@
             XContainer container = XDocument.Parse(System.IO.File.ReadAllText(SavePath));
             s_inputMap = new InputMap();
             return s_inputMap.Deserialize(container);
+        }
+
+        [ContextMenu("Save Current Map")]
+        public void DebugSaveCurrentMap()
+        {
+            SaveCurrentMap();
         }
     }
 }

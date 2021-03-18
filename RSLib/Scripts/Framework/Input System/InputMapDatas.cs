@@ -12,13 +12,11 @@
         [System.Serializable]
         public class KeyBinding
         {
-            [SerializeField] private string _id = string.Empty;
-            [SerializeField] private InputAction _action = InputAction.NONE;
+            [SerializeField] private string _actionId = string.Empty;
             [SerializeField] private KeyCode _btn = KeyCode.None;
             [SerializeField] private KeyCode _altBtn = KeyCode.None;
 
-            public string Id => _id;
-            public InputAction Action => _action;
+            public string ActionId => _actionId;
             public (KeyCode btn, KeyCode altBtn) KeyCodes => (_btn, _altBtn);
         }
 
