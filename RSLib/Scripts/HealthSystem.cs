@@ -9,6 +9,7 @@
     /// </summary>
     public class HealthSystem
     {
+<<<<<<< HEAD:RSLib/Scripts/HealthSystem.cs
         public class HealthChangedEventArgs : System.EventArgs
         {
             public HealthChangedEventArgs(int previous, int current)
@@ -30,29 +31,48 @@
         }
 
 
+=======
+        private int _health;
+
+>>>>>>> 67900087d56e737d95cc322ed90bb38b41ed5860:RSLib/HealthSystem.cs
         public HealthSystem(int initHealth)
         {
             MaxHealth = initHealth;
             CurrentHealth = initHealth;
         }
+<<<<<<< HEAD:RSLib/Scripts/HealthSystem.cs
 
         public delegate void HealthChangedEventHandler(HealthChangedEventArgs args);
+=======
+        
+>>>>>>> 67900087d56e737d95cc322ed90bb38b41ed5860:RSLib/HealthSystem.cs
         public delegate void KilledEventHandler();
+        public delegate void HealthChangedEventHandler(int newHealth);
 
         public event HealthChangedEventHandler HealthChanged;
         public event KilledEventHandler Killed;
+<<<<<<< HEAD:RSLib/Scripts/HealthSystem.cs
 
         private int _currentHealth;
         public int CurrentHealth
         {
             get => _currentHealth;
             set
+=======
+        public event HealthChangedEventHandler HealthChanged;
+
+        public int Health
+        {
+            get => _health;
+            private set
+>>>>>>> 67900087d56e737d95cc322ed90bb38b41ed5860:RSLib/HealthSystem.cs
             {
                 int previousHealth = _currentHealth;
                 _currentHealth = value.Clamp(0, MaxHealth);
 
                 if (IsDead)
                     Killed?.Invoke();
+<<<<<<< HEAD:RSLib/Scripts/HealthSystem.cs
                 else if (previousHealth != _currentHealth)
                     HealthChanged?.Invoke(new HealthChangedEventArgs(previousHealth, _currentHealth));
             }
@@ -60,6 +80,14 @@
 
         /// <summary>Current health percentage as a value from 0 to 1.</summary>
         public float HealthPercentage => (float)CurrentHealth / MaxHealth;
+=======
+                else
+                    HealthChanged?.Invoke(_health);
+            }
+        }
+
+        public float HealthPercentage => (float)Health / MaxHealth;
+>>>>>>> 67900087d56e737d95cc322ed90bb38b41ed5860:RSLib/HealthSystem.cs
 
         public bool IsDead => CurrentHealth == 0;
 
@@ -94,7 +122,12 @@
             if (IsDead && ignoreIfDead)
                 return;
 
+<<<<<<< HEAD:RSLib/Scripts/HealthSystem.cs
             CurrentHealth += amount;
+=======
+            int previousHealth = Health;
+            Health += amount;
+>>>>>>> 67900087d56e737d95cc322ed90bb38b41ed5860:RSLib/HealthSystem.cs
         }
 
         /// <summary>Sets health value to maximum health value.</summary>
@@ -104,7 +137,12 @@
             if (IsDead && ignoreIfDead)
                 return;
 
+<<<<<<< HEAD:RSLib/Scripts/HealthSystem.cs
             CurrentHealth = MaxHealth;
+=======
+            int previousHealth = Health;
+            Health = MaxHealth;
+>>>>>>> 67900087d56e737d95cc322ed90bb38b41ed5860:RSLib/HealthSystem.cs
         }
 
         /// <summary>Sets health value to 0, and then kills the unit and triggers the Killed event.</summary>
@@ -112,7 +150,7 @@
         {
             if (IsDead)
             {
-                UnityEngine.Debug.LogWarning("LivingUnit.Kill() WARNING: Can not kill an already dead unit, aborting.");
+                UnityEngine.Debug.LogWarning("HealthSystem.Kill() WARNING: Can not kill an already dead unit, aborting.");
                 return;
             }
 

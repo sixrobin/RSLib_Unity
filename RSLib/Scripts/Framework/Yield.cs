@@ -49,7 +49,7 @@
     public class WaitForFrames : CustomYieldInstruction
     {
         private int _framesCount = 0;
-
+        
         public WaitForFrames(int framesCount = 1) : base()
         {
             _framesCount = framesCount;
