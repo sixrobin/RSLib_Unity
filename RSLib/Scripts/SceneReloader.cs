@@ -18,6 +18,11 @@
         [SerializeField] private bool _editorOnly = false;
 #pragma warning restore CS0414
 
+        public static void ReloadScene()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
         private void Awake()
         {
 #if !UNITY_EDITOR
@@ -29,7 +34,7 @@
         private void Update()
         {
             if (Input.GetKeyDown(_reloadKey))
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                ReloadScene();
         }
     }
 }

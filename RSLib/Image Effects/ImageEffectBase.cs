@@ -10,7 +10,7 @@ namespace RSLib.ImageEffects
         /// Provides a shader property that is set in the inspector
         /// and a material instantiated from the shader.
         /// </summary>
-        [SerializeField] private Shader _shader;
+        [SerializeField] private Shader _shader = null;
 
         private Material _mat;
 
