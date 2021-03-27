@@ -2,7 +2,8 @@
 {
     using UnityEngine;
 
-    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    [DisallowMultipleComponent]
+    public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         [SerializeField] private bool _dontDestroy = false;
         [SerializeField] private bool _verbose = false;
@@ -46,34 +47,34 @@
 
         #region LOG
 
-        public void Log(string msg)
+        public virtual void Log(string msg)
         {
             if (_verbose)
-                Debug.Log($"{typeof(T).Name}: {msg}");
+                Debug.Log($"{typeof(T).Name}: {msg}", gameObject);
         }
 
-        public void Log(string msg, Object context)
+        public virtual void Log(string msg, Object context)
         {
             if (_verbose)
                 Debug.Log($"{typeof(T).Name}: {msg}", context);
         }
 
-        public void LogError(string msg)
+        public virtual void LogError(string msg)
         {
-            Debug.LogError($"{typeof(T).Name}: {msg}");
+            Debug.LogError($"{typeof(T).Name}: {msg}", gameObject);
         }
 
-        public void LogError(string msg, Object context)
+        public virtual void LogError(string msg, Object context)
         {
             Debug.LogError($"{typeof(T).Name}: {msg}", context);
         }
 
-        public void LogWarning(string msg)
+        public virtual void LogWarning(string msg)
         {
-            Debug.LogWarning($"{typeof(T).Name}: {msg}");
+            Debug.LogWarning($"{typeof(T).Name}: {msg}", gameObject);
         }
 
-        public void LogWarning(string msg, Object context)
+        public virtual void LogWarning(string msg, Object context)
         {
             Debug.LogWarning($"{typeof(T).Name}: {msg}", context);
         }

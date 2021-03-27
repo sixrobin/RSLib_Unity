@@ -13,7 +13,7 @@
 
         public FSMSystem(params FSMState[] states)
         {
-            for (int i = states.Length - 1; i >= 0; --i)
+            for (int i = 0; i < states.Length; ++i)
                 AddState(states[i]);
         }
 
