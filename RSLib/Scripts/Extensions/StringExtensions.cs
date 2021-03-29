@@ -35,6 +35,37 @@
                 : -1;
         }
 
+        /// <summary>Gets a new color from a hexadecimal string.</summary>
+        /// <param name="hex">Hexadecimal string (RRGGBB, RRGGBBAA, #RRGGBB, #RRGGBBAA).</param>
+        public static UnityEngine.Color ToColorFromHex(this string hex)
+        {
+            hex = hex.Replace("#", "");
+            if (hex.Length < 8)
+                hex += "ff";
+
+            string[] split = new string[4];
+            try
+            {
+                split[0] = hex.Substring(0, 2);
+                split[1] = hex.Substring(2, 2);
+                split[2] = hex.Substring(4, 2);
+                split[3] = hex.Substring(6, 2);
+
+                return new UnityEngine.Color
+                (
+                    int.Parse(split[0], System.Globalization.NumberStyles.HexNumber) / 255f,
+                    int.Parse(split[1], System.Globalization.NumberStyles.HexNumber) / 255f,
+                    int.Parse(split[2], System.Globalization.NumberStyles.HexNumber) / 255f,
+                    int.Parse(split[3], System.Globalization.NumberStyles.HexNumber) / 255f
+                );
+            }
+            catch (System.Exception e)
+            {
+                UnityEngine.Debug.LogError($"An exception has occured while trying to convert hexadecimal value {hex} to a color.\nException: {e.Message}");
+                return UnityEngine.Color.white;
+            }
+        }
+
         #endregion CONVERSION
 
         #region GENERAL

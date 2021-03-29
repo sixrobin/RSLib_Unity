@@ -78,7 +78,7 @@
         /// <returns>Attributes values if parsing succeeded, else, each failed value will be 0.</returns>
         public static (float min, float max) MinMaxAttributesToFloats(this XElement element)
         {
-            UnityEngine.Assertions.Assert.IsFalse(element.IsNullOrEmpty(), $"XElement is null or empty.");
+            UnityEngine.Assertions.Assert.IsTrue(element != null, $"XElement is null.");
 
             XAttribute minAttribute = element.Attribute("Min");
             UnityEngine.Assertions.Assert.IsFalse(minAttribute.IsNullOrEmpty(), $"Min attribute is missing or empty.");

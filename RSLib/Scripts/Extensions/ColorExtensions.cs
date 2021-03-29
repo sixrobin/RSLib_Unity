@@ -32,6 +32,24 @@
 
         #endregion
 
+        #region CONVERSION
+
+        /// <summary>Converts color into a hexadecimal value to string.</summary>
+        /// <returns>Color to string with format RRGGBB.</returns>
+        public static string ToHexRGB(this Color color)
+        {
+            return ColorUtility.ToHtmlStringRGB(color);
+        }
+
+        /// <summary>Converts color into a hexadecimal value to string.</summary>
+        /// <returns>Color to string with format RRGGBBAA.</returns>
+        public static string ToHexRGBA(this Color color)
+        {
+            return ColorUtility.ToHtmlStringRGBA(color);
+        }
+
+        #endregion
+
         #region GENERAL
 
         /// <summary>Gets a color's copy with the RGB values modified without modifying the alpha.</summary>
