@@ -26,7 +26,7 @@
             public int Previous { get; private set; }
             public int Current { get; private set; }
 
-            public bool IsLoss => Previous < Current;
+            public bool IsLoss => Previous > Current;
         }
 
 
