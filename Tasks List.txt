@@ -1,0 +1,3 @@
+- AutoDestroy, avec delay, pour anim event.
+- Encryption tool.
+- Textures de gradients linéaires/radiaux déjà utilisables, BW et WB.
