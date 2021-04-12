@@ -22,6 +22,19 @@
 
         #region PARSING
 
+        /// <summary>Parses a XElement value to a float value.</summary>
+        /// <returns>Element value if parsing succeeded, else 0.</returns>
+        public static float ValueToFloat(this XElement element)
+        {
+            UnityEngine.Assertions.Assert.IsFalse(element.IsNullOrEmpty(), $"XElement is null or empty.");
+
+            if (float.TryParse(element.Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float value))
+                return value;
+
+            UnityEngine.Debug.LogError($"Could not parse XElement {element.Name.LocalName} Value {element.Value} to a valid float value.");
+            return 0f;
+        }
+
         /// <summary>Parses a XAttribute value to a float value.</summary>
         /// <returns>Attribute value if parsing succedded, else 0.</returns>
         public static float ValueToFloat(this XAttribute attribute)
@@ -35,17 +48,17 @@
             return 0f;
         }
 
-        /// <summary>Parses a XElement value to a float value.</summary>
+        /// <summary>Parses a XElement value to an integer value.</summary>
         /// <returns>Element value if parsing succeeded, else 0.</returns>
-        public static float ValueToFloat(this XElement element)
+        public static int ValueToInt(this XElement element)
         {
             UnityEngine.Assertions.Assert.IsFalse(element.IsNullOrEmpty(), $"XElement is null or empty.");
 
-            if (float.TryParse(element.Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float value))
+            if (int.TryParse(element.Value, out int value))
                 return value;
 
-            UnityEngine.Debug.LogError($"Could not parse XElement {element.Name.LocalName} Value {element.Value} to a valid float value.");
-            return 0f;
+            UnityEngine.Debug.LogError($"Could not parse XElement {element.Name.LocalName} Value {element.Value} to a valid integer value.");
+            return 0;
         }
 
         /// <summary>Parses a XAttribute value to an integer value.</summary>
@@ -61,17 +74,34 @@
             return 0;
         }
 
-        /// <summary>Parses a XElement value to an integer value.</summary>
-        /// <returns>Element value if parsing succeeded, else 0.</returns>
-        public static int ValueToInt(this XElement element)
+        /// <summary>Parses a XElement value to an enum value.</summary>
+        /// <returns>Element value if parsing succeeded, else default value.</returns>
+        public static T ValueToEnum<T>(this XElement element) where T : System.Enum
         {
             UnityEngine.Assertions.Assert.IsFalse(element.IsNullOrEmpty(), $"XElement is null or empty.");
 
-            if (int.TryParse(element.Value, out int value))
-                return value;
+            if (!System.Enum.IsDefined(typeof(T), element.Value))
+            {
+                UnityEngine.Debug.LogError($"Could not parse XElement {element.Name.LocalName} Value {element.Value} to a valid enum value.");
+                return default;
+            }
 
-            UnityEngine.Debug.LogError($"Could not parse XElement {element.Name.LocalName} Value {element.Value} to a valid integer value.");
-            return 0;
+            return (T)System.Enum.Parse(typeof(T), element.Value);
+        }
+
+        /// <summary>Parses a XAttribute value to an enum value.</summary>
+        /// <returns>Element value if parsing succeeded, else default value.</returns>
+        public static T ValueToEnum<T>(this XAttribute attribute) where T : System.Enum
+        {
+            UnityEngine.Assertions.Assert.IsFalse(attribute.IsNullOrEmpty(), $"XAttribute is null or empty.");
+
+            if (!System.Enum.IsDefined(typeof(T), attribute.Value))
+            {
+                UnityEngine.Debug.LogError($"Could not parse XAttribute {attribute.Name.LocalName} Value {attribute.Value} to a valid enum value.");
+                return default;
+            }
+
+            return (T)System.Enum.Parse(typeof(T), attribute.Value);
         }
 
         /// <summary>Parses a XElement Min and Max attributes to a float Tuple.</summary>

@@ -18,6 +18,9 @@
         [SerializeField] private bool _editorOnly = false;
 #pragma warning restore CS0414
 
+        public delegate void ReloadEventHandler();
+        public static event ReloadEventHandler BeforeReload;
+
         public static void ReloadScene()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -34,7 +37,10 @@
         private void Update()
         {
             if (Input.GetKeyDown(_reloadKey))
+            {
+                BeforeReload?.Invoke();
                 ReloadScene();
+            }
         }
     }
 }
