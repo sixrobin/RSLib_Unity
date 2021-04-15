@@ -63,6 +63,8 @@
 
         public bool IsDead => CurrentHealth == 0;
 
+        public bool IsFull => CurrentHealth == MaxHealth;
+
         public int MaxHealth { get; private set; }
 
         /// <summary>Instantly changes the maximum health. Health is reduced if new maximum health is less than health value.</summary>

@@ -2,3 +2,5 @@
 - Encryption tool.
 - Textures de gradients linéaires/radiaux déjà utilisables, BW et WB.
 - Sound Manager.
+- Input Manager : loader les inputs sauvegardés ET les inputs du jeu, pour la rétrocompatibilité notamment.
+- Image Effects : invert.
