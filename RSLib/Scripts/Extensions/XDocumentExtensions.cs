@@ -74,6 +74,32 @@
             return 0;
         }
 
+        /// <summary>Parses a XElement value to a boolean value.</summary>
+        /// <returns>Element value if parsing succeeded, else false.</returns>
+        public static bool ValueToBool(this XElement element)
+        {
+            UnityEngine.Assertions.Assert.IsFalse(element.IsNullOrEmpty(), $"XElement is null or empty.");
+
+            if (bool.TryParse(element.Value, out bool value))
+                return value;
+
+            UnityEngine.Debug.LogError($"Could not parse XElement {element.Name.LocalName} Value {element.Value} to a valid boolean value.");
+            return false;
+        }
+
+        /// <summary>Parses a XAttribute value to a boolean value.</summary>
+        /// <returns>Attribute value if parsing succedded, else false.</returns>
+        public static bool ValueToBool(this XAttribute attribute)
+        {
+            UnityEngine.Assertions.Assert.IsFalse(attribute.IsNullOrEmpty(), $"XAttribute is null or empty.");
+
+            if (bool.TryParse(attribute.Value, out bool value))
+                return value;
+
+            UnityEngine.Debug.LogError($"Could not parse XAttribute {attribute.Name.LocalName} Value {attribute.Value} to a valid boolean value.");
+            return false;
+        }
+
         /// <summary>Parses a XElement value to an enum value.</summary>
         /// <returns>Element value if parsing succeeded, else default value.</returns>
         public static T ValueToEnum<T>(this XElement element) where T : System.Enum
