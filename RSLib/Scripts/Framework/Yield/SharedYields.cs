@@ -1,13 +1,11 @@
 ﻿namespace RSLib.Yield
 {
-    using System.Collections.Generic;
     using UnityEngine;
 
     public static class SharedYields
     {
-        private static Dictionary<int, WaitForFrames> s_waitForFramesCollection = new Dictionary<int, WaitForFrames>(100, new Framework.Comparers.IntComparer());
-        private static Dictionary<float, WaitForSecondsRealtime> s_waitForFramesRealtimeCollection = new Dictionary<float, WaitForSecondsRealtime>(100, new Framework.Comparers.FloatComparer());
-        private static Dictionary<float, WaitForSeconds> s_waitsForSeconds = new Dictionary<float, WaitForSeconds>(100, new Framework.Comparers.FloatComparer());
+        private static System.Collections.Generic.Dictionary<float, WaitForSeconds> s_waitsForSeconds = new System.Collections.Generic.Dictionary<float, WaitForSeconds>(100, new Framework.Comparers.FloatComparer());
+        private static System.Collections.Generic.Dictionary<float, WaitForSecondsRealtime> s_waitForFramesRealtimeCollection = new System.Collections.Generic.Dictionary<float, WaitForSecondsRealtime>(100, new Framework.Comparers.FloatComparer());
 
         public static WaitForEndOfFrame WaitForEndOfFrame { get; } = new WaitForEndOfFrame();
         public static WaitForFixedUpdate WaitForFixedUpdate { get; } = new WaitForFixedUpdate();
@@ -15,12 +13,10 @@
         /// <summary>Returns an existing WaitForFrames if one with the given duration has already been pooled, else a new one and pools it.</summary>
         /// <param name="duration">Frames to wait.</param>
         /// <returns>WaitForFrames instance.</returns>
-        public static WaitForFrames WaitForFrames(int framesCount)
+        public static System.Collections.IEnumerator WaitForFrames(int framesCount)
         {
-            if (!s_waitForFramesCollection.TryGetValue(framesCount, out WaitForFrames wait))
-                s_waitForFramesCollection.Add(framesCount, wait = new WaitForFrames(framesCount));
-
-            return wait;
+            while (framesCount-- > 0)
+                yield return null;
         }
 
         /// <summary>Returns an existing WaitForSeconds if one with the given duration has already been pooled, else a new one and pools it.</summary>
@@ -44,29 +40,5 @@
 
             return wait;
         }
-    }
-
-    public class WaitForFrames : CustomYieldInstruction
-    {
-        private int _framesCount = 0;
-        
-        public WaitForFrames(int framesCount = 1) : base()
-        {
-            _framesCount = framesCount;
-        }
-
-        public override bool keepWaiting => _framesCount-- > 0;
-    }
-
-    public class WaitWhile : CustomYieldInstruction
-    {
-        private System.Func<bool> _predicate;
-
-        public WaitWhile(System.Func<bool> predicate)
-        {
-            _predicate = predicate;
-        }
-
-        public override bool keepWaiting => _predicate();
     }
 }
