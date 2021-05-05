@@ -4,5 +4,7 @@
 - Sound Manager.
 - Input Manager : loader les inputs sauvegardés ET les inputs du jeu, pour la rétrocompatibilité notamment.
 - Image Effects : invert.
-- Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
+- Canvas Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
 - Checker sur LD48 ce qu'il fallait améliorer/récupérer dans RSLib.
+- Méthode pour convertir le volume avec la formule log10.
+- Maze generator https://catlikecoding.com/unity/tutorials/maze/#a-get-key-down

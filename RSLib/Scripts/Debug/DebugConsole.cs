@@ -1,4 +1,4 @@
-﻿namespace Doomlike.Console
+﻿namespace RSLib.Debug.Console
 {
     using RSLib.Extensions;
     using System.Collections.Generic;

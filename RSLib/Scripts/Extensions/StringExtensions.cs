@@ -70,6 +70,41 @@
 
         #region GENERAL
 
+        /// <summary>Returns a list of all the occurences indexes of a given character in a string.</summary>
+        /// <param name="c">Character to look for.</param>
+        /// <returns>A list of the character occurences indexes.</returns>
+        public static System.Collections.Generic.List<int> AllIndexesOf(this string str, char c)
+        {
+            if (string.IsNullOrEmpty(str))
+                return null;
+
+            System.Collections.Generic.List<int> indexes = new System.Collections.Generic.List<int>();
+            for (int i = 0; i < str.Length; ++i)
+                if (str[i] == c)
+                    indexes.Add(i);
+
+            return indexes;
+        }
+
+        /// <summary>Returns a list of all the occurences indexes of a given string in a string.</summary>
+        /// <param name="value">String to look for.</param>
+        /// <returns>A list of the string occurences indexes.</returns>
+        public static System.Collections.Generic.List<int> AllIndexesOf(this string str, string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return null;
+
+            System.Collections.Generic.List<int> indexes = new System.Collections.Generic.List<int>();
+            for (int index = 0; ; index += value.Length)
+            {
+                index = str.IndexOf(value, index);
+                if (index == -1)
+                    return indexes;
+
+                indexes.Add(index);
+            }
+        }
+
         /// <summary>Removes the string first character.</summary>
         /// <returns>String without its first character.</returns>
         public static string RemoveFirst(this string str)

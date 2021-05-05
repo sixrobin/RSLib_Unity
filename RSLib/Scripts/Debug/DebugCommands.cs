@@ -1,4 +1,4 @@
-﻿namespace Doomlike.Console
+﻿namespace RSLib.Debug.Console
 {
     public abstract class DebugCommandBase : System.IComparable
     {
