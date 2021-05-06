@@ -38,21 +38,63 @@
             return Input.GetKey(btn) || Input.GetKey(altBtn);
         }
 
+        public static bool GetAnyInput(params string[] actionsIds)
+        {
+            for (int i = actionsIds.Length - 1; i >= 0; --i)
+                if (GetInput(actionsIds[i]))
+                    return true;
+
+            return false;
+        }
+
         public static bool GetInputDown(string actionId)
         {
             (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(actionId);
             return Input.GetKeyDown(btn) || Input.GetKeyDown(altBtn);
         }
         
+        public static bool GetAnyInputDown(params string[] actionsIds)
+        {
+            for (int i = actionsIds.Length - 1; i >= 0; --i)
+                if (GetInputDown(actionsIds[i]))
+                    return true;
+
+            return false;
+        }
+
         public static bool GetInputUp(string actionId)
         {
             (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(actionId);
             return Input.GetKeyUp(btn) || Input.GetKeyUp(altBtn);
         }
 
+        public static bool GetAnyInputUp(params string[] actionsIds)
+        {
+            for (int i = actionsIds.Length - 1; i >= 0; --i)
+                if (GetInputUp(actionsIds[i]))
+                    return true;
+
+            return false;
+        }
+
         public static System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)> GetMapCopy()
         {
             return s_inputMap.MapCopy;
+        }
+
+        private static void GenerateMissingInputsFromSave()
+        {
+            for (int i = Instance._defaultMapDatas.Bindings.Length - 1; i >= 0; --i)
+            {
+                if (s_inputMap.HasAction(Instance._defaultMapDatas.Bindings[i].ActionId))
+                    continue;
+
+                Instance.Log($"Loading missing binding from InputSave for action Id {Instance._defaultMapDatas.Bindings[i].ActionId}");
+                s_inputMap.CreateAction(Instance._defaultMapDatas.Bindings[i].ActionId, Instance._defaultMapDatas.Bindings[i].KeyCodes);
+            }
+
+            s_inputMap.SortActionsBasedOnDatas(Instance._defaultMapDatas);
+            SaveCurrentMap();
         }
 
         private static System.Collections.IEnumerator AssignKeyCoroutine(string actionId, bool alt, KeyAssignedEventHandler callback = null)
@@ -90,6 +132,8 @@
 
             if (_disableMapLoading || !TryLoadMap())
                 RestoreDefaultMap();
+            else
+                GenerateMissingInputsFromSave();
 
             s_allKeyCodes = Helpers.GetEnumValues<KeyCode>();
         }
@@ -97,11 +141,11 @@
 
     public partial class InputManager : Singleton<InputManager>
     {
-        private static string SavePath => $"{Application.persistentDataPath}/InputMap.xml";
+        private static string SavePath => $"{Application.persistentDataPath}/InputSettings.xml";
 
         public static void SaveCurrentMap()
         {
-            Instance.Log("Saving input map...");
+            Instance.Log($"Saving input map to {SavePath}...");
 
             XContainer container = new XElement("InputMap");
 
@@ -156,7 +200,7 @@
             if (!System.IO.File.Exists(SavePath))
                 return false;
 
-            Instance.Log("Loading input map...");
+            Instance.Log($"Loading input map from {SavePath}...");
 
             XContainer container = XDocument.Parse(System.IO.File.ReadAllText(SavePath));
             s_inputMap = new InputMap();

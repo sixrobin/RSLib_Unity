@@ -1,5 +1,6 @@
 ﻿namespace RSLib.Framework.InputSystem
 {
+    using System.Linq;
     using System.Xml.Linq;
     using UnityEngine;
 
@@ -75,6 +76,29 @@
                 }
 
                 CreateAction(actionId, (btnKeyCode, altBtnKeyCode));
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Used to sort input map after potentially generating missing inputs, because the user removed them from data files
+        /// or because he's loading an older version of the application. Generated inputs are added at the end of the map, so we want
+        /// to sort them based on the default map datas.
+        /// </summary>
+        /// <param name="mapDatas">Map datas to get the actions order from.</param>
+        /// <returns>True if sorting has been done successfully, else false.</returns>
+        public bool SortActionsBasedOnDatas(InputMapDatas mapDatas)
+        {
+            try
+            {
+                System.Collections.Generic.List<string> bindingsList = mapDatas.Bindings.ToList().Select(o => o.ActionId).ToList();
+                _map = _map.OrderBy(x => bindingsList.IndexOf(x.Key)).ToDictionary(x => x.Key, x => x.Value);
+            }
+            catch (System.Exception e)
+            {
+                InputManager.Instance.LogError($"Error while sorting actions map based on map datas : {e.Message}.");
+                return false;
             }
 
             return true;
