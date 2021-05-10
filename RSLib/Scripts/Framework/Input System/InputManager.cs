@@ -28,8 +28,7 @@
             if (IsAssigningKey)
                 return;
 
-            s_assignKeyCoroutine = AssignKeyCoroutine(actionId, alt, callback);
-            Instance.StartCoroutine(s_assignKeyCoroutine);
+            Instance.StartCoroutine(s_assignKeyCoroutine = AssignKeyCoroutine(actionId, alt, callback));
         }
 
         public static bool GetInput(string actionId)
@@ -191,7 +190,7 @@
             }
             catch (System.Exception e)
             {
-                Instance.LogError($"Could not save Input map ! Exception message:\n{e.ToString()}");
+                Instance.LogError($"Could not save Input map at {SavePath} ! Exception message:\n{e.ToString()}");
             }
         }
 
@@ -208,7 +207,7 @@
         }
 
         [ContextMenu("Save Current Map")]
-        public void DebugSaveCurrentMap()
+        private void DebugSaveCurrentMap()
         {
             SaveCurrentMap();
         }

@@ -15,12 +15,14 @@
 
         public override void Log(string msg)
         {
-            Debug.Log($"#{Prefix}#{msg}", gameObject);
+            if (Verbose)
+                Debug.Log($"#{Prefix}#{msg}", gameObject);
         }
 
         public override void Log(string msg, Object context)
         {
-            Debug.Log($"#{Prefix}#{msg}", context);
+            if (Verbose)
+                Debug.Log($"#{Prefix}#{msg}", context);
         }
 
         public override void LogWarning(string msg)

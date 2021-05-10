@@ -49,13 +49,13 @@
 
         public virtual void Log(string msg)
         {
-            if (_verbose)
+            if (Verbose)
                 Debug.Log($"{typeof(T).Name}: {msg}", gameObject);
         }
 
         public virtual void Log(string msg, Object context)
         {
-            if (_verbose)
+            if (Verbose)
                 Debug.Log($"{typeof(T).Name}: {msg}", context);
         }
 
