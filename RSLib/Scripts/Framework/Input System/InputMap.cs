@@ -45,7 +45,7 @@
         {
             Clear();
 
-            for (int i = mapDatas.Bindings.Length - 1; i >= 0; --i)
+            for (int i = 0; i < mapDatas.Bindings.Length; ++i)
                 CreateAction(mapDatas.Bindings[i].ActionId, mapDatas.Bindings[i].KeyCodes);
 
             InputManager.Instance.Log($"Generated {_map.Count} input bindings.");
