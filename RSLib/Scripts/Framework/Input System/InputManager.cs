@@ -8,6 +8,7 @@
     {
         [SerializeField] private InputMapDatas _defaultMapDatas = null;
         [SerializeField] private bool _disableMapLoading = false;
+        [SerializeField] private KeyCode _cancelAssignKey = KeyCode.Escape;
 
         public delegate void KeyAssignedEventHandler(string actionId, KeyCode btn, bool alt);
 
@@ -105,13 +106,7 @@
 
             yield return new WaitUntil(() => Input.anyKeyDown);
 
-            KeyCode keyDown = KeyCode.None;
-
-            for (int i = s_allKeyCodes.Length - 1; i >= 0; --i)
-                if (Input.GetKeyDown(s_allKeyCodes[i]))
-                    keyDown = s_allKeyCodes[i];
-
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Instance._cancelAssignKey != KeyCode.None && Input.GetKeyDown(Instance._cancelAssignKey))
             {
                 Instance.Log($"Cancelling key assignment for action Id {actionId}.");
                 callback?.Invoke(actionId, alt ? s_inputMap.GetActionKeyCodes(actionId).altBtn : s_inputMap.GetActionKeyCodes(actionId).btn, alt);
@@ -119,9 +114,15 @@
                 yield break;
             }
 
-            Instance.Log($"Assigning key {keyDown.ToString()} to {(alt ? "alternate " : "")}button for action Id {actionId}.");
-            s_inputMap.SetActionButton(actionId, keyDown, alt);
-            callback?.Invoke(actionId, keyDown, alt);
+            KeyCode key = KeyCode.None;
+            for (int i = s_allKeyCodes.Length - 1; i >= 0; --i)
+                if (Input.GetKeyDown(s_allKeyCodes[i]))
+                    key = s_allKeyCodes[i];
+
+            Instance.Log($"Assigning key {key.ToString()} to {(alt ? "alternate " : "")}button for action Id {actionId}.");
+            s_inputMap.SetActionButton(actionId, key, alt);
+            callback?.Invoke(actionId, key, alt);
+
             s_assignKeyCoroutine = null;
         }
 
