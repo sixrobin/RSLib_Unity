@@ -3,19 +3,38 @@
 	using System.Collections.Generic;
 	using UnityEngine;
 
+    [DisallowMultipleComponent]
 	public class Pool : Singleton<Pool>
 	{
-		[SerializeField] private PooledObject[] _pooledObjects = null;
+        [System.Serializable]
+        public class PooledObject
+        {
+            [SerializeField] private string _id = string.Empty;
+            [SerializeField] private GameObject _gameObject = null;
+            [SerializeField] private int _quantity = 10;
 
-		private Dictionary<int, Queue<GameObject>> _poolByGameObject = new Dictionary<int, Queue<GameObject>>();
-		private Dictionary<string, Queue<GameObject>> _poolById = new Dictionary<string, Queue<GameObject>>();
-		private Transform _poolTransform;
+            public PooledObject(GameObject gameObject, int quantity)
+            {
+                _gameObject = gameObject;
+                _id = gameObject.name;
+                _quantity = quantity;
+            }
+
+            public GameObject GameObject => _gameObject;
+            public string Id => _id;
+            public int Quantity => _quantity;
+        }
+
+        [SerializeField] private PooledObject[] _pooledObjects = null;
+
+		private static Dictionary<int, Queue<GameObject>> s_poolsByGameObject = new Dictionary<int, Queue<GameObject>>();
+		private static Dictionary<string, Queue<GameObject>> s_poolsById = new Dictionary<string, Queue<GameObject>>();
 
 		/// <summary>Clears all the pooled objects.</summary>
 		public static void Clear()
         {
-			Instance._poolByGameObject.Clear();
-			Instance._poolById.Clear();
+			s_poolsByGameObject.Clear();
+			s_poolsById.Clear();
         }
 
 		/// <summary>Gets a pooled gameObject using a GameObject reference, and creates a new pool if none has been found.</summary>
@@ -25,42 +44,57 @@
 		{
 			int poolKey = gameObject.GetInstanceID();
 
-			if (!Instance._poolByGameObject.ContainsKey(poolKey))
+			if (!s_poolsByGameObject.ContainsKey(poolKey))
 			{
 				Instance.LogWarning("Trying to get a pooled object that has not been pooled, creating new pool of 10 objects.");
 				GenerateNewPool(new PooledObject(gameObject, 10));
 			}
 
-			GameObject result = Instance._poolByGameObject[poolKey].Dequeue();
-			Instance._poolByGameObject[poolKey].Enqueue(result);
+			GameObject result = s_poolsByGameObject[poolKey].Dequeue();
+			s_poolsByGameObject[poolKey].Enqueue(result);
 			result.SetActive(true);
 
 			return result.gameObject;
 		}
 
-		/// <summary>Gets a pooled gameObject using an ID, and returns null if no pool has been found.</summary>
-		/// <param name="id">Reference ID to find a pool.</param>
+		/// <summary>Gets a pooled gameObject using an Id, and returns null if no pool has been found.</summary>
+		/// <param name="id">Reference ID to find a pool of.</param>
 		/// <returns>Instance of a gameObject of the pool corresponding to the ID.</returns>
 		public static GameObject Get(string id)
 		{
-			if (!Instance._poolById.ContainsKey(id))
+			if (!s_poolsById.ContainsKey(id))
 			{
 				Instance.LogError("Trying to get a pooled object with ID that has not been pooled.");
 				return null;
 			}
 
-			GameObject result = Instance._poolById[id].Dequeue();
-			Instance._poolById[id].Enqueue(result);
+			GameObject result = s_poolsById[id].Dequeue();
+			s_poolsById[id].Enqueue(result);
 			result.SetActive(true);
 
 			return result.gameObject;
 		}
 
+        /// <summary>Checks if a pool with a given Id is known.</summary>
+        /// <param name="id">Reference Id to find a pool of.</param>
+        /// <returns>True if the given Id has been found, else false.</returns>
+        public static bool ContainsId(string id)
+        {
+            return s_poolsById.ContainsKey(id);
+        }
+
+        /// <summary>Gets an IEnumerable of all the pools Ids.</summary>
+        /// <returns>IEnumerable of all Ids.</returns>
+        public static IEnumerable<string> GetPoolsIds()
+        {
+            return s_poolsById.Keys;
+        }
+
 		/// <summary>Sends back a gameObject to the pool, setting the pool transform as its parent, and setting it inactive.</summary>
 		/// <param name="gameObject">GameObject to send back to pool.</param>
 		public void SendBackToPool(GameObject gameObject)
 		{
-			gameObject.transform.SetParent(_poolTransform);
+			gameObject.transform.SetParent(transform);
 			gameObject.SetActive(false);
 		}
 
@@ -68,19 +102,8 @@
 		/// <param name="transform">Transform to send the gameObject back to pool.</param>
 		public void SendBackToPool(Transform transform)
 		{
-			transform.SetParent(_poolTransform);
+			transform.SetParent(transform);
 			transform.gameObject.SetActive(false);
-		}
-
-		protected override void Awake()
-		{
-			base.Awake();
-
-			if (!IsValid)
-				return;
-
-			_poolTransform = transform;
-			Initialize();
 		}
 
 		/// <summary>
@@ -90,26 +113,28 @@
 		/// <param name="pooledObject">Pooled object to create a pool from.</param>
 		public static void GenerateNewPool(PooledObject pooledObject)
 		{
-			UnityEngine.Assertions.Assert.IsNotNull(pooledObject.GameObject);
-			UnityEngine.Assertions.Assert.IsTrue(pooledObject.Quantity > 0);
+			UnityEngine.Assertions.Assert.IsNotNull(pooledObject.GameObject, $"Trying to generate pool with Id {pooledObject.Id} but gameObject reference is null.");
+			UnityEngine.Assertions.Assert.IsTrue(pooledObject.Quantity > 0, $"Trying to generate pool with Id {pooledObject.Id} but count is 0 or less ({pooledObject.Quantity}).");
 
-			if (Instance._poolByGameObject.ContainsKey(pooledObject.GameObject.GetInstanceID()))
+			if (s_poolsByGameObject.ContainsKey(pooledObject.GameObject.GetInstanceID()))
 			{
 				Instance.LogWarning("Trying to create a pool of an object that has already been pooled.");
 				return;
 			}
 
 			Queue<GameObject> newPool = new Queue<GameObject>(pooledObject.Quantity);
+            Transform container = new GameObject($"{pooledObject.Id} Pool").transform;
+            container.SetParent(Instance.transform);
 
-			for (int i = 0; i < pooledObject.Quantity; ++i)
+			for (int i = pooledObject.Quantity; i >= 0; --i)
 			{
-				GameObject newObject = Instantiate(pooledObject.GameObject, Instance._poolTransform);
+				GameObject newObject = Instantiate(pooledObject.GameObject, container);
 				newObject.gameObject.SetActive(false);
 				newPool.Enqueue(newObject);
 			}
 
-			Instance._poolByGameObject.Add(pooledObject.GameObject.GetInstanceID(), newPool);
-			Instance._poolById.Add(pooledObject.Id, newPool);
+			s_poolsByGameObject.Add(pooledObject.GameObject.GetInstanceID(), newPool);
+			s_poolsById.Add(pooledObject.Id, newPool);
 		}
 
 		/// <summary>Creates pools using the pooled objects setup beforehand.</summary>
@@ -118,28 +143,23 @@
 			for (int pooledObjectIndex = _pooledObjects.Length - 1; pooledObjectIndex >= 0; --pooledObjectIndex)
 				GenerateNewPool(_pooledObjects[pooledObjectIndex]);
 
-			Log($"Initialized with {_pooledObjects.Length} objects.", gameObject);
+			Log($"Initialized pool with {_pooledObjects.Length} objects.", gameObject);
 		}
 
-		[System.Serializable]
-		public class PooledObject
+		protected override void Awake()
 		{
-			[SerializeField] private string _id = "";
-			[SerializeField] private GameObject _gameObject = null;
-			[SerializeField] private int _quantity = 10;
+			base.Awake();
 
-			public PooledObject(GameObject gameObject, int quantity)
-			{
-				_gameObject = gameObject;
-				_id = gameObject.name;
-				_quantity = quantity;
-			}
+			if (!IsValid)
+				return;
 
-			public GameObject GameObject => _gameObject;
-
-			public string Id => _id;
-
-			public int Quantity => _quantity;
+			Initialize();
 		}
+
+        [ContextMenu("Sort Alphabetical")]
+        private void SortPooledObjectsAlphabetical()
+        {
+            System.Array.Sort(_pooledObjects, delegate (PooledObject a, PooledObject b) { return a.Id.CompareTo(b.Id); });
+        }
 	}
 }
