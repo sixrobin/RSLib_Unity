@@ -100,7 +100,7 @@
 
 #if UNITY_EDITOR
     [CustomEditor(typeof(EnhancedButton)), CanEditMultipleObjects]
-    public class BetterButtonEditor : UnityEditor.UI.ButtonEditor
+    public class EnhancedButtonEditor : UnityEditor.UI.ButtonEditor
     {
         private SerializedProperty _onPointerEnterProperty;
         private SerializedProperty _onPointerExitProperty;
