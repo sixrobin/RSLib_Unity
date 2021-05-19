@@ -104,6 +104,9 @@
             return true;
         }
 
+        /// <summary>Checks if map contains a given action.</summary>
+        /// <param name="actionId">Action Id to look for.</param>
+        /// <returns>True if map contains the action, else false.</returns>
         public bool HasAction(string actionId)
         {
             return _map.ContainsKey(actionId);
@@ -127,11 +130,11 @@
             return _map[actionId];
         }
 
-        /// <summary>Overrides a KeyCode for a given action.</summary>
+        /// <summary>Overrides a KeyCode for a given action and resets other actions that were using the same KeyCode.</summary>
         /// <param name="actionId">Action Id to override KeyCode of.</param>
         /// <param name="keyCode">KeyCode to set.</param>
         /// <param name="alt">Set the base button or the alternate one.</param>
-        public void SetActionButton(string actionId, KeyCode keyCode, bool alt = false)
+        public void SetActionButton(string actionId, KeyCode keyCode, bool alt)
         {
             UnityEngine.Assertions.Assert.IsTrue(HasAction(actionId), $"Trying to set keyCode of unknown action Id {actionId}.");
 
@@ -141,6 +144,18 @@
                 newBinding.altBtn = keyCode;
             else
                 newBinding.btn = keyCode;
+
+            string[] keys = _map.Keys.ToArray();
+            for (int i = keys.Length - 1; i >= 0; --i)
+            {
+                if (keys[i] == actionId)
+                    continue;
+
+                if (_map[keys[i]].btn == keyCode)
+                    _map[keys[i]] = (KeyCode.None, _map[keys[i]].altBtn);
+                if (_map[keys[i]].altBtn == keyCode)
+                    _map[keys[i]] = (_map[keys[i]].btn, KeyCode.None);
+            }
 
             _map[actionId] = newBinding;
         }

@@ -62,7 +62,7 @@
 
 #if UNITY_EDITOR
     [CustomEditor(typeof(EnhancedToggle)), CanEditMultipleObjects]
-    public class BetterToggleEditor : UnityEditor.UI.ToggleEditor
+    public class EnhancedToggleEditor : UnityEditor.UI.ToggleEditor
     {
         private SerializedProperty _autoDeselectionProperty;
         private SerializedProperty _onPointerClickProperty;
