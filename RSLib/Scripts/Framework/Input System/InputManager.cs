@@ -19,18 +19,8 @@
 
         public static bool IsAssigningKey => s_assignKeyCoroutine != null;
 
-<<<<<<< HEAD
         public static InputMap GetDefaultMapCopy()
         {
-=======
-        public static void RestoreMapToDefault(InputMap map)
-        {
-            map = GetDefaultMapCopy();
-        }
-
-        public static InputMap GetDefaultMapCopy()
-        {
->>>>>>> 3be943a87da5eefd5a80c2af109fde1a8e37a39a
             return new InputMap(Instance._defaultMapDatas);
         }
 
@@ -156,11 +146,7 @@
             base.Awake();
 
             if (_disableMapLoading || !TryLoadMap())
-<<<<<<< HEAD
                 s_inputMap = GetDefaultMapCopy();
-=======
-                RestoreMapToDefault(s_inputMap);
->>>>>>> 3be943a87da5eefd5a80c2af109fde1a8e37a39a
             else
                 GenerateMissingInputsFromSave();
 
