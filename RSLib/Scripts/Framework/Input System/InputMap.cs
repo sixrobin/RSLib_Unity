@@ -33,7 +33,19 @@
             Deserialize(container);
         }
 
-        /// <summary>Clears the map dictionary.</summary>
+        public InputMap(InputMap inputMap)
+        {
+            _map = inputMap._map;
+        }
+
+        public InputMap(System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)> map)
+        {
+            _map = map;
+        }
+
+        /// <summary>
+        /// Clears the map dictionary.
+        /// </summary>
         public void Clear()
         {
             _map.Clear();
@@ -54,7 +66,7 @@
         /// <summary>Deserializes saved datas of an input map.</summary>
         /// <param name="container">Saved map XContainer.</param>
         /// <returns>True if deserialization has been done successfully, else false.</returns>
-        public bool Deserialize(XContainer container)
+        public void Deserialize(XContainer container)
         {
             XElement inputMapElement = container.Element("InputMap");
             foreach (XElement keyBindingElement in inputMapElement.Elements())
@@ -65,20 +77,18 @@
                 if (!System.Enum.TryParse(btnAttribute.Value, out KeyCode btnKeyCode))
                 {
                     InputManager.Instance.LogError($"Could not parse {btnAttribute.Value} to a valid UnityEngine.KeyCode. Restoring default input mapping.");
-                    return false;
+                    return;
                 }
 
-                XAttribute altBtnAttribute = keyBindingElement.Attribute("AltBtn");
+                XAttribute altBtnAttribute = keyBindingElement.Attribute("Alt");
                 if (!System.Enum.TryParse(altBtnAttribute.Value, out KeyCode altBtnKeyCode))
                 {
                     InputManager.Instance.LogError($"Could not parse {altBtnAttribute.Value} to a valid UnityEngine.KeyCode. Restoring default input mapping.");
-                    return false;
+                    return;
                 }
 
                 CreateAction(actionId, (btnKeyCode, altBtnKeyCode));
             }
-
-            return true;
         }
 
         /// <summary>
