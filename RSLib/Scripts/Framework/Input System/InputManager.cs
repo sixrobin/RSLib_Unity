@@ -19,17 +19,27 @@
 
         public static bool IsAssigningKey => s_assignKeyCoroutine != null;
 
-        public static void RestoreDefaultMap()
+        public static void RestoreMapToDefault(InputMap map)
         {
-            s_inputMap = new InputMap(Instance._defaultMapDatas);
+            map = GetDefaultMapCopy();
+        }
+
+        public static InputMap GetDefaultMapCopy()
+        {
+            return new InputMap(Instance._defaultMapDatas);
         }
 
         public static void AssignKey(string actionId, bool alt, KeyAssignedEventHandler callback = null)
         {
+            AssignKey(s_inputMap, actionId, alt, callback);
+        }
+
+        public static void AssignKey(InputMap map, string actionId, bool alt, KeyAssignedEventHandler callback = null)
+        {
             if (IsAssigningKey)
                 return;
 
-            Instance.StartCoroutine(s_assignKeyCoroutine = AssignKeyCoroutine(actionId, alt, callback));
+            Instance.StartCoroutine(s_assignKeyCoroutine = AssignKeyCoroutine(map, actionId, alt, callback));
         }
 
         public static bool GetInput(string actionId)
@@ -82,6 +92,16 @@
             return s_inputMap.MapCopy;
         }
 
+        public static void SetBindings(System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)> bindings)
+        {
+            s_inputMap = new InputMap(bindings);
+        }
+
+        public static void SetMap(InputMap map)
+        {
+            s_inputMap = new InputMap(map);
+        }
+
         private static void GenerateMissingInputsFromSave()
         {
             for (int i = Instance._defaultMapDatas.Bindings.Length - 1; i >= 0; --i)
@@ -97,7 +117,7 @@
             SaveCurrentMap();
         }
 
-        private static System.Collections.IEnumerator AssignKeyCoroutine(string actionId, bool alt, KeyAssignedEventHandler callback = null)
+        private static System.Collections.IEnumerator AssignKeyCoroutine(InputMap map, string actionId, bool alt, KeyAssignedEventHandler callback = null)
         {
             Instance.Log($"Assigning key for action Id {actionId}...");
 
@@ -109,7 +129,7 @@
             if (Instance._cancelAssignKey != KeyCode.None && Input.GetKeyDown(Instance._cancelAssignKey))
             {
                 Instance.Log($"Cancelling key assignment for action Id {actionId}.");
-                callback?.Invoke(actionId, alt ? s_inputMap.GetActionKeyCodes(actionId).altBtn : s_inputMap.GetActionKeyCodes(actionId).btn, alt);
+                callback?.Invoke(actionId, alt ? map.GetActionKeyCodes(actionId).altBtn : map.GetActionKeyCodes(actionId).btn, alt);
                 s_assignKeyCoroutine = null;
                 yield break;
             }
@@ -120,7 +140,7 @@
                     key = s_allKeyCodes[i];
 
             Instance.Log($"Assigning key {key.ToString()} to {(alt ? "alternate " : "")}button for action Id {actionId}.");
-            s_inputMap.SetActionButton(actionId, key, alt);
+            map.SetActionButton(actionId, key, alt);
             callback?.Invoke(actionId, key, alt);
 
             s_assignKeyCoroutine = null;
@@ -131,10 +151,11 @@
             base.Awake();
 
             if (_disableMapLoading || !TryLoadMap())
-                RestoreDefaultMap();
+                RestoreMapToDefault(s_inputMap);
             else
                 GenerateMissingInputsFromSave();
 
+            SaveCurrentMap();
             s_allKeyCodes = Helpers.GetEnumValues<KeyCode>();
         }
     }
@@ -157,7 +178,7 @@
                 XElement actionElement = new XElement(binding.Key);
                 (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(binding.Key);
                 actionElement.Add(new XAttribute("Btn", btn.ToString()));
-                actionElement.Add(new XAttribute("AltBtn", altBtn.ToString()));
+                actionElement.Add(new XAttribute("Alt", altBtn.ToString()));
 
                 container.Add(actionElement);
             }
@@ -200,11 +221,21 @@
             if (!System.IO.File.Exists(SavePath))
                 return false;
 
-            Instance.Log($"Loading input map from {SavePath}...");
+            try
+            {
+                Instance.Log($"Loading input map from {SavePath}...");
 
-            XContainer container = XDocument.Parse(System.IO.File.ReadAllText(SavePath));
-            s_inputMap = new InputMap();
-            return s_inputMap.Deserialize(container);
+                XContainer container = XDocument.Parse(System.IO.File.ReadAllText(SavePath));
+                s_inputMap = new InputMap(container);
+                SaveCurrentMap();
+            }
+            catch (System.Exception e)
+            {
+                Instance.LogError($"Could not load Input map from {SavePath} ! Exception message:\n{e.ToString()}");
+                return false;
+            }
+
+            return true;
         }
 
         [ContextMenu("Save Current Map")]
