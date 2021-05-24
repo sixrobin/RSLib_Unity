@@ -8,3 +8,6 @@
 - Checker sur LD48 ce qu'il fallait améliorer/récupérer dans RSLib.
 - Méthode pour convertir le volume avec la formule log10.
 - Maze generator https://catlikecoding.com/unity/tutorials/maze/#a-get-key-down
+- Pour les méthodes qui utilisent du random, créer des variantes qui prennent un System.Random en paramètre.
+- Pour les méthodes qui prennent en param des values type, créer les variantes avec le ref pour en faire des ref type.
+	- Exemple: passer de x = x.Clamp() à x.Clamp() tout court.
