@@ -223,6 +223,25 @@
 
         #endregion NORMAL
 
+        #region RANDOM
+
+        /// <summary>Gets a random float between vector's x component and y component values.</summary>
+        /// <returns>Randomly generated number.</returns>
+        public static float Random(this Vector2 v)
+        {
+            return UnityEngine.Random.Range(v.x, v.y);
+        }
+
+        /// <summary>Gets a random float between vector's x component and y component values.</summary>
+        /// <param name="inclusive">Includes y component in potential results.</param>
+        /// <returns>Randomly generated number.</returns>
+        public static int Random(this Vector2Int v, bool inclusive = true)
+        {
+            return UnityEngine.Random.Range(v.x, v.y + (inclusive ? 1 : 0));
+        }
+
+        #endregion
+
         #region ROUND
 
         /// <summary>Gets a vector's copy with all components rounded.</summary>
