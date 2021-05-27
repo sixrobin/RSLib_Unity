@@ -65,8 +65,6 @@
 
             public const int EntryBoxHeight = 30;
             public const int HelpBoxHeight = 96;
-            public const int HistoryBoxHeight = 146;
-            public const int Width = 640;
         }
 
         public class HistoryLine
@@ -96,8 +94,10 @@
 
         [Header("CONSOLE DATAS")]
         [SerializeField] private bool _enabled = true;
+        [SerializeField, Min(512)] private int _width = 640;
+        [SerializeField, Min(32)] private int _height = 146;
 
-        [Header("COLORS")]
+        [Header("STYLE")]
         [SerializeField] private Color _consoleColor = new Color(0f, 0f, 0f, 0.9f);
         [SerializeField] private Color _validColor = new Color(0f, 1f, 0f, 1f);
         [SerializeField] private Color _invalidColor = new Color(1f, 0f, 0f, 1f);
@@ -685,7 +685,7 @@
             ///////////////////////////////
 
             if (_consoleStyle == null)
-                _consoleStyle = ComputeConsoleStyle(Constants.EntryBoxHeight, Constants.Width);
+                _consoleStyle = ComputeConsoleStyle(Constants.EntryBoxHeight, _width);
 
             if (_helpTextStyle == null)
                 _helpTextStyle = new GUIStyle()
@@ -813,19 +813,19 @@
             // Help box.
             if (_showHelp)
             {
-                float helpBoxPosY = y - Constants.HelpBoxHeight - Constants.EntryBoxHeight - Constants.HistoryBoxHeight - Constants.BoxesSpacing * 2;
+                float helpBoxPosY = y - Constants.HelpBoxHeight - Constants.EntryBoxHeight - _height - Constants.BoxesSpacing * 2;
 
-                GUI.Box(new Rect(0f, helpBoxPosY, Constants.Width, Constants.HelpBoxHeight), string.Empty, _consoleStyle);
-                Rect helpViewport = new Rect(0f, 0f, Constants.Width - 30f, Constants.LinesSpacing * 0.5f + Constants.LinesSpacing * (_registeredCmds.Count + Constants.HotkeyHelps.Length + 1));
+                GUI.Box(new Rect(0f, helpBoxPosY, _width, Constants.HelpBoxHeight), string.Empty, _consoleStyle);
+                Rect helpViewport = new Rect(0f, 0f, _width - 30f, Constants.LinesSpacing * 0.5f + Constants.LinesSpacing * (_registeredCmds.Count + Constants.HotkeyHelps.Length + 1));
 
-                float helpScrollPosY = y - Constants.HelpBoxHeight - 25f - Constants.HistoryBoxHeight;
+                float helpScrollPosY = y - Constants.HelpBoxHeight - 25f - _height;
 
-                _helpScroll = GUI.BeginScrollView(new Rect(5f, helpScrollPosY, Constants.Width - 10f, Constants.HelpBoxHeight - 15f), _helpScroll, helpViewport);
+                _helpScroll = GUI.BeginScrollView(new Rect(5f, helpScrollPosY, _width - 10f, Constants.HelpBoxHeight - 15f), _helpScroll, helpViewport);
 
                 // Hotkeys.
                 for (int i = Constants.HotkeyHelps.Length - 1; i >= 0; --i)
                 {
-                    Rect hotkeysRect = new Rect(5f, Constants.LinesSpacing * i, helpViewport.width - 100f, 20f);
+                    Rect hotkeysRect = new Rect(5f, Constants.LinesSpacing * i, helpViewport.width - 15f, 20f);
                     GUI.Label(hotkeysRect, Constants.HotkeyHelps[i]);
                 }
 
@@ -833,7 +833,7 @@
                 {
                     DebugCommandBase cmd = _registeredCmds[i];
                     string cmdHelp = string.Format(Constants.CmdHelpFormat, cmd.GetFormat(), (cmd.IsConsoleNative ? "(Native) " : "") + cmd.Description);
-                    Rect cmdHelpRect = new Rect(5f, Constants.LinesSpacing * (i + Constants.HotkeyHelps.Length + 1), helpViewport.width - 100f, 20f);
+                    Rect cmdHelpRect = new Rect(5f, Constants.LinesSpacing * (i + Constants.HotkeyHelps.Length + 1), helpViewport.width - 15f, 20f);
                     GUI.Label(cmdHelpRect, cmdHelp);
                 }
 
@@ -841,9 +841,9 @@
             }
 
             // History box.
-            GUI.Box(new Rect(0f, y - Constants.HistoryBoxHeight - Constants.EntryBoxHeight - Constants.BoxesSpacing, Constants.Width, Constants.HistoryBoxHeight), string.Empty, _consoleStyle);
-            Rect historyViewport = new Rect(0f, 0f, Constants.Width - 30f, ComputeHistoryHeight());
-            _historyScroll = GUI.BeginScrollView(new Rect(5f, y - Constants.HistoryBoxHeight - 25f, Constants.Width - 10f, Constants.HistoryBoxHeight - 15f), _historyScroll, historyViewport);
+            GUI.Box(new Rect(0f, y - _height - Constants.EntryBoxHeight - Constants.BoxesSpacing, _width, _height), string.Empty, _consoleStyle);
+            Rect historyViewport = new Rect(0f, 0f, _width - 30f, ComputeHistoryHeight());
+            _historyScroll = GUI.BeginScrollView(new Rect(5f, y - _height - 25f, _width - 10f, _height - 15f), _historyScroll, historyViewport);
 
             float lineY = ComputeHistoryHeight();
             for (int i = _cmdsHistory.Count - 1; i >= 0; --i)
@@ -860,11 +860,11 @@
             GUI.EndScrollView();
 
             // Entry box.
-            GUI.Box(new Rect(0f, y - 30f, Constants.Width, Constants.EntryBoxHeight), string.Empty, _consoleStyle);
+            GUI.Box(new Rect(0f, y - 30f, _width, Constants.EntryBoxHeight), string.Empty, _consoleStyle);
             GUI.backgroundColor = new Color(0f, 0f, 0f, 0f);
 
             GUI.SetNextControlName(Constants.ControlName);
-            Rect logEntryRect = new Rect(5f, y - 25f, Constants.Width - 20f, Constants.EntryBoxHeight - 5f);
+            Rect logEntryRect = new Rect(5f, y - 25f, _width - 20f, Constants.EntryBoxHeight - 5f);
             _inputStr = GUI.TextField(logEntryRect, _inputStr);
             GUI.FocusControl(Constants.ControlName);
 

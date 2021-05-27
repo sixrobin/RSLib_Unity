@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework
+﻿namespace RSLib.Framework.Pooling
 {
     public static class ResourcesPooler<T> where T : UnityEngine.Object
     {

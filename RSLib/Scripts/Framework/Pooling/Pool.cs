@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework
+﻿namespace RSLib.Framework.Pooling
 {
 	using System.Collections.Generic;
 	using UnityEngine;
@@ -30,11 +30,16 @@
 		private static Dictionary<int, Queue<GameObject>> s_poolsByGameObject = new Dictionary<int, Queue<GameObject>>();
 		private static Dictionary<string, Queue<GameObject>> s_poolsById = new Dictionary<string, Queue<GameObject>>();
 
-		/// <summary>Clears all the pooled objects.</summary>
+        private static Dictionary<GameObject, IPoolItem> s_poolItems = new Dictionary<GameObject, IPoolItem>();
+
+		/// <summary>
+        /// Clears all the pooled objects.
+        /// </summary>
 		public static void Clear()
         {
 			s_poolsByGameObject.Clear();
 			s_poolsById.Clear();
+            s_poolItems.Clear();
         }
 
 		/// <summary>Gets a pooled gameObject using a GameObject reference, and creates a new pool if none has been found.</summary>
@@ -46,15 +51,15 @@
 
 			if (!s_poolsByGameObject.ContainsKey(poolKey))
 			{
-				Instance.LogWarning("Trying to get a pooled object that has not been pooled, creating new pool of 10 objects.");
+				Instance.LogWarning("Trying to get a pooled object that has not been pooled, creating new pool of 10 objects.", Instance.gameObject);
 				GenerateNewPool(new PooledObject(gameObject, 10));
 			}
 
 			GameObject result = s_poolsByGameObject[poolKey].Dequeue();
 			s_poolsByGameObject[poolKey].Enqueue(result);
-			result.SetActive(true);
 
-			return result.gameObject;
+            EnableFromPool(result);
+            return result;
 		}
 
 		/// <summary>Gets a pooled gameObject using an Id, and returns null if no pool has been found.</summary>
@@ -64,15 +69,15 @@
 		{
 			if (!s_poolsById.ContainsKey(id))
 			{
-				Instance.LogError("Trying to get a pooled object with ID that has not been pooled.");
+				Instance.LogError("Trying to get a pooled object with ID that has not been pooled.", Instance.gameObject);
 				return null;
 			}
 
 			GameObject result = s_poolsById[id].Dequeue();
 			s_poolsById[id].Enqueue(result);
-			result.SetActive(true);
 
-			return result.gameObject;
+            EnableFromPool(result);
+            return result.gameObject;
 		}
 
         /// <summary>Checks if a pool with a given Id is known.</summary>
@@ -129,6 +134,10 @@
 			for (int i = pooledObject.Quantity; i >= 0; --i)
 			{
 				GameObject newObject = Instantiate(pooledObject.GameObject, container);
+
+                if (newObject.TryGetComponent(out IPoolItem poolItem))
+                    s_poolItems.Add(newObject, poolItem);
+
 				newObject.gameObject.SetActive(false);
 				newPool.Enqueue(newObject);
 			}
@@ -137,8 +146,23 @@
 			s_poolsById.Add(pooledObject.Id, newPool);
 		}
 
-		/// <summary>Creates pools using the pooled objects setup beforehand.</summary>
-		private void Initialize()
+        /// <summary>
+        /// Behaviour applied to all gameObjects when they are selected to be enabled from their pool.
+        /// Sets them active and tries to call the IPoolItem interface OnGetFromPool message.
+        /// </summary>
+        /// <param name="gameObject">GameObject instance to enable.</param>
+        private static void EnableFromPool(GameObject gameObject)
+        {
+            gameObject.SetActive(true);
+
+            if (s_poolItems.TryGetValue(gameObject, out IPoolItem poolItem))
+                poolItem.OnGetFromPool();
+        }
+
+        /// <summary>
+        /// Creates pools using the pooled objects setup beforehand.
+        /// </summary>
+        private void Initialize()
 		{
 			for (int pooledObjectIndex = _pooledObjects.Length - 1; pooledObjectIndex >= 0; --pooledObjectIndex)
 				GenerateNewPool(_pooledObjects[pooledObjectIndex]);
