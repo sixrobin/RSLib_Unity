@@ -650,7 +650,7 @@
 #endif
             }));
         }
-
+        
         private void ResetHistoryNavigation()
         {
             _historyNavIndex = -1;
@@ -692,38 +692,26 @@
                 {
                     fontStyle = FontStyle.Italic,
                     alignment = TextAnchor.MiddleLeft,
-                    normal = new GUIStyleState()
-                    {
-                        textColor = new Color(1f, 1f, 1f, 0.33f)
-                    }
+                    normal = new GUIStyleState() { textColor = new Color(1f, 1f, 1f, 0.33f) }
                 };
 
             if (_invalidCmdTextStyle == null)
                 _invalidCmdTextStyle = new GUIStyle()
                 {
                     alignment = TextAnchor.MiddleLeft,
-                    normal = new GUIStyleState()
-                    {
-                        textColor = new Color(1f, 0f, 0f, 0.8f)
-                    }
+                    normal = new GUIStyleState() { textColor = new Color(1f, 0f, 0f, 0.8f) }
                 };
 
             if (_autoCompletionTextStyle == null)
                 _autoCompletionTextStyle = new GUIStyle()
                 {
                     alignment = TextAnchor.MiddleRight,
-                    normal = new GUIStyleState()
-                    {
-                        textColor = new Color(1f, 1f, 1f, 0.5f)
-                    }
+                    normal = new GUIStyleState() { textColor = new Color(1f, 1f, 1f, 0.5f) }
                 };
 
             if (_historyLineTextStyle == null)
             {
-                _historyLineTextStyle = new GUIStyle()
-                {
-                    alignment = TextAnchor.UpperLeft
-                };
+                _historyLineTextStyle = new GUIStyle() { alignment = TextAnchor.UpperLeft };
                 _historyLineTextStyle.normal.textColor = Color.white;
             }
 
@@ -814,12 +802,10 @@
             if (_showHelp)
             {
                 float helpBoxPosY = y - Constants.HelpBoxHeight - Constants.EntryBoxHeight - _height - Constants.BoxesSpacing * 2;
-
                 GUI.Box(new Rect(0f, helpBoxPosY, _width, Constants.HelpBoxHeight), string.Empty, _consoleStyle);
                 Rect helpViewport = new Rect(0f, 0f, _width - 30f, Constants.LinesSpacing * 0.5f + Constants.LinesSpacing * (_registeredCmds.Count + Constants.HotkeyHelps.Length + 1));
 
                 float helpScrollPosY = y - Constants.HelpBoxHeight - 25f - _height;
-
                 _helpScroll = GUI.BeginScrollView(new Rect(5f, helpScrollPosY, _width - 10f, Constants.HelpBoxHeight - 15f), _helpScroll, helpViewport);
 
                 // Hotkeys.
@@ -914,7 +900,7 @@
         {
             base.Awake();
 
-            if (!Instance.IsValid)
+            if (!IsValid)
                 return;
 
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
