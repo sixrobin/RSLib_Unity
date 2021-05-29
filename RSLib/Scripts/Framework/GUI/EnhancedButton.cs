@@ -75,7 +75,10 @@
         public void SetText(string text)
         {
             if (_buttonText == null)
+            {
+                Debug.LogWarning($"Trying to set text on {transform.name}'s {GetType().Name.ToString()}, but text isn't referenced.");
                 return;
+            }
 
             _buttonText.text = text;
         }

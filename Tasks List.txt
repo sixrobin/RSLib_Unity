@@ -12,6 +12,5 @@
 - Pour les méthodes qui utilisent du random, créer des variantes qui prennent un System.Random en paramètre.
 - Pour les méthodes qui prennent en param des values type, créer les variantes avec le ref pour en faire des ref type.
 	- Exemple: passer de x = x.Clamp() à x.Clamp() tout court.
-- Ajouter un warning dans EnhancedButton si le texte est null.
 - Récupérer le shader UIRamp de Templar.
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
