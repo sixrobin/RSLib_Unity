@@ -143,6 +143,9 @@
 
         public static void AddCommand(CommandBase cmd, bool overrideIfCmdExists = false)
         {
+            if (!Exists())
+                return;
+
             if (string.IsNullOrEmpty(cmd.Id))
             {
                 Instance.LogError("Command ID is null or empty!", Instance.gameObject);
@@ -183,6 +186,9 @@
 
         public static void RemoveCommand(string id, int paramsCount = -1)
         {
+            if (!Exists())
+                return;
+
             for (int i = Instance._registeredCmds.Count - 1; i >= 0; --i)
             {
                 if (Instance._registeredCmds[i].Id == id)
@@ -222,6 +228,9 @@
         /// <param name="log">Message to log.</param>
         public static void LogExternal(string log)
         {
+            if (!Exists())
+                return;
+
             if (Instance.IsOpen)
                 Instance.StartCoroutine(Instance.LogToConsoleCoroutine(log, HistoryLine.Validity.Neutral));
         }
@@ -232,6 +241,9 @@
         /// <param name="log">Message to log.</param>
         public static void LogExternalError(string log)
         {
+            if (!Exists())
+                return;
+
             if (Instance.IsOpen)
                 Instance.StartCoroutine(Instance.LogToConsoleCoroutine(log, HistoryLine.Validity.Error));
         }
