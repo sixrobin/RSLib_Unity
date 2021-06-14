@@ -3,6 +3,8 @@
 - Encryption tool.
 - Textures de gradients linéaires/radiaux déjà utilisables, BW et WB.
 - Sound Manager.
+	- Créer un scriptable qui référence un seul audioclip, et une interface IClipDatasProvider pour gérer ce cas et les playlists.
+	- Global volume multiplier sur les Playlists ?
 - Input Manager : loader les inputs sauvegardés ET les inputs du jeu, pour la rétrocompatibilité notamment.
 - Image Effects : invert.
 - Canvas Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
