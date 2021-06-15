@@ -16,3 +16,4 @@
 	- Exemple: passer de x = x.Clamp() à x.Clamp() tout court.
 - Récupérer le shader UIRamp de Templar.
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
+- Classe editor générique pour pouvoir ajouter des boutons en inspector.
