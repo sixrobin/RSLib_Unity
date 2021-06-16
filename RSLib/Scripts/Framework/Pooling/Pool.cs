@@ -180,6 +180,7 @@
 			Initialize();
 		}
 
+        // [TODO] Editor button.
         [ContextMenu("Sort Alphabetical")]
         private void SortPooledObjectsAlphabetical()
         {
