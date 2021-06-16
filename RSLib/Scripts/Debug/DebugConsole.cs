@@ -65,8 +65,6 @@
 
             public const int EntryBoxHeight = 30;
             public const int HelpBoxHeight = 96;
-            public const int HistoryBoxHeight = 146;
-            public const int Width = 640;
         }
 
         public class HistoryLine
@@ -96,8 +94,10 @@
 
         [Header("CONSOLE DATAS")]
         [SerializeField] private bool _enabled = true;
+        [SerializeField, Min(512)] private int _width = 640;
+        [SerializeField, Min(32)] private int _height = 146;
 
-        [Header("COLORS")]
+        [Header("STYLE")]
         [SerializeField] private Color _consoleColor = new Color(0f, 0f, 0f, 0.9f);
         [SerializeField] private Color _validColor = new Color(0f, 1f, 0f, 1f);
         [SerializeField] private Color _invalidColor = new Color(1f, 0f, 0f, 1f);
@@ -113,7 +113,7 @@
         private Vector2 _historyScroll;
 
         private int _autoCompletionNavIndex = -1;
-        private List<DebugCommandBase> _autoCompletionOptions = new List<DebugCommandBase>(16);
+        private List<CommandBase> _autoCompletionOptions = new List<CommandBase>(16);
         private string _autoCompletionStr;
         private int _historyNavIndex = -1;
         private string _inputStr;
@@ -123,7 +123,7 @@
         private bool _textCursorNeedsRefocus;
 
         private List<HistoryLine> _cmdsHistory = new List<HistoryLine>();
-        private List<DebugCommandBase> _registeredCmds = new List<DebugCommandBase>();
+        private List<CommandBase> _registeredCmds = new List<CommandBase>();
 
         private Dictionary<HistoryLine.Validity, Color> _colorsByValidity;
 
@@ -141,8 +141,11 @@
             }
         }
 
-        public static void AddCommand(DebugCommandBase cmd, bool overrideIfCmdExists = false)
+        public static void AddCommand(CommandBase cmd, bool overrideIfCmdExists = false)
         {
+            if (!Exists())
+                return;
+
             if (string.IsNullOrEmpty(cmd.Id))
             {
                 Instance.LogError("Command ID is null or empty!", Instance.gameObject);
@@ -157,7 +160,7 @@
 
             for (int i = Instance._registeredCmds.Count - 1; i >= 0; --i)
             {
-                if (Instance._registeredCmds[i].Id == cmd.Id && Instance._registeredCmds[i].ParametersCount == cmd.ParametersCount)
+                if (Instance._registeredCmds[i].Id == cmd.Id && Instance._registeredCmds[i].ParamsCount == cmd.ParamsCount)
                 {
                     if (overrideIfCmdExists)
                     {
@@ -167,7 +170,7 @@
                             Instance._registeredCmds[i] = cmd;
                     }
                     else
-                        Instance.LogWarning($"A command with the same ID \"<b>{cmd.Id}</b>\" and the same parameters count (<b>{cmd.ParametersCount}</b>) is already registered!", Instance.gameObject);
+                        Instance.LogWarning($"A command with the same ID \"<b>{cmd.Id}</b>\" and the same parameters count (<b>{cmd.ParamsCount}</b>) is already registered!", Instance.gameObject);
 
                     return;
                 }
@@ -176,20 +179,23 @@
             Instance._registeredCmds.Add(cmd);
         }
 
-        public static void OverrideCommand(DebugCommandBase cmd)
+        public static void OverrideCommand(CommandBase cmd)
         {
             AddCommand(cmd, true);
         }
 
         public static void RemoveCommand(string id, int paramsCount = -1)
         {
+            if (!Exists())
+                return;
+
             for (int i = Instance._registeredCmds.Count - 1; i >= 0; --i)
             {
                 if (Instance._registeredCmds[i].Id == id)
                 {
                     if (paramsCount != -1)
                     {
-                        if (Instance._registeredCmds[i].ParametersCount == paramsCount)
+                        if (Instance._registeredCmds[i].ParamsCount == paramsCount)
                         {
                             if (Instance._registeredCmds[i].IsConsoleNative)
                             {
@@ -222,6 +228,9 @@
         /// <param name="log">Message to log.</param>
         public static void LogExternal(string log)
         {
+            if (!Exists())
+                return;
+
             if (Instance.IsOpen)
                 Instance.StartCoroutine(Instance.LogToConsoleCoroutine(log, HistoryLine.Validity.Neutral));
         }
@@ -232,6 +241,9 @@
         /// <param name="log">Message to log.</param>
         public static void LogExternalError(string log)
         {
+            if (!Exists())
+                return;
+
             if (Instance.IsOpen)
                 Instance.StartCoroutine(Instance.LogToConsoleCoroutine(log, HistoryLine.Validity.Error));
         }
@@ -301,7 +313,7 @@
 
             HistoryLine.Validity validity = HistoryLine.Validity.Invalid;
 
-            DebugCommandBase currentCmd = null;
+            CommandBase currentCmd = null;
             string[] inputStrProperties = _inputStr.Split(' ');
 
             // Loop through all the registered commands and check if the ID matches the input ID.
@@ -313,14 +325,14 @@
                 {
                     currentCmd = _registeredCmds[i];
 
-                    if (inputStrProperties.Length - 1 != currentCmd.ParametersCount)
+                    if (inputStrProperties.Length - 1 != currentCmd.ParamsCount)
                         continue;
 
-                    switch (currentCmd.ParametersCount)
+                    switch (currentCmd.ParamsCount)
                     {
                         case 0:
                         {
-                            if (currentCmd is DebugCommand cmd)
+                            if (currentCmd is Command cmd)
                             {
                                 cmd.Execute();
                                 validity = HistoryLine.Validity.Valid;
@@ -332,7 +344,7 @@
 
                         case 1:
                         {
-                            if (currentCmd is DebugCommand<bool> cmdBool)
+                            if (currentCmd is Command<bool> cmdBool)
                             {
                                 if (bool.TryParse(inputStrProperties[1], out bool param))
                                 {
@@ -343,7 +355,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<float> cmdFloat)
+                            if (currentCmd is Command<float> cmdFloat)
                             {
                                 if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param))
                                 {
@@ -354,7 +366,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<int> cmdInt)
+                            if (currentCmd is Command<int> cmdInt)
                             {
                                 if (int.TryParse(inputStrProperties[1], out int param))
                                 {
@@ -365,7 +377,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<string> cmdString)
+                            if (currentCmd is Command<string> cmdString)
                             {
                                 cmdString.Execute(inputStrProperties[1]);
                                 validity = HistoryLine.Validity.Valid;
@@ -378,7 +390,7 @@
 
                         case 2:
                         {
-                            if (currentCmd is DebugCommand<bool, bool> cmdBoolBool)
+                            if (currentCmd is Command<bool, bool> cmdBoolBool)
                             {
                                 if (bool.TryParse(inputStrProperties[1], out bool param1)
                                     && bool.TryParse(inputStrProperties[2], out bool param2))
@@ -390,7 +402,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<bool, float> cmdBoolFloat)
+                            if (currentCmd is Command<bool, float> cmdBoolFloat)
                             {
                                 if (bool.TryParse(inputStrProperties[1], out bool param1)
                                     && float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
@@ -402,7 +414,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<bool, int> cmdBoolInt)
+                            if (currentCmd is Command<bool, int> cmdBoolInt)
                             {
                                 if (bool.TryParse(inputStrProperties[1], out bool param1)
                                     && int.TryParse(inputStrProperties[2], out int param2))
@@ -414,7 +426,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<bool, string> cmdBoolString)
+                            if (currentCmd is Command<bool, string> cmdBoolString)
                             {
                                 if (bool.TryParse(inputStrProperties[1], out bool param1))
                                 {
@@ -425,7 +437,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<float, bool> cmdFloatBool)
+                            if (currentCmd is Command<float, bool> cmdFloatBool)
                             {
                                 if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1)
                                     && bool.TryParse(inputStrProperties[2], out bool param2))
@@ -437,7 +449,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<float, float> cmdFloatFloat)
+                            if (currentCmd is Command<float, float> cmdFloatFloat)
                             {
                                 if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1)
                                     && float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
@@ -449,7 +461,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<float, int> cmdFloatInt)
+                            if (currentCmd is Command<float, int> cmdFloatInt)
                             {
                                 if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1)
                                     && int.TryParse(inputStrProperties[2], out int param2))
@@ -461,7 +473,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<float, string> cmdFloatString)
+                            if (currentCmd is Command<float, string> cmdFloatString)
                             {
                                 if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1))
                                 {
@@ -472,7 +484,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<int, bool> cmdIntBool)
+                            if (currentCmd is Command<int, bool> cmdIntBool)
                             {
                                 if (int.TryParse(inputStrProperties[1], out int param1)
                                     && bool.TryParse(inputStrProperties[2], out bool param2))
@@ -484,7 +496,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<int, float> cmdIntFloat)
+                            if (currentCmd is Command<int, float> cmdIntFloat)
                             {
                                 if (int.TryParse(inputStrProperties[1], out int param1)
                                     && float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
@@ -496,7 +508,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<int, int> cmdIntInt)
+                            if (currentCmd is Command<int, int> cmdIntInt)
                             {
                                 if (int.TryParse(inputStrProperties[1], out int param1)
                                     && int.TryParse(inputStrProperties[2], out int param2))
@@ -508,7 +520,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<int, string> cmdIntString)
+                            if (currentCmd is Command<int, string> cmdIntString)
                             {
                                 if (int.TryParse(inputStrProperties[1], out int param1))
                                 {
@@ -519,7 +531,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<string, bool> cmdStringBool)
+                            if (currentCmd is Command<string, bool> cmdStringBool)
                             {
                                 if (bool.TryParse(inputStrProperties[2], out bool param2))
                                 {
@@ -530,7 +542,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<string, float> cmdStringFloat)
+                            if (currentCmd is Command<string, float> cmdStringFloat)
                             {
                                 if (float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
                                 {
@@ -541,7 +553,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<string, int> cmdStringInt)
+                            if (currentCmd is Command<string, int> cmdStringInt)
                             {
                                 if (int.TryParse(inputStrProperties[2], out int param2))
                                 {
@@ -552,7 +564,7 @@
                                 break;
                             }
 
-                            if (currentCmd is DebugCommand<string, string> cmdStringString)
+                            if (currentCmd is Command<string, string> cmdStringString)
                             {
                                 cmdStringString.Execute(inputStrProperties[1], inputStrProperties[2]);
                                 validity = HistoryLine.Validity.Valid;
@@ -606,7 +618,7 @@
             //// Commands that are inherent in the console system (clear, help, remove command).
             ////////////////////////////////////////////////////////////////////////////////////
 
-            AddCommand(new DebugCommand("h", "Shows available commands and hotkeys.", false, true, () =>
+            AddCommand(new Command("h", "Shows available commands and hotkeys.", false, true, () =>
             {
                 _showHelp = !_showHelp;
                 if (_showHelp)
@@ -620,7 +632,7 @@
             //        _registeredCmds.Sort();
             //}));
 
-            AddCommand(new DebugCommand("c", "Clears commands history.", false, true, () => _cmdsHistory.Clear()));
+            AddCommand(new Command("c", "Clears commands history.", false, true, () => _cmdsHistory.Clear()));
             //AddCommand(new DebugCommand("clear", "Clears commands history.", false, true, () => _cmdsHistory.Clear()));
             //AddCommand(new DebugCommand<string, int>("removeCmd", "Removes a registered command by ID and parameters count.", true, true, (id, paramsCount) => RemoveCommand(id, paramsCount)));
 
@@ -629,19 +641,19 @@
             //// Commands that are not inherent in the console but potentially useful in any Unity project :
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
-            AddCommand(new DebugCommand("r", "Reloads the currently active scene.", true, true,
+            AddCommand(new Command("r", "Reloads the currently active scene.", true, true,
                 () => UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex)));
 
             //AddCommand(new DebugCommand("reloadActiveScene", "Reloads the currently active scene.", true, true,
             //    () => UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex)));
 
-            AddCommand(new DebugCommand<string>("loadSceneByName", "Loads a scene by its name.", true, true,
+            AddCommand(new Command<string>("loadSceneByName", "Loads a scene by its name.", true, true,
                 (sceneName) => UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName)));
 
-            AddCommand(new DebugCommand<int>("loadSceneByIndex", "Loads a scene by its build settings index.", true, true,
+            AddCommand(new Command<int>("loadSceneByIndex", "Loads a scene by its build settings index.", true, true,
                 (sceneIndex) => UnityEngine.SceneManagement.SceneManager.LoadScene(sceneIndex)));
 
-            AddCommand(new DebugCommand("q", "Quits application.", false, true, () =>
+            AddCommand(new Command("q", "Quits application.", false, true, () =>
             {
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
@@ -650,7 +662,7 @@
 #endif
             }));
         }
-
+        
         private void ResetHistoryNavigation()
         {
             _historyNavIndex = -1;
@@ -685,45 +697,33 @@
             ///////////////////////////////
 
             if (_consoleStyle == null)
-                _consoleStyle = ComputeConsoleStyle(Constants.EntryBoxHeight, Constants.Width);
+                _consoleStyle = ComputeConsoleStyle(Constants.EntryBoxHeight, _width);
 
             if (_helpTextStyle == null)
                 _helpTextStyle = new GUIStyle()
                 {
                     fontStyle = FontStyle.Italic,
                     alignment = TextAnchor.MiddleLeft,
-                    normal = new GUIStyleState()
-                    {
-                        textColor = new Color(1f, 1f, 1f, 0.33f)
-                    }
+                    normal = new GUIStyleState() { textColor = new Color(1f, 1f, 1f, 0.33f) }
                 };
 
             if (_invalidCmdTextStyle == null)
                 _invalidCmdTextStyle = new GUIStyle()
                 {
                     alignment = TextAnchor.MiddleLeft,
-                    normal = new GUIStyleState()
-                    {
-                        textColor = new Color(1f, 0f, 0f, 0.8f)
-                    }
+                    normal = new GUIStyleState() { textColor = new Color(1f, 0f, 0f, 0.8f) }
                 };
 
             if (_autoCompletionTextStyle == null)
                 _autoCompletionTextStyle = new GUIStyle()
                 {
                     alignment = TextAnchor.MiddleRight,
-                    normal = new GUIStyleState()
-                    {
-                        textColor = new Color(1f, 1f, 1f, 0.5f)
-                    }
+                    normal = new GUIStyleState() { textColor = new Color(1f, 1f, 1f, 0.5f) }
                 };
 
             if (_historyLineTextStyle == null)
             {
-                _historyLineTextStyle = new GUIStyle()
-                {
-                    alignment = TextAnchor.UpperLeft
-                };
+                _historyLineTextStyle = new GUIStyle() { alignment = TextAnchor.UpperLeft };
                 _historyLineTextStyle.normal.textColor = Color.white;
             }
 
@@ -813,27 +813,25 @@
             // Help box.
             if (_showHelp)
             {
-                float helpBoxPosY = y - Constants.HelpBoxHeight - Constants.EntryBoxHeight - Constants.HistoryBoxHeight - Constants.BoxesSpacing * 2;
+                float helpBoxPosY = y - Constants.HelpBoxHeight - Constants.EntryBoxHeight - _height - Constants.BoxesSpacing * 2;
+                GUI.Box(new Rect(0f, helpBoxPosY, _width, Constants.HelpBoxHeight), string.Empty, _consoleStyle);
+                Rect helpViewport = new Rect(0f, 0f, _width - 30f, Constants.LinesSpacing * 0.5f + Constants.LinesSpacing * (_registeredCmds.Count + Constants.HotkeyHelps.Length + 1));
 
-                GUI.Box(new Rect(0f, helpBoxPosY, Constants.Width, Constants.HelpBoxHeight), string.Empty, _consoleStyle);
-                Rect helpViewport = new Rect(0f, 0f, Constants.Width - 30f, Constants.LinesSpacing * 0.5f + Constants.LinesSpacing * (_registeredCmds.Count + Constants.HotkeyHelps.Length + 1));
-
-                float helpScrollPosY = y - Constants.HelpBoxHeight - 25f - Constants.HistoryBoxHeight;
-
-                _helpScroll = GUI.BeginScrollView(new Rect(5f, helpScrollPosY, Constants.Width - 10f, Constants.HelpBoxHeight - 15f), _helpScroll, helpViewport);
+                float helpScrollPosY = y - Constants.HelpBoxHeight - 25f - _height;
+                _helpScroll = GUI.BeginScrollView(new Rect(5f, helpScrollPosY, _width - 10f, Constants.HelpBoxHeight - 15f), _helpScroll, helpViewport);
 
                 // Hotkeys.
                 for (int i = Constants.HotkeyHelps.Length - 1; i >= 0; --i)
                 {
-                    Rect hotkeysRect = new Rect(5f, Constants.LinesSpacing * i, helpViewport.width - 100f, 20f);
+                    Rect hotkeysRect = new Rect(5f, Constants.LinesSpacing * i, helpViewport.width - 15f, 20f);
                     GUI.Label(hotkeysRect, Constants.HotkeyHelps[i]);
                 }
 
                 for (int i = _registeredCmds.Count - 1; i >= 0; --i)
                 {
-                    DebugCommandBase cmd = _registeredCmds[i];
+                    CommandBase cmd = _registeredCmds[i];
                     string cmdHelp = string.Format(Constants.CmdHelpFormat, cmd.GetFormat(), (cmd.IsConsoleNative ? "(Native) " : "") + cmd.Description);
-                    Rect cmdHelpRect = new Rect(5f, Constants.LinesSpacing * (i + Constants.HotkeyHelps.Length + 1), helpViewport.width - 100f, 20f);
+                    Rect cmdHelpRect = new Rect(5f, Constants.LinesSpacing * (i + Constants.HotkeyHelps.Length + 1), helpViewport.width - 15f, 20f);
                     GUI.Label(cmdHelpRect, cmdHelp);
                 }
 
@@ -841,9 +839,9 @@
             }
 
             // History box.
-            GUI.Box(new Rect(0f, y - Constants.HistoryBoxHeight - Constants.EntryBoxHeight - Constants.BoxesSpacing, Constants.Width, Constants.HistoryBoxHeight), string.Empty, _consoleStyle);
-            Rect historyViewport = new Rect(0f, 0f, Constants.Width - 30f, ComputeHistoryHeight());
-            _historyScroll = GUI.BeginScrollView(new Rect(5f, y - Constants.HistoryBoxHeight - 25f, Constants.Width - 10f, Constants.HistoryBoxHeight - 15f), _historyScroll, historyViewport);
+            GUI.Box(new Rect(0f, y - _height - Constants.EntryBoxHeight - Constants.BoxesSpacing, _width, _height), string.Empty, _consoleStyle);
+            Rect historyViewport = new Rect(0f, 0f, _width - 30f, ComputeHistoryHeight());
+            _historyScroll = GUI.BeginScrollView(new Rect(5f, y - _height - 25f, _width - 10f, _height - 15f), _historyScroll, historyViewport);
 
             float lineY = ComputeHistoryHeight();
             for (int i = _cmdsHistory.Count - 1; i >= 0; --i)
@@ -860,11 +858,11 @@
             GUI.EndScrollView();
 
             // Entry box.
-            GUI.Box(new Rect(0f, y - 30f, Constants.Width, Constants.EntryBoxHeight), string.Empty, _consoleStyle);
+            GUI.Box(new Rect(0f, y - 30f, _width, Constants.EntryBoxHeight), string.Empty, _consoleStyle);
             GUI.backgroundColor = new Color(0f, 0f, 0f, 0f);
 
             GUI.SetNextControlName(Constants.ControlName);
-            Rect logEntryRect = new Rect(5f, y - 25f, Constants.Width - 20f, Constants.EntryBoxHeight - 5f);
+            Rect logEntryRect = new Rect(5f, y - 25f, _width - 20f, Constants.EntryBoxHeight - 5f);
             _inputStr = GUI.TextField(logEntryRect, _inputStr);
             GUI.FocusControl(Constants.ControlName);
 
@@ -914,7 +912,7 @@
         {
             base.Awake();
 
-            if (!Instance.IsValid)
+            if (!IsValid)
                 return;
 
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;

@@ -1,8 +1,8 @@
 ﻿namespace RSLib.Debug.Console
 {
-    public abstract class DebugCommandBase : System.IComparable
+    public abstract class CommandBase : System.IComparable
     {
-        public DebugCommandBase(string id, string desc, bool showInHistory, bool isConsoleNative)
+        public CommandBase(string id, string desc, bool showInHistory, bool isConsoleNative)
         {
             Id = id;
             Description = desc;
@@ -11,46 +11,43 @@
         }
 
         public string Id { get; private set; }
-
         public string Description { get; private set; }
-
-        public abstract int ParametersCount { get; }
+        public abstract int ParamsCount { get; }
     
         public bool IsConsoleNative { get; private set; }
-
         public bool ShowInHistory { get; private set; }
 
-        public int CompareTo(object obj)
+        int System.IComparable.CompareTo(object obj)
         {
-            return Id.CompareTo((obj as DebugCommandBase).Id);
+            return Id.CompareTo((obj as CommandBase).Id);
         }
 
         public abstract string GetFormat();
     }
 
-    public class DebugCommand : DebugCommandBase
+    public class Command : CommandBase
     {
         private System.Action _cmd;
 
-        public DebugCommand(string id, string description, System.Action cmd)
+        public Command(string id, string description, System.Action cmd)
             : base(id, description, true, false)
         {
             _cmd = cmd;
         }
 
-        public DebugCommand(string id, string description, bool showInHistory, System.Action cmd)
+        public Command(string id, string description, bool showInHistory, System.Action cmd)
             : base(id, description, showInHistory, false)
         {
             _cmd = cmd;
         }
 
-        public DebugCommand(string id, string description, bool showInHistory, bool isConsoleNative, System.Action cmd)
+        public Command(string id, string description, bool showInHistory, bool isConsoleNative, System.Action cmd)
             : base(id, description, showInHistory, isConsoleNative)
         {
             _cmd = cmd;
         }
 
-        public override int ParametersCount => 0;
+        public override int ParamsCount => 0;
 
         public void Execute()
         {
@@ -63,29 +60,29 @@
         }
     }
 
-    public class DebugCommand<T> : DebugCommandBase
+    public class Command<T> : CommandBase
     {
         private System.Action<T> _cmd;
 
-        public DebugCommand(string id, string description, System.Action<T> cmd)
+        public Command(string id, string description, System.Action<T> cmd)
             : base(id, description, true, false)
         {
             _cmd = cmd;
         }
 
-        public DebugCommand(string id, string description, bool showInHistory, System.Action<T> cmd)
+        public Command(string id, string description, bool showInHistory, System.Action<T> cmd)
             : base(id, description, showInHistory, false)
         {
             _cmd = cmd;
         }
 
-        public DebugCommand(string id, string description, bool showInHistory, bool isConsoleNative, System.Action<T> cmd)
+        public Command(string id, string description, bool showInHistory, bool isConsoleNative, System.Action<T> cmd)
             : base(id, description, showInHistory, isConsoleNative)
         {
             _cmd = cmd;
         }
 
-        public override int ParametersCount => 1;
+        public override int ParamsCount => 1;
 
         public void Execute(T param)
         {
@@ -98,33 +95,33 @@
         }
     }
 
-    public class DebugCommand<T1, T2> : DebugCommandBase
+    public class Command<T1, T2> : CommandBase
     {
         private System.Action<T1, T2> _cmd;
 
-        public DebugCommand(string id, string description, System.Action<T1, T2> cmd)
+        public Command(string id, string description, System.Action<T1, T2> cmd)
             : base(id, description, true, false)
         {
-            this._cmd = cmd;
+            _cmd = cmd;
         }
 
-        public DebugCommand(string id, string description, bool showInHistory, System.Action <T1, T2> cmd)
+        public Command(string id, string description, bool showInHistory, System.Action <T1, T2> cmd)
             : base(id, description, showInHistory, false)
         {
-            this._cmd = cmd;
+            _cmd = cmd;
         }
 
-        public DebugCommand(string id, string description, bool showInHistory, bool isConsoleNative, System.Action<T1, T2> cmd)
+        public Command(string id, string description, bool showInHistory, bool isConsoleNative, System.Action<T1, T2> cmd)
             : base(id, description, showInHistory, isConsoleNative)
         {
-            this._cmd = cmd;
+            _cmd = cmd;
         }
 
-        public override int ParametersCount => 2;
+        public override int ParamsCount => 2;
 
         public void Execute(T1 param1, T2 param2)
         {
-            this._cmd.Invoke(param1, param2);
+            _cmd.Invoke(param1, param2);
         }
 
         public override string GetFormat()

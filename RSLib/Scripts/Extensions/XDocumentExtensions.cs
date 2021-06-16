@@ -74,6 +74,32 @@
             return 0;
         }
 
+        /// <summary>Parses a XElement value to a long value.</summary>
+        /// <returns>Element value if parsing succeeded, else 0.</returns>
+        public static long ValueToLong(this XElement element)
+        {
+            UnityEngine.Assertions.Assert.IsFalse(element.IsNullOrEmpty(), $"XElement is null or empty.");
+
+            if (long.TryParse(element.Value, out long value))
+                return value;
+
+            UnityEngine.Debug.LogError($"Could not parse XElement {element.Name.LocalName} Value {element.Value} to a valid long value.");
+            return 0;
+        }
+
+        /// <summary>Parses a XAttribute value to a long value.</summary>
+        /// <returns>Attribute value if parsing succedded, else 0.</returns>
+        public static long ValueToLong(this XAttribute attribute)
+        {
+            UnityEngine.Assertions.Assert.IsFalse(attribute.IsNullOrEmpty(), $"XAttribute is null or empty.");
+
+            if (long.TryParse(attribute.Value, out long value))
+                return value;
+
+            UnityEngine.Debug.LogError($"Could not parse XAttribute {attribute.Name.LocalName} Value {attribute.Value} to a valid long value.");
+            return 0;
+        }
+
         /// <summary>Parses a XElement value to a boolean value.</summary>
         /// <returns>Element value if parsing succeeded, else false.</returns>
         public static bool ValueToBool(this XElement element)
