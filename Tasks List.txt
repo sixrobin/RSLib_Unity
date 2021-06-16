@@ -3,6 +3,8 @@
 - Encryption tool.
 - Textures de gradients linéaires/radiaux déjà utilisables, BW et WB.
 - Sound Manager.
+	- Créer un scriptable qui référence un seul audioclip, et une interface IClipDatasProvider pour gérer ce cas et les playlists.
+	- Global volume multiplier sur les Playlists ?
 - Input Manager : loader les inputs sauvegardés ET les inputs du jeu, pour la rétrocompatibilité notamment.
 - Image Effects : invert.
 - Canvas Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
@@ -12,6 +14,6 @@
 - Pour les méthodes qui utilisent du random, créer des variantes qui prennent un System.Random en paramètre.
 - Pour les méthodes qui prennent en param des values type, créer les variantes avec le ref pour en faire des ref type.
 	- Exemple: passer de x = x.Clamp() à x.Clamp() tout court.
-- Ajouter un warning dans EnhancedButton si le texte est null.
 - Récupérer le shader UIRamp de Templar.
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
+- Classe editor générique pour pouvoir ajouter des boutons en inspector.
