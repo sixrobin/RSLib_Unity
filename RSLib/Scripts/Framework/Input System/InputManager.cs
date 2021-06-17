@@ -233,7 +233,6 @@
             return true;
         }
 
-        // [TODO] Editor button.
         [ContextMenu("Save Current Map")]
         private void DebugSaveCurrentMap()
         {

@@ -16,7 +16,10 @@ namespace RSLib.EditorUtilities
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            GUILayout.Space(10f);
+
+            GUILayout.Space(15f);
+
+            GUILayout.Label("EDITOR UTILITIES", EditorStyles.boldLabel);
             DrawButtons();
         }
 
@@ -26,6 +29,15 @@ namespace RSLib.EditorUtilities
         }
 
         protected abstract void DrawButtons();
+
+        protected virtual void DrawButton(string label, System.Action onClick)
+        {
+            if (onClick == null)
+                throw new System.ArgumentNullException("onClick", "Inspector button must have an onClick action.");
+
+            if (GUILayout.Button(label))
+                onClick();
+        }
     }
 }
 #endif
