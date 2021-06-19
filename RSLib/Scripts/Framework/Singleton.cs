@@ -47,15 +47,15 @@
 
         #region LOG
 
-        public virtual void Log(string msg)
+        public virtual void Log(string msg, bool forceVerbose = false)
         {
-            if (Verbose)
+            if (Verbose || forceVerbose)
                 Debug.Log($"{typeof(T).Name}: {msg}", gameObject);
         }
 
-        public virtual void Log(string msg, Object context)
+        public virtual void Log(string msg, Object context, bool forceVerbose = false)
         {
-            if (Verbose)
+            if (Verbose || forceVerbose)
                 Debug.Log($"{typeof(T).Name}: {msg}", context);
         }
 

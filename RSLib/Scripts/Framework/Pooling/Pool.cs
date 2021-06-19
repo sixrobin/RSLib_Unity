@@ -1,7 +1,8 @@
 ﻿namespace RSLib.Framework.Pooling
 {
 	using System.Collections.Generic;
-	using UnityEngine;
+    using System.Linq;
+    using UnityEngine;
 #if UNITY_EDITOR
     using UnityEditor;
 #endif
@@ -14,7 +15,7 @@
         {
             [SerializeField] private string _id = string.Empty;
             [SerializeField] private GameObject _gameObject = null;
-            [SerializeField] private int _quantity = 10;
+            [SerializeField, Min(1)] private int _quantity = 10;
 
             public PooledObject(GameObject gameObject, int quantity)
             {
@@ -183,6 +184,10 @@
 			Initialize();
 		}
 
+        #region EDITOR UTILITIES
+
+        /// <summary>Sorts pooled objects by alphabetical order. Can be inverted.</summary>
+        /// <param name="inverted">Sort in opposite order.</param>
         public void DebugSortPooledObjectsAlphabetical(bool inverted = false)
         {
             System.Array.Sort(
@@ -195,6 +200,8 @@
 #endif
         }
 
+        /// <summary>Sorts pooled objects by their instances quantity. Can be inverted.</summary>
+        /// <param name="inverted">Sort in opposite order.</param>
         public void DebugSortPooledObjectsByQuantity(bool inverted = false)
         {
             System.Array.Sort(
@@ -206,6 +213,42 @@
             EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
 #endif
         }
+
+        /// <summary>
+        /// Scans the pool to check for basic errors like missing Ids or objects, duplicate Ids, etc.
+        /// </summary>
+        public void DebugScan()
+        {
+            // Missing ids.
+            IEnumerable<PooledObject> missingIds = _pooledObjects.Where(o => string.IsNullOrEmpty(o.Id));
+            if (missingIds.Count() > 0)
+                LogError($"{missingIds.Count()} pooled object(s) have an empty Id.");
+
+            // Duplicate ids.
+            Dictionary<string, int> ids = new Dictionary<string, int>();
+            foreach (PooledObject pooledObject in _pooledObjects)
+            {
+                if (!ids.ContainsKey(pooledObject.Id))
+                    ids.Add(pooledObject.Id, 0);
+
+                ids[pooledObject.Id]++;
+            }
+
+            IEnumerable<KeyValuePair<string, int>> nonUniqueIds = ids.Where(o => o.Value > 1);
+            foreach (KeyValuePair<string, int> nonUniqueId in nonUniqueIds)
+                LogError($"Id {nonUniqueId.Key} has been found {nonUniqueId.Value} times and should be unique.");
+
+            // Missing objects reference.
+            IEnumerable<PooledObject> missingObjects = _pooledObjects.Where(o => o.GameObject == null);
+            foreach (PooledObject missingObject in missingObjects)
+                LogError($"Pooled object with Id {missingObject.Id} has a missing gameObject reference.");
+
+            bool anyError = nonUniqueIds.Count() > 0 || missingIds.Count() > 0 || missingObjects.Count() > 0;
+            if (!anyError)
+                Log("No error has been found during scan. Good job!", true);
+        }
+
+        #endregion
     }
 
 #if UNITY_EDITOR
@@ -218,6 +261,7 @@
             DrawButton("Sort Alphabetical (Inverted)", () => Obj.DebugSortPooledObjectsAlphabetical(true));
             DrawButton("Sort by Quantity", () => Obj.DebugSortPooledObjectsByQuantity(false));
             DrawButton("Sort by Quantity (Inverted)", () => Obj.DebugSortPooledObjectsByQuantity(true));
+            DrawButton("Scan", Obj.DebugScan);
         }
     }
 #endif

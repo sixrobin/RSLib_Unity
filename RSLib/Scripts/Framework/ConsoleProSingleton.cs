@@ -13,15 +13,15 @@
 
         private string Prefix => string.IsNullOrEmpty(_overrideLogPrefix) ? GetType().Name : _overrideLogPrefix;
 
-        public override void Log(string msg)
+        public override void Log(string msg, bool forceVerbose = false)
         {
-            if (Verbose)
+            if (Verbose || forceVerbose)
                 Debug.Log($"#{Prefix}#{msg}", gameObject);
         }
 
-        public override void Log(string msg, Object context)
+        public override void Log(string msg, Object context, bool forceVerbose = false)
         {
-            if (Verbose)
+            if (Verbose || forceVerbose)
                 Debug.Log($"#{Prefix}#{msg}", context);
         }
 
