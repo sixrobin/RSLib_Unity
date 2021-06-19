@@ -2,6 +2,9 @@
 {
 	using System.Collections.Generic;
 	using UnityEngine;
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
     [DisallowMultipleComponent]
 	public class Pool : Singleton<Pool>
@@ -180,10 +183,42 @@
 			Initialize();
 		}
 
-        [ContextMenu("Sort Alphabetical")]
-        private void SortPooledObjectsAlphabetical()
+        public void DebugSortPooledObjectsAlphabetical(bool inverted = false)
         {
-            System.Array.Sort(_pooledObjects, delegate (PooledObject a, PooledObject b) { return a.Id.CompareTo(b.Id); });
+            System.Array.Sort(
+                _pooledObjects,
+                delegate (PooledObject a, PooledObject b) { return a.Id.CompareTo(b.Id) * (inverted ? -1 : 1); });
+
+#if UNITY_EDITOR
+            EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
+            EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
+#endif
         }
-	}
+
+        public void DebugSortPooledObjectsByQuantity(bool inverted = false)
+        {
+            System.Array.Sort(
+                _pooledObjects,
+                delegate (PooledObject a, PooledObject b) { return a.Quantity.CompareTo(b.Quantity) * (inverted ? -1 : 1); });
+
+#if UNITY_EDITOR
+            EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
+            EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
+#endif
+        }
+    }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(Pool))]
+    public class PoolEditor : EditorUtilities.ButtonProviderEditor<Pool>
+    {
+        protected override void DrawButtons()
+        {
+            DrawButton("Sort Alphabetical", () => Obj.DebugSortPooledObjectsAlphabetical(false));
+            DrawButton("Sort Alphabetical (Inverted)", () => Obj.DebugSortPooledObjectsAlphabetical(true));
+            DrawButton("Sort by Quantity", () => Obj.DebugSortPooledObjectsByQuantity(false));
+            DrawButton("Sort by Quantity (Inverted)", () => Obj.DebugSortPooledObjectsByQuantity(true));
+        }
+    }
+#endif
 }
