@@ -3,6 +3,9 @@
     using System.Xml;
     using System.Xml.Linq;
     using UnityEngine;
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
     public partial class InputManager : Singleton<InputManager>
     {
@@ -232,11 +235,17 @@
 
             return true;
         }
+    }
 
-        [ContextMenu("Save Current Map")]
-        private void DebugSaveCurrentMap()
+#if UNITY_EDITOR
+    [CustomEditor(typeof(InputManager))]
+    public class InputManagerEditor : EditorUtilities.ButtonProviderEditor<InputManager>
+    {
+        protected override void DrawButtons()
         {
-            SaveCurrentMap();
+            DrawButton("Save Current Map", InputManager.SaveCurrentMap);
+            DrawButton("Try Load Map", () => InputManager.TryLoadMap());
         }
     }
+#endif
 }

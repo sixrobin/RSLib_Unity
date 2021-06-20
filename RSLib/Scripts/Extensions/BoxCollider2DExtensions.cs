@@ -183,6 +183,13 @@
                 || box.bounds.max.y < other.bounds.min.y);
         }
 
+        /// <summary>Computes a random position inside a BoxCollider2D. Does not take rotation into account.</summary>
+        /// <returns>A random point inside the box bounds.</returns>
+        public static Vector2 RandomPointInside(this BoxCollider2D box)
+        {
+            return new Vector2(Random.Range(box.bounds.min.x, box.bounds.max.x), Random.Range(box.bounds.min.y, box.bounds.max.y));
+        }
+
 		#endregion GENERAL
 	}
 }
