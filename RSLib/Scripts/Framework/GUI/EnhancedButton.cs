@@ -26,7 +26,7 @@
 
         private Color _initTextColor;
 
-        public delegate void PointerEventHandler();
+        public delegate void PointerEventHandler(EnhancedButton source);
         public delegate void InteractableChangedEventHandler(bool interactable);
 
         public event PointerEventHandler PointerEnter;
@@ -73,7 +73,7 @@
             if (interactable)
             {
                 _onPointerEnter?.Invoke();
-                PointerEnter?.Invoke();
+                PointerEnter?.Invoke(this);
             }
         }
 
@@ -84,7 +84,7 @@
             if (interactable)
             {
                 _onPointerExit?.Invoke();
-                PointerExit?.Invoke();
+                PointerExit?.Invoke(this);
             }
         }
 
