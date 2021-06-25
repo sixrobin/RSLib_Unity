@@ -11,7 +11,7 @@
 
         public int GetHashCode(T obj)
         {
-            return obj.GetHashCode();
+            return (int)obj;
         }
     }
 
