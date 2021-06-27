@@ -88,11 +88,22 @@
             }
         }
 
+        public string GetText()
+        {
+            if (_buttonText == null)
+            {
+                Debug.LogWarning($"Trying to get text on {transform.name}'s {GetType().Name}, but text isn't referenced.");
+                return string.Empty;
+            }
+
+            return _buttonText.text;
+        }
+
         public void SetText(string text)
         {
             if (_buttonText == null)
             {
-                Debug.LogWarning($"Trying to set text on {transform.name}'s {GetType().Name.ToString()}, but text isn't referenced.");
+                Debug.LogWarning($"Trying to set text on {transform.name}'s {GetType().Name}, but text isn't referenced.");
                 return;
             }
 
