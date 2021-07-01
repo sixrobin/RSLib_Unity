@@ -17,3 +17,13 @@
 	- Exemple: passer de x = x.Clamp() à x.Clamp() tout court.
 - Récupérer le shader UIRamp de Templar.
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
+
+
+- Outils à choper
+	- https://wiki.unity3d.com/index.php/Mathfx
+	- https://wiki.unity3d.com/index.php/FindMissingScripts
+	- https://wiki.unity3d.com/index.php/MultiKeyDictionary
+	- https://wiki.unity3d.com/index.php/SerializableDictionary
+	- https://wiki.unity3d.com/index.php/Averaging_Quaternions_and_Vectors
+	- https://wiki.unity3d.com/index.php/LayerMaskExtensions
+	- https://wiki.unity3d.com/index.php/TransformRotation2D
