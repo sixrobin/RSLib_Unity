@@ -6,6 +6,6 @@
     /// </summary>
     public interface IPoolItem
     {
-        void OnGetFromPool();
+        void OnGetFromPool(params object[] args);
     }
 }

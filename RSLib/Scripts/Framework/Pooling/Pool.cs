@@ -49,7 +49,7 @@
 		/// <summary>Gets a pooled gameObject using a GameObject reference, and creates a new pool if none has been found.</summary>
 		/// <param name="gameObject">Reference gameObject to find a pooled instance of.</param>
 		/// <returns>Instance of the gameObject.</returns>
-		public static GameObject Get(GameObject gameObject)
+		public static GameObject Get(GameObject gameObject, params object[] args)
 		{
 			int poolKey = gameObject.GetInstanceID();
 
@@ -62,14 +62,14 @@
 			GameObject result = s_poolsByGameObject[poolKey].Dequeue();
 			s_poolsByGameObject[poolKey].Enqueue(result);
 
-            EnableFromPool(result);
+            EnableFromPool(result, args);
             return result;
 		}
 
 		/// <summary>Gets a pooled gameObject using an Id, and returns null if no pool has been found.</summary>
 		/// <param name="id">Reference ID to find a pool of.</param>
 		/// <returns>Instance of a gameObject of the pool corresponding to the ID.</returns>
-		public static GameObject Get(string id)
+		public static GameObject Get(string id, params object[] args)
 		{
 			if (!s_poolsById.ContainsKey(id))
 			{
@@ -80,8 +80,8 @@
 			GameObject result = s_poolsById[id].Dequeue();
 			s_poolsById[id].Enqueue(result);
 
-            EnableFromPool(result);
-            return result.gameObject;
+            EnableFromPool(result, args);
+            return result;
 		}
 
         /// <summary>Checks if a pool with a given Id is known.</summary>
@@ -155,12 +155,12 @@
         /// Sets them active and tries to call the IPoolItem interface OnGetFromPool message.
         /// </summary>
         /// <param name="gameObject">GameObject instance to enable.</param>
-        private static void EnableFromPool(GameObject gameObject)
+        private static void EnableFromPool(GameObject gameObject, params object[] args)
         {
             gameObject.SetActive(true);
 
             if (s_poolItems.TryGetValue(gameObject, out IPoolItem poolItem))
-                poolItem.OnGetFromPool();
+                poolItem.OnGetFromPool(args);
         }
 
         /// <summary>
