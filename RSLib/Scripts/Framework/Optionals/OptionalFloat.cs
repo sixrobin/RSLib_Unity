@@ -5,28 +5,31 @@
     using UnityEditor;
 #endif
 
-    /// <summary>
-    /// Requires Unity 2020.1+ because generic types serialization is not possible in older versions.
-    /// </summary>
     [System.Serializable]
-    public struct Optional<T>
+    public struct OptionalFloat
     {
-        [SerializeField] private T _value;
+        [SerializeField] private float _value;
         [SerializeField] private bool _enabled;
 
-        public Optional(T initValue)
+        public OptionalFloat(float initValue)
         {
             _value = initValue;
             _enabled = true;
         }
 
-        public T Value => _value;
+        public OptionalFloat(float initValue, bool initEnabled)
+        {
+            _value = initValue;
+            _enabled = initEnabled;
+        }
+
+        public float Value => _value;
         public bool Enabled => _enabled;
     }
 
 #if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof(Optional<>))]
-    public class OptionalPropertyDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(OptionalFloat))]
+    public class OptionalFloatPropertyDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {

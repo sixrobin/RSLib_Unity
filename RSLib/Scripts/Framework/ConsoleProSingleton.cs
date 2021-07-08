@@ -9,9 +9,11 @@
     [DisallowMultipleComponent]
     public class ConsoleProSingleton<T> : Singleton<T> where T : MonoBehaviour
     {
-        [SerializeField] private string _overrideLogPrefix = string.Empty;
+        [SerializeField] private OptionalString _overrideLogPrefix = new OptionalString(string.Empty, false);
 
-        private string Prefix => string.IsNullOrEmpty(_overrideLogPrefix) ? GetType().Name : _overrideLogPrefix;
+        private string Prefix => !_overrideLogPrefix.Enabled
+            ? GetType().Name
+            : string.IsNullOrEmpty(_overrideLogPrefix.Value) ? GetType().Name : _overrideLogPrefix.Value;
 
         public override void Log(string msg, bool forceVerbose = false)
         {
