@@ -156,7 +156,7 @@
 
         #region GENERAL
 
-        /// <summary>Eases a value between 0 and 1.
+        /// <summary>Eases a value between 0 and 1.</summary>
         /// https://www.youtube.com/watch?v=3D0PeJh6GY8 </summary>
         /// <param name="x">Value to ease clamped between 0 and 1.</param>
         /// <param name="easeAmount">Easing amount clamped above 0.</param>
@@ -259,7 +259,7 @@
 
         #region NORMALIZATION
 
-        /// <summary>Brings any value in a given range to an unclamped custom range.
+        /// <summary>Brings any value in a given range to an unclamped custom range.</summary>
         /// <param name="x">Value to normalize.</param>
         /// <param name="r1Min">Minimum range.</param>
         /// <param name="r1Max">Maximum range.</param>
@@ -271,7 +271,7 @@
             return r2Min + (x - r1Min) * (r2Max - r2Min) / (r1Max - r1Min);
         }
 
-        /// <summary>Brings any value in a given range to a clamped custom range.
+        /// <summary>Brings any value in a given range to a clamped custom range.</summary>
         /// <param name="x">Value to normalize.</param>
         /// <param name="r1Min">Minimum range.</param>
         /// <param name="r1Max">Maximum range.</param>
