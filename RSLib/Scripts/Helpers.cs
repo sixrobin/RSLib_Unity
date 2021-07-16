@@ -1,5 +1,6 @@
 ﻿namespace RSLib
 {
+    using Extensions;
     using System.Linq;
 
     public static class Helpers
@@ -89,6 +90,57 @@
                     return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// Draws a line representing the path joining Vector2s.
+        /// This must be called only inside OnDrawGizmos or OnDrawGizmosSelected methods.
+        /// </summary>
+        /// <param name="points">Collection of Vector2 to draw a path of.</param>
+        /// <param name="cyclic">Should the first and the last points be joined together.</param>
+        public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector2> points, bool cyclic = true)
+        {
+            DrawVectorsPath(points.ToVector3Array(), UnityEngine.Vector2.zero, cyclic);
+        }
+
+        /// <summary>
+        /// Draws a line representing the path joining Vector2s.
+        /// This must be called only inside OnDrawGizmos or OnDrawGizmosSelected methods.
+        /// </summary>
+        /// <param name="points">Collection of Vector2 to draw a path of.</param>
+        /// <param name="offset">Offset applied to all points.</param>
+        /// <param name="cyclic">Should the first and the last points be joined together.</param>
+        public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector2> points, UnityEngine.Vector2 offset, bool cyclic = true)
+        {
+            DrawVectorsPath(points.ToVector3Array(), offset, cyclic);
+        }
+
+        /// <summary>
+        /// Draws a line representing the path joining Vector3s.
+        /// This must be called only inside OnDrawGizmos or OnDrawGizmosSelected methods.
+        /// </summary>
+        /// <param name="points">Collection of Vector3 to draw a path of.</param>
+        /// <param name="cyclic">Should the first and the last points be joined together.</param>
+        public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector3> points, bool cyclic = true)
+        {
+            DrawVectorsPath(points, UnityEngine.Vector3.zero, cyclic);
+        }
+
+        /// <summary>
+        /// Draws a line representing the path joining Vector3s.
+        /// This must be called only inside OnDrawGizmos or OnDrawGizmosSelected methods.
+        /// </summary>
+        /// <param name="points">Collection of Vector3 to draw a path of.</param>
+        /// <param name="offset">Offset applied to all points.</param>
+        /// <param name="cyclic">Should the first and the last points be joined together.</param>
+        public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector3> points, UnityEngine.Vector3 offset, bool cyclic = true)
+        {
+            UnityEngine.Vector3[] pointsArray = points.ToArray();
+            for (int i = pointsArray.Length - 1; i >= 1; --i)
+                UnityEngine.Gizmos.DrawLine(pointsArray[i] + offset, pointsArray[i - 1] + offset);
+
+            if (cyclic)
+                UnityEngine.Gizmos.DrawLine(pointsArray[0] + offset, pointsArray[pointsArray.Length - 1] + offset);
         }
 
         #endregion MISC

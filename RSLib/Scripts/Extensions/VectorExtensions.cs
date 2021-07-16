@@ -194,6 +194,28 @@
             return new Vector2(v.x, v.y);
         }
 
+        /// <summary>Converts a Vector2 collection to a Vector3 array.</summary>
+        /// <returns>New Vector3 array.</returns>
+        public static Vector3[] ToVector3Array(this System.Collections.Generic.IEnumerable<Vector2> vectors)
+        {
+            System.Collections.Generic.List<Vector3> list = new System.Collections.Generic.List<Vector3>();
+            foreach (Vector2 v in vectors)
+                list.Add(v);
+
+            return list.ToArray();
+        }
+
+        /// <summary>Converts a Vector2Int collection to a Vector3Int array.</summary>
+        /// <returns>New Vector3Int array.</returns>
+        public static Vector3Int[] ToVector3IntArray(this System.Collections.Generic.IEnumerable<Vector2Int> vectors)
+        {
+            System.Collections.Generic.List<Vector3Int> list = new System.Collections.Generic.List<Vector3Int>();
+            foreach (Vector2Int v in vectors)
+                list.Add(new Vector3Int(v.x, v.y, 0));
+
+            return list.ToArray();
+        }
+
         #endregion CONVERSION
 
         #region NORMAL
@@ -544,6 +566,28 @@
         public static Vector3 ToVector3(this Vector3Int v)
         {
             return new Vector3(v.x, v.y, v.z);
+        }
+
+        /// <summary>Converts a Vector3 collection to a Vector2 array.</summary>
+        /// <returns>New Vector2 array.</returns>
+        public static Vector2[] ToVector2Array(this System.Collections.Generic.IEnumerable<Vector3> vectors)
+        {
+            System.Collections.Generic.List<Vector2> list = new System.Collections.Generic.List<Vector2>();
+            foreach (Vector3 v in vectors)
+                list.Add(v);
+
+            return list.ToArray();
+        }
+
+        /// <summary>Converts a Vector3Int collection to a Vector2Int array.</summary>
+        /// <returns>New Vector2Int array.</returns>
+        public static Vector2Int[] ToVector2IntArray(this System.Collections.Generic.IEnumerable<Vector3Int> vectors)
+        {
+            System.Collections.Generic.List<Vector2Int> list = new System.Collections.Generic.List<Vector2Int>();
+            foreach (Vector3Int v in vectors)
+                list.Add(new Vector2Int(v.x, v.y));
+
+            return list.ToArray();
         }
 
         #endregion CONVERSION
