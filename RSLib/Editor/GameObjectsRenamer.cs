@@ -8,7 +8,7 @@
 		const string SHORTCUT = "%&r";
 
 		[MenuItem("GameObject/Rename Objects " + SHORTCUT, true)]
-		private static bool CheckIfAtLeastOneObjectIsSelect()
+		private static bool CheckIfAtLeastOneObjectIsSelected()
 		{
 			return Selection.gameObjects.Length > 0;
 		}
