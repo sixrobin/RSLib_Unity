@@ -46,6 +46,22 @@
 
         #endregion ENUM
 
+        #region FIND
+
+        /// <summary>
+        /// Same method as UnityEngine.Object.FindObjectsOfType<T> that looks for every MonoBehaviour and then filters by
+        /// the specified type, allowing it to also find instances of an interface.
+        /// This method is slower than UnityEngine.Object.FindObjectsOfType<T>, so use it very carefully or for editor purpose.
+        /// </summary>
+        /// <typeparam name="T">Type to look for.</typeparam>
+        /// <returns>IEnumerable containing the instances of the searched type.</returns>
+        public static System.Collections.Generic.IEnumerable<T> FindInstancesOfType<T>()
+        {
+            return UnityEngine.Object.FindObjectsOfType<UnityEngine.MonoBehaviour>().OfType<T>();
+        }
+
+        #endregion
+
         #region MISC
 
         /// <summary>
