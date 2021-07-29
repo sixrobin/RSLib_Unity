@@ -38,16 +38,12 @@
     {
         protected override void DrawButtons()
         {
-            if (GUILayout.Button("Play Next Playlist Sound"))
-                Obj.PlayNextPlaylistSound();
+            DrawButton("Play Next Playlist Sound", Obj.PlayNextPlaylistSound);
 
             if (EditorApplication.isPlaying)
             {
-                if (GUILayout.Button("Play Next Track"))
-                    Obj.PlayNextMusic();
-
-                if (GUILayout.Button("Play Next Track Instantaneous"))
-                    Obj.PlayNextMusicInstantaneous();
+                DrawButton("Play Next Track", Obj.PlayNextMusic);
+                DrawButton("Play Next Track Instantaneous", Obj.PlayNextMusicInstantaneous);
             }
         }
     }
