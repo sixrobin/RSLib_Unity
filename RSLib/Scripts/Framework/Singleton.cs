@@ -27,22 +27,37 @@
             set => s_instance = value;
         }
 
+        /// <summary>
+        /// Checks if this instance of the class is the initialized singleton.
+        /// </summary>
         protected bool IsValid => s_instance == this;
 
+        /// <summary>
+        /// Determines if the info logs should be logged. Warning and errors are always logged.
+        /// </summary>
         public bool Verbose => _verbose;
 
+        /// <summary>
+        /// Checks if the singleton instance is referenced. This method should not be called in any Awake method since
+        /// singletons initializations are done during the Awake call, so they can actually exist in the scene but not
+        /// having been initialized yet.
+        /// </summary>
+        /// <returns>If the singleton instance is referenced or not.</returns>
         public static bool Exists()
         {
             return s_instance != null;
         }
 
+        /// <summary>
+        /// Destroys the singleton instance if it exists.
+        /// </summary>
         public static void Kill()
         {
-            if (s_instance != null)
-            {
-                Destroy(s_instance.gameObject);
-                s_instance = null;
-            }
+            if (!Exists())
+                return;
+
+            Destroy(s_instance.gameObject);
+            s_instance = null;
         }
 
         #region LOG

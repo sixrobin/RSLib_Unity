@@ -2,6 +2,10 @@
 {
     using UnityEngine;
 
+    /// <summary>
+    /// Custom yield instruction used to wait for seconds, but allow to break the waiting if a condition is filled.
+    /// Can be used to wait before doing something but allow the player to skip with some input, for example.
+    /// </summary>
     public class WaitForSecondsOrBreakIf : CustomYieldInstruction
     {
         private System.Func<bool> _breakCondition;
