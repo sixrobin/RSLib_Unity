@@ -194,10 +194,8 @@
                 _pooledObjects,
                 delegate (PooledObject a, PooledObject b) { return a.Id.CompareTo(b.Id) * (inverted ? -1 : 1); });
 
-#if UNITY_EDITOR
             EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
             EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
-#endif
         }
 
         /// <summary>Sorts pooled objects by their instances quantity. Can be inverted.</summary>
@@ -208,10 +206,8 @@
                 _pooledObjects,
                 delegate (PooledObject a, PooledObject b) { return a.Quantity.CompareTo(b.Quantity) * (inverted ? -1 : 1); });
 
-#if UNITY_EDITOR
             EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
             EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
-#endif
         }
 
         /// <summary>
