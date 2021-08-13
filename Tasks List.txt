@@ -20,6 +20,7 @@
 - Maths : normalize from vector to vector
 - Importer le TopologicSorter de TLS (+ exemple)
 - "Gizmos".DrawDottedLine()
+- Méthode Collection.CheckDuplicates() https://www.techiedelight.com/find-duplicates-in-list-csharp/
 
 
 - Outils à choper
