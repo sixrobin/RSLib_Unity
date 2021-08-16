@@ -109,54 +109,22 @@
         }
 
         /// <summary>
-        /// Draws a line representing the path joining Vector2s.
-        /// This must be called only inside OnDrawGizmos or OnDrawGizmosSelected methods.
+        /// Scans a collection, looking for duplicate values. If any is found, the value and the number of occurences will be logged to the console.
+        /// This method should only be used for editor purpose as it lacks optimization but only logs.
         /// </summary>
-        /// <param name="points">Collection of Vector2 to draw a path of.</param>
-        /// <param name="cyclic">Should the first and the last points be joined together.</param>
-        public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector2> points, bool cyclic = true)
+        /// <param name="collection">Collection to scan.</param>
+        public static void ScanDuplicates<T>(this System.Collections.Generic.IEnumerable<T> collection)
         {
-            DrawVectorsPath(points.ToVector3Array(), UnityEngine.Vector2.zero, cyclic);
-        }
+            System.Collections.Generic.Dictionary<T, int> duplicatas = collection
+                .GroupBy(o => o)
+                .Where(o => o.Count() > 1)
+                .ToDictionary(o => o.Key, o => o.Count());
 
-        /// <summary>
-        /// Draws a line representing the path joining Vector2s.
-        /// This must be called only inside OnDrawGizmos or OnDrawGizmosSelected methods.
-        /// </summary>
-        /// <param name="points">Collection of Vector2 to draw a path of.</param>
-        /// <param name="offset">Offset applied to all points.</param>
-        /// <param name="cyclic">Should the first and the last points be joined together.</param>
-        public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector2> points, UnityEngine.Vector2 offset, bool cyclic = true)
-        {
-            DrawVectorsPath(points.ToVector3Array(), offset, cyclic);
-        }
-
-        /// <summary>
-        /// Draws a line representing the path joining Vector3s.
-        /// This must be called only inside OnDrawGizmos or OnDrawGizmosSelected methods.
-        /// </summary>
-        /// <param name="points">Collection of Vector3 to draw a path of.</param>
-        /// <param name="cyclic">Should the first and the last points be joined together.</param>
-        public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector3> points, bool cyclic = true)
-        {
-            DrawVectorsPath(points, UnityEngine.Vector3.zero, cyclic);
-        }
-
-        /// <summary>
-        /// Draws a line representing the path joining Vector3s.
-        /// This must be called only inside OnDrawGizmos or OnDrawGizmosSelected methods.
-        /// </summary>
-        /// <param name="points">Collection of Vector3 to draw a path of.</param>
-        /// <param name="offset">Offset applied to all points.</param>
-        /// <param name="cyclic">Should the first and the last points be joined together.</param>
-        public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector3> points, UnityEngine.Vector3 offset, bool cyclic = true)
-        {
-            UnityEngine.Vector3[] pointsArray = points.ToArray();
-            for (int i = pointsArray.Length - 1; i >= 1; --i)
-                UnityEngine.Gizmos.DrawLine(pointsArray[i] + offset, pointsArray[i - 1] + offset);
-
-            if (cyclic)
-                UnityEngine.Gizmos.DrawLine(pointsArray[0] + offset, pointsArray[pointsArray.Length - 1] + offset);
+            if (duplicatas.Count == 0)
+                UnityEngine.Debug.Log($"No duplicate has been found in the collection.");
+            else
+                foreach (System.Collections.Generic.KeyValuePair<T, int> duplicata in duplicatas)
+                    UnityEngine.Debug.Log($"Value {duplicata.Key} has been found {duplicata.Value} times in the collection.");
         }
 
         #endregion MISC

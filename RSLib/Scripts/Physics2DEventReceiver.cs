@@ -58,5 +58,11 @@
             CollisionExit?.Invoke(collision);
             _onCollisionExit?.Invoke(collision);
         }
+
+        private void Awake()
+        {
+            if (!GetComponent<Collider2D>())
+                UnityEngine.Debug.LogError($"{GetType().Name} instance on {transform.name} does not have a Collider2D and can then not be triggered.", gameObject);
+        }
     }
 }
