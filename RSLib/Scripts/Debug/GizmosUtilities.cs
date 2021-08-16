@@ -37,7 +37,7 @@
         /// <param name="cyclic">Should the first and the last points be joined together.</param>
         public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector2> points, bool cyclic = true, bool dotted = false)
         {
-            DrawVectorsPath(points.ToVector3Array(), UnityEngine.Vector2.zero, cyclic);
+            DrawVectorsPath(points.ToVector3Array(), UnityEngine.Vector2.zero, cyclic, dotted);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@
         /// <param name="cyclic">Should the first and the last points be joined together.</param>
         public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector2> points, UnityEngine.Vector2 offset, bool cyclic = true, bool dotted = false)
         {
-            DrawVectorsPath(points.ToVector3Array(), offset, cyclic);
+            DrawVectorsPath(points.ToVector3Array(), offset, cyclic, dotted);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@
         /// <param name="cyclic">Should the first and the last points be joined together.</param>
         public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector3> points, bool cyclic = true, bool dotted = false)
         {
-            DrawVectorsPath(points, UnityEngine.Vector3.zero, cyclic);
+            DrawVectorsPath(points, UnityEngine.Vector3.zero, cyclic, dotted);
         }
 
         /// <summary>
