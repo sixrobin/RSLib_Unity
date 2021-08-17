@@ -29,10 +29,15 @@
             public bool IsLoss => Previous > Current;
         }
 
-
-        public HealthSystem(int initHealth)
+        public HealthSystem(int maxHealth)
         {
-            MaxHealth = initHealth;
+            MaxHealth = maxHealth;
+            CurrentHealth = maxHealth;
+        }
+
+        public HealthSystem(int maxHealth, int initHealth)
+        {
+            MaxHealth = maxHealth;
             CurrentHealth = initHealth;
         }
 
@@ -58,7 +63,9 @@
             }
         }
 
-        /// <summary>Current health percentage as a value from 0 to 1.</summary>
+        /// <summary>
+        /// Current health percentage as a value from 0 to 1.
+        /// </summary>
         public float HealthPercentage => (float)CurrentHealth / MaxHealth;
 
         public bool IsDead => CurrentHealth == 0;
@@ -67,7 +74,9 @@
 
         public int MaxHealth { get; private set; }
 
-        /// <summary>Instantly changes the maximum health. Health is reduced if new maximum health is less than health value.</summary>
+        /// <summary>
+        /// Instantly changes the maximum health. Health is reduced if new maximum health is less than health value.
+        /// </summary>
         /// <param name="newValue">New maximum health value.</param>
         /// <param name="increaseHealth">Does health also increase if new maximum health is higher than its previous value.</param>
         public void ChangeMaxHealth(int newValue, bool increaseHealth = true)
@@ -81,7 +90,9 @@
                 CurrentHealth = MaxHealth;
         }
 
-        /// <summary>Removes a given amount of health points.</summary>
+        /// <summary>
+        /// Removes a given amount of health points.
+        /// </summary>
         /// <param name="amount">Amount to remove.</param>
         public void Damage(int amount)
         {
@@ -99,7 +110,9 @@
             CurrentHealth += amount;
         }
 
-        /// <summary>Sets health value to maximum health value.</summary>
+        /// <summary>
+        /// Sets health value to maximum health value.
+        /// </summary>
         /// <param name="ignoreIfDead">If true, heal is not applied if current health is equal to 0.</param>
         public void HealFull(bool ignoreIfDead = true)
         {
@@ -109,7 +122,22 @@
             CurrentHealth = MaxHealth;
         }
 
-        /// <summary>Sets health value to 0, and then kills the unit and triggers the Killed event.</summary>
+        /// <summary>
+        /// Sets health to a given value, with the possibility to avoid triggering health change events.
+        /// </summary>
+        /// <param name="value">New health value.</param>
+        /// <param name="triggerEvents">Should the change trigger the events.</param>
+        public void SetHealth(int value, bool triggerEvents = true)
+        {
+            if (triggerEvents)
+                CurrentHealth = value;
+            else
+                _currentHealth = value.Clamp(0, MaxHealth);
+        }
+
+        /// <summary>
+        /// Sets health value to 0, and then kills the unit and triggers the Killed event.
+        /// </summary>
         public void Kill()
         {
             if (IsDead)
