@@ -19,12 +19,16 @@
     /// </summary>
     public sealed class TilesOverriderEditor : EditorWindow
     {
+        private static bool _firstOpenFrame = true;
+
         private Tilemap _source;
         private Tilemap _destination;
         private TileBase _tile;
 
         public static void LaunchOverrider()
         {
+            _firstOpenFrame = true;
+
             EditorWindow window = GetWindow<TilesOverriderEditor>("Override tilemap tiles");
             window.Show();
         }
@@ -59,6 +63,12 @@
 
         private void OnGUI()
         {
+            if (_firstOpenFrame)
+            {
+                _source = Selection.activeGameObject?.GetComponent<Tilemap>();
+                _firstOpenFrame = false;
+            }
+
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(10f);
             EditorGUILayout.BeginVertical();
