@@ -21,7 +21,10 @@
 - Maths : normalize from vector to vector
 - Classe qui hérite de ScrollRect mais qui n'implémente pas les comportement de drag (pour éviter le drag smartphone).
 - Recherche par initiales dans la DebugConsole
-- PostProcess tweens
+- PostProcess tweens (récupérer de George Halloween)
+	- Param "force" pour override les coroutines de fade
+	- Voir si y a moyen de généraliser des choses (dico<PPEffect, Coroutine> par exemple)
+	- Singleton ???
 
 
 - Outils à choper
