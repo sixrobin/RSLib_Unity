@@ -4,7 +4,9 @@
     {
         #region GENERAL
 
-        /// <summary>Adds leading zeros before the number.</summary>
+        /// <summary>
+        /// Adds leading zeros before the number.
+        /// </summary>
         /// <param name="outputLength">Number of zeros to add.</param>
         /// <returns>The number as a string, with leading zeros.</returns>
         public static string AddLeading0(this int value, int outputLength)

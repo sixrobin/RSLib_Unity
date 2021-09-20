@@ -28,6 +28,4 @@
 	- https://wiki.unity3d.com/index.php/FindMissingScripts
 	- https://wiki.unity3d.com/index.php/MultiKeyDictionary
 	- https://wiki.unity3d.com/index.php/SerializableDictionary
-	- https://wiki.unity3d.com/index.php/Averaging_Quaternions_and_Vectors
-	- https://wiki.unity3d.com/index.php/LayerMaskExtensions
 	- https://wiki.unity3d.com/index.php/TransformRotation2D
