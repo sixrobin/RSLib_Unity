@@ -19,9 +19,7 @@
 - Récupérer le shader UIRamp de Templar.
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
 - Maths : normalize from vector to vector
-- Classe qui hérite de ScrollRect mais qui n'implémente pas les comportement de drag (pour éviter le drag smartphone).
 - Recherche par initiales dans la DebugConsole
-
 
 - Outils à choper
 	- https://wiki.unity3d.com/index.php/Mathfx
