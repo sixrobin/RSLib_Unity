@@ -7,9 +7,9 @@
     public sealed class TilemapUtilitiesMenu
     {
         [MenuItem("RSLib/Tilemap Utilities")]
-        public static void LaunchTilesOverrider()
+        public static void LaunchTilemapUtilities()
         {
-            TilemapUtiliesEditor.LaunchOverrider();
+            TilemapUtiliesEditor.LaunchTilemapUtilities();
         }
     }
 
@@ -26,7 +26,11 @@
         // Clear tilemap.
         private Tilemap _tilemapToClear;
 
-        public static void LaunchOverrider()
+        // Clear alone tiles.
+        private Tilemap _tilemapToClearAloneTiles;
+        private bool _clearAloneIgnoreDiagonals;
+
+        public static void LaunchTilemapUtilities()
         {
             _firstOpenFrame = true;
 
@@ -61,8 +65,8 @@
             Debug.Log($"Created new Tilemap {_destination.name} with {tilesCounter} overridden tiles.");
             Selection.activeGameObject = _destination.gameObject;
 
-            EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
-            EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
+            //EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
+            //EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
         }
 
         private void ClearTiles(Tilemap tilemap)
@@ -70,8 +74,44 @@
             tilemap.ClearAllTiles();
             tilemap.ClearAllEditorPreviewTiles();
 
-            EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
-            EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
+            //EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
+            //EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
+        }
+
+        private void ClearAloneTiles(Tilemap tilemap, bool ignoreDiagonals)
+        {
+            System.Collections.Generic.List<Vector3Int> aloneTiles = new System.Collections.Generic.List<Vector3Int>();
+
+            foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+            {
+                if (!tilemap.HasTile(pos))
+                    continue;
+
+                for (int x = -1; x <= 1; ++x)
+                {
+                    for (int y = -1; y <= 1; ++y)
+                    {
+                        if (x == 0 && y == 0 || (Mathf.Abs(x) + Mathf.Abs(y) == 2 && ignoreDiagonals))
+                            continue;
+
+                        if (tilemap.HasTile(new Vector3Int(pos.x + x, pos.y + y, 0)))
+                            goto NextTile;
+                    }
+                }
+
+                aloneTiles.Add(pos);
+
+                NextTile:
+                continue;
+            }
+
+            foreach (Vector3Int aloneTilePos in aloneTiles)
+                tilemap.SetTile(aloneTilePos, null);
+
+            Debug.Log($"Cleared {aloneTiles.Count} alone tiles on {tilemap.transform.name} tilemap.");
+
+            //EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
+            //EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
         }
 
         private void OnGUI()
@@ -82,6 +122,7 @@
 
                 _source = selectedTilemap;
                 _tilemapToClear = selectedTilemap;
+                _tilemapToClearAloneTiles = selectedTilemap;
                 _firstOpenFrame = false;
 
                 if (_source != null)
@@ -108,7 +149,7 @@
             GUILayout.Space(5f);
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("New Tilemap Name");
+            EditorGUILayout.LabelField("New Tilemap Name:");
             _destinationName = EditorGUILayout.TextField(_destinationName);
             EditorGUILayout.EndHorizontal();
 
@@ -122,7 +163,7 @@
                     return;
                 }
 
-                if (_tile is RuleTile || _tile is RuleOverrideTile)
+                if (true/*_tile is RuleTile || _tile is RuleOverrideTile*/)
                 {
                     OverrideTiles();
                 }
@@ -154,7 +195,7 @@
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             GUILayout.Space(5f);
 
-            _tilemapToClear = EditorGUILayout.ObjectField(_source, typeof(Tilemap), true, null) as Tilemap;
+            _tilemapToClear = EditorGUILayout.ObjectField(_tilemapToClear, typeof(Tilemap), true, null) as Tilemap;
 
             GUILayout.Space(5f);
 
@@ -171,6 +212,39 @@
 
             GUILayout.Space(5f);
             EditorGUILayout.EndVertical();
+
+            GUILayout.Space(10f);
+
+
+            // Clear alone tiles.
+
+            EditorGUILayout.LabelField("CLEAR ALONE TILES (NO UNDO)", EditorStyles.boldLabel);
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            GUILayout.Space(5f);
+
+            _tilemapToClearAloneTiles = EditorGUILayout.ObjectField(_tilemapToClearAloneTiles, typeof(Tilemap), true, null) as Tilemap;
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Ignore diagonals:");
+            _clearAloneIgnoreDiagonals = EditorGUILayout.Toggle(_clearAloneIgnoreDiagonals);
+            EditorGUILayout.EndHorizontal();
+
+            GUILayout.Space(5f);
+
+            if (GUILayout.Button("Clear Alone Tiles", GUILayout.Height(45f), GUILayout.ExpandWidth(true)))
+            {
+                if (_tilemapToClearAloneTiles == null)
+                {
+                    EditorUtility.DisplayDialog("Tilemap Utilities Warning", "You must provide a Tilemap to clear its alone tiles!", "OK");
+                    return;
+                }
+
+                ClearAloneTiles(_tilemapToClearAloneTiles, _clearAloneIgnoreDiagonals);
+            }
+
+            GUILayout.Space(5f);
+            EditorGUILayout.EndVertical();
+
 
             EditorGUILayout.EndVertical();
             GUILayout.Space(10f);
