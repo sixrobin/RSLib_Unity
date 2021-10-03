@@ -22,6 +22,7 @@
 - Recherche par initiales dans la DebugConsole
 - ComputePointDistanceToSegment de George Halloween (et version Sqr)
 - Tilemap Utilites : RemoveCollision()
+- Récupérer quelques tools spécifiques faits lors de mes projets mais qui pourraient être récupérés, dans un dossier "Dump" par exemple
 
 - Outils à choper
 	- https://wiki.unity3d.com/index.php/Mathfx
