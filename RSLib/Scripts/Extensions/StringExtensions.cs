@@ -1,6 +1,7 @@
 ﻿namespace RSLib.Extensions
 {
     using RSLib.Maths;
+    using System.Linq;
 
     public static class StringExtensions
     {
@@ -103,6 +104,20 @@
 
                 indexes.Add(index);
             }
+        }
+
+        /// <summary>Extracts the capital letters from a given string.</summary>
+        /// <param name="forceIncludeFirstChar">Should include the first string char event if not capital.</param>
+        /// <returns>Capital letters of the string.</returns>
+        public static string ExtractCapitalLetters(this string str, bool forceIncludeFirstChar = false)
+        {
+            string result = string.Empty;
+
+            for (int i = 0; i < str.Length; ++i)
+                if (i == 0 && forceIncludeFirstChar || str[i] >= 'A' && str[i] <= 'Z')
+                    result += str[i];
+
+            return result;
         }
 
         /// <summary>Removes the string first character.</summary>

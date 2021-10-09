@@ -286,8 +286,10 @@
             if (string.IsNullOrEmpty(_inputStrBeforeAutoComplete) || string.IsNullOrWhiteSpace(_inputStrBeforeAutoComplete))
                 return;
 
+            string inputToLower = _inputStrBeforeAutoComplete.ToLower();
+
             for (int i = 0, registeredCommandsCount = _registeredCmds.Count; i < registeredCommandsCount; ++i)
-                if (_registeredCmds[i].Id.ToLower().StartsWith(_inputStrBeforeAutoComplete.ToLower()))
+                if (_registeredCmds[i].Id.ToLower().StartsWith(inputToLower) || _registeredCmds[i].Id.ExtractCapitalLetters(true).ToLower().StartsWith(inputToLower))
                     _autoCompletionOptions.Add(_registeredCmds[i]);
         }
 

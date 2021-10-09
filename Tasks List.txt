@@ -17,7 +17,6 @@
 - Récupérer le shader UIRamp de Templar.
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
 - Maths : normalize from vector to vector
-- Recherche par initiales dans la DebugConsole
 - ComputePointDistanceToSegment de George Halloween (et version Sqr)
 - Tilemap Utilites : RemoveCollision()
 
