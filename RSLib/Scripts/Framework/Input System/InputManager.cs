@@ -11,7 +11,8 @@
     {
         [SerializeField] private InputMapDatas _defaultMapDatas = null;
         [SerializeField] private bool _disableMapLoading = false;
-        [SerializeField] private KeyCode _cancelAssignKey = KeyCode.Escape;
+        [SerializeField] private KeyCode[] _cancelAssignKeys = null;
+        [SerializeField] private KeyCode[] _unbindableKeys = null;
 
         public delegate void KeyAssignedEventHandler(string actionId, KeyCode btn, bool alt);
 
@@ -107,7 +108,7 @@
                 if (s_inputMap.HasAction(Instance._defaultMapDatas.Bindings[i].ActionId))
                     continue;
 
-                Instance.Log($"Loading missing binding from InputSave for action Id {Instance._defaultMapDatas.Bindings[i].ActionId}");
+                Instance.Log($"Loading missing binding from InputSave for action Id {Instance._defaultMapDatas.Bindings[i].ActionId}", context: Instance.gameObject);
                 s_inputMap.CreateAction(Instance._defaultMapDatas.Bindings[i].ActionId, Instance._defaultMapDatas.Bindings[i].KeyCodes);
             }
 
@@ -117,27 +118,48 @@
 
         private static System.Collections.IEnumerator AssignKeyCoroutine(InputMap map, string actionId, bool alt, KeyAssignedEventHandler callback = null)
         {
-            Instance.Log($"Assigning key for action Id {actionId}...");
+            Instance.Log($"Assigning key for action Id {actionId}...", context: Instance.gameObject);
+
+            KeyCode key = KeyCode.None;
 
             for (int i = 0; i < 2; ++i)
                 yield return Yield.SharedYields.WaitForEndOfFrame;
 
-            yield return new WaitUntil(() => Input.anyKeyDown);
-
-            if (Instance._cancelAssignKey != KeyCode.None && Input.GetKeyDown(Instance._cancelAssignKey))
+            while (key == KeyCode.None)
             {
-                Instance.Log($"Cancelling key assignment for action Id {actionId}.");
-                callback?.Invoke(actionId, alt ? map.GetActionKeyCodes(actionId).altBtn : map.GetActionKeyCodes(actionId).btn, alt);
-                s_assignKeyCoroutine = null;
-                yield break;
+                yield return new WaitUntil(() => Input.anyKeyDown);
+
+                for (int i = Instance._cancelAssignKeys.Length - 1; i >= 0; --i)
+                {
+                    if (Input.GetKeyDown(Instance._cancelAssignKeys[i]))
+                    {
+                        Instance.Log($"Cancelling key assignment for action Id {actionId}.", context: Instance.gameObject);
+                        callback?.Invoke(actionId, alt ? map.GetActionKeyCodes(actionId).altBtn : map.GetActionKeyCodes(actionId).btn, alt);
+                        s_assignKeyCoroutine = null;
+                        yield break;
+                    }
+                }
+
+                for (int i = s_allKeyCodes.Length - 1; i >= 0; --i)
+                {
+                    if (Input.GetKeyDown(s_allKeyCodes[i]))
+                    {
+                        key = s_allKeyCodes[i];
+                        break;
+                    }
+                }
+
+                for (int i = Instance._unbindableKeys.Length - 1; i >= 0; --i)
+                {
+                    if (Instance._unbindableKeys[i] == key)
+                    {
+                        key = KeyCode.None;
+                        break;
+                    }
+                }
             }
 
-            KeyCode key = KeyCode.None;
-            for (int i = s_allKeyCodes.Length - 1; i >= 0; --i)
-                if (Input.GetKeyDown(s_allKeyCodes[i]))
-                    key = s_allKeyCodes[i];
-
-            Instance.Log($"Assigning key {key.ToString()} to {(alt ? "alternate " : "")}button for action Id {actionId}.");
+            Instance.Log($"Assigning key {key} to {(alt ? "alternate " : "")}button for action Id {actionId}.", context: Instance.gameObject);
             map.SetActionButton(actionId, key, alt);
             callback?.Invoke(actionId, key, alt);
 
@@ -164,7 +186,7 @@
 
         public static void SaveCurrentMap()
         {
-            Instance.Log($"Saving input map to {SavePath}...");
+            Instance.Log($"Saving input map to {SavePath}...", context: Instance.gameObject);
 
             XContainer container = new XElement("InputMap");
 
@@ -210,7 +232,7 @@
             }
             catch (System.Exception e)
             {
-                Instance.LogError($"Could not save Input map at {SavePath} ! Exception message:\n{e.ToString()}");
+                Instance.LogError($"Could not save Input map at {SavePath} ! Exception message:\n{e}", context: Instance.gameObject);
             }
         }
 
@@ -221,7 +243,7 @@
 
             try
             {
-                Instance.Log($"Loading input map from {SavePath}...");
+                Instance.Log($"Loading input map from {SavePath}...", context: Instance.gameObject);
 
                 XContainer container = XDocument.Parse(System.IO.File.ReadAllText(SavePath));
                 s_inputMap = new InputMap(container);
@@ -229,7 +251,7 @@
             }
             catch (System.Exception e)
             {
-                Instance.LogError($"Could not load Input map from {SavePath} ! Exception message:\n{e.ToString()}");
+                Instance.LogError($"Could not load Input map from {SavePath} ! Exception message:\n{e}", context: Instance.gameObject);
                 return false;
             }
 
