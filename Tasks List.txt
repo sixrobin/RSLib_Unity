@@ -4,9 +4,7 @@
 - Sound Manager.
 	- Global volume multiplier sur les Playlists ?
 	- AudioOptions template avec les sliders nécessaires.
-- Input Manager
-	- loader les inputs sauvegardés ET les nouveaux inputs du jeu, pour la rétrocompatibilité notamment.
-	- tableau des clefs non bindables (échap, start, etc.)
+- Input Manager : loader les inputs sauvegardés ET les nouveaux inputs du jeu, pour la rétrocompatibilité notamment.
 - Image Effects : invert.
 - Canvas Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
 - Checker sur LD48 ce qu'il fallait améliorer/récupérer dans RSLib.
@@ -22,7 +20,6 @@
 - Recherche par initiales dans la DebugConsole
 - ComputePointDistanceToSegment de George Halloween (et version Sqr)
 - Tilemap Utilites : RemoveCollision()
-- Récupérer quelques tools spécifiques faits lors de mes projets mais qui pourraient être récupérés, dans un dossier "Dump" par exemple
 
 - Outils à choper
 	- https://wiki.unity3d.com/index.php/Mathfx
