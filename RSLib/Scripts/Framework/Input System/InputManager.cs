@@ -11,6 +11,7 @@
     {
         [SerializeField] private InputMapDatas _defaultMapDatas = null;
         [SerializeField] private bool _disableMapLoading = false;
+        [SerializeField] private bool _autoLoadOnStart = true;
         [SerializeField] private KeyCode[] _cancelAssignKeys = null;
         [SerializeField] private KeyCode[] _unbindableKeys = null;
 
@@ -101,7 +102,7 @@
             s_inputMap = new InputMap(map);
         }
 
-        private static void GenerateMissingInputsFromSave()
+        public static void GenerateMissingInputsFromSave()
         {
             for (int i = Instance._defaultMapDatas.Bindings.Length - 1; i >= 0; --i)
             {
@@ -166,9 +167,11 @@
             s_assignKeyCoroutine = null;
         }
 
-        protected override void Awake()
+        private void Start()
         {
-            base.Awake();
+            // Used to trigger loading manually from anywhere else, depending on the project this API is used in.
+            if (!_autoLoadOnStart)
+                return;
 
             if (_disableMapLoading || !TryLoadMap())
                 s_inputMap = GetDefaultMapCopy();
@@ -182,7 +185,13 @@
 
     public partial class InputManager : Singleton<InputManager>
     {
-        private static string SavePath => $"{Application.persistentDataPath}/InputSettings.xml";
+        private static string s_savePath;
+
+        public static string SavePath
+        {
+            get => string.IsNullOrEmpty(s_savePath) ? $"{Application.persistentDataPath}/Inputs.xml" : s_savePath;
+            set => s_savePath = value;
+        }
 
         public static void SaveCurrentMap()
         {
