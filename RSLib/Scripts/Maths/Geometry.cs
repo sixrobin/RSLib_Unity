@@ -6,7 +6,9 @@
     {
         #region CIRCLE
 
-        /// <summary>Computes the area of a circle as a double.</summary>
+        /// <summary>
+        /// Computes the area of a circle as a double.
+        /// </summary>
         /// <param name="r">Radius.</param>
         /// <returns>Circle's area as a double.</returns>
         public static double ComputeCircleAreaToDouble(this double r)
@@ -14,7 +16,9 @@
             return PI * r * r;
         }
 
-        /// <summary>Computes the area of a circle as a float.</summary>
+        /// <summary>
+        /// Computes the area of a circle as a float.
+        /// </summary>
         /// <param name="r">Radius.</param>
         /// <returns>Circle's area as a float.</returns>
         public static float ComputeCircleAreaToFloat(this float r)
@@ -22,7 +26,9 @@
             return (float)(PI * r * r);
         }
 
-        /// <summary>Computes the circumference of a circle as a double.</summary>
+        /// <summary>
+        /// Computes the circumference of a circle as a double.
+        /// </summary>
         /// <param name="r">Radius.</param>
         /// <returns>Circle's circumference as a double.</returns>
         public static double ComputeCircleCircumferenceToDouble(this double r)
@@ -30,7 +36,9 @@
             return 2 * PI * r;
         }
 
-        /// <summary>Computes the circumference of a circle as a float.</summary>
+        /// <summary>
+        /// Computes the circumference of a circle as a float.
+        /// </summary>
         /// <param name="r">Radius.</param>
         /// <returns>Circle's circumference as a float.</returns>
         public static float ComputeCircleCircumferenceToFloat(this float r)
@@ -38,7 +46,9 @@
             return (float)(2 * PI * r);
         }
 
-        /// <summary>Computes the distance between points around a circle as a double.</summary>
+        /// <summary>
+        /// Computes the distance between points around a circle as a double.
+        /// </summary>
         /// <param name="r">Circle's radius.</param>
         /// <param name="n">Number of points.</param>
         /// <returns>Computed distance as a double.</returns>
@@ -47,7 +57,9 @@
             return 2 * r * Sin(PI / n);
         }
 
-        /// <summary>Computes the distance between points around a circle as a float.</summary>
+        /// <summary>
+        /// Computes the distance between points around a circle as a float.
+        /// </summary>
         /// <param name="r">Circle's radius.</param>
         /// <param name="n">Number of points.</param>
         /// <returns>Computed distance as a float.</returns>
@@ -56,7 +68,9 @@
             return 2 * r * (float)Sin(PI / n);
         }
 
-        /// <summary>Checks if a point is inside a circle of center (0,0).</summary>
+        /// <summary>
+        /// Checks if a point is inside a circle of center (0,0).
+        /// </summary>
         /// <param name="px">Point x.</param>
         /// <param name="py">Point y.</param>
         /// <param name="r">Circle's radius.</param>
@@ -67,7 +81,9 @@
             return IsPointInsideCircle(px, py, r, 0, 0, strictly);
         }
 
-        /// <summary>Checks if a point is inside a circle.</summary>
+        /// <summary>
+        /// Checks if a point is inside a circle.
+        /// </summary>
         /// <param name="px">Point x.</param>
         /// <param name="py">Point y.</param>
         /// <param name="r">Circle's radius.</param>
@@ -81,7 +97,9 @@
             return strictly ? sqrDist < r * r : sqrDist <= r * r;
         }
 
-        /// <summary>Checks if a point is outside of a circle.</summary>
+        /// <summary>
+        /// Checks if a point is outside of a circle.
+        /// </summary>
         /// <param name="px">Point x.</param>
         /// <param name="py">Point y.</param>
         /// <param name="r">Circle's radius.</param>
@@ -92,7 +110,9 @@
             return IsPointOutsideCircle(px, py, r, 0, 0, strictly);
         }
 
-        /// <summary>Checks if a point is outside of a circle.</summary>
+        /// <summary>
+        /// Checks if a point is outside of a circle.
+        /// </summary>
         /// <param name="px">Point x.</param>
         /// <param name="py">Point y.</param>
         /// <param name="r">Circle's radius.</param>
@@ -109,7 +129,9 @@
 
         #region DOT PRODUCT
 
-        /// <summary>Computes the rounded dot product of two vectors.</summary>
+        /// <summary>
+        /// Computes the rounded dot product of two vectors.
+        /// </summary>
         /// <param name="ax">First vector x.</param>
         /// <param name="ay">First vector y.</param>
         /// <param name="bx">Second vector x.</param>
@@ -120,7 +142,9 @@
             return ax * bx + ay * by;
         }
 
-        /// <summary>Computes the rounded dot product of two vectors.</summary>
+        /// <summary>
+        /// Computes the rounded dot product of two vectors.
+        /// </summary>
         /// <param name="a">First vector.</param>
         /// <param name="b">Second vector.</param>
         /// <returns>Rounded dot product.</returns>
@@ -134,7 +158,8 @@
         #region GENERAL
 
         /// <summary>
-        /// Returns the closest point on a segment to a reference point using an algorithm explained here: https://diego.assencio.com/?index=ec3d5dfdfc0b6a0d147a656f0af332bd. </summary>
+        /// Returns the closest point on a segment to a reference point using an algorithm explained here: https://diego.assencio.com/?index=ec3d5dfdfc0b6a0d147a656f0af332bd.
+        /// </summary>
         /// <param name="ax">Segment first point x.</param>
         /// <param name="ay">Segment first point y.</param>
         /// <param name="bx">Segment second point x.</param>
@@ -149,7 +174,8 @@
         }
 
         /// <summary>
-        /// Returns the closest point on a segment to a reference point using an algorithm explained here: https://diego.assencio.com/?index=ec3d5dfdfc0b6a0d147a656f0af332bd. </summary>
+        /// Returns the closest point on a segment to a reference point using an algorithm explained here: https://diego.assencio.com/?index=ec3d5dfdfc0b6a0d147a656f0af332bd.
+        /// </summary>
         /// <param name="a">Segment first point.</param>
         /// <param name="b">Segment second point.</param>
         /// <param name="p">Reference point.</param>
@@ -160,7 +186,62 @@
             return a + d.Clamp01() * (b - a);
         }
 
-        /// <summary>Computes the intersection point of two segments in 2D space.</summary>
+        /// <summary>
+        /// Returns the distance from a point to its closest point on a segment.
+        /// </summary>
+        /// <param name="a">Segment first point.</param>
+        /// <param name="b">Segment second point.</param>
+        /// <param name="p">Reference point.</param>
+        /// <returns>Distance from closest point on the segment to point p.</returns>
+        public static float ComputePointDistanceToSegment(UnityEngine.Vector2 a, UnityEngine.Vector2 b, UnityEngine.Vector2 p)
+        {
+            return UnityEngine.Mathf.Sqrt(ComputePointSqrDistanceToSegment(a, b, p));
+        }
+
+        /// <summary>
+        /// Returns the squared distance from a point to its closest point on a segment.
+        /// </summary>
+        /// <param name="a">Segment first point.</param>
+        /// <param name="b">Segment second point.</param>
+        /// <param name="p">Reference point.</param>
+        /// <returns>Squared distance from closest point on the segment to point p.</returns>
+        public static float ComputePointSqrDistanceToSegment(UnityEngine.Vector2 a, UnityEngine.Vector2 b, UnityEngine.Vector2 p)
+        {
+            float dx = b.x - a.x;
+            float dy = b.y - a.y;
+
+            if (dx == 0 && dy == 0) // Segment is actually a point.
+            {
+                dx = p.x - a.x;
+                dy = p.y - a.y;
+                return dx * dx + dy * dy;
+            }
+
+            float t = ((p.x - a.x) * dx + (p.y - a.y) * dy) / (dx * dx + dy * dy);
+
+            if (t < 0f)
+            {
+                dx = p.x - a.x;
+                dy = p.y - a.y;
+            }
+            else if (t > 1f)
+            {
+                dx = p.x - b.x;
+                dy = p.y - b.y;
+            }
+            else
+            {
+                UnityEngine.Vector2 closest = new UnityEngine.Vector2(a.x + t * dx, a.y + t * dy);
+                dx = p.x - closest.x;
+                dy = p.y - closest.y;
+            }
+
+            return dx * dx + dy * dy;
+        }
+
+        /// <summary>
+        /// Computes the intersection point of two segments in 2D space.
+        /// </summary>
         /// <param name="a1">First segment first point.</param>
         /// <param name="a2">First segment second point.</param>
         /// <param name="b1">Second segment first point.</param>
@@ -186,7 +267,9 @@
             return true;
         }
 
-        /// <summary>Computes a point winding number according to a given polygon.</summary>
+        /// <summary>
+        /// Computes a point winding number according to a given polygon.
+        /// </summary>
         /// <param name="polygon">Polygon to check.</param>
         /// <param name="point">Point position to compute the winding number from.</param>
         /// <returns>Winding number (0 means the point is outside).</returns>
@@ -219,7 +302,9 @@
             return windingNumber;
         }
 
-        /// <summary>Computes a point winding number according to a given polygon, not considering z coordinate.</summary>
+        /// <summary>
+        /// Computes a point winding number according to a given polygon, not considering z coordinate.
+        /// </summary>
         /// <param name="polygon">Polygon to check.</param>
         /// <param name="point">Point position to compute the winding number from.</param>
         /// <returns>Winding number (0 means the point is outside).</returns>
@@ -252,7 +337,9 @@
             return windingNumber;
         }
 
-        /// <summary>Checks if a point is left to an edge, using an algorithm explained here http://geomalgorithms.com/a03-_inclusion.html. </summary>
+        /// <summary>
+        /// Checks if a point is left to an edge, using an algorithm explained here http://geomalgorithms.com/a03-_inclusion.html.
+        /// </summary>
         /// <param name="ax">Segment first point x.</param>
         /// <param name="ay">Segment first point y.</param>
         /// <param name="bx">Segment second point x.</param>
@@ -266,7 +353,9 @@
             return positionFactor > 0f ? 1 : positionFactor < 0f ? -1 : 0;
         }
 
-        /// <summary>Checks if a point is left to an edge, using an algorithm explained here http://geomalgorithms.com/a03-_inclusion.html.
+        /// <summary>
+        /// Checks if a point is left to an edge, using an algorithm explained here http://geomalgorithms.com/a03-_inclusion.html.
+        /// </summary>
         /// <param name="ax">Segment first point x.</param>
         /// <param name="ay">Segment first point y.</param>
         /// <param name="bx">Segment second point x.</param>
