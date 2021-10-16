@@ -9,14 +9,18 @@
 
         #region BOOLEAN
 
-        /// <summary>Computes a random boolean.</summary>
+        /// <summary>
+        /// Computes a random boolean.
+        /// </summary>
         /// <returns>Computed boolean.</returns>
         public static bool CoinFlip()
         {
             return s_rnd.Next(2) == 0;
         }
 
-        /// <summary>Computes a random boolean using a weight.</summary>
+        /// <summary>
+        /// Computes a random boolean using a weight.
+        /// </summary>
         /// <param name="percentage01">Chances of returning true, between 0 and 1.</param>
         /// <returns>Computed boolean.</returns>
         public static bool CoinFlip(float percentage01)
@@ -28,7 +32,9 @@
 
         #region ENUM
 
-        /// <summary>Computes all values of a given Enum type into an array.</summary>
+        /// <summary>
+        /// Computes all values of a given Enum type into an array.
+        /// </summary>
         /// <typeparam name="T">Enum type.</typeparam>
         /// <returns>Array with all Enum values.</returns>
         public static T[] GetEnumValues<T>() where T : System.Enum
@@ -36,7 +42,9 @@
             return System.Enum.GetValues(typeof(T)) as T[];
         }
 
-        /// <summary>Computes all values of a given Enum type into an array of their integer values.</summary>
+        /// <summary>
+        /// Computes all values of a given Enum type into an array of their integer values.
+        /// </summary>
         /// <typeparam name="T">Enum type.</typeparam>
         /// <returns>Array with all integer values.</returns>
         public static int[] GetEnumIntValues<T>() where T : System.Enum
@@ -65,6 +73,29 @@
         #region MISC
 
         /// <summary>
+        /// Gets the local IP address to string.
+        /// </summary>
+        /// <returns>IP address to string.</returns>
+        public static string GetLocalIPAddress()
+        {
+            System.Net.IPHostEntry host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+            foreach (System.Net.IPAddress ip in host.AddressList)
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    return ip.ToString();
+
+            throw new System.Exception("No network adapters with an IPv4 address in the system!");
+        }
+
+        /// <summary>
+        /// Copies a string value to clipboard, using GUIUtility.systemCopyBuffer.
+        /// </summary>
+        /// <param name="str">Value to copy to the clipboard.</param>
+        public static void CopyToClipboard(string str)
+        {
+            UnityEngine.GUIUtility.systemCopyBuffer = str;
+        }
+
+        /// <summary>
         /// Computes the average position between transforms.
         /// This method uses Linq and a foreach loop, using an array would be better if possible.
         /// </summary>
@@ -81,7 +112,9 @@
             return average;
         }
 
-        /// <summary>Computes the average position between transforms.</summary>
+        /// <summary>
+        /// Computes the average position between transforms
+        /// </summary>
         /// <param name="vectors">Array of transforms, or multiple transforms as multiple arguments.</param>
         /// <returns>Computed position as a new Vector3.</returns>
         public static UnityEngine.Vector3 ComputeAveragePosition(params UnityEngine.Transform[] transforms)
@@ -95,7 +128,9 @@
             return average;
         }
 
-        /// <summary>Checks if an element equals at least one in a list of elements.</summary>
+        /// <summary>
+        /// Checks if an element equals at least one in a list of elements.
+        /// </summary>
         /// <param name="source">Element to check.</param>
         /// <param name="list">Elements to compare.</param>
         /// <returns>True if one of the elements is the list equals the checked one.</returns>
@@ -131,7 +166,9 @@
 
         #region MODULO
 
-        /// <summary>Custom modulo operating method to handle negative values.</summary>
+        /// <summary>
+        /// Custom modulo operating method to handle negative values.
+        /// </summary>
         /// <param name="a">First operand.</param>
         /// <param name="n">Second operand.</param>
         /// <returns>Modulo result.</returns>
