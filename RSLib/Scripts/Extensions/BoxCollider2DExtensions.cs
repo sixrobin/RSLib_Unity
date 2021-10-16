@@ -28,7 +28,9 @@
 			}
 		}
 
-		/// <summary>Gets all corners of a BoxCollider2D, without considering parents transforms.</summary>
+		/// <summary>
+		/// Gets all corners of a BoxCollider2D, without considering parents transforms.
+		/// </summary>
 		/// <returns>Array of four Vector2, starting from bottom left going clockwise.</returns>
 		public static Vector2[] Corners(this BoxCollider2D box)
 		{
@@ -53,7 +55,9 @@
 			return corners;
 		}
 
-		/// <summary>Gets bottom corners of a BoxCollider2D, without considering parents transforms.</summary>
+		/// <summary>
+		/// Gets bottom corners of a BoxCollider2D, without considering parents transforms.
+		/// </summary>
 		/// <returns>Array of two Vector2, bottom left and bottom right.</returns>
 		public static Vector2[] CornersBottom(this BoxCollider2D box)
 		{
@@ -76,7 +80,9 @@
 			return corners;
 		}
 
-		/// <summary>Gets left corners of a BoxCollider2D, without considering parents transforms.</summary>
+		/// <summary>
+		/// Gets left corners of a BoxCollider2D, without considering parents transforms.
+		/// </summary>
 		/// <returns>Array of two Vector2, bottom left and top left.</returns>
 		public static Vector2[] CornersLeft(this BoxCollider2D box)
 		{
@@ -99,7 +105,9 @@
 			return corners;
 		}
 
-		/// <summary>Gets right corners of a BoxCollider2D, without considering parents transforms.</summary>
+		/// <summary>
+		/// Gets right corners of a BoxCollider2D, without considering parents transforms.
+		/// </summary>
 		/// <returns>Array of two Vector2, bottom right and top right.</returns>
 		public static Vector2[] CornersRight(this BoxCollider2D box)
 		{
@@ -122,7 +130,9 @@
 			return corners;
 		}
 
-		/// <summary>Gets top corners of a BoxCollider2D, without considering parents transforms.</summary>
+		/// <summary>
+		/// Gets top corners of a BoxCollider2D, without considering parents transforms.
+		/// </summary>
 		/// <returns>Array of two Vector2, top left and top right.</returns>
 		public static Vector2[] CornersTop(this BoxCollider2D box)
 		{
@@ -149,7 +159,9 @@
 
         #region GENERAL
 
-        /// <summary>Gets points alongside a BoxCollider2D side.</summary>
+        /// <summary>
+		/// Gets points alongside a BoxCollider2D side.
+		/// </summary>
         /// <param name="side">Side used for calculations.</param>
         /// <param name="count">Numbers of points.</param>
         /// <returns>Points alongside a side. Returns corners if count is less or equal to 2.</returns>
@@ -172,7 +184,9 @@
 			return points;
 		}
 
-        /// <summary>Checks if two BoxCollider2D instances are overlapping.</summary>
+        /// <summary>
+		/// Checks if two BoxCollider2D instances are overlapping.
+		/// </summary>
         /// <param name="other">Box to check overlap with.</param>
         /// <returns>True if boxes overlap, else false.</returns>
         public static bool OverlapsWith(this BoxCollider2D box, BoxCollider2D other)
@@ -183,7 +197,10 @@
                 || box.bounds.max.y < other.bounds.min.y);
         }
 
-        /// <summary>Computes a random position inside a BoxCollider2D. Does not take rotation into account.</summary>
+        /// <summary>
+		/// Computes a random position inside a BoxCollider2D.
+		/// Does not take rotation into account.
+		/// </summary>
         /// <returns>A random point inside the box bounds.</returns>
         public static Vector2 RandomPointInside(this BoxCollider2D box)
         {

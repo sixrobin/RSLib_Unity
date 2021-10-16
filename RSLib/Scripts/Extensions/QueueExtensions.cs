@@ -6,7 +6,9 @@
     {
 		#region CONVERSION
 
-		/// <summary>Writes the queue elements in a string.</summary>
+		/// <summary>
+		/// Writes the queue elements in a string.
+		/// </summary>
 		/// <param name="queue">Queue to write.</param>
 		/// <returns>String with the queue elements.</returns>
 		public static string ToStringImproved<T>(this Queue<T> queue)
@@ -17,13 +19,15 @@
 			foreach (T element in queue)
 			{
 				++elementIndex;
-				str += element.ToString() + (elementIndex == queue.Count ? "" : ", ");
+				str += element.ToString() + (elementIndex == queue.Count ? string.Empty : ", ");
 			}
 
 			return str;
 		}
 
-		/// <summary>Writes the queue elements in a string using a given splitting char.</summary>
+		/// <summary>
+		/// Writes the queue elements in a string using a given splitting char.
+		/// </summary>
 		/// <param name="queue">Queue to write.</param>
 		/// <param name="split">Splitting char.</param>
 		/// <returns>String with the queue elements.</returns>
@@ -35,13 +39,15 @@
 			foreach (T element in queue)
 			{
 				++elementIndex;
-				str += element.ToString() + (elementIndex == queue.Count ? "" : split.ToString());
+				str += element.ToString() + (elementIndex == queue.Count ? string.Empty : split.ToString());
 			}
 
 			return str;
 		}
 
-		/// <summary>Writes the queue elements in a string using a given splitting string.</summary>
+		/// <summary>
+		/// Writes the queue elements in a string using a given splitting string.
+		/// </summary>
 		/// <param name="queue">Queue to write.</param>
 		/// <param name="split">Splitting string.</param>
 		/// <returns>String with the queue elements.</returns>
@@ -53,7 +59,7 @@
 			foreach (T element in queue)
 			{
 				++elementIndex;
-				str += element.ToString() + (elementIndex == queue.Count ? "" : string.IsNullOrEmpty(split) ? " / " : split);
+				str += element.ToString() + (elementIndex == queue.Count ? string.Empty : string.IsNullOrEmpty(split) ? " / " : split);
 			}
 
 			return str;
@@ -63,7 +69,9 @@
 
 		#region GENERAL
 
-		/// <summary>Enqueues all the elements of an IEnumerable.</summary>
+		/// <summary>
+		/// Enqueues all the elements of an IEnumerable.
+		/// </summary>
 		/// <param name="collection">The IEnumerable to enqueue elements from.</param>
 		public static void Enqueue<T>(this Queue<T> queue, IEnumerable<T> collection)
 		{
@@ -71,7 +79,9 @@
 				queue.Enqueue(element);
 		}
 
-		/// <summary>Loops through all elements in the queue and executes an action.</summary>
+		/// <summary>
+		/// Loops through all elements in the queue and executes an action.
+		/// </summary>
 		/// <param name="action">Action to execute.</param>
 		public static void ForEach<T>(this Queue<T> queue, System.Action<T> action)
 		{
@@ -79,7 +89,9 @@
 				action(element);
 		}
 
-		/// <summary>Dequeues an object from the queue and reenqueues it.</summary>
+		/// <summary>
+		/// Dequeues an object from the queue and reenqueues it.
+		/// </summary>
 		/// <returns>Dequeued object.</returns>
 		public static T Loop<T>(this Queue<T> queue)
 		{

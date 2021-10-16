@@ -4,7 +4,9 @@
 
     public static class SelectableExtensions
     {
-        /// <summary>Sets the Selectable navigation mode.</summary>
+        /// <summary>
+        /// Sets the Selectable navigation mode.
+        /// </summary>
         public static void SetMode(this Selectable selectable, Navigation.Mode mode)
         {
             selectable.navigation = new Navigation()
@@ -17,7 +19,9 @@
             };
         }
 
-        /// <summary>Sets the Selectable selected on up.</summary>
+        /// <summary>
+        /// Sets the Selectable selected on up.
+        /// </summary>
         public static void SetSelectOnUp(this Selectable selectable, Selectable selectOnUp)
         {
             selectable.navigation = new Navigation()
@@ -30,7 +34,9 @@
             };
         }
 
-        /// <summary>Sets the Selectable selected on down.</summary>
+        /// <summary>
+        /// Sets the Selectable selected on down.
+        /// </summary>
         public static void SetSelectOnDown(this Selectable selectable, Selectable selectOnDown)
         {
             selectable.navigation = new Navigation()
@@ -43,7 +49,9 @@
             };
         }
 
-        /// <summary>Sets the Selectable selected on left.</summary>
+        /// <summary>
+        /// Sets the Selectable selected on left.
+        /// </summary>
         public static void SetSelectOnLeft(this Selectable selectable, Selectable selectOnLeft)
         {
             selectable.navigation = new Navigation()
@@ -56,7 +64,9 @@
             };
         }
 
-        /// <summary>Sets the Selectable selected on right.</summary>
+        /// <summary>
+        /// Sets the Selectable selected on right.
+        /// </summary>
         public static void SetSelectOnRight(this Selectable selectable, Selectable selectOnRight)
         {
             selectable.navigation = new Navigation()

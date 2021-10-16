@@ -6,7 +6,9 @@
     {
         #region COMPONENT
 
-        /// <summary>Gets the specified component and adds it if it was not already on the gameObject.</summary>
+        /// <summary>
+        /// Gets the specified component and adds it if it was not already on the gameObject.
+        /// </summary>
         /// <returns>Existing or added component.</returns>
         public static T AddComponentIfMissing<T>(this GameObject go) where T : Component
         {
@@ -18,7 +20,9 @@
             return component;
         }
 
-        /// <summary>Gets the specified component on the gameObject or one of its parents.</summary>
+        /// <summary>
+        /// Gets the specified component on the gameObject or one of its parents.
+        /// </summary>
         public static T FindInParents<T>(this GameObject go) where T : Component
         {
             T component = go.GetComponent<T>();
@@ -41,13 +45,17 @@
 
         #region GENERAL
 
-        /// <summary>Removes the first occurrence of the "(Clone)" string added to any instantiated prefab.</summary>
+        /// <summary>
+        /// Removes the first occurrence of the "(Clone)" string added to any instantiated prefab.
+        /// </summary>
         public static void RemoveCloneFromName(this GameObject go)
         {
             go.name = go.name.RemoveFirstOccurrence("(Clone)");
         }
 
-        /// <summary>Transferts all children of a gameObject to another parent.</summary>
+        /// <summary>
+        /// Transferts all children of a gameObject to another parent.
+        /// </summary>
         /// <param name="newParent">New parent transform.</param>
         public static void TransfertChildren(this GameObject go, Transform newParent)
         {
@@ -66,7 +74,9 @@
 
         #region LAYER
 
-        /// <summary>Sets the layer of the gameObject and all its children and subchildren.</summary>
+        /// <summary>
+        /// Sets the layer of the gameObject and all its children and subchildren.
+        /// </summary>
         /// <param name="layer">Layer index.</param>
         public static void SetChildrenLayers(this GameObject go, int layer)
         {
@@ -75,7 +85,9 @@
                 child.gameObject.SetChildrenLayers(layer);
         }
 
-        /// <summary>Sets the layer of the gameObject and all its children and subchildren.</summary>
+        /// <summary>
+        /// Sets the layer of the gameObject and all its children and subchildren.
+        /// </summary>
         /// <param name="layerName">Layer name.</param>
         public static void SetChildrenLayers(this GameObject go, string layerName)
         {

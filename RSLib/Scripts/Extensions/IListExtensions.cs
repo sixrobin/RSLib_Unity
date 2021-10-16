@@ -8,7 +8,9 @@
 
 		#region CONVERSION
 
-		/// <summary>Converts list to a queue.</summary>
+		/// <summary>
+		/// Converts list to a queue.
+		/// </summary>
 		/// <param name="enqueueFromStart">Starts enqueuing from first element.</param>
 		/// <returns>List as a new queue.</returns>
 		public static Queue<T> ToQueue<T>(this IList<T> list, bool enqueueFromStart = true)
@@ -20,7 +22,9 @@
 			return queue;
 		}
 
-		/// <summary>Converts list to a stack.</summary>
+		/// <summary>
+		/// Converts list to a stack.
+		/// </summary>
 		/// <param name="enqueueFromStart">Start stacking from first element.</param>
 		/// <returns>List as a new stack.</returns>
 		public static Stack<T> ToStack<T>(this IList<T> list, bool stackFromStart = true)
@@ -32,19 +36,23 @@
 			return stack;
 		}
 
-		/// <summary>Writes the list elements in a string.</summary>
+		/// <summary>
+		/// Writes the list elements in a string.
+		/// </summary>
 		/// <param name="list">List to write.</param>
 		/// <returns>String with the list elements.</returns>
 		public static string ToStringImproved<T>(this IList<T> list)
 		{
 			string str = string.Empty;
 			for (int i = 0; i < list.Count; ++i)
-				str += list[i].ToString() + (i == list.Count - 1 ? "" : ", ");
+				str += list[i].ToString() + (i == list.Count - 1 ? string.Empty : ", ");
 
 			return str;
 		}
 
-		/// <summary>Writes the list elements in a string using a given splitting char.</summary>
+		/// <summary>
+		/// Writes the list elements in a string using a given splitting char.
+		/// </summary>
 		/// <param name="list">List to write.</param>
 		/// <param name="split">Splitting char.</param>
 		/// <returns>String with the list elements.</returns>
@@ -52,12 +60,14 @@
 		{
 			string str = string.Empty;
 			for (int i = 0; i < list.Count; ++i)
-				str += list[i].ToString() + (i == list.Count - 1 ? "" : split.ToString());
+				str += list[i].ToString() + (i == list.Count - 1 ? string.Empty : split.ToString());
 
 			return str;
 		}
 
-		/// <summary>Writes the list elements in a string using a given splitting string.</summary>
+		/// <summary>
+		/// Writes the list elements in a string using a given splitting string.
+		/// </summary>
 		/// <param name="list">List to write.</param>
 		/// <param name="split">Splitting string.</param>
 		/// <returns>String with the list elements.</returns>
@@ -65,7 +75,7 @@
 		{
 			string str = string.Empty;
 			for (int i = 0; i < list.Count; ++i)
-				str += list[i].ToString() + (i == list.Count - 1 ? "" : string.IsNullOrEmpty(split) ? " / " : split);
+				str += list[i].ToString() + (i == list.Count - 1 ? string.Empty : string.IsNullOrEmpty(split) ? " / " : split);
 
 			return str;
 		}
@@ -74,7 +84,9 @@
 
 		#region GENERAL
 
-		/// <summary>Returns any randomly picked element.</summary>
+		/// <summary>
+		/// Returns any randomly picked element.
+		/// </summary>
 		/// <param name="list">List to get any element from.</param>
 		/// <returns>Any element.</returns>
 		public static T Any<T>(this IList<T> list)
@@ -110,7 +122,9 @@
 			return choice;
 		}
 
-		/// <summary>Shuffles the list.</summary>
+		/// <summary>
+		/// Shuffles the list.
+		/// </summary>
 		/// <param name="list">List to shuffle.</param>
 		/// <returns>Shuffled list.</returns>
 		public static void Shuffle<T>(this IList<T> list)
@@ -120,7 +134,9 @@
 				list.Swap(s_rnd.Next(n--), n);
 		}
 
-		/// <summary>Shuffles the list in a new list.</summary>
+		/// <summary>
+		/// Shuffles the list in a new list.
+		/// </summary>
 		/// <param name="list">List to shuffle.</param>
 		/// <returns>Shuffled list.</returns>
 		public static IList<T> ShuffleIntoNewList<T>(this IList<T> list)
@@ -136,7 +152,9 @@
 			return copy;
 		}
 
-		/// <summary>Swaps the positions of 2 elements.</summary>
+		/// <summary>
+		/// Swaps the positions of 2 elements.
+		/// </summary>
 		/// <param name="first">Index of first.</param>
 		/// <param name="second">Index of second.</param>
 		public static void Swap<T>(this IList<T> list, int first, int second)

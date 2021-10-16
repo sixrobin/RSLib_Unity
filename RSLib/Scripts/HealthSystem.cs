@@ -99,7 +99,9 @@
             CurrentHealth -= amount;
         }
 
-        /// <summary>Restores a given amount of health points.</summary>
+        /// <summary>
+        /// Restores a given amount of health points.
+        /// </summary>
         /// <param name="amount">Amount to restore.</param>
         /// <param name="ignoreIfDead">If true, heal is not applied if current health is equal to 0.</param>
         public void Heal(int amount, bool ignoreIfDead = true)

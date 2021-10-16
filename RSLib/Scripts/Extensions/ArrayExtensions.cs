@@ -9,7 +9,9 @@
 
 		#region CONVERSION
 
-		/// <summary>Converts array to a queue.</summary>
+		/// <summary>
+		/// Converts array to a queue.
+		/// </summary>
 		/// <param name="enqueueFromStart">Starts enqueuing from first element.</param>
 		/// <returns>Array as a new queue.</returns>
 		public static Queue<T> ToQueue<T>(this T[] arr, bool enqueueFromStart = true)
@@ -21,7 +23,9 @@
 			return queue;
 		}
 
-		/// <summary>Converts array to a stack.</summary>
+		/// <summary>
+		/// Converts array to a stack.
+		/// </summary>
 		/// <param name="enqueueFromStart">Start stacking from first element.</param>
 		/// <returns>Array as a new stack.</returns>
 		public static Stack<T> ToStack<T>(this T[] arr, bool stackFromStart = true)
@@ -33,19 +37,23 @@
 			return stack;
 		}
 
-		/// <summary>Writes the array elements in a string.</summary>
+		/// <summary>
+		/// Writes the array elements in a string.
+		/// </summary>
 		/// <param name="arr">Array to write.</param>
 		/// <returns>String with the array elements.</returns>
 		public static string ToStringImproved<T>(this T[] arr)
 		{
 			string str = string.Empty;
 			for (int i = 0; i < arr.Length; ++i)
-				str += arr[i].ToString() + (i == arr.Length - 1 ? "" : ", ");
+				str += arr[i].ToString() + (i == arr.Length - 1 ? string.Empty : ", ");
 
 			return str;
 		}
 
-		/// <summary>Writes the array elements in a string using a given splitting char.</summary>
+		/// <summary>
+		/// Writes the array elements in a string using a given splitting char.
+		/// </summary>
 		/// <param name="arr">Array to write.</param>
 		/// <param name="split">Splitting char.</param>
 		/// <returns>String with the array elements.</returns>
@@ -53,12 +61,14 @@
 		{
 			string str = string.Empty;
 			for (int i = 0; i < arr.Length; ++i)
-				str += arr[i].ToString() + (i == arr.Length - 1 ? "" : split.ToString());
+				str += arr[i].ToString() + (i == arr.Length - 1 ? string.Empty : split.ToString());
 
 			return str;
 		}
 
-		/// <summary>Writes the array elements in a string using a given splitting string.</summary>
+		/// <summary>
+		/// Writes the array elements in a string using a given splitting string.
+		/// </summary>
 		/// <param name="arr">Array to write.</param>
 		/// <param name="split">Splitting string.</param>
 		/// <returns>String with the array elements.</returns>
@@ -66,7 +76,7 @@
 		{
 			string str = string.Empty;
 			for (int i = 0; i < arr.Length; ++i)
-				str += arr[i].ToString() + (i == arr.Length - 1 ? "" : string.IsNullOrEmpty(split) ? " / " : split);
+				str += arr[i].ToString() + (i == arr.Length - 1 ? string.Empty : string.IsNullOrEmpty(split) ? " / " : split);
 
 			return str;
 		}
@@ -75,7 +85,9 @@
 
 		#region GENERAL
 
-		/// <summary>Returns any randomly picked element.</summary>
+		/// <summary>
+		/// Returns any randomly picked element.
+		/// </summary>
 		/// <param name="arr">Array to get any element from.</param>
 		/// <returns>Any element.</returns>
 		public static T Any<T>(this T[] arr)
@@ -111,7 +123,9 @@
 			return choice;
 		}
 
-		/// <summary>Concatenates array with another.</summary>
+		/// <summary>
+		/// Concatenates array with another.
+		/// </summary>
 		/// <param name="second">Array to concatenate with.</param>
 		/// <returns>Concatenated array.</returns>
 		public static T[] Concat<T>(this T[] arr, T[] second)
@@ -130,7 +144,9 @@
 			return concatenated;
 		}
 
-		/// <summary>Returns the last element.</summary>
+		/// <summary>
+		/// Returns the last element.
+		/// </summary>
 		/// <param name="arr">Array to get last element from.</param>
 		/// <returns>Last element.</returns>
 		public static T Last<T>(this T[] arr)
@@ -138,7 +154,9 @@
 			return arr[arr.Length - 1];
 		}
 
-		/// <summary>Reverses the array.</summary>
+		/// <summary>
+		/// Reverses the array.
+		/// </summary>
 		/// <param name="arr">Array to reverse.</param>
 		/// <returns>Reversed array.</returns>
 		public static void Reverse<T>(this T[] arr)
@@ -146,7 +164,9 @@
 			System.Array.Reverse(arr);
 		}
 
-		/// <summary>Reverses the elements in a new array.</summary>
+		/// <summary>
+		/// Reverses the elements in a new array.
+		/// </summary>
 		/// <param name="arr">Array to reverse.</param>
 		/// <returns>Reversed array.</returns>
 		public static T[] ReverseIntoNewArray<T>(this T[] arr)
@@ -171,7 +191,9 @@
 			return copy;
 		}
 
-		/// <summary>Shuffles the array.</summary>
+		/// <summary>
+		/// Shuffles the array.
+		/// </summary>
 		/// <param name="arr">Array to shuffle.</param>
 		/// <returns>Shuffled array.</returns>
 		public static void Shuffle<T>(this T[] arr)
@@ -181,7 +203,9 @@
 				arr.Swap(s_rnd.Next(n--), n);
 		}
 
-		/// <summary>Shuffles the elements in a new array.</summary>
+		/// <summary>
+		/// Shuffles the elements in a new array.
+		/// </summary>
 		/// <param name="arr">Array to shuffle.</param>
 		/// <returns>Shuffled array.</returns>
 		public static T[] ShuffleIntoNewArray<T>(this T[] arr)
@@ -196,7 +220,9 @@
 			return copy;
 		}
 
-		/// <summary>Swaps the positions of 2 elements.</summary>
+		/// <summary>
+		/// Swaps the positions of 2 elements.
+		/// </summary>
 		/// <param name="first">Index of first.</param>
 		/// <param name="second">Index of second.</param>
 		public static void Swap<T>(this T[] arr, int first, int second)

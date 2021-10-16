@@ -7,32 +7,40 @@
     {
 		#region ADD
 
-		/// <summary>Increments all components of the transform position.</summary>
+		/// <summary>
+		/// Increments all components of the transform position.
+		/// </summary>
 		/// <param name="value">Incrementation amount.</param>
 		public static void AddPositionAll(this Transform t, float value)
 		{
 			t.position += Vector3.one * value;
 		}
 
-		/// <summary>Increments the x component of the transform position.</summary>
+		/// <summary>
+		/// Increments the x component of the transform position.
+		/// </summary>
 		/// <param name="value">Incrementation amount.</param>
 		public static void AddPositionX(this Transform t, float value)
 		{
-			t.position += new Vector3(value, 0, 0);
+			t.position += new Vector3(value, 0f, 0f);
 		}
 
-		/// <summary>Increments the y component of the transform position.</summary>
+		/// <summary>
+		/// Increments the y component of the transform position.
+		/// </summary>
 		/// <param name="value">Incrementation amount.</param>
 		public static void AddPositionY(this Transform t, float value)
 		{
-			t.position += new Vector3(0, value, 0);
+			t.position += new Vector3(0f, value, 0f);
 		}
 
-		/// <summary>Increments the z component of the transform position.</summary>
+		/// <summary>
+		/// Increments the z component of the transform position.
+		/// </summary>
 		/// <param name="value">Incrementation amount.</param>
 		public static void AddPositionZ(this Transform t, float value)
 		{
-			t.position += new Vector3(0, 0, value);
+			t.position += new Vector3(0f, 0f, value);
 		}
 
 		#endregion ADD
@@ -71,7 +79,9 @@
 
 		#region GET CLOSEST
 
-		/// <summary>Gets the closest transform among a collection of compared ones.</summary>
+		/// <summary>
+		/// Gets the closest transform among a collection of compared ones.
+		/// </summary>
 		/// <param name="compared">Compared transforms.</param>
 		/// <param name="avoidSelf">Avoid the reference transform.</param>
 		/// <returns>Closest transform found.</returns>
@@ -96,7 +106,9 @@
 			return closest;
 		}
 
-		/// <summary>Gets the closest transforms among a collection of compared ones.</summary>
+		/// <summary>
+		/// Gets the closest transforms among a collection of compared ones.
+		/// </summary>
 		/// <param name="compared">Compared transforms.</param>
 		/// <param name="quantity">Amount of transforms desired.</param>
 		/// <param name="avoidSelf">Avoid the reference transform.</param>
@@ -125,7 +137,9 @@
 
 		#region RESET
 
-		/// <summary>Resets the transform overall component.</summary>
+		/// <summary>
+		/// Resets the transform overall component.
+		/// </summary>
 		public static void ResetAll(this Transform t, bool useLocalPosition = false)
 		{
 			if (useLocalPosition)
@@ -137,37 +151,49 @@
 			t.ResetScale();
 		}
 
-		/// <summary>Resets the transform position.</summary>
+		/// <summary>
+		/// Resets the transform position.
+		/// </summary>
 		public static void ResetPosition(this Transform t)
 		{
 			t.position = Vector3.zero;
 		}
 
-		/// <summary>Resets the transform local position.</summary>
+		/// <summary>
+		/// Resets the transform local position.
+		/// </summary>
 		public static void ResetLocalPosition(this Transform t)
 		{
 			t.localPosition = Vector3.zero;
 		}
 
-		/// <summary>Resets the transform rotation.</summary>
+		/// <summary>
+		/// Resets the transform rotation.
+		/// </summary>
 		public static void ResetRotation(this Transform t)
 		{
 			t.rotation = Quaternion.identity;
 		}
 
-		/// <summary>Resets the transform local rotation.</summary>
+		/// <summary>
+		/// Resets the transform local rotation.
+		/// </summary>
 		public static void ResetLocalRotation(this Transform t)
 		{
 			t.localRotation = Quaternion.identity;
 		}
 
-		/// <summary>Resets the transform local scale.</summary>
+		/// <summary>
+		/// Resets the transform local scale.
+		/// </summary>
 		public static void ResetScale(this Transform t)
 		{
 			t.localScale = Vector3.one;
 		}
 
-		/// <summary>Resets the children transforms positions.</summary>
+		/// <summary>
+		/// Resets the children transforms positions.
+		/// </summary>
 		/// <param name="recursive">Children also reset their own children.</param>
 		public static void ResetChildrenLocalPositions(this Transform t, bool recursive = false)
 		{
@@ -179,7 +205,9 @@
 			}
 		}
 
-		/// <summary>Resets the children transforms rotations.</summary>
+		/// <summary>
+		/// Resets the children transforms rotations.
+		/// </summary>
 		/// <param name="recursive">Children also reset their own children.</param>
 		public static void ResetChildrenLocalRotations(this Transform t, bool recursive = false)
 		{
@@ -191,7 +219,9 @@
 			}
 		}
 
-		/// <summary>Resets the children transforms local scales.</summary>
+		/// <summary>
+		/// Resets the children transforms local scales.
+		/// </summary>
 		/// <param name="recursive">Children also reset their own children.</param>
 		public static void ResetChildrenScales(this Transform t, bool recursive = false)
 		{
@@ -203,7 +233,9 @@
 			}
 		}
 
-		/// <summary>Resets the children all transforms components.</summary>
+		/// <summary>
+		/// Resets the children all transforms components.
+		/// </summary>
 		/// <param name="recursive">Children also reset their own children.</param>
 		public static void ResetChildrenAll(this Transform t, bool recursive = false)
 		{
@@ -219,70 +251,90 @@
 
 		#region SET
 
-		/// <summary>Sets the x component of the transform position.</summary>
+		/// <summary>
+		/// Sets the x component of the transform position.
+		/// </summary>
 		/// <param name="value">New x value.</param>
 		public static void SetPositionX(this Transform t, float value)
 		{
 			t.position = new Vector3(value, t.position.y, t.position.z);
 		}
 
-		/// <summary>Sets the y component of the transform position.</summary>
+		/// <summary>
+		/// Sets the y component of the transform position.
+		/// </summary>
 		/// <param name="y">New y value.</param>
 		public static void SetPositionY(this Transform t, float value)
 		{
 			t.position = new Vector3(t.position.x, value, t.position.z);
 		}
 
-		/// <summary>Sets the z component of the transform position.</summary>
+		/// <summary>
+		/// Sets the z component of the transform position.
+		/// </summary>
 		/// <param name="value">New z value.</param>
 		public static void SetPositionZ(this Transform t, float value)
 		{
 			t.position = new Vector3(t.position.x, t.position.y, value);
 		}
 
-		/// <summary>Sets the x component of the transform local eulerAngles.</summary>
+		/// <summary>
+		/// Sets the x component of the transform local eulerAngles.
+		/// </summary>
 		/// <param name="value">New x value.</param>
 		public static void SetEulerAnglesX(this Transform t, float value)
 		{
 			t.localEulerAngles = new Vector3(value, t.localEulerAngles.y, t.localEulerAngles.z);
 		}
 
-		/// <summary>Sets the y component of the transform local eulerAngles.</summary>
+		/// <summary>
+		/// Sets the y component of the transform local eulerAngles.
+		/// </summary>
 		/// <param name="value">New y value.</param>
 		public static void SetEulerAnglesY(this Transform t, float value)
 		{
 			t.localEulerAngles = new Vector3(t.localEulerAngles.x, value, t.localEulerAngles.z);
 		}
 
-		/// <summary>Sets the z component of the transform local eulerAngles.</summary>
+		/// <summary>
+		/// Sets the z component of the transform local eulerAngles.
+		/// </summary>
 		/// <param name="value">New z value.</param>
 		public static void SetEulerAnglesZ(this Transform t, float value)
 		{
 			t.localEulerAngles = new Vector3(t.localEulerAngles.x, t.localEulerAngles.y, value);
 		}
 
-		/// <summary>Sets all components of the transform local scale.</summary>
+		/// <summary>
+		/// Sets all components of the transform local scale.
+		/// </summary>
 		/// <param name="value">New scale.</param>
 		public static void SetScale(this Transform t, float value)
 		{
 			t.localScale = Vector3.one * value;
 		}
 
-		/// <summary>Sets the x component of the transform local scale.</summary>
+		/// <summary>
+		/// Sets the x component of the transform local scale.
+		/// </summary>
 		/// <param name="value">New x value.</param>
 		public static void SetScaleX(this Transform t, float value)
 		{
 			t.localScale = new Vector3(value, t.localScale.y, t.localScale.z);
 		}
 
-		/// <summary>Sets the y component of the transform local scale.</summary>
+		/// <summary>
+		/// Sets the y component of the transform local scale.
+		/// </summary>
 		/// <param name="value">New y value.</param>
 		public static void SetScaleY(this Transform t, float value)
 		{
 			t.localScale = new Vector3(t.localScale.x, value, t.localScale.z);
 		}
 
-		/// <summary>Sets the z component of the transform local scale.</summary>
+		/// <summary>
+		/// Sets the z component of the transform local scale.
+		/// </summary>
 		/// <param name="value">New z value.</param>
 		public static void SetScaleZ(this Transform t, float value)
 		{

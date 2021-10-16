@@ -5,9 +5,10 @@
 
     public static class RomanNumeralConverter
     {
+        private const int MIN_VALUE = 1;
+        private const int MAX_VALUE = 3999;
         private const int NB_OF_ROMAN_NUMERAL_MAPS = 13;
         private const int MAX_ROMAN_NUMERAL_LENGTH = 15;
-        private const string INVALID_STR_ON_WRONG_VALUE = "INVALID_ROMAN_NUMERAL";
 
         private static readonly Dictionary<string, int> s_romanNumerals = new Dictionary<string, int>(NB_OF_ROMAN_NUMERAL_MAPS)
         {
@@ -26,29 +27,34 @@
             { "I", 1 }
         };
 
-        private static readonly Regex validRomanNumeralRegex =
-            new Regex("^(?i:(?=[MDCLXVI])((M{0,3})((C[DM])|(D?C{0,3}))?((X[LC])|(L?XX{0,2})|L)?((I[VX])|(V?(II{0,2}))|V)?))$", RegexOptions.Compiled);
+        private static readonly Regex validRomanNumeralRegex = new Regex(
+            "^(?i:(?=[MDCLXVI])((M{0,3})((C[DM])|(D?C{0,3}))?((X[LC])|(L?XX{0,2})|L)?((I[VX])|(V?(II{0,2}))|V)?))$",
+            RegexOptions.Compiled);
         
-        /// <summary>Checks if a string format is a valid roman numeral.</summary>
+        /// <summary>
+        /// Checks if a string format is a valid roman numeral.
+        /// </summary>
         /// <returns>True if it is valid, else false.</returns>
         public static bool IsValidRomanNumeral(this string str)
         {
             return validRomanNumeralRegex.IsMatch(str);
         }
 
-        /// <summary>Parses a roman numeral string to its corresponding value. Returns -1 if string is not valid.</summary>
-        /// <returns>Parsed string if it is valid, else -1.</returns>
+        /// <summary>
+        /// Parses a roman numeral string to its corresponding value.
+        /// </summary>
+        /// <returns>Parsed string if it is valid, else throws an exception.</returns>
         public static int ParseRomanNumeralToInt(this string str)
         {
-            if (str == null)
-                return -1;
+            if (string.IsNullOrEmpty(str))
+                throw new System.Exception("Cannot parse a null or empty string from a roman numeral value to an int value.");
 
             str = str.ToUpperInvariant().Trim();
 
             int length = str.Length;
 
-            if (length == 0 || !str.IsValidRomanNumeral())
-                return -1;
+            if (!str.IsValidRomanNumeral())
+                throw new System.Exception($"String {str} has an invalid format to be parsed from a roman numeral value to an int value.");
 
             int total = 0;
             int strLength = length;
@@ -60,7 +66,6 @@
                 if (strLength > 0)
                 {
                     int previousDigit = s_romanNumerals[str[strLength - 1].ToString()];
-
                     if (previousDigit < digit)
                     {
                         digit -= previousDigit;
@@ -74,29 +79,28 @@
             return total;
         }
 
-        /// <summary>Parses an integer value to its corresponding roman numeral string.
-        /// Maximum number is 3999 due to the non-existence of a symbol for 5000.</summary>
+        /// <summary>
+        /// Parses an integer value to its corresponding roman numeral string.
+        /// Maximum number is 3999 due to the non-existence of a symbol for 5000.
+        /// </summary>
         /// <returns>Roman numeral string.</returns>
         public static string ToRomanNumeralString(this int i)
         {
-            const int MinValue = 1;
-            const int MaxValue = 3999;
+            if (i < MIN_VALUE || i > MAX_VALUE)
+                throw new System.Exception($"{i} is less than 1 or higher than 3999, and thus cannot be parsed as a roman numeral value.");
 
-            if (i < MinValue || i > MaxValue)
-                return INVALID_STR_ON_WRONG_VALUE;
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder(MAX_ROMAN_NUMERAL_LENGTH);
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder(MAX_ROMAN_NUMERAL_LENGTH);
 
             foreach (KeyValuePair<string, int> pair in s_romanNumerals)
             {
                 while (i / pair.Value > 0)
                 {
-                    sb.Append(pair.Key);
+                    stringBuilder.Append(pair.Key);
                     i -= pair.Value;
                 }
             }
 
-            return sb.ToString();
+            return stringBuilder.ToString();
         }
     }
 }

@@ -11,35 +11,37 @@
         /// Tries to convert string to the specified Enum type.
         /// </summary>
         /// <typeparam name="T">Enum type.</typeparam>
-        /// <returns>Parsed string to Enum if valid, else Enum default value.</returns>
+        /// <returns>Parsed string to Enum if valid, else throws an exception.</returns>
         public static T ToEnum<T>(this string str) where T : System.Enum
         {
-            if (str == null || !System.Enum.IsDefined(typeof(T), str))
-                return default;
+            if (str != null && System.Enum.IsDefined(typeof(T), str))
+                return (T)System.Enum.Parse(typeof(T), str);
 
-            return (T)System.Enum.Parse(typeof(T), str);
+            throw new System.Exception($"Could not parse string {str} to a valid {typeof(T).Name} enum value.");
         }
 
         /// <summary>
-        /// Tries to parse the string to a float and returns -1f if parsing was invalid.
+        /// Tries to parse the string to a float value.
         /// </summary>
-        /// <returns>Successfully parsed string or -1f.</returns>
+        /// <returns>Parsed string if succeed, else throws an exception.</returns>
         public static float ToFloat(this string str)
         {
-            return float.TryParse(str, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float result)
-                ? result
-                : -1f;
+            if (float.TryParse(str, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float value))
+                return value;
+
+            throw new System.Exception($"Could not parse string {str} to a valid float value.");
         }
 
         /// <summary>
-        /// Tries to parse the string to an int and returns -1 if parsing was invalid.
+        /// Tries to parse the string to an int value.
         /// </summary>
-        /// <returns>Successfully parsed string or -1.</returns>
+        /// <returns>Parsed string if succeed, else throws an exception.</returns>
         public static int ToInt(this string str)
         {
-            return int.TryParse(str, out int result)
-                ? result
-                : -1;
+            if (int.TryParse(str, out int value))
+                return value;
+
+            throw new System.Exception($"Could not parse string {str} to a valid int value.");
         }
 
         /// <summary>
@@ -241,7 +243,7 @@
         /// <returns>String with bold tag if condition is fulfilled.</returns>
         public static string ToBoldIf(this string str, bool condition)
         {
-            return condition ? $"<b>{str}</b>" : str;
+            return condition ? str.ToBold() : str;
         }
 
         /// <summary>
@@ -262,7 +264,7 @@
         /// <returns>String with color tag if condition is fulfilled.</returns>
         public static string ToColoredIf(this string str, UnityEngine.Color color, bool condition)
         {
-            return condition ? $"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGB(color)}>{str}</color>" : str;
+            return condition ? str.ToColored(color) : str;
         }
 
         /// <summary>
@@ -280,7 +282,7 @@
         /// <returns>String with italic tag if condition is fulfilled.</returns>
         public static string ToItalicIf(this string str, bool condition)
         {
-            return condition ? $"<i>{str}</i>" : str;
+            return condition ? str.ToItalic() : str;
         }
 
         #endregion STYLES

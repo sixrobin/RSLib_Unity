@@ -2,6 +2,8 @@
 {
     public static class IntExtensions
     {
+        private const string ZERO_STR = "0";
+
         #region GENERAL
 
         /// <summary>
@@ -20,7 +22,7 @@
             while (compNumber > 1)
             {
                 if (value < compNumber)
-                    valueStr += "0";
+                    valueStr += ZERO_STR;
 
                 compNumber = (int)System.Math.Pow(10f, --outputLength);
             }

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace RSLib.Extensions
+﻿namespace RSLib.Extensions
 {
+    using UnityEngine;
+
     public static class QuaternionExtensions
     {
         /// <summary>

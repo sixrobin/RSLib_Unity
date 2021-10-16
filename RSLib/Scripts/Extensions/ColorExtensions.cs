@@ -6,7 +6,9 @@
     {
         #region BLEND
 
-        /// <summary>Blends a color with as many colors as wanted, all with the same weight.</summary>
+        /// <summary>
+        /// Blends a color with as many colors as wanted, all with the same weight.
+        /// </summary>
         /// <param name="colorsToBlend">Colors to blend with the base color.</param>
         /// <returns>Blended color.</returns>
         public static Color BlendWith(this Color color, params Color[] colorsToBlend)
@@ -18,7 +20,9 @@
             return blendedColor;
         }
 
-        /// <summary>Blends all colors with the same weight.</summary>
+        /// <summary>
+        /// Blends all colors with the same weight.
+        /// </summary>
         /// <param name="colorsToBlend">Colors to blend.</param>
         /// <returns>Blended color.</returns>
         public static Color BlendColors(params Color[] colorsToBlend)
@@ -34,14 +38,18 @@
 
         #region CONVERSION
 
-        /// <summary>Converts color into a hexadecimal value to string.</summary>
+        /// <summary>
+        /// Converts color into a hexadecimal value to string.
+        /// </summary>
         /// <returns>Color to string with format RRGGBB.</returns>
         public static string ToHexRGB(this Color color)
         {
             return ColorUtility.ToHtmlStringRGB(color);
         }
 
-        /// <summary>Converts color into a hexadecimal value to string.</summary>
+        /// <summary>
+        /// Converts color into a hexadecimal value to string.
+        /// </summary>
         /// <returns>Color to string with format RRGGBBAA.</returns>
         public static string ToHexRGBA(this Color color)
         {
@@ -52,7 +60,9 @@
 
         #region GENERAL
 
-        /// <summary>Gets a color's copy with the RGB values modified without modifying the alpha.</summary>
+        /// <summary>
+        /// Gets a color's copy with the RGB values modified without modifying the alpha.
+        /// </summary>
         /// <param name="r">New red value.</param>
         /// <param name="g">New green value.</param>
         /// <param name="b">New blue value.</param>
@@ -61,7 +71,9 @@
             return color.WithR(r).WithG(g).WithB(b);
         }
 
-        /// <summary>Gets a color's copy with the RGB values modified without modifying the alpha.</summary>
+        /// <summary>
+        /// Gets a color's copy with the RGB values modified without modifying the alpha.
+        /// </summary>
         /// <param name="copy">Color to copy the RGB channels of.</param>
         public static Color SetRGB(this Color c, Color copy)
         {
@@ -72,28 +84,36 @@
 
         #region WITH
 
-        /// <summary>Gets a color's copy with new red value.</summary>
+        /// <summary>
+        /// Gets a color's copy with new red value.
+        /// </summary>
         /// <param name="r">New red value.</param>
         public static Color WithR(this Color c, float value)
         {
             return new Color(value, c.g, c.b, c.a);
         }
 
-        /// <summary>Gets a color's copy with new green value.</summary>
+        /// <summary>
+        /// Gets a color's copy with new green value.
+        /// </summary>
         /// <param name="g"> ew green value.</param>
         public static Color WithG(this Color c, float value)
         {
             return new Color(c.r, value, c.b, c.a);
         }
 
-        /// <summary>Gets a color's copy with new blue value.</summary>
+        /// <summary>
+        /// Gets a color's copy with new blue value.
+        /// </summary>
         /// <param name="b">New blue value.</param>
         public static Color WithB(this Color c, float value)
         {
             return new Color(c.r, c.g, value, c.a);
         }
 
-        /// <summary>Gets a color's copy with new alpha value.</summary>
+        /// <summary>
+        /// Gets a color's copy with new alpha value.
+        /// </summary>
         /// <param name="a">New alpha value.</param>
         public static Color WithA(this Color c, float value)
         {

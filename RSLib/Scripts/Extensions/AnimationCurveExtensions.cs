@@ -8,14 +8,18 @@
 
         #region GENERAL
 
-        /// <summary>Computes the duration of the curve, using its first and last keyframes on the X axis.</summary>
+        /// <summary>
+        /// Computes the duration of the curve, using its first and last keyframes on the X axis.
+        /// </summary>
         /// <returns>The computed duration of the curve (0 if there is less than 2 keyframes).</returns>
         public static float ComputeDuration(this AnimationCurve curve)
         {
             return curve.GetMaxTime() - curve.GetMinTime();
         }
 
-        /// <summary>Gets the first keyframe on the X axis of the curve.</summary>
+        /// <summary>
+        /// Gets the first keyframe on the X axis of the curve.
+        /// </summary>
         /// <returns>The found keyframe, or the default one if there's no keyframe on the curve.</returns>
         public static Keyframe GetFirstKeyframe(this AnimationCurve curve)
         {
@@ -32,7 +36,9 @@
             return curve.keys[minTimeIndex];
         }
 
-        /// <summary>Gets the last keyframe on the X axis of the curve.</summary>
+        /// <summary>
+        /// Gets the last keyframe on the X axis of the curve.
+        /// </summary>
         /// <returns>The found keyframe, or the default one if there's no keyframe on the curve.</returns>
         public static Keyframe GetLastKeyframe(this AnimationCurve curve)
         {
@@ -49,21 +55,27 @@
             return curve.keys[maxTimeIndex];
         }
 
-        /// <summary>Gets the minimum time of the curve.</summary>
+        /// <summary>
+        /// Gets the minimum time of the curve.
+        /// </summary>
         /// <returns>Tthe found minimum time, or default keyframe's if there's no keyframe on the curve.</returns>
         public static float GetMinTime(this AnimationCurve curve)
         {
             return curve.GetFirstKeyframe().time;
         }
 
-        /// <summary>Gets the maximum time of the curve.</summary>
+        /// <summary>
+        /// Gets the maximum time of the curve.
+        /// </summary>
         /// <returns>Tthe found maximum time, or default keyframe's if there's no keyframe on the curve.</returns>
         public static float GetMaxTime(this AnimationCurve curve)
         {
             return curve.GetLastKeyframe().time;
         }
 
-        /// <summary>Gets the lowest keyframe on the Y axis of the curve.</summary>
+        /// <summary>
+        /// Gets the lowest keyframe on the Y axis of the curve.
+        /// </summary>
         /// <returns>The found keyframe, or the default one if there's no keyframe on the curve.</returns>
         public static Keyframe GetMinValueKeyframe(this AnimationCurve curve)
         {
@@ -80,7 +92,9 @@
             return curve.keys[minValueIndex];
         }
 
-        /// <summary>Gets the highest keyframe on the Y axis of the curve.</summary>
+        /// <summary>
+        /// Gets the highest keyframe on the Y axis of the curve.
+        /// </summary>
         /// <returns>The found keyframe, or the default one if there's no keyframe on the curve.</returns>
         public static Keyframe GetMaxValueKeyframe(this AnimationCurve curve)
         {
@@ -97,14 +111,18 @@
             return curve.keys[maxValueIndex];
         }
 
-        /// <summary>Gets the minimum value of the curve.</summary>
+        /// <summary>
+        /// Gets the minimum value of the curve.
+        /// </summary>
         /// <returns>The found minimum value, or default keyframe's if there's no keyframe on the curve.</returns>
         public static float GetMinValue(this AnimationCurve curve)
         {
             return curve.GetMinValueKeyframe().value;
         }
 
-        /// <summary>Gets the maximum value of the curve.</summary>
+        /// <summary>
+        /// Gets the maximum value of the curve.
+        /// </summary>
         /// <returns>The found maximum value, or default keyframe's if there's no keyframe on the curve.</returns>
         public static float GetMaxValue(this AnimationCurve curve)
         {
