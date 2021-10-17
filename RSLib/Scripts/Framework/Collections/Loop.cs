@@ -8,17 +8,10 @@
 	/// Custom generic type structure, similar to a queue but where dequeued items are then reenqueued.
 	/// This structure, as it is written, should probably be used for randomly peeked elements.
 	/// </summary>
-	/// <typeparam name="T"> Type of items stored in the loop. </typeparam>
 	public sealed class Loop<T> : IEnumerable<T>, IEnumerable, IReadOnlyCollection<T>, ICollection<T> where T : System.IComparable
 	{
-        #region FIELDS
-
         private List<T> _loop = new List<T>();
 		private int _peeksCount = 0;
-
-        #endregion FIELDS
-
-        #region CONSTRUCTORS
 
         public Loop()
 		{
@@ -43,27 +36,14 @@
 				Shuffle();
 		}
 
-		#endregion CONSTRUCTORS
-
-		#region EVENTS
-
 		public delegate void LoopPointReachedEventHandler();
-
 		public event LoopPointReachedEventHandler LoopPointReached;
-
-		#endregion EVENTS
-
-		#region PROPERTIES
 
 		public bool ShuffleOnLoopCompleted { get; set; }
 
 		public int Count => _loop.Count;
 
 		public bool IsReadOnly => true;
-
-		#endregion PROPERTIES
-
-		#region METHODS
 
 		public void Add(T element)
 		{
@@ -104,7 +84,7 @@
 		public T Next()
 		{
 			if (_loop.Count == 0)
-				return default;
+				throw new System.IndexOutOfRangeException($"Cannot get the next element of an empty loop.");
 
 			_peeksCount++;
 
@@ -190,13 +170,10 @@
 		public override string ToString()
 		{
 			string str = string.Empty;
-
 			for (int i = 0; i < _loop.Count; ++i)
-				str += _loop[i].ToString() + (i == Count - 1 ? "" : ", ");
+				str += _loop[i].ToString() + (i == Count - 1 ? string.Empty : ", ");
 
 			return str;
 		}
-		
-		#endregion METHODS
 	}
 }

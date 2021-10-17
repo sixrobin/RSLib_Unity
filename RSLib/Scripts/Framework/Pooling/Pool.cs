@@ -46,7 +46,9 @@
             s_poolItems.Clear();
         }
 
-		/// <summary>Gets a pooled gameObject using a GameObject reference, and creates a new pool if none has been found.</summary>
+		/// <summary>
+        /// Gets a pooled gameObject using a GameObject reference, and creates a new pool if none has been found.
+        /// </summary>
 		/// <param name="gameObject">Reference gameObject to find a pooled instance of.</param>
 		/// <returns>Instance of the gameObject.</returns>
 		public static GameObject Get(GameObject gameObject, params object[] args)
@@ -66,7 +68,9 @@
             return result;
 		}
 
-		/// <summary>Gets a pooled gameObject using an Id, and returns null if no pool has been found.</summary>
+		/// <summary>
+        /// Gets a pooled gameObject using an Id, and returns null if no pool has been found.
+        /// </summary>
 		/// <param name="id">Reference ID to find a pool of.</param>
 		/// <returns>Instance of a gameObject of the pool corresponding to the ID.</returns>
 		public static GameObject Get(string id, params object[] args)
@@ -84,7 +88,9 @@
             return result;
 		}
 
-        /// <summary>Checks if a pool with a given Id is known.</summary>
+        /// <summary>
+        /// Checks if a pool with a given Id is known.
+        /// </summary>
         /// <param name="id">Reference Id to find a pool of.</param>
         /// <returns>True if the given Id has been found, else false.</returns>
         public static bool ContainsId(string id)
@@ -92,14 +98,18 @@
             return s_poolsById.ContainsKey(id);
         }
 
-        /// <summary>Gets an IEnumerable of all the pools Ids.</summary>
+        /// <summary>
+        /// Gets an IEnumerable of all the pools Ids.
+        /// </summary>
         /// <returns>IEnumerable of all Ids.</returns>
         public static IEnumerable<string> GetPoolsIds()
         {
             return s_poolsById.Keys;
         }
 
-		/// <summary>Sends back a gameObject to the pool, setting the pool transform as its parent, and setting it inactive.</summary>
+		/// <summary>
+        /// Sends back a gameObject to the pool, setting the pool transform as its parent, and setting it inactive.
+        /// </summary>
 		/// <param name="gameObject">GameObject to send back to pool.</param>
 		public void SendBackToPool(GameObject gameObject)
 		{
@@ -107,7 +117,9 @@
 			gameObject.SetActive(false);
 		}
 
-		/// <summary>Sends back a transform's gameObject to the pool, setting the pool transform as its parent, and setting it inactive.</summary>
+		/// <summary>
+        /// Sends back a transform's gameObject to the pool, setting the pool transform as its parent, and setting it inactive.
+        /// </summary>
 		/// <param name="transform">Transform to send the gameObject back to pool.</param>
 		public void SendBackToPool(Transform transform)
 		{
@@ -186,7 +198,9 @@
 
         #region EDITOR UTILITIES
 
-        /// <summary>Sorts pooled objects by alphabetical order. Can be inverted.</summary>
+        /// <summary>
+        /// Sorts pooled objects by alphabetical order.
+        /// </summary>
         /// <param name="inverted">Sort in opposite order.</param>
         public void DebugSortPooledObjectsAlphabetical(bool inverted = false)
         {
@@ -198,7 +212,9 @@
             EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
         }
 
-        /// <summary>Sorts pooled objects by their instances quantity. Can be inverted.</summary>
+        /// <summary>
+        /// Sorts pooled objects by their instances quantity.
+        /// </summary>
         /// <param name="inverted">Sort in opposite order.</param>
         public void DebugSortPooledObjectsByQuantity(bool inverted = false)
         {

@@ -5,7 +5,7 @@
     [CreateAssetMenu(fileName = "New Music Transition", menuName = "RSLib/Audio/Music Transition")]
     public class MusicTransitionsDatas : ScriptableObject
     {
-        [SerializeField] private float _duration = 1f;
+        [SerializeField, Min(0f)] private float _duration = 1f;
         [SerializeField] private Maths.Curve _curveOut = Maths.Curve.InOutSine;
         [SerializeField] private Maths.Curve _curveIn = Maths.Curve.InOutSine;
         [SerializeField] private bool _crossFade = true;

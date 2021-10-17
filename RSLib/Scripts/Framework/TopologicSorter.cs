@@ -10,7 +10,9 @@ namespace RSLib.Framework
     /// <typeparam name="T">Type of the items to sort.</typeparam>
     public interface ITopologicSortedItem<T>
     {
-        /// <summary>Gets the items this one depends on.</summary>
+        /// <summary>
+        /// Gets the items this one depends on.
+        /// </summary>
         /// <returns>Collection containing the dependencies.</returns>
         IEnumerable<T> GetDependencies();
     }
@@ -24,7 +26,9 @@ namespace RSLib.Framework
     /// </summary>
     public static class TopologicSorter
     {
-        /// <summary>Sort method using the ITopologicSortedItem.GetDependencies method to get each item dependencies.</summary>
+        /// <summary>
+        /// Sort method using the ITopologicSortedItem.GetDependencies method to get each item dependencies.
+        /// </summary>
         /// <typeparam name="T">Type of the items to sort, that must implement ITopologicSortedItem.</typeparam>
         /// <param name="content">Items to sort.</param>
         /// <returns>IEnumerable of items sorted by their dependencies.</returns>
@@ -33,7 +37,9 @@ namespace RSLib.Framework
             return Sort(content, o => o.GetDependencies());
         }
 
-        /// <summary>Sort method with a custom method to get items dependencies.</summary>
+        /// <summary>
+        /// Sort method with a custom method to get items dependencies.
+        /// </summary>
         /// <typeparam name="T">Type of the items to sort.</typeparam>
         /// <param name="content">Items to sort.</param>
         /// <param name="getDependencies">Method used to get each item dependencies.</param>
@@ -49,7 +55,9 @@ namespace RSLib.Framework
             return sorted;
         }
 
-        /// <summary>Recursive method used to sort items, by visiting them and checking their dependencies.</summary>
+        /// <summary>
+        /// Recursive method used to sort items, by visiting them and checking their dependencies.
+        /// </summary>
         /// <typeparam name="T">Type of the items to sort.</typeparam>
         /// <param name="item">Currently visited item.</param>
         /// <param name="getDependencies">Method used to get each item dependencies.</param>

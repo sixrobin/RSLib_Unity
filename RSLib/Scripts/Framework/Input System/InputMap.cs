@@ -51,7 +51,9 @@
             _map.Clear();
         }
 
-        /// <summary> Generates map using ScriptableObject datas as template.</summary>
+        /// <summary>
+        /// Generates map using ScriptableObject datas as template.
+        /// </summary>
         /// <param name="mapDatas">Template datas.</param>
         public void GenerateMap(InputMapDatas mapDatas)
         {
@@ -60,10 +62,12 @@
             for (int i = 0; i < mapDatas.Bindings.Length; ++i)
                 CreateAction(mapDatas.Bindings[i].ActionId, mapDatas.Bindings[i].KeyCodes);
 
-            InputManager.Instance.Log($"Generated {_map.Count} input bindings.");
+            InputManager.Instance.Log($"Generated {_map.Count} input bindings.", InputManager.Instance.gameObject);
         }
 
-        /// <summary>Deserializes saved datas of an input map.</summary>
+        /// <summary>
+        /// Deserializes saved datas of an input map.
+        /// </summary>
         /// <param name="container">Saved map XContainer.</param>
         /// <returns>True if deserialization has been done successfully, else false.</returns>
         public void Deserialize(XContainer container)
@@ -76,14 +80,14 @@
                 XAttribute btnAttribute = keyBindingElement.Attribute("Btn");
                 if (!System.Enum.TryParse(btnAttribute.Value, out KeyCode btnKeyCode))
                 {
-                    InputManager.Instance.LogError($"Could not parse {btnAttribute.Value} to a valid UnityEngine.KeyCode. Restoring default input mapping.");
+                    InputManager.Instance.LogError($"Could not parse {btnAttribute.Value} to a valid UnityEngine.KeyCode. Restoring default input mapping.", InputManager.Instance.gameObject);
                     return;
                 }
 
                 XAttribute altBtnAttribute = keyBindingElement.Attribute("Alt");
                 if (!System.Enum.TryParse(altBtnAttribute.Value, out KeyCode altBtnKeyCode))
                 {
-                    InputManager.Instance.LogError($"Could not parse {altBtnAttribute.Value} to a valid UnityEngine.KeyCode. Restoring default input mapping.");
+                    InputManager.Instance.LogError($"Could not parse {altBtnAttribute.Value} to a valid UnityEngine.KeyCode. Restoring default input mapping.", InputManager.Instance.gameObject);
                     return;
                 }
 
@@ -103,18 +107,20 @@
             try
             {
                 System.Collections.Generic.List<string> bindingsList = mapDatas.Bindings.ToList().Select(o => o.ActionId).ToList();
-                _map = _map.OrderBy(x => bindingsList.IndexOf(x.Key)).ToDictionary(x => x.Key, x => x.Value);
+                _map = _map.OrderBy(o => bindingsList.IndexOf(o.Key)).ToDictionary(k => k.Key, v => v.Value);
             }
             catch (System.Exception e)
             {
-                InputManager.Instance.LogError($"Error while sorting actions map based on map datas : {e.Message}.");
+                InputManager.Instance.LogError($"Error while sorting actions map based on map datas : {e.Message}.", InputManager.Instance.gameObject);
                 return false;
             }
 
             return true;
         }
 
-        /// <summary>Checks if map contains a given action.</summary>
+        /// <summary>
+        /// Checks if map contains a given action.
+        /// </summary>
         /// <param name="actionId">Action Id to look for.</param>
         /// <returns>True if map contains the action, else false.</returns>
         public bool HasAction(string actionId)
@@ -122,7 +128,9 @@
             return _map.ContainsKey(actionId);
         }
 
-        /// <summary>Creates an action, added to the map dictionary.</summary>
+        /// <summary>
+        /// Creates an action, added to the map dictionary.
+        /// </summary>
         /// <param name="actionId">Action Id type to create.</param>
         /// <param name="btns">Both action KeyCodes.</param>
         public void CreateAction(string actionId, (KeyCode btn, KeyCode altBtn) btns)
@@ -131,7 +139,9 @@
             _map.Add(actionId, btns);
         }
 
-        /// <summary>Gets both valid KeyCodes for a given action.</summary>
+        /// <summary>
+        /// Gets both valid KeyCodes for a given action.
+        /// </summary>
         /// <param name="actionId">Action Id to get KeyCodes of.</param>
         /// <returns>Tuple containing KeyCodes.</returns>
         public (KeyCode btn, KeyCode altBtn) GetActionKeyCodes(string actionId)
@@ -140,7 +150,9 @@
             return _map[actionId];
         }
 
-        /// <summary>Overrides a KeyCode for a given action and resets other actions that were using the same KeyCode.</summary>
+        /// <summary>
+        /// Overrides a KeyCode for a given action and resets other actions that were using the same KeyCode.
+        /// </summary>
         /// <param name="actionId">Action Id to override KeyCode of.</param>
         /// <param name="keyCode">KeyCode to set.</param>
         /// <param name="alt">Set the base button or the alternate one.</param>
@@ -163,6 +175,7 @@
 
                 if (_map[keys[i]].btn == keyCode)
                     _map[keys[i]] = (KeyCode.None, _map[keys[i]].altBtn);
+
                 if (_map[keys[i]].altBtn == keyCode)
                     _map[keys[i]] = (_map[keys[i]].btn, KeyCode.None);
             }

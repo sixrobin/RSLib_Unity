@@ -23,7 +23,9 @@
 
         private void Update()
         {
-            if (_wasFocused && _inputField.text != string.Empty && (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
+            if (_wasFocused
+                && _inputField.text != string.Empty
+                && (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter)))
             {
                 _onSubmit.Invoke(_inputField.text);
                 _inputField.text = string.Empty;

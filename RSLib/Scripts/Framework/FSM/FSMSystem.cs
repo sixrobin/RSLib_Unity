@@ -19,7 +19,7 @@
 
         public void AddState(FSMState state)
         {
-            UnityEngine.Assertions.Assert.IsNotNull(state, "Null FSMState is not allowed.");
+            UnityEngine.Assertions.Assert.IsNotNull(state, $"Null {typeof(FSMStateId)} is not allowed.");
 
             if (_states.Count == 0)
             {
@@ -30,14 +30,14 @@
             }
 
             for (int i = _states.Count - 1; i >= 0; --i)
-                UnityEngine.Assertions.Assert.IsTrue(state.Id != _states[i].Id, $"FSMState {state.Id.ToString()} has already been added.");
+                UnityEngine.Assertions.Assert.IsTrue(state.Id != _states[i].Id, $"{typeof(FSMStateId)} {state.Id} has already been added.");
 
             _states.Add(state);
         }
 
         public void DeleteState(FSMStateId id)
         {
-            UnityEngine.Assertions.Assert.IsTrue(id != FSMStateId.NONE, $"{id.ToString()} FSMStateId is not allowed.");
+            UnityEngine.Assertions.Assert.IsTrue(id != FSMStateId.NONE, $"{id} {typeof(FSMStateId)} is not allowed.");
 
             for (int i = _states.Count - 1; i >= 0; --i)
             {
@@ -48,15 +48,15 @@
                 }
             }
 
-            UnityEngine.Debug.LogError($"Could not found FSMState with Id {id.ToString()} to delete it.");
+            throw new System.Exception($"Could not found {typeof(FSMStateId)} {id} to delete it.");
         }
 
         public void PerformTransition(FSMTransition transition)
         {
-            UnityEngine.Assertions.Assert.IsTrue(transition != FSMTransition.NONE, $"{transition.ToString()} FSMTransition is not allowed.");
+            UnityEngine.Assertions.Assert.IsTrue(transition != FSMTransition.NONE, $"{transition} {typeof(FSMTransition)} is not allowed.");
 
             FSMStateId id = CurrentState.GetTransitionOutputState(transition);
-            UnityEngine.Assertions.Assert.IsTrue(id != FSMStateId.NONE, $"{transition.ToString()} FSMStateId is not allowed to perform a state transition.");
+            UnityEngine.Assertions.Assert.IsTrue(id != FSMStateId.NONE, $"{transition} to {typeof(FSMStateId)} {nameof(FSMStateId.NONE)} is not allowed to perform a state transition.");
 
             for (int i = _states.Count - 1; i >= 0; --i)
             {
@@ -70,7 +70,7 @@
                 }
             }
 
-            UnityEngine.Debug.LogError($"Could not found FSMState with Id {id.ToString()} to perform a state transition.");
+            throw new System.Exception($"Could not found {typeof(FSMStateId)} {id} to perform a state transition.");
         }
     }
 }

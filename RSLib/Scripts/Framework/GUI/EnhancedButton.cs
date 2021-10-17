@@ -7,8 +7,7 @@
 
     /// <summary>
     /// Enhancements for native Unity Button component, mostly useful to add events for pointer enter
-    /// and exit event. Also adds an event when interactable value changes and some tools to
-    /// control the button's text if it exists (requires TMPro).
+    /// and exit event. Also adds an event when interactable value changes and some tools to control the button's text if it exists (requires TMPro).
     /// </summary>
     public class EnhancedButton : UnityEngine.UI.Button
     {
@@ -50,7 +49,9 @@
             }
         }
 
-        /// <summary>Mimics the behaviour of OnPointerEnter event specified in the Button component when Selectable is selected by joystick navigation.</summary>
+        /// <summary>
+        /// Mimics the behaviour of OnPointerEnter event specified in the Button component when Selectable is selected by joystick navigation.
+        /// </summary>
         /// <param name="eventData">Navigation event data.</param>
         public override void OnSelect(UnityEngine.EventSystems.BaseEventData eventData)
         {
@@ -58,7 +59,9 @@
             OnPointerEnter(null);
         }
 
-        /// <summary>Mimics the behaviour of OnPointerExit event specified in the Button component when Selectable is selected by joystick navigation.</summary>
+        /// <summary>
+        /// Mimics the behaviour of OnPointerExit event specified in the Button component when Selectable is selected by joystick navigation.
+        /// </summary>
         /// <param name="eventData">Navigation event data.</param>
         public override void OnDeselect(UnityEngine.EventSystems.BaseEventData eventData)
         {
@@ -92,7 +95,7 @@
         {
             if (_buttonText == null)
             {
-                Debug.LogWarning($"Trying to get text on {transform.name}'s {GetType().Name}, but text isn't referenced.");
+                Debug.LogWarning($"Trying to get text on {transform.name}'s {GetType().Name}, but text isn't referenced.", gameObject);
                 return string.Empty;
             }
 
@@ -103,7 +106,7 @@
         {
             if (_buttonText == null)
             {
-                Debug.LogWarning($"Trying to set text on {transform.name}'s {GetType().Name}, but text isn't referenced.");
+                Debug.LogWarning($"Trying to set text on {transform.name}'s {GetType().Name}, but text isn't referenced.", gameObject);
                 return;
             }
 

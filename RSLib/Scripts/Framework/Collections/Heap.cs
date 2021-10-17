@@ -1,31 +1,24 @@
 ﻿namespace RSLib.Framework.Collections
 {
+    public interface IHeapElement<T> : System.IComparable<T>
+    {
+        int HeapIndex { get; set; }
+    }
+
     public class Heap<T> where T : IHeapElement<T>
     {
-        #region FIELDS
-
         private T[] _elements;
-
-        #endregion FIELDS
-
-        #region CONSTRUCTORS
 
         public Heap(int maxSize)
         {
             _elements = new T[maxSize];
         }
 
-        #endregion CONSTRUCTORS
-
-        #region PROPERTIES
-
         public int Count { get; private set; }
 
-        #endregion PROPERTIES
-
-        #region METHODS
-
-        /// <summary>Removes the first element in the heap tree.</summary>
+        /// <summary>
+        /// Removes the first element in the heap tree.
+        /// </summary>
         /// <returns>First element.</returns>
         public T RemoveFirst()
         {
@@ -38,7 +31,9 @@
             return first;
         }
 
-        /// <summary>Adds an item to the heap tree and sorts it in.</summary>
+        /// <summary>
+        /// Adds an item to the heap tree and sorts it in.
+        /// </summary>
         /// <param name="element">Item to add.</param>
         public void Add(T element)
         {
@@ -48,7 +43,9 @@
             Count++;
         }
 
-        /// <summary>Checks if the heap tree contains the given element.</summary>
+        /// <summary>
+        /// Checks if the heap tree contains the given element.
+        /// </summary>
         /// <param name="element">Element to look for.</param>
         /// <returns>True if the heap contains the element, else false.</returns>
         public bool Contains(T element)
@@ -56,7 +53,9 @@
             return Equals(_elements[element.HeapIndex], element);
         }
 
-        /// <summary>Swaps two items positions in the heap and their indexes.</summary>
+        /// <summary>
+        /// Swaps two items positions in the heap and their indexes.
+        /// </summary>
         /// <param name="a">First item.</param>
         /// <param name="b">Second item.</param>
         private void Swap(T a, T b)
@@ -65,7 +64,9 @@
             (a.HeapIndex, b.HeapIndex) = (b.HeapIndex, a.HeapIndex);
         }
 
-        /// <summary>Retrieves the correct position of an item by sorting it up the heap tree.</summary>
+        /// <summary>
+        /// Retrieves the correct position of an item by sorting it up the heap tree.
+        /// </summary>
         /// <param name="element">Item to sort up.</param>
         private void SortUp(T element)
         {
@@ -82,7 +83,9 @@
             }
         }
 
-        /// <summary>Retrieves the correct position of an item by sorting it down the heap tree.</summary>
+        /// <summary>
+        /// Retrieves the correct position of an item by sorting it down the heap tree.
+        /// </summary>
         /// <param name="element">Item to sort down.</param>
         private void SortDown(T element)
         {
@@ -105,12 +108,5 @@
                 Swap(element, _elements[swapIndex]);
             }
         }
-
-        #endregion METHODS
-    }
-
-    public interface IHeapElement<T> : System.IComparable<T>
-    {
-        int HeapIndex { get; set; }
     }
 }

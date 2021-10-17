@@ -5,7 +5,6 @@
     /// <summary>
     /// Child class of Singleton to handle Console Pro plugin prefix system.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     [DisallowMultipleComponent]
     public class ConsoleProSingleton<T> : Singleton<T> where T : MonoBehaviour
     {
