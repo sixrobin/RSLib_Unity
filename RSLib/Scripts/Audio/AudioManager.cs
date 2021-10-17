@@ -25,7 +25,7 @@
             {
                 _sources = new AudioSource[sourcesCount];
                 for (int i = 0; i < sourcesCount; ++i)
-                    _sources[i] = CreateAudioSource($"Music Source {i}", sourcesContainer, mixerGroup);
+                    _sources[i] = CreateAudioSource($"SFX Source {i}", sourcesContainer, mixerGroup);
             }
 
             public AudioSource GetNextSource()
@@ -62,6 +62,11 @@
             source.volume = clipDatas.RandomVolume;
             source.pitch = 1f + clipDatas.PitchVariation;
             source.Play();
+        }
+
+        public static void PlayNextPlaylistSound(ClipProvider clipProvider)
+        {
+            PlayNextPlaylistSound(clipProvider as IClipProvider);
         }
 
         public static void PlayMusic(IClipProvider musicProvider, MusicTransitionsDatas transitionDatas)
