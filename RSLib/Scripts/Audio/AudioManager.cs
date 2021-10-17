@@ -43,6 +43,16 @@
 
         private static System.Collections.IEnumerator _musicFadeCoroutine;
 
+        /// <summary>
+        /// Remaps a value from [0.0001f, 1f] to [-80f, 0f], to adjust a percentage to the decibels scaling.
+        /// </summary>
+        /// <param name="value">Value to convert from percentage to decibels scale.</param>
+        /// <returns>Decibels scaled value.</returns>
+        public static float RemapToDecibels(float value)
+        {
+            return Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
+        }
+
         public static void PlayNextPlaylistSound(IClipProvider clipProvider)
         {
             AudioSource source = GetSFXSource(clipProvider);
