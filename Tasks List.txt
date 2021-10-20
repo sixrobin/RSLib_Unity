@@ -4,6 +4,7 @@
 - Sound Manager.
 	- Global volume multiplier sur les Playlists ?
 	- AudioOptions template avec les sliders nécessaires.
+	- Trouver un moyen de faire loop un son et de le garder en ref pour le stopper. Renvoyer l'AudioSource ? Et faire gaffe à ne pas l'écraser avec le GetNextSource tout ça
 - Image Effects : invert.
 - Canvas Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
 - Checker sur LD48 ce qu'il fallait améliorer/récupérer dans RSLib.

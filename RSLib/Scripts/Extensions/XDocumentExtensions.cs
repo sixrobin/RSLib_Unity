@@ -187,5 +187,33 @@
         }
 
         #endregion
+
+        #region TRY GET
+
+        /// <summary>
+        /// Tries to get a XElement by its name, and returns true or false depending on the XElement existence.
+        /// </summary>
+        /// <param name="elementName">Name of the element.</param>
+        /// <param name="element">Element returned if it exists.</param>
+        /// <returns>True if the element exists.</returns>
+        public static bool TryGetElement(this XContainer container, string elementName, out XElement element)
+        {
+            element = container.Element(elementName);
+            return element != null;
+        }
+
+        /// <summary>
+        /// Tries to get a XAttribute by its name, and returns true or false depending on the XAttribute existence.
+        /// </summary>
+        /// <param name="attributeName">Name of the attribute.</param>
+        /// <param name="attribute">Attribute returned if it exists.</param>
+        /// <returns>True if the attribute exists.</returns>
+        public static bool TryGetAttribute(this XElement container, string attributeName, out XAttribute attribute)
+        {
+            attribute = container.Attribute(attributeName);
+            return attribute != null;
+        }
+
+        #endregion
     }
 }
