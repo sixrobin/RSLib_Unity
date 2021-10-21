@@ -169,6 +169,8 @@
 
         private void Start()
         {
+            s_allKeyCodes = Helpers.GetEnumValues<KeyCode>();
+
             // Used to trigger loading manually from anywhere else, depending on the project this API is used in.
             if (!_autoLoadOnStart)
                 return;
@@ -179,7 +181,6 @@
                 GenerateMissingInputsFromSave();
 
             SaveCurrentMap();
-            s_allKeyCodes = Helpers.GetEnumValues<KeyCode>();
         }
     }
 
