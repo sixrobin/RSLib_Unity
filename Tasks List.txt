@@ -8,7 +8,6 @@
 - Image Effects : invert.
 - Canvas Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
 - Checker sur LD48 ce qu'il fallait améliorer/récupérer dans RSLib.
-- Méthode pour convertir le volume avec la formule log10 (et vice et versa).
 - Maze generator https://catlikecoding.com/unity/tutorials/maze/#a-get-key-down
 - Pour les méthodes qui utilisent du random, créer des variantes qui prennent un System.Random en paramètre.
 - RandomManager façon TLS.
@@ -18,7 +17,7 @@
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
 - Maths : normalize from vector to vector
 - Tilemap Utilites : RemoveCollision()
-- Input Manager : bool VisibleInLists
+- "Scrollbar.AdjustToSelectable"
 
 - Outils à choper
 	- https://wiki.unity3d.com/index.php/Mathfx
