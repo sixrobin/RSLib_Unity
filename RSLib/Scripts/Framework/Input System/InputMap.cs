@@ -11,13 +11,11 @@
     {
         /// <summary>
         /// Key is the action id (representing a button and NOT an axis).
-        /// Value is a tuple containing both valid KeyCodes for the action.
+        /// Value is a KeyBinding class containing inputs and other action related datas.
         /// </summary>
-        private System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)> _map
-            = new System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)>();
-
-        public System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)> MapCopy =>
-            new System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)>(_map);
+        private System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> _map = new System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding>();
+        
+        public System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> MapCopy => new System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding>(_map);
 
         public InputMap()
         {
@@ -38,7 +36,7 @@
             _map = inputMap._map;
         }
 
-        public InputMap(System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)> map)
+        public InputMap(System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> map)
         {
             _map = map;
         }
@@ -60,7 +58,14 @@
             Clear();
 
             for (int i = 0; i < mapDatas.Bindings.Length; ++i)
-                CreateAction(mapDatas.Bindings[i].ActionId, mapDatas.Bindings[i].KeyCodes);
+            {
+                InputMapDatas.KeyBinding keyBinding = new InputMapDatas.KeyBinding(
+                    mapDatas.Bindings[i].ActionId,
+                    mapDatas.Bindings[i].KeyCodes,
+                    mapDatas.Bindings[i].UserAssignable);
+
+                CreateAction(mapDatas.Bindings[i].ActionId, keyBinding);
+            }
 
             InputManager.Instance.Log($"Generated {_map.Count} input bindings.", InputManager.Instance.gameObject);
         }
@@ -72,26 +77,28 @@
         /// <returns>True if deserialization has been done successfully, else false.</returns>
         public void Deserialize(XContainer container)
         {
-            XElement inputMapElement = container.Element("InputMap");
+            InputMap defaultMap = InputManager.GetDefaultMapCopy();
+
+            XElement inputMapElement = container.Element(InputManager.INPUT_MAP_ELEMENT_NAME);
             foreach (XElement keyBindingElement in inputMapElement.Elements())
             {
                 string actionId = keyBindingElement.Name.LocalName;
 
-                XAttribute btnAttribute = keyBindingElement.Attribute("Btn");
+                XAttribute btnAttribute = keyBindingElement.Attribute(InputManager.BTN_ATTRIBUTE_NAME);
                 if (!System.Enum.TryParse(btnAttribute.Value, out KeyCode btnKeyCode))
                 {
                     InputManager.Instance.LogError($"Could not parse {btnAttribute.Value} to a valid UnityEngine.KeyCode. Restoring default input mapping.", InputManager.Instance.gameObject);
                     return;
                 }
 
-                XAttribute altBtnAttribute = keyBindingElement.Attribute("Alt");
+                XAttribute altBtnAttribute = keyBindingElement.Attribute(InputManager.ALT_ATTRIBUTE_NAME);
                 if (!System.Enum.TryParse(altBtnAttribute.Value, out KeyCode altBtnKeyCode))
                 {
                     InputManager.Instance.LogError($"Could not parse {altBtnAttribute.Value} to a valid UnityEngine.KeyCode. Restoring default input mapping.", InputManager.Instance.gameObject);
                     return;
                 }
 
-                CreateAction(actionId, (btnKeyCode, altBtnKeyCode));
+                CreateAction(actionId, new InputMapDatas.KeyBinding(actionId, (btnKeyCode, altBtnKeyCode), defaultMap.GetActionBinding(actionId).UserAssignable));
             }
         }
 
@@ -133,10 +140,10 @@
         /// </summary>
         /// <param name="actionId">Action Id type to create.</param>
         /// <param name="btns">Both action KeyCodes.</param>
-        public void CreateAction(string actionId, (KeyCode btn, KeyCode altBtn) btns)
+        public void CreateAction(string actionId, InputMapDatas.KeyBinding keyBinding)
         {
             UnityEngine.Assertions.Assert.IsFalse(HasAction(actionId), $"Trying to create an already know action Id {actionId}.");
-            _map.Add(actionId, btns);
+            _map.Add(actionId, keyBinding);
         }
 
         /// <summary>
@@ -144,7 +151,7 @@
         /// </summary>
         /// <param name="actionId">Action Id to get KeyCodes of.</param>
         /// <returns>Tuple containing KeyCodes.</returns>
-        public (KeyCode btn, KeyCode altBtn) GetActionKeyCodes(string actionId)
+        public InputMapDatas.KeyBinding GetActionBinding(string actionId)
         {
             UnityEngine.Assertions.Assert.IsTrue(HasAction(actionId), $"Looking for keyCodes of unknown action Id {actionId}.");
             return _map[actionId];
@@ -160,12 +167,12 @@
         {
             UnityEngine.Assertions.Assert.IsTrue(HasAction(actionId), $"Trying to set keyCode of unknown action Id {actionId}.");
 
-            (KeyCode btn, KeyCode altBtn) newBinding = _map[actionId];
+            InputMapDatas.KeyBinding newBinding = _map[actionId];
 
             if (alt)
-                newBinding.altBtn = keyCode;
+                newBinding.SetAltBtn(keyCode);
             else
-                newBinding.btn = keyCode;
+                newBinding.SetBtn(keyCode);
 
             string[] keys = _map.Keys.ToArray();
             for (int i = keys.Length - 1; i >= 0; --i)
@@ -173,11 +180,11 @@
                 if (keys[i] == actionId)
                     continue;
 
-                if (_map[keys[i]].btn == keyCode)
-                    _map[keys[i]] = (KeyCode.None, _map[keys[i]].altBtn);
+                if (_map[keys[i]].KeyCodes.btn == keyCode)
+                    _map[keys[i]].SetBtns(KeyCode.None, _map[keys[i]].KeyCodes.altBtn);
 
-                if (_map[keys[i]].altBtn == keyCode)
-                    _map[keys[i]] = (_map[keys[i]].btn, KeyCode.None);
+                if (_map[keys[i]].KeyCodes.altBtn == keyCode)
+                    _map[keys[i]].SetBtns(_map[keys[i]].KeyCodes.btn, KeyCode.None);
             }
 
             _map[actionId] = newBinding;

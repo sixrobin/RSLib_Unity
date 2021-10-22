@@ -44,8 +44,8 @@
 
         public static bool GetInput(string actionId)
         {
-            (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(actionId);
-            return Input.GetKey(btn) || Input.GetKey(altBtn);
+            InputMapDatas.KeyBinding keyBinding = s_inputMap.GetActionBinding(actionId);
+            return Input.GetKey(keyBinding.KeyCodes.btn) || Input.GetKey(keyBinding.KeyCodes.altBtn);
         }
 
         public static bool GetAnyInput(params string[] actionsIds)
@@ -59,10 +59,10 @@
 
         public static bool GetInputDown(string actionId)
         {
-            (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(actionId);
-            return Input.GetKeyDown(btn) || Input.GetKeyDown(altBtn);
+            InputMapDatas.KeyBinding keyBinding = s_inputMap.GetActionBinding(actionId);
+            return Input.GetKeyDown(keyBinding.KeyCodes.btn) || Input.GetKeyDown(keyBinding.KeyCodes.altBtn);
         }
-        
+
         public static bool GetAnyInputDown(params string[] actionsIds)
         {
             for (int i = actionsIds.Length - 1; i >= 0; --i)
@@ -74,8 +74,8 @@
 
         public static bool GetInputUp(string actionId)
         {
-            (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(actionId);
-            return Input.GetKeyUp(btn) || Input.GetKeyUp(altBtn);
+            InputMapDatas.KeyBinding keyBinding = s_inputMap.GetActionBinding(actionId);
+            return Input.GetKeyUp(keyBinding.KeyCodes.btn) || Input.GetKeyUp(keyBinding.KeyCodes.altBtn);
         }
 
         public static bool GetAnyInputUp(params string[] actionsIds)
@@ -87,12 +87,12 @@
             return false;
         }
 
-        public static System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)> GetMapCopy()
+        public static System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> GetMapCopy()
         {
             return s_inputMap.MapCopy;
         }
 
-        public static void SetBindings(System.Collections.Generic.Dictionary<string, (KeyCode btn, KeyCode altBtn)> bindings)
+        public static void SetBindings(System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> bindings)
         {
             s_inputMap = new InputMap(bindings);
         }
@@ -110,7 +110,7 @@
                     continue;
 
                 Instance.Log($"Loading missing binding from InputSave for action Id {Instance._defaultMapDatas.Bindings[i].ActionId}", context: Instance.gameObject);
-                s_inputMap.CreateAction(Instance._defaultMapDatas.Bindings[i].ActionId, Instance._defaultMapDatas.Bindings[i].KeyCodes);
+                s_inputMap.CreateAction(Instance._defaultMapDatas.Bindings[i].ActionId, Instance._defaultMapDatas.Bindings[i]);
             }
 
             s_inputMap.SortActionsBasedOnDatas(Instance._defaultMapDatas);
@@ -135,7 +135,7 @@
                     if (Input.GetKeyDown(Instance._cancelAssignKeys[i]))
                     {
                         Instance.Log($"Cancelling key assignment for action Id {actionId}.", context: Instance.gameObject);
-                        callback?.Invoke(actionId, alt ? map.GetActionKeyCodes(actionId).altBtn : map.GetActionKeyCodes(actionId).btn, alt);
+                        callback?.Invoke(actionId, alt ? map.GetActionBinding(actionId).KeyCodes.altBtn : map.GetActionBinding(actionId).KeyCodes.btn, alt);
                         s_assignKeyCoroutine = null;
                         yield break;
                     }
@@ -186,6 +186,10 @@
 
     public partial class InputManager : Singleton<InputManager>
     {
+        public const string INPUT_MAP_ELEMENT_NAME = "InputMap";
+        public const string BTN_ATTRIBUTE_NAME = "Btn";
+        public const string ALT_ATTRIBUTE_NAME = "Alt";
+
         private static string s_savePath;
 
         public static string SavePath
@@ -198,17 +202,17 @@
         {
             Instance.Log($"Saving input map to {SavePath}...", context: Instance.gameObject);
 
-            XContainer container = new XElement("InputMap");
+            XContainer container = new XElement(INPUT_MAP_ELEMENT_NAME);
 
-            foreach (System.Collections.Generic.KeyValuePair<string, (KeyCode btn, KeyCode altBtn)> binding in s_inputMap.MapCopy)
+            foreach (System.Collections.Generic.KeyValuePair<string, InputMapDatas.KeyBinding> binding in s_inputMap.MapCopy)
             {
-                if (!s_inputMap.HasAction(binding.Key))
+                if (!s_inputMap.HasAction(binding.Key) || !binding.Value.UserAssignable)
                     continue;
 
                 XElement actionElement = new XElement(binding.Key);
-                (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionKeyCodes(binding.Key);
-                actionElement.Add(new XAttribute("Btn", btn.ToString()));
-                actionElement.Add(new XAttribute("Alt", altBtn.ToString()));
+                (KeyCode btn, KeyCode altBtn) = s_inputMap.GetActionBinding(binding.Key).KeyCodes;
+                actionElement.Add(new XAttribute(BTN_ATTRIBUTE_NAME, btn.ToString()));
+                actionElement.Add(new XAttribute(ALT_ATTRIBUTE_NAME, altBtn.ToString()));
 
                 container.Add(actionElement);
             }
@@ -257,7 +261,6 @@
 
                 XContainer container = XDocument.Parse(System.IO.File.ReadAllText(SavePath));
                 s_inputMap = new InputMap(container);
-                SaveCurrentMap();
             }
             catch (System.Exception e)
             {
