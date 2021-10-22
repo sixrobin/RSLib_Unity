@@ -18,7 +18,7 @@
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
 - Maths : normalize from vector to vector
 - Tilemap Utilites : RemoveCollision()
-- Texture2D : FlipY
+- Input Manager : bool VisibleInLists
 
 - Outils à choper
 	- https://wiki.unity3d.com/index.php/Mathfx
