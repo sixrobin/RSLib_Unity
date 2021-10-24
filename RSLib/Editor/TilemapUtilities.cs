@@ -163,7 +163,8 @@
                     return;
                 }
 
-                if (true/*_tile is RuleTile || _tile is RuleOverrideTile*/)
+                // Use name and not type directly because 2d extras can be missing in the project, causing errors with those types.
+                if (_tile.GetType().Name == "RuleTile" || _tile.GetType().Name == "RuleOverrideTile")
                 {
                     OverrideTiles();
                 }
