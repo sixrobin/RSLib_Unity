@@ -68,7 +68,47 @@
             return UnityEngine.Object.FindObjectsOfType<UnityEngine.MonoBehaviour>().OfType<T>();
         }
 
-        #endregion
+        #endregion FIND
+
+        #region GUI
+
+        /// <summary>
+        /// Automatically adjust the ScrollView content position so that navigating through the slots with a controller
+        /// works without having to move the Scrollbar manually.
+        /// This can also handle mouse hovering if called in OnPointerEnter method.
+        /// </summary>
+        /// <param name="focusedRect">Item focused inside the ScrollView.</param>
+        /// <param name="scrollViewViewport">ScrollView to adjust content viewport of.</param>
+        /// <param name="scrollbar">Related Scrollbar.</param>
+        /// <param name="stepValue">Step size to apply while item is not focused correctly.</param>
+        /// <param name="margin">Margin to use to check if focus is correct.</param>
+        public static void AdjustScrollViewToFocusedItem(UnityEngine.RectTransform focusedRect, UnityEngine.RectTransform scrollViewViewport, UnityEngine.UI.Scrollbar scrollbar, float stepValue, float margin)
+        {
+            UnityEngine.Vector3[] sourceCorners = new UnityEngine.Vector3[4];
+            UnityEngine.Vector3[] slotsViewportWorldCorners = new UnityEngine.Vector3[4];
+
+            focusedRect.GetWorldCorners(sourceCorners);
+            scrollViewViewport.GetWorldCorners(slotsViewportWorldCorners);
+
+            while (sourceCorners[1].y > slotsViewportWorldCorners[1].y)
+            {
+                scrollbar.value += stepValue;
+                focusedRect.GetWorldCorners(sourceCorners);
+            }
+
+            while (sourceCorners[0].y < slotsViewportWorldCorners[0].y)
+            {
+                scrollbar.value -= stepValue;
+                focusedRect.GetWorldCorners(sourceCorners);
+            }
+
+            if (scrollbar.value - margin < 0f)
+                scrollbar.value = 0f;
+            else if (scrollbar.value + margin > 1f)
+                scrollbar.value = 1f;
+        }
+
+        #endregion GUI
 
         #region MISC
 
@@ -177,6 +217,6 @@
             return (a % n + n) % n;
         }
 
-        #endregion
+        #endregion MODULO
     }
 }
