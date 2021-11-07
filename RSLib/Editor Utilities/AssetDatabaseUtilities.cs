@@ -27,13 +27,17 @@ namespace RSLib.EditorUtilities
             return assetsList.ToArray();
         }
 
-        public static string[] GetSubFoldersRecursively(string rootPath)
+        public static string[] GetSubFoldersRecursively(string rootPath, bool includeRoot = false)
         {
             System.Collections.Generic.List<string> paths = new System.Collections.Generic.List<string>();
+
+            if (includeRoot)
+                paths.Add(rootPath);
+            
             foreach (string path in UnityEditor.AssetDatabase.GetSubFolders(rootPath))
             {
                 paths.Add(path);
-                paths.AddRange(GetSubFoldersRecursively(path));
+                paths.AddRange(GetSubFoldersRecursively(path, false));
             }
 
             return paths.ToArray();
