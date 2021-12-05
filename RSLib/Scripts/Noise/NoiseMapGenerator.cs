@@ -74,6 +74,17 @@
             }
         }
 
+        public void AddOffset(Vector2 offset)
+        {
+            _offset += offset;
+        }
+
+        public void AddOffset(float x, float y)
+        {
+            _offset.x += x;
+            _offset.y += y;
+        }
+
         private void OnValidate()
         {
             _size.x = Mathf.Max(_size.x, 1);
