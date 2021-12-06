@@ -31,6 +31,7 @@
         [SerializeField] private ColorMode _colorMode = ColorMode.NoiseMap;
         [SerializeField] private Color _heightMapColorA = Color.white;
         [SerializeField] private Color _heightMapColorB = Color.black;
+        [SerializeField] private Maths.Curve _heightMapLerpCurve = Maths.Curve.Linear;
         [SerializeField] private ColorByHeight[] _colors = null;
 
         public enum ColorMode
@@ -63,7 +64,7 @@
             switch (_colorMode)
             {
                 case ColorMode.NoiseMap:
-                    _noiseMapView.SetRendererTexture(TextureGenerator.TextureFromHeightMap(noiseMap, _heightMapColorA, _heightMapColorB, FilterMode.Bilinear, TextureWrapMode.Clamp));
+                    _noiseMapView.SetRendererTexture(TextureGenerator.TextureFromHeightMap(noiseMap, _heightMapColorA, _heightMapColorB, FilterMode.Bilinear, TextureWrapMode.Clamp, _heightMapLerpCurve));
                     break;
                 case ColorMode.ColorMap:
                     _noiseMapView.SetRendererTexture(TextureGenerator.TextureFromColorMap(colorMap, _size.x, _size.y, _filterMode, TextureWrapMode.Clamp));
