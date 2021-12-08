@@ -5,11 +5,11 @@
     public class NoiseMapGenerator : MonoBehaviour
     {
         [System.Serializable]
-        public struct ColorByHeight
+        public class ColorByHeight
         {
-            [SerializeField] private float _height;
-            [SerializeField] private Color _color;
-
+            [SerializeField] private float _height = 0f;
+            [SerializeField] private Color _color = Color.white;
+            
             public float Height => _height;
             public Color Color => _color;
         }
