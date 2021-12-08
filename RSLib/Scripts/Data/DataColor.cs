@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Data Color", menuName = "RSLib/Data Color")]
+    [CreateAssetMenu(fileName = "New Data Color", menuName = "RSLib/Data/Color")]
     public class DataColor : ScriptableObject
     {
         [SerializeField] private Color _color = Color.white;
