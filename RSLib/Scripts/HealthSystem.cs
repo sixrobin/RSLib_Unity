@@ -142,12 +142,7 @@
         /// </summary>
         public void Kill()
         {
-            if (IsDead)
-            {
-                UnityEngine.Debug.LogWarning("LivingUnit.Kill() WARNING: Can not kill an already dead unit, aborting.");
-                return;
-            }
-
+            UnityEngine.Assertions.Assert.IsFalse(IsDead, "Can not kill an already dead unit, aborting.");
             CurrentHealth = 0;
         }
     }
