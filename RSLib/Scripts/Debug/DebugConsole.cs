@@ -69,6 +69,19 @@
 
         public class HistoryLine
         {
+            public struct ValidityComparer : IEqualityComparer<Validity>
+            {
+                public bool Equals(Validity x, Validity y)
+                {
+                    return x.Equals(y);
+                }
+
+                public int GetHashCode(Validity obj)
+                {
+                    return obj.GetHashCode();
+                }
+            }
+
             public HistoryLine(string cmd, Validity validity, bool isExternalLog)
             {
                 Cmd = cmd;
@@ -919,7 +932,7 @@
 
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
 
-            _colorsByValidity = new Dictionary<HistoryLine.Validity, Color>(new RSLib.Framework.Comparers.EnumComparer<HistoryLine.Validity>())
+            _colorsByValidity = new Dictionary<HistoryLine.Validity, Color>(new HistoryLine.ValidityComparer())
             {
                 { HistoryLine.Validity.Valid, _validColor },
                 { HistoryLine.Validity.Invalid, _invalidColor },

@@ -9,9 +9,9 @@
 	public sealed class SceneField
 	{
 #pragma warning disable CS0414
-        [SerializeField] Object _sceneAsset = null;
+        [SerializeField] private Object _sceneAsset = null;
 #pragma warning restore CS0414
-        [SerializeField] string _sceneName = string.Empty;
+        [SerializeField] private string _sceneName = string.Empty;
 
         public string SceneName => _sceneName;
 

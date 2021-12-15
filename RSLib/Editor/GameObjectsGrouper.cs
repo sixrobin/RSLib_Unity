@@ -1,6 +1,5 @@
 ﻿namespace RSLib.Editor
 {
-	using Extensions;
 	using UnityEngine;
 	using UnityEditor;
 
@@ -60,9 +59,16 @@
 
 			GameObject groupParent = new GameObject(_groupName);
 			groupParent.transform.SetParent(_selection[0].transform.parent);
-			groupParent.transform.SetSiblingIndex(_selection[0].transform.GetSiblingIndex ());
+			groupParent.transform.SetSiblingIndex(_selection[0].transform.GetSiblingIndex());
+
 			if (_averagePos)
-				groupParent.transform.position = _yReset ? GetSelectionAveragePosition().WithY(0) : GetSelectionAveragePosition();
+            {
+                Vector3 averagePos = GetSelectionAveragePosition();
+				if (_yReset)
+					averagePos.y = 0f;
+	
+				groupParent.transform.position = averagePos;
+			}
 
 			foreach (GameObject child in _selection)
 			{
