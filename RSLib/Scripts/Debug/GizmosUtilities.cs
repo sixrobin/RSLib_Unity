@@ -1,6 +1,5 @@
 ﻿namespace RSLib.Debug
 {
-    using RSLib.Extensions;
     using System.Linq;
 
     public static class GizmosUtilities
@@ -37,7 +36,7 @@
         /// <param name="cyclic">Should the first and the last points be joined together.</param>
         public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector2> points, bool cyclic = true, bool dotted = false)
         {
-            DrawVectorsPath(points.ToVector3Array(), UnityEngine.Vector2.zero, cyclic, dotted);
+            DrawVectorsPath(points, UnityEngine.Vector2.zero, cyclic, dotted);
         }
 
         /// <summary>
@@ -49,7 +48,12 @@
         /// <param name="cyclic">Should the first and the last points be joined together.</param>
         public static void DrawVectorsPath(System.Collections.Generic.IEnumerable<UnityEngine.Vector2> points, UnityEngine.Vector2 offset, bool cyclic = true, bool dotted = false)
         {
-            DrawVectorsPath(points.ToVector3Array(), offset, cyclic, dotted);
+            // Convert Vector2 collection to Vector3.
+            System.Collections.Generic.List<UnityEngine.Vector3> vectors = new System.Collections.Generic.List<UnityEngine.Vector3>();
+            foreach (UnityEngine.Vector2 point in points)
+                vectors.Add(point);
+
+            DrawVectorsPath(vectors, offset, cyclic, dotted);
         }
 
         /// <summary>

@@ -2,7 +2,7 @@
 {
 	using UnityEngine;
 	using UnityEditor;
-	using Extensions;
+    using Extensions;
 
     public sealed class LayerRecurviseSetterMenu
 	{
@@ -30,7 +30,7 @@
 			window.Show();
 		}
 
-        private void OnGUI()
+		private void OnGUI()
 		{
 			_selection = Selection.gameObjects;
 

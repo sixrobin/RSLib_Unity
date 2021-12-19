@@ -1,7 +1,5 @@
 ﻿namespace RSLib
 {
-    using RSLib.Maths;
-
     /// <summary>
     /// Class used to manage a health system. Every living unit can have an instance on this class and listen to the Killed event to be notified when dead.
     /// Methods of this class should be accessed by some methods implemented by an interface (something like ILivingUnit) so that there can be a clean
@@ -54,7 +52,7 @@
             set
             {
                 int previousHealth = _currentHealth;
-                _currentHealth = value.Clamp(0, MaxHealth);
+                _currentHealth = value < 0 ? 0 : value > MaxHealth ? MaxHealth : value;
 
                 if (IsDead)
                     Killed?.Invoke();
@@ -134,7 +132,7 @@
             if (triggerEvents)
                 CurrentHealth = value;
             else
-                _currentHealth = value.Clamp(0, MaxHealth);
+                _currentHealth = value < 0 ? 0 : value > MaxHealth ? MaxHealth : value;
         }
 
         /// <summary>
@@ -142,12 +140,7 @@
         /// </summary>
         public void Kill()
         {
-            if (IsDead)
-            {
-                UnityEngine.Debug.LogWarning("LivingUnit.Kill() WARNING: Can not kill an already dead unit, aborting.");
-                return;
-            }
-
+            UnityEngine.Assertions.Assert.IsFalse(IsDead, "Can not kill an already dead unit, aborting.");
             CurrentHealth = 0;
         }
     }
