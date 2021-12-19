@@ -1,3 +1,5 @@
+- /!\ Rendre indépendants les petits scripts de la library entre eux.
+
 - AutoDestroy, avec delay, pour anim event.
 - Encryption tool.
 - Textures de gradients linéaires/radiaux déjà utilisables, BW et WB.
@@ -17,7 +19,12 @@
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
 - Maths : normalize from vector to vector
 - Tilemap Utilites : RemoveCollision()
-- "Scrollbar.AdjustToSelectable"
+- Curve editor de Sebastian Lague
+
+- DungeonGenerator :
+	- Drunkard Walk
+	- Corridor
+	- Binary Space Partitioning
 
 - Outils à choper
 	- https://wiki.unity3d.com/index.php/Mathfx
