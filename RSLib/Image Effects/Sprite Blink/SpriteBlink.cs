@@ -66,13 +66,17 @@
 
 		public void ResetColor()
 		{
-			StopCoroutine(_colorCoroutine);
+			if (_colorCoroutine != null)
+				StopCoroutine(_colorCoroutine);
+
 			_blinkMat.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(0f));
 		}
 
 		public void ResetAlpha()
 		{
-			StopCoroutine(_alphaCoroutine);
+			if (_alphaCoroutine != null)
+				StopCoroutine(_alphaCoroutine);
+
 			_blinkMat.SetColor(COLOR_SHADER_PARAM, _blinkMat.GetColor(COLOR_SHADER_PARAM).WithA(1f));
 		}
 
