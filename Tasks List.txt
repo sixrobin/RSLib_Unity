@@ -20,7 +20,6 @@
 - Maths : normalize from vector to vector
 - Tilemap Utilites : RemoveCollision()
 - Curve editor de Sebastian Lague
-- Quadratic equation
 
 - DungeonGenerator :
 	- Drunkard Walk
