@@ -247,12 +247,37 @@
             return 1f - f;
         }
 
-        /// <summary>Computes the result of 1 - x.</summary>
+        /// <summary>
+        /// Computes the result of 1 - x.
+        /// </summary>
         /// <param name="d">Value to switch.</param>
         /// <returns>Switched value.</returns>
         public static double OneMinus(this double d)
         {
             return 1 - d;
+        }
+
+        /// <summary>
+        /// Computes the solution(s) to a quadratic equation ax²+bx+c=0.
+        /// Returns null if there is no solution.
+        /// </summary>
+        /// <param name="a">Equation first value. Cannot be equal to 0.</param>
+        /// <param name="b">Equation second value.</param>
+        /// <param name="c">Equation third value.</param>
+        /// <returns>Array containing the solutions if there are some, else null.</returns>
+        public static double[] QuadraticEquation(int a, int b, int c)
+        {
+            if (a == 0)
+                throw new System.ArgumentException("A cannot be equal to 0 to solve a quadratic equation.");
+
+            int delta = b * b - 4 * a * c;
+
+            if (delta < 0)
+                return null;
+            else if (delta == 0)
+                return new double[] { -b / (2f * a) };
+            else
+                return new double[] { (-b - System.Math.Sqrt(delta)) / (2f * a), (-b + System.Math.Sqrt(delta)) / (2f * a) };
         }
 
         #endregion GENERAL
