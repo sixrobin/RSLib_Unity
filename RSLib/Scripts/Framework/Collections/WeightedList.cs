@@ -1,7 +1,7 @@
 ﻿namespace RSLib.Framework.Collections
 {
 	/// <summary>
-	/// Custom generic type structure, similar to list where each item has an attached probability.
+	/// Generic type structure, similar to list where each item has an attached probability.
 	/// Sum of all probabilities do not have to be equal to 1 when added, the class will normalize all the probabilities by itself.
 	/// Use the method Peek to get a random element, based on those probabilities.
 	/// </summary>

@@ -38,12 +38,12 @@
 
         public override void LogError(string msg)
         {
-            Debug.LogWarning($"#{Prefix}#{msg}", gameObject);
+            Debug.LogError($"#{Prefix}#{msg}", gameObject);
         }
 
         public override void LogError(string msg, Object context)
         {
-            Debug.LogWarning($"#{Prefix}#{msg}", context);
+            Debug.LogError($"#{Prefix}#{msg}", context);
         }
     }
 }

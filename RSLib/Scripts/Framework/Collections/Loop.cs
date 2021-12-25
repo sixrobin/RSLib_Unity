@@ -8,7 +8,7 @@
 	/// Custom generic type structure, similar to a queue but where dequeued items are then reenqueued.
 	/// This structure, as it is written, should probably be used for randomly peeked elements.
 	/// </summary>
-	public sealed class Loop<T> : IEnumerable<T>, IEnumerable, IReadOnlyCollection<T>, ICollection<T> where T : System.IComparable
+	public sealed class Loop<T> : IReadOnlyCollection<T>, ICollection<T> where T : System.IComparable
 	{
         private List<T> _loop = new List<T>();
 		private int _peeksCount = 0;
