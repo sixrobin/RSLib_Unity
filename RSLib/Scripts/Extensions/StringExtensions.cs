@@ -1,7 +1,6 @@
 ﻿namespace RSLib.Extensions
 {
     using RSLib.Maths;
-    using System.Linq;
 
     public static class StringExtensions
     {
@@ -138,7 +137,7 @@
             string result = string.Empty;
 
             for (int i = 0; i < str.Length; ++i)
-                if (i == 0 && forceIncludeFirstChar || str[i] >= 'A' && str[i] <= 'Z')
+                if (i == 0 && forceIncludeFirstChar || char.IsUpper(str[i]))
                     result += str[i];
 
             return result;

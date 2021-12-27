@@ -194,7 +194,7 @@
 
         public static string SavePath
         {
-            get => string.IsNullOrEmpty(s_savePath) ? $"{Application.persistentDataPath}/Inputs.xml" : s_savePath;
+            get => string.IsNullOrEmpty(s_savePath) ? System.IO.Path.Combine(Application.persistentDataPath, "Inputs.xml") : s_savePath;
             set => s_savePath = value;
         }
 
