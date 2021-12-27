@@ -676,8 +676,11 @@
                 Application.Quit();
 #endif
             }));
+
+            AddCommand(new Command("OpenPersistentDataPath", "Opens Application.persistentDataPath folder.",
+                () => System.Diagnostics.Process.Start($@"{Application.persistentDataPath}")));
         }
-        
+
         private void ResetHistoryNavigation()
         {
             _historyNavIndex = -1;
