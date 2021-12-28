@@ -223,6 +223,15 @@
             return new string(copy);
         }
 
+        /// <summary>
+        /// Replaces every multiple spaces in given string by one space.
+        /// </summary>
+        /// <returns>String with first letter to uppercase.</returns>
+        public static string ReplaceMultipleSpacesBySingleOne(this string str)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(str, @"\s+", " ");
+        }
+
         #endregion GENERAL
 
         #region STYLES

@@ -327,9 +327,12 @@
                 return;
 
             HistoryLine.Validity validity = HistoryLine.Validity.Invalid;
-
             CommandBase currentCmd = null;
-            string[] inputStrProperties = _inputStr.Split(' ');
+
+            string inputStr = _inputStr;
+            inputStr = inputStr.Trim();
+            inputStr = System.Text.RegularExpressions.Regex.Replace(inputStr, @"\s+", " ");
+            string[] inputStrProperties = inputStr.Split(' ');
 
             // Loop through all the registered commands and check if the ID matches the input ID.
             // If so, check if the parameters count also matches, and then try to parse the parameters according to the command type.
