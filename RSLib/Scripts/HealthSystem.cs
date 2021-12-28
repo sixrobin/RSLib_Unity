@@ -9,20 +9,23 @@
     {
         public class HealthChangedEventArgs : System.EventArgs
         {
-            public HealthChangedEventArgs(int previous, int current)
+            public HealthChangedEventArgs(int previous, int current, int max)
             {
                 Previous = previous;
                 Current = current;
+                Max = max;
             }
 
             public HealthChangedEventArgs(HealthChangedEventArgs template)
             {
                 Previous = template.Previous;
                 Current = template.Current;
+                Max = template.Max;
             }
 
             public int Previous { get; private set; }
             public int Current { get; private set; }
+            public int Max { get; private set; }
 
             public bool IsLoss => Previous > Current;
         }
@@ -57,7 +60,7 @@
                 if (IsDead)
                     Killed?.Invoke();
                 else if (previousHealth != _currentHealth)
-                    HealthChanged?.Invoke(new HealthChangedEventArgs(previousHealth, _currentHealth));
+                    HealthChanged?.Invoke(new HealthChangedEventArgs(previousHealth, _currentHealth, MaxHealth));
             }
         }
 
