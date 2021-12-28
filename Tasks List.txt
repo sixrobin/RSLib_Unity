@@ -20,7 +20,6 @@
 - Maths : normalize from vector to vector
 - Tilemap Utilites : RemoveCollision()
 - Curve editor de Sebastian Lague
-- Dev Console : trim les espaces au début et à la fin et autoriser les espaces multiples
 
 - DungeonGenerator :
 	- Drunkard Walk
