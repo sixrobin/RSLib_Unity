@@ -23,6 +23,11 @@
         private const float LINE_HEIGHT = 20f;
         private const string VALUE_DEBUG_FORMAT = "{0}:{1}";
 
+        [Header("GENERAL")]
+        [SerializeField] private KeyCode _toggleKey = KeyCode.F1;
+        [SerializeField] private bool _editorOnly = true;
+
+        [Header("STYLE")]
         [SerializeField, Min(0f)] private float _margin = 0f;
         [SerializeField, Min(0f)] private float _linesHeight = 15f;
         [SerializeField] private Color _textsColor = Color.yellow;
@@ -30,6 +35,8 @@
 
         private Dictionary<Anchor, Dictionary<string, ValueGetter>> _values = new Dictionary<Anchor, Dictionary<string, ValueGetter>>();
         private Dictionary<Anchor, GUIStyle> _styles = new Dictionary<Anchor, GUIStyle>();
+
+        private bool _enabled;
 
         public delegate object ValueGetter();
 
@@ -112,8 +119,21 @@
             InitGUIStyles();
         }
 
+        private void Update()
+        {
+#if !UNITY_EDITOR
+            if (_editorOnly)
+                return;
+#endif
+            if (Input.GetKeyDown(_toggleKey))
+                _enabled = !_enabled;
+        }
+
         private void OnGUI()
         {
+            if (!_enabled)
+                return;
+
             ClearValues();
 
             foreach (KeyValuePair<Anchor, Dictionary<string, ValueGetter>> values in _values)
