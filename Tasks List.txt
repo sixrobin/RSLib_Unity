@@ -18,17 +18,20 @@
 - Récupérer le shader UIRamp de Templar.
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
 - Maths : normalize from vector to vector
+- Maths : stick to world direction (https://answers.unity.com/questions/31744/how-do-i-snap-vector-to-the-nearest-cardinal-value.html)
 - Tilemap Utilites : RemoveCollision()
 - Curve editor de Sebastian Lague
+- World LayoutGroup (avec SpriteRenderers)
+- Vector.Snap (avec en param le nombre de directions, 4, 8, etc.)
+
+- Art
+	- Tileset template de Templar
+	- Cursors de Juice Jam
+	- Coin de Templar
+	- Puffs de Templar
+	- Dither fade de Juice Jam
 
 - DungeonGenerator :
 	- Drunkard Walk
 	- Corridor
 	- Binary Space Partitioning
-
-- Outils à choper
-	- https://wiki.unity3d.com/index.php/Mathfx
-	- https://wiki.unity3d.com/index.php/FindMissingScripts
-	- https://wiki.unity3d.com/index.php/MultiKeyDictionary
-	- https://wiki.unity3d.com/index.php/SerializableDictionary
-	- https://wiki.unity3d.com/index.php/TransformRotation2D
