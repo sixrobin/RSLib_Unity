@@ -59,6 +59,17 @@
 		}
 
 		/// <summary>
+		/// Destroys immediate all transform children.
+		/// </summary>
+		public static void DestroyImmediateChildren(this Transform t)
+		{
+			for (int i = t.childCount - 1; i >= 0; --i)
+				GameObject.DestroyImmediate(t.GetChild(i).gameObject);
+
+			t.DetachChildren();
+		}
+
+		/// <summary>
 		/// Transferts all children of a transform to another parent.
 		/// </summary>
 		/// <param name="newParent">New parent transform.</param>
@@ -276,6 +287,33 @@
 		public static void SetPositionZ(this Transform t, float value)
 		{
 			t.position = new Vector3(t.position.x, t.position.y, value);
+		}
+
+		/// <summary>
+		/// Sets the x component of the transform local position.
+		/// </summary>
+		/// <param name="value">New local x value.</param>
+		public static void SetLocalPositionX(this Transform t, float value)
+		{
+			t.localPosition = new Vector3(value, t.localPosition.y, t.localPosition.z);
+		}
+
+		/// <summary>
+		/// Sets the y component of the transform local position.
+		/// </summary>
+		/// <param name="y">New local y value.</param>
+		public static void SetLocalPositionY(this Transform t, float value)
+		{
+			t.localPosition = new Vector3(t.localPosition.x, value, t.localPosition.z);
+		}
+
+		/// <summary>
+		/// Sets the z component of the transform local position.
+		/// </summary>
+		/// <param name="value">New local z value.</param>
+		public static void SetLocalPositionZ(this Transform t, float value)
+		{
+			t.localPosition = new Vector3(t.localPosition.x, t.localPosition.y, value);
 		}
 
 		/// <summary>
