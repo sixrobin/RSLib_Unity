@@ -30,6 +30,7 @@
 	- Coin de Templar
 	- Puffs de Templar
 	- Dither fade de Juice Jam
+	- Tilesets + rule tiles de Juice Jam
 
 - DungeonGenerator :
 	- Drunkard Walk
