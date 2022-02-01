@@ -25,7 +25,9 @@
 
         [Header("GENERAL")]
         [SerializeField] private KeyCode _toggleKey = KeyCode.F1;
+#pragma warning disable CS0414
         [SerializeField] private bool _editorOnly = true;
+#pragma warning restore CS0414
 
         [Header("STYLE")]
         [SerializeField, Min(0f)] private float _margin = 0f;
