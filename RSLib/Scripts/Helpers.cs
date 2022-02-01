@@ -152,9 +152,9 @@
         }
 
         /// <summary>
-        /// Computes the average position between transforms
+        /// Computes the average position between transforms.
         /// </summary>
-        /// <param name="vectors">Array of transforms, or multiple transforms as multiple arguments.</param>
+        /// <param name="transforms">Array of transforms, or multiple transforms as multiple arguments.</param>
         /// <returns>Computed position as a new Vector3.</returns>
         public static UnityEngine.Vector3 ComputeAveragePosition(params UnityEngine.Transform[] transforms)
         {
@@ -162,6 +162,39 @@
 
             for (int vectorIndex = transforms.Length - 1; vectorIndex >= 0; --vectorIndex)
                 average += transforms[vectorIndex].position;
+
+            average /= transforms.Length;
+            return average;
+        }
+
+        /// <summary>
+        /// Computes the average position between components' transforms.
+        /// This method uses Linq and a foreach loop, using an array would be better if possible.
+        /// </summary>
+        /// <param name="components">Collection of components.</param>
+        /// <returns>Computed position as a new Vector3.</returns>
+        public static UnityEngine.Vector3 ComputeAveragePosition<T>(System.Collections.Generic.IEnumerable<T> components) where T : UnityEngine.Component
+        {
+            UnityEngine.Vector3 average = UnityEngine.Vector3.zero;
+
+            foreach (T component in components)
+                average += component.transform.position;
+
+            average /= components.Count();
+            return average;
+        }
+
+        /// <summary>
+        /// Computes the average position between components.
+        /// </summary>
+        /// <param name="components">Array of components, or multiple components as multiple arguments.</param>
+        /// <returns>Computed position as a new Vector3.</returns>
+        public static UnityEngine.Vector3 ComputeAveragePosition<T>(params T[] transforms) where T : UnityEngine.Component
+        {
+            UnityEngine.Vector3 average = UnityEngine.Vector3.zero;
+
+            for (int vectorIndex = transforms.Length - 1; vectorIndex >= 0; --vectorIndex)
+                average += transforms[vectorIndex].transform.position;
 
             average /= transforms.Length;
             return average;
