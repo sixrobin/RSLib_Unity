@@ -38,4 +38,7 @@
 
     [System.Serializable]
     public class QuaternionEvent : UnityEngine.Events.UnityEvent<UnityEngine.Quaternion> { }
+
+    [System.Serializable]
+    public class ColorEvent : UnityEngine.Events.UnityEvent<UnityEngine.Color> { }
 }
