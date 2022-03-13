@@ -622,8 +622,8 @@
 
         private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode)
         {
-            // We clear the console style, else they won't be rendered correctly after a scene loading.
-            // There might be a way to fix this bug other than just working around but it's not a problem since it is a debug tool.
+            // Clear the console style, else it won't be rendered correctly after loading a scene.
+            // Not a problem since it's a debug tool although there may be a better way to fix this issue.
             _consoleStyle = null;
             _helpTextStyle = null;
             _invalidCmdTextStyle = null;
