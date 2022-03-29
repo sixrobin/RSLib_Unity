@@ -39,9 +39,9 @@
 
         private static System.Collections.Generic.Dictionary<AudioMixerGroup, RuntimeSFXPlayer> s_sfxPlayersDict;
         private static AudioSource[] s_musicSources;
-        private static int _nextMusicIndex;
+        private static int s_nextMusicIndex;
 
-        private static System.Collections.IEnumerator _musicFadeCoroutine;
+        private static System.Collections.IEnumerator s_musicFadeCoroutine;
 
         /// <summary>
         /// Remaps a value from [0.0001f, 1f] to [-80f, 0f], to adjust a percentage to the decibels scaling.
@@ -68,15 +68,15 @@
             }
             
             AudioSource source = GetSFXSource(clipProvider);
-            AudioClipPlayDatas clipDatas = clipProvider.GetNextClipDatas();
+            AudioClipPlayDatas clipData = clipProvider.GetNextClipData();
 
-            source.clip = clipDatas.Clip;
-            source.volume = clipDatas.RandomVolume * clipProvider.VolumeMultiplier;
-            source.pitch = 1f + clipDatas.PitchVariation + clipProvider.PitchOffset;
+            source.clip = clipData.Clip;
+            source.volume = clipData.RandomVolume * clipProvider.VolumeMultiplier;
+            source.pitch = 1f + clipData.PitchVariation + clipProvider.PitchOffset;
             source.Play();
         }
 
-        public static void PlayMusic(IClipProvider musicProvider, MusicTransitionsDatas transitionDatas)
+        public static void PlayMusic(IClipProvider musicProvider, MusicTransitionsDatas transitionData)
         {
             if (!Exists())
             {
@@ -84,32 +84,32 @@
                 return;
             }
             
-            if (_musicFadeCoroutine != null)
-                Instance.StopCoroutine(_musicFadeCoroutine);
+            if (s_musicFadeCoroutine != null)
+                Instance.StopCoroutine(s_musicFadeCoroutine);
 
-            if (transitionDatas.CrossFade)
-                Instance.StartCoroutine(_musicFadeCoroutine = Instance.CrossFadeMusicCoroutine(musicProvider, transitionDatas));
+            if (transitionData.CrossFade)
+                Instance.StartCoroutine(s_musicFadeCoroutine = CrossFadeMusicCoroutine(musicProvider, transitionData));
             else
-                Instance.StartCoroutine(_musicFadeCoroutine = Instance.FadeMusicCoroutine(musicProvider, transitionDatas));
+                Instance.StartCoroutine(s_musicFadeCoroutine = FadeMusicCoroutine(musicProvider, transitionData));
         }
 
-        private System.Collections.IEnumerator CrossFadeMusicCoroutine(IClipProvider musicProvider, MusicTransitionsDatas transitionDatas)
+        private static System.Collections.IEnumerator CrossFadeMusicCoroutine(IClipProvider musicProvider, MusicTransitionsDatas transitionData)
         {
             AudioSource prev = GetCurrentMusicSource();
             AudioSource next = GetNextMusicSource();
-            AudioClipPlayDatas clipDatas = musicProvider.GetNextClipDatas();
+            AudioClipPlayDatas clipData = musicProvider.GetNextClipData();
 
             float prevVol = prev.volume;
-            float nextVol = clipDatas.RandomVolume;
+            float nextVol = clipData.RandomVolume;
 
-            next.clip = clipDatas.Clip;
-            next.pitch = 1f + clipDatas.PitchVariation;
+            next.clip = clipData.Clip;
+            next.pitch = 1f + clipData.PitchVariation;
             next.Play();
 
-            for (float t = 0f; t <= 1f; t += Time.deltaTime / transitionDatas.Duration)
+            for (float t = 0f; t <= 1f; t += Time.deltaTime / transitionData.Duration)
             {
-                prev.volume = (1f - t).Ease(transitionDatas.CurveIn) * prevVol;
-                next.volume = t.Ease(transitionDatas.CurveOut) * nextVol;
+                prev.volume = (1f - t).Ease(transitionData.CurveIn) * prevVol;
+                next.volume = t.Ease(transitionData.CurveOut) * nextVol;
                 yield return null;
             }
 
@@ -118,31 +118,31 @@
             prev.Stop();
         }
 
-        private System.Collections.IEnumerator FadeMusicCoroutine(IClipProvider musicProvider, MusicTransitionsDatas transitionDatas)
+        private static System.Collections.IEnumerator FadeMusicCoroutine(IClipProvider musicProvider, MusicTransitionsDatas transitionData)
         {
             AudioSource prev = GetCurrentMusicSource();
             AudioSource next = GetNextMusicSource();
-            AudioClipPlayDatas clipDatas = musicProvider.GetNextClipDatas();
+            AudioClipPlayDatas clipData = musicProvider.GetNextClipData();
 
             float prevVol = prev.volume;
-            float nextVol = clipDatas.RandomVolume;
+            float nextVol = clipData.RandomVolume;
 
-            for (float t = prevVol; t >= 0f; t -= Time.deltaTime / transitionDatas.Duration * 2f)
+            for (float t = prevVol; t >= 0f; t -= Time.deltaTime / transitionData.Duration * 2f)
             {
-                prev.volume = t.Ease(transitionDatas.CurveIn);
+                prev.volume = t.Ease(transitionData.CurveIn);
                 yield return null;
             }
 
             prev.volume = 0f;
             prev.Stop();
 
-            next.clip = clipDatas.Clip;
-            next.pitch = 1f + clipDatas.PitchVariation;
+            next.clip = clipData.Clip;
+            next.pitch = 1f + clipData.PitchVariation;
             next.Play();
 
-            for (float t = 0f; t <= 1f; t += Time.deltaTime / transitionDatas.Duration * 2f)
+            for (float t = 0f; t <= 1f; t += Time.deltaTime / transitionData.Duration * 2f)
             {
-                next.volume = t.Ease(transitionDatas.CurveOut) * nextVol;
+                next.volume = t.Ease(transitionData.CurveOut) * nextVol;
                 yield return null;
             }
 
@@ -160,12 +160,12 @@
 
         private static AudioSource GetCurrentMusicSource()
         {
-            return s_musicSources[Helpers.Mod(_nextMusicIndex - 1, s_musicSources.Length)];
+            return s_musicSources[Helpers.Mod(s_nextMusicIndex - 1, s_musicSources.Length)];
         }
 
         private static AudioSource GetNextMusicSource()
         {
-            return s_musicSources[_nextMusicIndex++ % s_musicSources.Length];
+            return s_musicSources[s_nextMusicIndex++ % s_musicSources.Length];
         }
 
         private static void InitSFXSources()

@@ -36,50 +36,6 @@
 			return stack;
 		}
 
-		/// <summary>
-		/// Writes the list elements in a string.
-		/// </summary>
-		/// <param name="list">List to write.</param>
-		/// <returns>String with the list elements.</returns>
-		public static string ToStringImproved<T>(this IList<T> list)
-		{
-			string str = string.Empty;
-			for (int i = 0; i < list.Count; ++i)
-				str += list[i].ToString() + (i == list.Count - 1 ? string.Empty : ", ");
-
-			return str;
-		}
-
-		/// <summary>
-		/// Writes the list elements in a string using a given splitting char.
-		/// </summary>
-		/// <param name="list">List to write.</param>
-		/// <param name="split">Splitting char.</param>
-		/// <returns>String with the list elements.</returns>
-		public static string ToStringImproved<T>(this IList<T> list, char split)
-		{
-			string str = string.Empty;
-			for (int i = 0; i < list.Count; ++i)
-				str += list[i].ToString() + (i == list.Count - 1 ? string.Empty : split.ToString());
-
-			return str;
-		}
-
-		/// <summary>
-		/// Writes the list elements in a string using a given splitting string.
-		/// </summary>
-		/// <param name="list">List to write.</param>
-		/// <param name="split">Splitting string.</param>
-		/// <returns>String with the list elements.</returns>
-		public static string ToStringImproved<T>(this IList<T> list, string split)
-		{
-			string str = string.Empty;
-			for (int i = 0; i < list.Count; ++i)
-				str += list[i].ToString() + (i == list.Count - 1 ? string.Empty : string.IsNullOrEmpty(split) ? " / " : split);
-
-			return str;
-		}
-
 		#endregion CONVERSION
 
 		#region GENERAL
@@ -89,7 +45,7 @@
 		/// </summary>
 		/// <param name="list">List to get any element from.</param>
 		/// <returns>Any element.</returns>
-		public static T Any<T>(this IList<T> list)
+		public static T RandomElement<T>(this IList<T> list)
 		{
 			return list[s_rnd.Next(list.Count)];
 		}
@@ -102,7 +58,7 @@
 		/// <param name="list">List to get elements from.</param>
 		/// <param name="quantity">Amount of elements to pick.</param>
 		/// <returns>New array with picked elements.</returns>
-		public static IList<T> Any<T>(this IList<T> list, int quantity)
+		public static IList<T> RandomElements<T>(this IList<T> list, int quantity)
 		{
 			if (quantity <= 0)
 				return new List<T>();
@@ -114,7 +70,7 @@
 			IList<T> choice = new List<T>();
 			for (int i = quantity - 1; i >= 0; --i)
 			{
-				T pick = copy.Any();
+				T pick = copy.RandomElement();
 				choice.Add(pick);
 				copy.Remove(pick);
 			}

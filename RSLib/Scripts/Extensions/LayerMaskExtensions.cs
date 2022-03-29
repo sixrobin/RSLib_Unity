@@ -9,7 +9,8 @@
         /// <summary>
         /// Checks if a layer mask has a given layer enabled.
         /// </summary>
-        /// <param name="layer">Layer to check.</param>
+        /// <param name="layerMask">LayerMask to check.</param>
+        /// <param name="layer">Layer to look for.</param>
         /// <returns>True if layer is enabled in the mask, else false.</returns>
         public static bool HasLayer(this LayerMask layerMask, int layer)
         {
@@ -19,7 +20,8 @@
         /// <summary>
         /// Checks if a layer mask has a given layer enabled.
         /// </summary>
-        /// <param name="layer">Layer to check.</param>
+        /// <param name="layerMask">LayerMask to check.</param>
+        /// <param name="layer">Layer to look for.</param>
         /// <returns>True if layer is enabled in the mask, else false.</returns>
         public static bool HasLayer(this LayerMask layerMask, string layer)
         {
@@ -49,19 +51,12 @@
         }
 
         /// <summary>
-        /// Returns a string with joined mask flags, separated by a comma.
-        /// </summary>
-        /// <returns>String with joined mask flags.</returns>
-        public static string MaskToString(this LayerMask layerMask)
-        {
-            return MaskToString(layerMask, ", ");
-        }
-
-        /// <summary>
         /// Returns a string with joined mask flags, separated by a given separator string.
         /// </summary>
+        /// <param name="layerMask">LayerMask to display as a string.</param>
+        /// <param name="separator">String used to split mask flags.</param>
         /// <returns>String with joined mask flags.</returns>
-        public static string MaskToString(this LayerMask layerMask, string separator)
+        public static string MaskToString(this LayerMask layerMask, string separator = ", ")
         {
             return string.Join(separator, MaskToNames(layerMask));
         }
@@ -93,7 +88,7 @@
         /// <summary>
         /// Removes layers from a layer mask.
         /// </summary>
-        /// <param name="layerIndexes">Layer names to remove.</param>
+        /// <param name="layerNames">Layer names to remove.</param>
         /// <returns>Layer mask with removed layers.</returns>
         public static LayerMask RemoveLayers(this LayerMask layerMask, params string[] layerNames)
         {

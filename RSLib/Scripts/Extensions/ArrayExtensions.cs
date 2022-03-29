@@ -12,6 +12,7 @@
 		/// <summary>
 		/// Converts array to a queue.
 		/// </summary>
+		/// <param name="arr">Array to convert to a queue.</param>
 		/// <param name="enqueueFromStart">Starts enqueuing from first element.</param>
 		/// <returns>Array as a new queue.</returns>
 		public static Queue<T> ToQueue<T>(this T[] arr, bool enqueueFromStart = true)
@@ -26,7 +27,8 @@
 		/// <summary>
 		/// Converts array to a stack.
 		/// </summary>
-		/// <param name="enqueueFromStart">Start stacking from first element.</param>
+		/// <param name="arr">Array to convert to a stack.</param>
+		/// <param name="stackFromStart">Start stacking from first element.</param>
 		/// <returns>Array as a new stack.</returns>
 		public static Stack<T> ToStack<T>(this T[] arr, bool stackFromStart = true)
 		{
@@ -35,50 +37,6 @@
 				stack.Push(arr[i]);
 
 			return stack;
-		}
-
-		/// <summary>
-		/// Writes the array elements in a string.
-		/// </summary>
-		/// <param name="arr">Array to write.</param>
-		/// <returns>String with the array elements.</returns>
-		public static string ToStringImproved<T>(this T[] arr)
-		{
-			string str = string.Empty;
-			for (int i = 0; i < arr.Length; ++i)
-				str += arr[i].ToString() + (i == arr.Length - 1 ? string.Empty : ", ");
-
-			return str;
-		}
-
-		/// <summary>
-		/// Writes the array elements in a string using a given splitting char.
-		/// </summary>
-		/// <param name="arr">Array to write.</param>
-		/// <param name="split">Splitting char.</param>
-		/// <returns>String with the array elements.</returns>
-		public static string ToStringImproved<T>(this T[] arr, char split = ',')
-		{
-			string str = string.Empty;
-			for (int i = 0; i < arr.Length; ++i)
-				str += arr[i].ToString() + (i == arr.Length - 1 ? string.Empty : split.ToString());
-
-			return str;
-		}
-
-		/// <summary>
-		/// Writes the array elements in a string using a given splitting string.
-		/// </summary>
-		/// <param name="arr">Array to write.</param>
-		/// <param name="split">Splitting string.</param>
-		/// <returns>String with the array elements.</returns>
-		public static string ToStringImproved<T>(this T[] arr, string split = ",")
-		{
-			string str = string.Empty;
-			for (int i = 0; i < arr.Length; ++i)
-				str += arr[i].ToString() + (i == arr.Length - 1 ? string.Empty : string.IsNullOrEmpty(split) ? " / " : split);
-
-			return str;
 		}
 
 		#endregion CONVERSION
@@ -90,7 +48,7 @@
 		/// </summary>
 		/// <param name="arr">Array to get any element from.</param>
 		/// <returns>Any element.</returns>
-		public static T Any<T>(this T[] arr)
+		public static T RandomElement<T>(this T[] arr)
 		{
 			return arr[s_rnd.Next(arr.Length)];
 		}
@@ -103,7 +61,7 @@
 		/// <param name="arr">Array to get elements from.</param>
 		/// <param name="quantity">Amount of elements to pick.</param>
 		/// <returns>New array with picked elements.</returns>
-		public static T[] Any<T>(this T[] arr, int quantity)
+		public static T[] RandomElements<T>(this T[] arr, int quantity)
 		{
 			if (quantity <= 0)
 				return new T[0];
@@ -115,7 +73,7 @@
 			T[] choice = new T[quantity];
 			for (int i = quantity - 1; i >= 0; --i)
 			{
-				T pick = list.Any();
+				T pick = list.RandomElement();
 				choice[i] = pick;
 				list.Remove(pick);
 			}
@@ -126,6 +84,7 @@
 		/// <summary>
 		/// Concatenates array with another.
 		/// </summary>
+		/// <param name="arr">Source array to concatenate with.</param>
 		/// <param name="second">Array to concatenate with.</param>
 		/// <returns>Concatenated array.</returns>
 		public static T[] Concat<T>(this T[] arr, T[] second)
@@ -223,6 +182,7 @@
 		/// <summary>
 		/// Swaps the positions of 2 elements.
 		/// </summary>
+		/// <param name="arr">Array to swap 2 elements of.</param>
 		/// <param name="first">Index of first.</param>
 		/// <param name="second">Index of second.</param>
 		public static void Swap<T>(this T[] arr, int first, int second)

@@ -7,6 +7,7 @@
         /// <summary>
         /// Clamps the RectTransform position to another RectTransform position.
         /// </summary>
+        /// <param name="rectTransform">RectTransform to clamp.</param>
         /// <param name="other">Reference RectTransform to clamp to.</param>
         public static void ClampTo(this RectTransform rectTransform, RectTransform other)
         {

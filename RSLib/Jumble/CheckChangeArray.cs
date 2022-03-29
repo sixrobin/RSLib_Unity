@@ -39,7 +39,7 @@
 		{
 			for (int i = 0; i < Length; ++i)
             {
-				if (!_array[i].Equals (_arrayCopy[i]))
+				if (!_array[i].Equals(_arrayCopy[i]))
 				{
                     System.Tuple<T, T> change = new System.Tuple<T, T>(_array[i], _arrayCopy[i]);
 					System.Array.Copy(_array, _arrayCopy, _array.Length);

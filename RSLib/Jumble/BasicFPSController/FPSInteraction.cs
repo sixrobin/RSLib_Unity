@@ -23,8 +23,6 @@
         /// </summary>
         public virtual void Focus()
         {
-            if (!InteractionAllowed)
-                return;
         }
 
         /// <summary>
@@ -56,7 +54,7 @@
         protected virtual void Awake()
         {
             if (!GetComponent<Collider>())
-                Debug.LogWarning("FPSInteraction WARNING: gameObject doesn't have a collider and can't be interacted.", gameObject);
+                Debug.LogWarning($"{nameof(FPSInteraction)}: gameObject {transform.name} doesn't have a collider and can't be interacted.", gameObject);
         }
     }
 }

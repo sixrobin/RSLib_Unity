@@ -1,8 +1,8 @@
 ﻿namespace RSLib.Jumble.DungeonGenerator
 {
-    public class MapDatas
+    public class MapData
     {
-        public MapDatas(Room[,] rooms, (int, int) start, (int, int) end)
+        public MapData(Room[,] rooms, (int, int) start, (int, int) end)
         {
             Rooms = rooms;
             Size = (rooms.GetLength(0), rooms.GetLength(1));
@@ -14,8 +14,8 @@
 
         public Room[,] Rooms { get; private set; }
 
-        public (int W, int H) Size { get; private set; }
-        public (int X, int Y) Start { get; private set; }
-        public (int X, int Y) End { get; private set; }
+        public (int W, int H) Size { get; }
+        public (int X, int Y) Start { get; }
+        public (int X, int Y) End { get; }
     }
 }

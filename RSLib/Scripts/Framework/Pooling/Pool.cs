@@ -50,6 +50,7 @@
         /// Gets a pooled gameObject using a GameObject reference, and creates a new pool if none has been found.
         /// </summary>
 		/// <param name="gameObject">Reference gameObject to find a pooled instance of.</param>
+		/// <param name="args">Arguments to send to the pooled object instance.</param>
 		/// <returns>Instance of the gameObject.</returns>
 		public static GameObject Get(GameObject gameObject, params object[] args)
 		{
@@ -167,6 +168,7 @@
         /// Sets them active and tries to call the IPoolItem interface OnGetFromPool message.
         /// </summary>
         /// <param name="gameObject">GameObject instance to enable.</param>
+        /// <param name="args">Arguments to send to the pooled object instance.</param>
         private static void EnableFromPool(GameObject gameObject, params object[] args)
         {
             gameObject.SetActive(true);
@@ -206,7 +208,7 @@
         {
             System.Array.Sort(
                 _pooledObjects,
-                delegate (PooledObject a, PooledObject b) { return a.Id.CompareTo(b.Id) * (inverted ? -1 : 1); });
+                (a, b) => a.Id.CompareTo(b.Id) * (inverted ? -1 : 1));
 
             EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
             EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
@@ -220,7 +222,7 @@
         {
             System.Array.Sort(
                 _pooledObjects,
-                delegate (PooledObject a, PooledObject b) { return a.Quantity.CompareTo(b.Quantity) * (inverted ? -1 : 1); });
+                (a, b) => a.Quantity.CompareTo(b.Quantity) * (inverted ? -1 : 1));
 
             EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
             EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
@@ -233,7 +235,7 @@
         {
             // Missing ids.
             IEnumerable<PooledObject> missingIds = _pooledObjects.Where(o => string.IsNullOrEmpty(o.Id));
-            if (missingIds.Count() > 0)
+            if (missingIds.Any())
                 LogError($"{missingIds.Count()} pooled object(s) have an empty Id.");
 
             // Duplicate ids.
@@ -255,12 +257,12 @@
             foreach (PooledObject missingObject in missingObjects)
                 LogError($"Pooled object with Id {missingObject.Id} has a missing gameObject reference.");
 
-            bool anyError = nonUniqueIds.Count() > 0 || missingIds.Count() > 0 || missingObjects.Count() > 0;
+            bool anyError = nonUniqueIds.Any() || missingIds.Any() || missingObjects.Any();
             if (!anyError)
                 Log("No error has been found during scan. Good job!", true);
         }
 
-        #endregion
+        #endregion EDITOR UTILITIES
     }
 
 #if UNITY_EDITOR

@@ -25,10 +25,7 @@
 
         public RoomController GetRandomRoomByType(RoomType type)
         {
-            if (_roomsPrefabsByType.TryGetValue(type, out RoomController[] rooms))
-                return rooms.Any();
-
-            return null;
+            return _roomsPrefabsByType.TryGetValue(type, out RoomController[] rooms) ? rooms.RandomElement() : null;
         }
 
         private void Awake()

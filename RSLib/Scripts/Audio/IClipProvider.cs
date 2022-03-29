@@ -6,6 +6,6 @@
         float VolumeMultiplier { get; }
         float PitchOffset { get; }
 
-        AudioClipPlayDatas GetNextClipDatas();
+        AudioClipPlayDatas GetNextClipData();
     }
 }

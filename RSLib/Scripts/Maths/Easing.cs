@@ -38,7 +38,7 @@
 	}
 
 	/// <summary>
-	/// Methods representing some easing curves where t is clamped between 0 and 1. Should be used to tweek the t parameter of Unity Lerp methods.
+	/// Methods representing some easing curves where t is clamped between 0 and 1. Should be used to tweak the t parameter of Unity Lerp methods.
 	/// Warning : some of the methods below will return a result below 0 or above 1, that will require Unity's LerpUnclamped.
 	/// Curves visualizations : https://easings.net/fr.
 	/// </summary>
@@ -80,7 +80,8 @@
 				case Curve.InOutSine: return InOutSine(t);
 
 				case Curve.Linear:
-				default: return t;
+				default:
+					return t;
 			}
 		}
 
@@ -88,19 +89,19 @@
 
 		public static float InBack(this float t)
 		{
-			float s = 1.70158f;
+			const float s = 1.70158f;
 			return t * t * ((s + 1f) * t - s);
 		}
 
 		public static float OutBack(this float t)
 		{
-			float s = 1.70158f;
+			const float s = 1.70158f;
 			return 1f + (t - 1f) * (t - 1f) * ((s + 1f) * (t - 1f) + s);
 		}
 
 		public static float InOutBack(this float t)
 		{
-			float s = 1.70158f * 1.525f;
+			const float s = 1.70158f * 1.525f;
 			return t < 0.5f
 				? 0.5f * (4f * t * t * ((s + 1f) * (t * 2f) - s))
 				: 0.5f * ((t * 2f - 2f) * (t * 2f - 2f) * ((s + 1f) * (t * 2f - 2f) + s) + 2f);
@@ -171,8 +172,8 @@
 			if (t == 0f || t == 1f)
 				return t;
 
-			float f = 0.3f;
-			float s = f * 0.25f;
+			const float f = 0.3f;
+			const float s = f * 0.25f;
 
 			return -(float)(Pow(2f, 10f * (t -= 1f)) * Sin((t * 1f - s) * (2f * PI) / f));
 		}
@@ -182,8 +183,8 @@
 			if (t == 0f || t == 1f)
 				return t;
 
-			float f = 0.3f;
-			float s = f * 0.25f;
+			const float f = 0.3f;
+			const float s = f * 0.25f;
 
 			return (float)(Pow(2f, -10f * t) * Sin((t - s) * 2f * PI / f) + 1f);
 		}
@@ -193,9 +194,9 @@
 			if (t == 0f || (t /= 0.5f) == 2f)
 				return t;
 
-			float f = 0.3f;
-			float s = f * 0.25f;
-
+			const float f = 0.3f;
+			const float s = f * 0.25f;
+			
 			return t < 1f
 				? -0.5f * (float)(Pow(2f, 10f * --t) * Sin((t - s) * 2f * PI / f))
 				: (float)(Pow(2f, -10f * --t) * Sin((t - s) * 2f * PI / f) * 0.5f + 1f);

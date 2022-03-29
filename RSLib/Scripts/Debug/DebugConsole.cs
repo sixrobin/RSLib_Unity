@@ -47,10 +47,10 @@
 
             public static readonly Dictionary<HistoryLine.Validity, string> ValidityFormats = new Dictionary<HistoryLine.Validity, string>(new RSLib.Framework.Comparers.EnumComparer<HistoryLine.Validity>())
             {
-                { HistoryLine.Validity.Valid, "<b>> {0}</b>" },
-                { HistoryLine.Validity.Invalid, "<b>> {0}  -  Invalid command!</b>" },
-                { HistoryLine.Validity.Neutral, "> {0}" },
-                { HistoryLine.Validity.Error, "> <b>CMD ERROR:</b> {0}" }
+                { HistoryLine.Validity.VALID, "<b>> {0}</b>" },
+                { HistoryLine.Validity.INVALID, "<b>> {0}  -  Invalid command!</b>" },
+                { HistoryLine.Validity.NEUTRAL, "> {0}" },
+                { HistoryLine.Validity.ERROR, "> <b>CMD ERROR:</b> {0}" }
             };
 
             public const string AutoCompletionOptionsSplit = "  |  ";
@@ -93,19 +93,19 @@
             public enum Validity
             {
                 NA,
-                Valid,
-                Invalid,
-                Neutral,
-                Error
+                VALID,
+                INVALID,
+                NEUTRAL,
+                ERROR
             }
 
-            public string Cmd { get; private set; }
-            public Validity CmdValidity { get; private set; }
-            public int LinesCount { get; private set; }
-            public bool IsExternalLog { get; private set; }
+            public string Cmd { get; }
+            public Validity CmdValidity { get; }
+            public int LinesCount { get; }
+            public bool IsExternalLog { get; }
         }
 
-        [Header("CONSOLE DATAS")]
+        [Header("CONSOLE DATA")]
         [SerializeField] private bool _enabled = true;
         [SerializeField, Min(512)] private int _width = 640;
         [SerializeField, Min(32)] private int _height = 146;
@@ -204,33 +204,33 @@
 
             for (int i = Instance._registeredCmds.Count - 1; i >= 0; --i)
             {
-                if (Instance._registeredCmds[i].Id == id)
+                if (Instance._registeredCmds[i].Id != id)
+                    continue;
+                
+                if (paramsCount != -1)
                 {
-                    if (paramsCount != -1)
+                    if (Instance._registeredCmds[i].ParamsCount != paramsCount)
+                        continue;
+                    
+                    if (Instance._registeredCmds[i].IsConsoleNative)
                     {
-                        if (Instance._registeredCmds[i].ParamsCount == paramsCount)
-                        {
-                            if (Instance._registeredCmds[i].IsConsoleNative)
-                            {
-                                Instance.LogWarning("Can not remove a console native command!", Instance.gameObject);
-                                return;
-                            }
-
-                            Instance._registeredCmds.RemoveAt(i);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        if (Instance._registeredCmds[i].IsConsoleNative)
-                        {
-                            Instance.LogWarning("Can not remove a console native command!", Instance.gameObject);
-                            return;
-                        }
-
-                        Instance._registeredCmds.RemoveAt(i);
+                        Instance.LogWarning("Can not remove a console native command!", Instance.gameObject);
                         return;
                     }
+
+                    Instance._registeredCmds.RemoveAt(i);
+                    return;
+                }
+                else
+                {
+                    if (Instance._registeredCmds[i].IsConsoleNative)
+                    {
+                        Instance.LogWarning("Can not remove a console native command!", Instance.gameObject);
+                        return;
+                    }
+
+                    Instance._registeredCmds.RemoveAt(i);
+                    return;
                 }
             }
         }
@@ -245,7 +245,7 @@
                 return;
 
             if (Instance.IsOpen)
-                Instance.StartCoroutine(Instance.LogToConsoleCoroutine(log, HistoryLine.Validity.Neutral));
+                Instance.StartCoroutine(LogToConsoleCoroutine(log, HistoryLine.Validity.NEUTRAL));
         }
 
         /// <summary>
@@ -258,10 +258,10 @@
                 return;
 
             if (Instance.IsOpen)
-                Instance.StartCoroutine(Instance.LogToConsoleCoroutine(log, HistoryLine.Validity.Error));
+                Instance.StartCoroutine(LogToConsoleCoroutine(log, HistoryLine.Validity.ERROR));
         }
 
-        private System.Collections.IEnumerator LogToConsoleCoroutine(string log, HistoryLine.Validity validity)
+        private static System.Collections.IEnumerator LogToConsoleCoroutine(string log, HistoryLine.Validity validity)
         {
             yield return new WaitForEndOfFrame();
             Instance._cmdsHistory.Add(new HistoryLine(log, validity, true));
@@ -326,7 +326,7 @@
             if (string.IsNullOrEmpty(_inputStr) || string.IsNullOrWhiteSpace(_inputStr))
                 return;
 
-            HistoryLine.Validity validity = HistoryLine.Validity.Invalid;
+            HistoryLine.Validity validity = HistoryLine.Validity.INVALID;
             CommandBase currentCmd = null;
 
             string inputStr = _inputStr;
@@ -339,268 +339,262 @@
             // If the parsing is done correctly then the command is executed, else the command is displayed as "invalid".
             for (int i = _registeredCmds.Count - 1; i >= 0; --i)
             {
-                if (inputStrProperties[0] == _registeredCmds[i].Id)
+                if (inputStrProperties[0] != _registeredCmds[i].Id)
+                    continue;
+
+                currentCmd = _registeredCmds[i];
+
+                if (inputStrProperties.Length - 1 != currentCmd.ParamsCount)
+                    continue;
+
+                switch (currentCmd.ParamsCount)
                 {
-                    currentCmd = _registeredCmds[i];
-
-                    if (inputStrProperties.Length - 1 != currentCmd.ParamsCount)
-                        continue;
-
-                    switch (currentCmd.ParamsCount)
+                    case 0:
                     {
-                        case 0:
+                        if (currentCmd is Command cmd)
                         {
-                            if (currentCmd is Command cmd)
-                            {
-                                cmd.Execute();
-                                validity = HistoryLine.Validity.Valid;
-                                break;
-                            }
-
-                            break;
+                            cmd.Execute();
+                            validity = HistoryLine.Validity.VALID;
                         }
 
-                        case 1:
-                        {
-                            if (currentCmd is Command<bool> cmdBool)
-                            {
-                                if (bool.TryParse(inputStrProperties[1], out bool param))
-                                {
-                                    cmdBool.Execute(param);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<float> cmdFloat)
-                            {
-                                if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param))
-                                {
-                                    cmdFloat.Execute(param);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<int> cmdInt)
-                            {
-                                if (int.TryParse(inputStrProperties[1], out int param))
-                                {
-                                    cmdInt.Execute(param);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<string> cmdString)
-                            {
-                                cmdString.Execute(inputStrProperties[1]);
-                                validity = HistoryLine.Validity.Valid;
-
-                                break;
-                            }
-
-                            break;
-                        }
-
-                        case 2:
-                        {
-                            if (currentCmd is Command<bool, bool> cmdBoolBool)
-                            {
-                                if (bool.TryParse(inputStrProperties[1], out bool param1)
-                                    && bool.TryParse(inputStrProperties[2], out bool param2))
-                                {
-                                    cmdBoolBool.Execute(param1, param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<bool, float> cmdBoolFloat)
-                            {
-                                if (bool.TryParse(inputStrProperties[1], out bool param1)
-                                    && float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
-                                {
-                                    cmdBoolFloat.Execute(param1, param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<bool, int> cmdBoolInt)
-                            {
-                                if (bool.TryParse(inputStrProperties[1], out bool param1)
-                                    && int.TryParse(inputStrProperties[2], out int param2))
-                                {
-                                    cmdBoolInt.Execute(param1, param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<bool, string> cmdBoolString)
-                            {
-                                if (bool.TryParse(inputStrProperties[1], out bool param1))
-                                {
-                                    cmdBoolString.Execute(param1, inputStrProperties[2]);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<float, bool> cmdFloatBool)
-                            {
-                                if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1)
-                                    && bool.TryParse(inputStrProperties[2], out bool param2))
-                                {
-                                    cmdFloatBool.Execute(param1, param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<float, float> cmdFloatFloat)
-                            {
-                                if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1)
-                                    && float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
-                                {
-                                    cmdFloatFloat.Execute(param1, param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<float, int> cmdFloatInt)
-                            {
-                                if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1)
-                                    && int.TryParse(inputStrProperties[2], out int param2))
-                                {
-                                    cmdFloatInt.Execute(param1, param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<float, string> cmdFloatString)
-                            {
-                                if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1))
-                                {
-                                    cmdFloatString.Execute(param1, inputStrProperties[2]);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<int, bool> cmdIntBool)
-                            {
-                                if (int.TryParse(inputStrProperties[1], out int param1)
-                                    && bool.TryParse(inputStrProperties[2], out bool param2))
-                                {
-                                    cmdIntBool.Execute(param1, param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<int, float> cmdIntFloat)
-                            {
-                                if (int.TryParse(inputStrProperties[1], out int param1)
-                                    && float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
-                                {
-                                    cmdIntFloat.Execute(param1, param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<int, int> cmdIntInt)
-                            {
-                                if (int.TryParse(inputStrProperties[1], out int param1)
-                                    && int.TryParse(inputStrProperties[2], out int param2))
-                                {
-                                    cmdIntInt.Execute(param1, param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<int, string> cmdIntString)
-                            {
-                                if (int.TryParse(inputStrProperties[1], out int param1))
-                                {
-                                    cmdIntString.Execute(param1, inputStrProperties[2]);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<string, bool> cmdStringBool)
-                            {
-                                if (bool.TryParse(inputStrProperties[2], out bool param2))
-                                {
-                                    cmdStringBool.Execute(inputStrProperties[1], param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<string, float> cmdStringFloat)
-                            {
-                                if (float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
-                                {
-                                    cmdStringFloat.Execute(inputStrProperties[1], param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<string, int> cmdStringInt)
-                            {
-                                if (int.TryParse(inputStrProperties[2], out int param2))
-                                {
-                                    cmdStringInt.Execute(inputStrProperties[1], param2);
-                                    validity = HistoryLine.Validity.Valid;
-                                }
-
-                                break;
-                            }
-
-                            if (currentCmd is Command<string, string> cmdStringString)
-                            {
-                                cmdStringString.Execute(inputStrProperties[1], inputStrProperties[2]);
-                                validity = HistoryLine.Validity.Valid;
-
-                                break;
-                            }
-
-                            break;
-                        }
+                        break;
                     }
 
+                    case 1:
+                    {
+                        if (currentCmd is Command<bool> cmdBool)
+                        {
+                            if (bool.TryParse(inputStrProperties[1], out bool param))
+                            {
+                                cmdBool.Execute(param);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<float> cmdFloat)
+                        {
+                            if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param))
+                            {
+                                cmdFloat.Execute(param);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<int> cmdInt)
+                        {
+                            if (int.TryParse(inputStrProperties[1], out int param))
+                            {
+                                cmdInt.Execute(param);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<string> cmdString)
+                        {
+                            cmdString.Execute(inputStrProperties[1]);
+                            validity = HistoryLine.Validity.VALID;
+                        }
+
+                        break;
+                    }
+
+                    case 2:
+                    {
+                        if (currentCmd is Command<bool, bool> cmdBoolBool)
+                        {
+                            if (bool.TryParse(inputStrProperties[1], out bool param1)
+                                && bool.TryParse(inputStrProperties[2], out bool param2))
+                            {
+                                cmdBoolBool.Execute(param1, param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<bool, float> cmdBoolFloat)
+                        {
+                            if (bool.TryParse(inputStrProperties[1], out bool param1)
+                                && float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
+                            {
+                                cmdBoolFloat.Execute(param1, param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<bool, int> cmdBoolInt)
+                        {
+                            if (bool.TryParse(inputStrProperties[1], out bool param1)
+                                && int.TryParse(inputStrProperties[2], out int param2))
+                            {
+                                cmdBoolInt.Execute(param1, param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<bool, string> cmdBoolString)
+                        {
+                            if (bool.TryParse(inputStrProperties[1], out bool param1))
+                            {
+                                cmdBoolString.Execute(param1, inputStrProperties[2]);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<float, bool> cmdFloatBool)
+                        {
+                            if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1)
+                                && bool.TryParse(inputStrProperties[2], out bool param2))
+                            {
+                                cmdFloatBool.Execute(param1, param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<float, float> cmdFloatFloat)
+                        {
+                            if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1)
+                                && float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
+                            {
+                                cmdFloatFloat.Execute(param1, param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<float, int> cmdFloatInt)
+                        {
+                            if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1)
+                                && int.TryParse(inputStrProperties[2], out int param2))
+                            {
+                                cmdFloatInt.Execute(param1, param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<float, string> cmdFloatString)
+                        {
+                            if (float.TryParse(inputStrProperties[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param1))
+                            {
+                                cmdFloatString.Execute(param1, inputStrProperties[2]);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<int, bool> cmdIntBool)
+                        {
+                            if (int.TryParse(inputStrProperties[1], out int param1)
+                                && bool.TryParse(inputStrProperties[2], out bool param2))
+                            {
+                                cmdIntBool.Execute(param1, param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<int, float> cmdIntFloat)
+                        {
+                            if (int.TryParse(inputStrProperties[1], out int param1)
+                                && float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
+                            {
+                                cmdIntFloat.Execute(param1, param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<int, int> cmdIntInt)
+                        {
+                            if (int.TryParse(inputStrProperties[1], out int param1)
+                                && int.TryParse(inputStrProperties[2], out int param2))
+                            {
+                                cmdIntInt.Execute(param1, param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<int, string> cmdIntString)
+                        {
+                            if (int.TryParse(inputStrProperties[1], out int param1))
+                            {
+                                cmdIntString.Execute(param1, inputStrProperties[2]);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<string, bool> cmdStringBool)
+                        {
+                            if (bool.TryParse(inputStrProperties[2], out bool param2))
+                            {
+                                cmdStringBool.Execute(inputStrProperties[1], param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<string, float> cmdStringFloat)
+                        {
+                            if (float.TryParse(inputStrProperties[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float param2))
+                            {
+                                cmdStringFloat.Execute(inputStrProperties[1], param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<string, int> cmdStringInt)
+                        {
+                            if (int.TryParse(inputStrProperties[2], out int param2))
+                            {
+                                cmdStringInt.Execute(inputStrProperties[1], param2);
+                                validity = HistoryLine.Validity.VALID;
+                            }
+
+                            break;
+                        }
+
+                        if (currentCmd is Command<string, string> cmdStringString)
+                        {
+                            cmdStringString.Execute(inputStrProperties[1], inputStrProperties[2]);
+                            validity = HistoryLine.Validity.VALID;
+                        }
+
+                        break;
+                    }
                 }
             }
 
             if (currentCmd == null || currentCmd.ShowInHistory)
                 _cmdsHistory.Add(new HistoryLine(_inputStr, validity, false));
 
-            // Reset console datas.
+            // Reset console data.
             _inputStr = string.Empty;
             _inputStrBeforeAutoComplete = string.Empty;
             ResetHistoryNavigation();
@@ -940,10 +934,10 @@
 
             _colorsByValidity = new Dictionary<HistoryLine.Validity, Color>(new HistoryLine.ValidityComparer())
             {
-                { HistoryLine.Validity.Valid, _validColor },
-                { HistoryLine.Validity.Invalid, _invalidColor },
-                { HistoryLine.Validity.Neutral, _neutralColor },
-                { HistoryLine.Validity.Error, _invalidColor }
+                { HistoryLine.Validity.VALID, _validColor },
+                { HistoryLine.Validity.INVALID, _invalidColor },
+                { HistoryLine.Validity.NEUTRAL, _neutralColor },
+                { HistoryLine.Validity.ERROR, _invalidColor }
             };
 
             RegisterNativeCommands();

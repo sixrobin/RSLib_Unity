@@ -10,7 +10,7 @@
         [SerializeField] private Shake.ShakeSettings _settings = Shake.ShakeSettings.Default;
 
         public static FPSCameraShake Instance;
-        private Transform m_Transform;
+        private Transform _transform;
         private Shake _shake;
 
         public override void ApplyMovement()
@@ -24,8 +24,8 @@
             if (shake == null)
                 return;
 
-            m_Transform.position += shake.Value.pos;
-            m_Transform.rotation *= shake.Value.rot;
+            _transform.position += shake.Value.pos;
+            _transform.rotation *= shake.Value.rot;
         }
 
         public void AddTrauma(float value)
@@ -52,7 +52,7 @@
             }
 
             Instance = this;
-            m_Transform = transform;
+            _transform = transform;
             _shake = new Shake(_settings);
         }
 

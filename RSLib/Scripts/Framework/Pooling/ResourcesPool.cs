@@ -1,6 +1,6 @@
 ﻿namespace RSLib.Framework.Pooling
 {
-    public static class ResourcesPooler<T> where T : UnityEngine.Object
+    public static class ResourcesPool<T> where T : UnityEngine.Object
     {
         private static System.Collections.Generic.Dictionary<string, T> s_resources = new System.Collections.Generic.Dictionary<string, T>();
         private static System.Collections.Generic.Dictionary<string, T[]> s_resourcesAll = new System.Collections.Generic.Dictionary<string, T[]>();
@@ -89,24 +89,24 @@
         }
     }
 
-    public static class ResourcesPooler
+    public static class ResourcesPool
     {
         /// <summary>
         /// Caches asset at a given path starting in Resources folder.
         /// </summary>
         /// <param name="path">Asset path.</param>
-        public static void Cache<T>(string resourcePath) where T : UnityEngine.Object
+        public static void Cache<T>(string path) where T : UnityEngine.Object
         {
-            ResourcesPooler<T>.Cache(resourcePath);
+            ResourcesPool<T>.Cache(path);
         }
 
         /// <summary>
         /// Caches all assets in a folder at a given path starting in Resources folder.
         /// </summary>
         /// <param name="path">Asset path.</param>
-        public static void CacheAll<T>(string resourcePath) where T : UnityEngine.Object
+        public static void CacheAll<T>(string path) where T : UnityEngine.Object
         {
-            ResourcesPooler<T>.CacheAll(resourcePath);
+            ResourcesPool<T>.CacheAll(path);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@
         /// </summary>
         public static void Clear<T>() where T : UnityEngine.Object
         {
-            ResourcesPooler<T>.Clear();
+            ResourcesPool<T>.Clear();
         }
 
         /// <summary>
@@ -124,7 +124,7 @@
         /// <returns>Loaded asset if it has been found.</returns>
         public static T Load<T>(string path) where T : UnityEngine.Object
         {
-            return ResourcesPooler<T>.Load(path);
+            return ResourcesPool<T>.Load(path);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@
         /// <returns>Loaded assets if folder has been found.</returns>
         public static T[] LoadAll<T>(string path) where T : UnityEngine.Object
         {
-            return ResourcesPooler<T>.LoadAll(path);
+            return ResourcesPool<T>.LoadAll(path);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@
         /// <returns>Loaded asset if it has been found.</returns>
         public static T Reload<T>(string path) where T : UnityEngine.Object
         {
-            return ResourcesPooler<T>.Reload(path);
+            return ResourcesPool<T>.Reload(path);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@
         /// <returns>Loaded assets if folder has been found.</returns>
         public static T[] ReloadAll<T>(string path) where T : UnityEngine.Object
         {
-            return ResourcesPooler<T>.ReloadAll(path);
+            return ResourcesPool<T>.ReloadAll(path);
         }
     }
 }

@@ -39,7 +39,9 @@
 		/// </summary>
 		public static void SetColorRedValue(this SpriteRenderer spriteRenderer, float r)
 		{
-			spriteRenderer.color = new Color(r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a);
+			Color color = spriteRenderer.color;
+			color = new Color(r, color.g, color.b, color.a);
+			spriteRenderer.color = color;
 		}
 
 		/// <summary>
@@ -47,7 +49,9 @@
 		/// </summary>
 		public static void SetColorGreenValue(this SpriteRenderer spriteRenderer, float g)
 		{
-			spriteRenderer.color = new Color(spriteRenderer.color.r, g, spriteRenderer.color.b, spriteRenderer.color.a);
+			Color color = spriteRenderer.color;
+			color = new Color(color.r, g, color.b, color.a);
+			spriteRenderer.color = color;
 		}
 
 		/// <summary>
@@ -55,7 +59,9 @@
 		/// </summary>
 		public static void SetColorBlueValue(this SpriteRenderer spriteRenderer, float b)
 		{
-			spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, b, spriteRenderer.color.a);
+			Color color = spriteRenderer.color;
+			color = new Color(color.r, color.g, b, color.a);
+			spriteRenderer.color = color;
 		}
 
 		/// <summary>
@@ -63,7 +69,9 @@
 		/// </summary>
 		public static void SetAlpha(this SpriteRenderer spriteRenderer, float a)
 		{
-			spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, a);
+			Color color = spriteRenderer.color;
+			color = new Color(color.r, color.g, color.b, a);
+			spriteRenderer.color = color;
 		}
 
 		#endregion SET COLOR

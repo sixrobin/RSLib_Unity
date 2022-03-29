@@ -22,7 +22,7 @@
             return element == null || string.IsNullOrEmpty(element.Value);
         }
 
-        #endregion
+        #endregion GENERAL
 
         #region PARSING
 
@@ -43,7 +43,7 @@
         /// <summary>
         /// Parses a XAttribute value to a float value.
         /// </summary>
-        /// <returns>Attribute value if parsing succedded, else throws an exception.</returns>
+        /// <returns>Attribute value if parsing succeeded, else throws an exception.</returns>
         public static float ValueToFloat(this XAttribute attribute)
         {
             UnityEngine.Assertions.Assert.IsFalse(attribute.IsNullOrEmpty(), $"XAttribute is null or empty.");
@@ -71,7 +71,7 @@
         /// <summary>
         /// Parses a XAttribute value to an integer value.
         /// </summary>
-        /// <returns>Attribute value if parsing succedded, else throws an exception.</returns>
+        /// <returns>Attribute value if parsing succeeded, else throws an exception.</returns>
         public static int ValueToInt(this XAttribute attribute)
         {
             UnityEngine.Assertions.Assert.IsFalse(attribute.IsNullOrEmpty(), $"XAttribute is null or empty.");
@@ -99,7 +99,7 @@
         /// <summary>
         /// Parses a XAttribute value to a long value.
         /// </summary>
-        /// <returns>Attribute value if parsing succedded, else throws an exception.</returns>
+        /// <returns>Attribute value if parsing succeeded, else throws an exception.</returns>
         public static long ValueToLong(this XAttribute attribute)
         {
             UnityEngine.Assertions.Assert.IsFalse(attribute.IsNullOrEmpty(), $"XAttribute is null or empty.");
@@ -127,7 +127,7 @@
         /// <summary>
         /// Parses a XAttribute value to a boolean value.
         /// </summary>
-        /// <returns>Attribute value if parsing succedded, else throws an exception.</returns>
+        /// <returns>Attribute value if parsing succeeded, else throws an exception.</returns>
         public static bool ValueToBool(this XAttribute attribute)
         {
             UnityEngine.Assertions.Assert.IsFalse(attribute.IsNullOrEmpty(), $"XAttribute is null or empty.");
@@ -186,13 +186,14 @@
             return (min, max);
         }
 
-        #endregion
+        #endregion PARSING
 
         #region TRY GET
 
         /// <summary>
         /// Tries to get a XElement by its name, and returns true or false depending on the XElement existence.
         /// </summary>
+        /// <param name="container">Xml container to get the element from.</param>
         /// <param name="elementName">Name of the element.</param>
         /// <param name="element">Element returned if it exists.</param>
         /// <returns>True if the element exists.</returns>
@@ -205,6 +206,7 @@
         /// <summary>
         /// Tries to get a XAttribute by its name, and returns true or false depending on the XAttribute existence.
         /// </summary>
+        /// <param name="container">Xml container to get the attribute from.</param>
         /// <param name="attributeName">Name of the attribute.</param>
         /// <param name="attribute">Attribute returned if it exists.</param>
         /// <returns>True if the attribute exists.</returns>
@@ -214,6 +216,6 @@
             return attribute != null;
         }
 
-        #endregion
+        #endregion TRY GET
     }
 }

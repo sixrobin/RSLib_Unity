@@ -47,13 +47,13 @@
         private Vector3 _currentMovementInput;
         private Vector3 _refMovementInput;
 
-        public FPSStaminaManager StaminaManager { get; set; }
+        public FPSStaminaManager StaminaManager { get; private set; }
 
         private bool _sprinting;
         public bool Sprinting
         {
             get => _sprinting;
-            private set => _sprinting = value ? CheckMovementMagnitude() : value;
+            private set => _sprinting = value && CheckMovementMagnitude();
         }
 
         private bool _crouched;
@@ -66,7 +66,7 @@
                 {
                     _capsule.center = _capsule.center.WithY(_baseCapsuleYCenter / (_baseCapsuleHeight / _capsuleCrouchedHeight));
                     _capsule.height = _capsuleCrouchedHeight;
-                    _crouched = value;
+                    _crouched = true;
                 }
                 else if (!value && _crouched)
                 {
@@ -75,7 +75,7 @@
 
                     _capsule.center = _capsule.center.WithY(_baseCapsuleYCenter);
                     _capsule.height = _baseCapsuleHeight;
-                    _crouched = value;
+                    _crouched = false;
                 }
             }
         }

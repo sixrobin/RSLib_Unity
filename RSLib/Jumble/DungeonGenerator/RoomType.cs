@@ -1,5 +1,6 @@
 ﻿namespace RSLib.Jumble.DungeonGenerator
 {
+    [System.Flags]
     public enum RoomType : byte
     {
         NA = 0,

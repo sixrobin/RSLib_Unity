@@ -7,7 +7,7 @@
     {
         [SerializeField] private AudioClipPlayDatas _clipPlayDatas = null;
 
-        public override AudioClipPlayDatas GetNextClipDatas()
+        public override AudioClipPlayDatas GetNextClipData()
         {
             return _clipPlayDatas;
         }

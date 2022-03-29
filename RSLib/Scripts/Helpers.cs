@@ -56,9 +56,9 @@
         #region FIND
 
         /// <summary>
-        /// Same method as UnityEngine.Object.FindObjectsOfType<T> that looks for every MonoBehaviour and then filters by
+        /// Same method as UnityEngine.Object.FindObjectsOfType that looks for every MonoBehaviour and then filters by
         /// the specified type, allowing it to also find instances of an interface.
-        /// This method is slower than UnityEngine.Object.FindObjectsOfType<T>, so use it very carefully or for editor purpose.
+        /// This method is slower than UnityEngine.Object.FindObjectsOfType, so use it very carefully or for editor purpose.
         /// </summary>
         /// <typeparam name="T">Type to look for.</typeparam>
         /// <returns>IEnumerable containing the instances of the searched type.</returns>
@@ -187,7 +187,7 @@
         /// <summary>
         /// Computes the average position between components.
         /// </summary>
-        /// <param name="components">Array of components, or multiple components as multiple arguments.</param>
+        /// <param name="transforms">Array of transforms.</param>
         /// <returns>Computed position as a new Vector3.</returns>
         public static UnityEngine.Vector3 ComputeAveragePosition<T>(params T[] transforms) where T : UnityEngine.Component
         {
@@ -222,16 +222,16 @@
         /// <param name="collection">Collection to scan.</param>
         public static void ScanDuplicates<T>(this System.Collections.Generic.IEnumerable<T> collection)
         {
-            System.Collections.Generic.Dictionary<T, int> duplicatas = collection
+            System.Collections.Generic.Dictionary<T, int> duplicates = collection
                 .GroupBy(o => o)
                 .Where(o => o.Count() > 1)
                 .ToDictionary(o => o.Key, o => o.Count());
 
-            if (duplicatas.Count == 0)
+            if (duplicates.Count == 0)
                 UnityEngine.Debug.Log($"No duplicate has been found in the collection.");
             else
-                foreach (System.Collections.Generic.KeyValuePair<T, int> duplicata in duplicatas)
-                    UnityEngine.Debug.Log($"Value {duplicata.Key} has been found {duplicata.Value} times in the collection.");
+                foreach (System.Collections.Generic.KeyValuePair<T, int> duplicate in duplicates)
+                    UnityEngine.Debug.Log($"Value {duplicate.Key} has been found {duplicate.Value} times in the collection.");
         }
 
         #endregion MISC

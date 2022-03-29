@@ -3,7 +3,7 @@
 	using UnityEngine;
 
 	[RequireComponent(typeof(Camera))]
-	public class BasicTPSCamera : MonoBehaviour
+	public class BasicThirdPersonCamera : MonoBehaviour
 	{
 		[SerializeField] private Camera _camera = null;
 		[SerializeField] private Transform _target = null;

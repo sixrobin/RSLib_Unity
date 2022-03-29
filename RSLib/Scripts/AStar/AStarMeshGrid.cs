@@ -57,7 +57,9 @@
             return _mesh[x, y];
         }
 
-        /// <summary>Rebakes the mesh. Can be used if obstacles positions did change.</summary>
+        /// <summary>
+        /// Re-bakes the mesh. Can be used if obstacles positions did change.
+        /// </summary>
         public void Refresh()
         {
             Bake();
@@ -65,7 +67,7 @@
 
         /// <summary>
         /// Generates nodes inside the grid size, depending on the nodes sizes.
-        /// Checks for potential obstacles using the unwalkable mask, and sets nodes on obstacles as unavailable.
+        /// Checks for potential obstacles using the non-walkable mask, and sets nodes on obstacles as unavailable.
         /// </summary>
         protected override void Bake()
         {
@@ -91,7 +93,9 @@
                     _mesh[x, y].Neighbours = GetNodeNeighbours(x, y);
         }
 
-        /// <summary>Gets any node its neighbours, using the 2D arrays and depending on the diagonal move allowing.</summary>
+        /// <summary>
+        /// Gets any node its neighbours, using the 2D arrays and depending on the diagonal move allowing.
+        /// </summary>
         /// <param name="nodeX">X index of the node.</param>
         /// <param name="nodeY">Y index of the node.</param>
         /// <returns>List of the node neighbours.</returns>

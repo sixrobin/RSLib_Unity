@@ -81,10 +81,11 @@
         #region GENERAL
 
         /// <summary>
-        /// Returns a list of all the occurences indexes of a given character in a string.
+        /// Returns a list of all the occurrences indexes of a given character in a string.
         /// </summary>
+        /// <param name="str">String to inspect.</param>
         /// <param name="c">Character to look for.</param>
-        /// <returns>A list of the character occurences indexes.</returns>
+        /// <returns>A list of the character occurrences indexes.</returns>
         public static System.Collections.Generic.List<int> AllIndexesOf(this string str, char c)
         {
             if (string.IsNullOrEmpty(str))
@@ -99,10 +100,11 @@
         }
 
         /// <summary>
-        /// Returns a list of all the occurences indexes of a given string in a string.
+        /// Returns a list of all the occurrences indexes of a given string in a string.
         /// </summary>
+        /// <param name="str">String to inspect.</param>
         /// <param name="value">String to look for.</param>
-        /// <returns>A list of the string occurences indexes.</returns>
+        /// <returns>A list of the string occurrences indexes.</returns>
         public static System.Collections.Generic.List<int> AllIndexesOf(this string str, string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -130,6 +132,7 @@
         /// <summary>
         /// Extracts the capital letters from a given string.
         /// </summary>
+        /// <param name="str">String to extract capital letters of.</param>
         /// <param name="forceIncludeFirstChar">Should include the first string char event if not capital.</param>
         /// <returns>Capital letters of the string.</returns>
         public static string ExtractCapitalLetters(this string str, bool forceIncludeFirstChar = false)
@@ -155,8 +158,9 @@
         /// <summary>
         /// Removes as many chars as specified from the start of the string.
         /// </summary>
-        /// <param name="amount">Amount of chars to remove.</param>
-        /// <returns>String without the removed characters.</returns>
+        /// <param name="str">String to remove first characters of.</param>
+        /// <param name="amount">Amount of characters to remove.</param>
+        /// <returns>String with removed characters.</returns>
         public static string RemoveFirst(this string str, int amount)
         {
             return string.IsNullOrEmpty(str) ? str : str.Substring(amount.Clamp(1, str.Length));
@@ -165,7 +169,9 @@
         /// <summary>
         /// Removes the first occurrence of the given string in the source string.
         /// </summary>
-        /// <returns>String without the given string first occurence if it has been found.</returns>
+        /// <param name="str">String to remove another string occurrence from.</param>
+        /// <param name="toRemove">String occurrence to remove if found.</param>
+        /// <returns>String without the given string first occurrence if it has been found.</returns>
         public static string RemoveFirstOccurrence(this string str, string toRemove)
         {
             int index = str.IndexOf(toRemove);
@@ -184,8 +190,9 @@
         /// <summary>
         /// Removes as many chars as specified from the end of the string.
         /// </summary>
+        /// <param name="str">String to remove last characters of.</param>
         /// <param name="amount">Amount of chars to remove.</param>
-        /// <returns>String without the removed characters.</returns>
+        /// <returns>String with removed characters.</returns>
         public static string RemoveLast(this string str, int amount)
         {
             return string.IsNullOrEmpty(str) ? str : str.Substring(0, str.Length - amount.Clamp(0, str.Length));
@@ -239,6 +246,7 @@
         /// <summary>
         /// Adds bold tag to the given string.
         /// </summary>
+        /// <param name="str">String to style as bold.</param>
         /// <returns>String with bold tag.</returns>
         public static string ToBold(this string str)
         {
@@ -248,6 +256,8 @@
         /// <summary>
         /// Adds bold tag to the given string if a condition is fulfilled.
         /// </summary>
+        /// <param name="str">String to style as bold.</param>
+        /// <param name="condition">Condition to apply bold style.</param>
         /// <returns>String with bold tag if condition is fulfilled.</returns>
         public static string ToBoldIf(this string str, bool condition)
         {
@@ -257,6 +267,7 @@
         /// <summary>
         /// Adds color tag to the given string.
         /// </summary>
+        /// <param name="str">String to color.</param>
         /// <param name="color">Color to apply to the string.</param>
         /// <returns>String with color tag.</returns>
         public static string ToColored(this string str, UnityEngine.Color color)
@@ -267,8 +278,9 @@
         /// <summary>
         /// Adds color tag to the given string if a condition is fulfilled.
         /// </summary>
+        /// <param name="str">String to color.</param>
         /// <param name="color">Color to apply to the string.</param>
-        /// <param name="condition">Conditions to color the string.</param>
+        /// <param name="condition">Condition to color the string.</param>
         /// <returns>String with color tag if condition is fulfilled.</returns>
         public static string ToColoredIf(this string str, UnityEngine.Color color, bool condition)
         {
@@ -278,6 +290,7 @@
         /// <summary>
         /// Adds bold italic to the given string.
         /// </summary>
+        /// <param name="str">String to style as italic.</param>
         /// <returns>String with italic tag.</returns>
         public static string ToItalic(this string str)
         {
@@ -287,6 +300,8 @@
         /// <summary>
         /// Adds italic tag to the given string if a condition is fulfilled.
         /// </summary>
+        /// <param name="str">String to style as italic.</param>
+        /// <param name="condition">Condition to apply italic style.</param>
         /// <returns>String with italic tag if condition is fulfilled.</returns>
         public static string ToItalicIf(this string str, bool condition)
         {

@@ -4,11 +4,11 @@ namespace RSLib.Framework
     using System.Linq;
 
     /// <summary>
-    /// Items that are sorted using the topologic sort algorithm can implement this interface only if the method
+    /// Items that are sorted using the topological sort algorithm can implement this interface only if the method
     /// to get their dependencies isn't passed in as an argument, but directly called on the items themselves.
     /// </summary>
     /// <typeparam name="T">Type of the items to sort.</typeparam>
-    public interface ITopologicSortedItem<T>
+    public interface ITopologicalSortedItem<T>
     {
         /// <summary>
         /// Gets the items this one depends on.
@@ -20,19 +20,19 @@ namespace RSLib.Framework
     /// <summary>
     /// Class containing methods to sort items by dependencies.
     /// Items dependencies are a collection of other items of the same type, that can be retrieved else by having the item type
-    /// implementing the ITopologicSortedItem interface, or by passing in the dependencies getter method as an argument to the Sort method.
+    /// implementing the ITopologicalSortedItem interface, or by passing in the dependencies getter method as an argument to the Sort method.
     /// Cyclic dependencies are not allowed and an exception will be thrown if one is encountered during the sorting. The log message will use
     /// the item ToString(), so it would be a good thing to override it, to enhance the log context (by displaying something specific to each item).
     /// </summary>
-    public static class TopologicSorter
+    public static class TopologicalSorter
     {
         /// <summary>
-        /// Sort method using the ITopologicSortedItem.GetDependencies method to get each item dependencies.
+        /// Sort method using the ITopologicalSortedItem.GetDependencies method to get each item dependencies.
         /// </summary>
-        /// <typeparam name="T">Type of the items to sort, that must implement ITopologicSortedItem.</typeparam>
+        /// <typeparam name="T">Type of the items to sort, that must implement ITopologicalSortedItem.</typeparam>
         /// <param name="content">Items to sort.</param>
         /// <returns>IEnumerable of items sorted by their dependencies.</returns>
-        public static IEnumerable<T> Sort<T>(IEnumerable<T> content) where T : ITopologicSortedItem<T>
+        public static IEnumerable<T> Sort<T>(IEnumerable<T> content) where T : ITopologicalSortedItem<T>
         {
             return Sort(content, o => o.GetDependencies());
         }

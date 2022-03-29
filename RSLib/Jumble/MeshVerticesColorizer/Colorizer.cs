@@ -37,7 +37,7 @@
 			if (_alreadyKnownColorables.ContainsKey(hitTransform))
 			{
 				if (_showDebug)
-					Debug.Log($"Colorizer INFO: Detected an already known ColorableMesh {hitTransform.name}. Distance : {hit.distance}.", gameObject);
+					Debug.Log($"{nameof(Colorizer)}: Detected an already known ColorableMesh {hitTransform.name}. Distance : {hit.distance}.", gameObject);
 				
 				_alreadyKnownColorables[hitTransform].ColorAtWorldPosition(hit.point, _colorRadius, _paintColor);
 				return;
@@ -46,7 +46,7 @@
 			if (hitTransform.TryGetComponent(out ColorableMesh colorable))
 			{
 				if (_showDebug)
-					Debug.Log($"Colorizer INFO: Detected a new ColorableMesh {hitTransform.name}. Distance : {hit.distance}.", gameObject);
+					Debug.Log($"{nameof(Colorizer)}: Detected a new ColorableMesh {hitTransform.name}. Distance : {hit.distance}.", gameObject);
 
 				colorable.ColorAtWorldPosition(hit.point, _colorRadius, _paintColor);
 				_alreadyKnownColorables.Add(hit.transform, colorable);
@@ -66,7 +66,7 @@
 			if ((transform.position - _lastRecordedPos).sqrMagnitude > _travelDistToUpdate * _travelDistToUpdate)
 			{
 				if (_showDebug)
-					Debug.Log("Colorizer INFO: Looking for a mesh to color.", gameObject);
+					Debug.Log($"{nameof(Colorizer)}: Looking for a mesh to color.", gameObject);
 
 				LookForColorableMesh();
 				_lastRecordedPos = transform.position;

@@ -9,10 +9,10 @@
     public class AStarMeshFree : AStarMesh
     {
         [Header ("NODES BAKED ON START")]
-        /// <summary> Nodes that are added to the mesh on start. </summary>
+        // Nodes that are added to the mesh on start.
         [SerializeField] private AStarNodeFreeGO[] _nodesGO = null;
 
-        public System.Collections.Generic.List<AStarNodeFree> Mesh { get; private set; } = new System.Collections.Generic.List<AStarNodeFree> ();
+        public System.Collections.Generic.List<AStarNodeFree> Mesh { get; } = new System.Collections.Generic.List<AStarNodeFree>();
 
         public override int Size => Mesh.Count;
 

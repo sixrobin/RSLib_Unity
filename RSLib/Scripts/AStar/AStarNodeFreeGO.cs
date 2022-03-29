@@ -22,7 +22,9 @@
         [SerializeField] private float _costHeight = 0.5f;
 #endif
 
-        /// <summary>Adds the node to a given mesh, setting up its neighbours.</summary>
+        /// <summary>
+        /// Adds the node to a given mesh, setting up its neighbours.
+        /// </summary>
         /// <param name="mesh">The mesh to add this node to.</param>
         public void AddToMesh(AStarMeshFree mesh)
 		{

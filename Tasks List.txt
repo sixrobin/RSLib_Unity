@@ -1,12 +1,11 @@
 - /!\ Rendre indépendants les petits scripts de la library entre eux.
 
 - AutoDestroy, avec delay, pour anim event.
-- Encryption tool.
 - Textures de gradients linéaires/radiaux déjà utilisables, BW et WB.
 - Sound Manager.
-	- Global volume multiplier sur les Playlists ?
 	- AudioOptions template avec les sliders nécessaires.
 	- Trouver un moyen de faire loop un son et de le garder en ref pour le stopper. Renvoyer l'AudioSource ? Et faire gaffe à ne pas l'écraser avec le GetNextSource tout ça
+	- Trouver un moyen de spatialiser.
 - Image Effects : invert.
 - Canvas Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
 - Checker sur LD48 ce qu'il fallait améliorer/récupérer dans RSLib.
@@ -24,6 +23,10 @@
 - World LayoutGroup (avec SpriteRenderers)
 - Vector.Snap (avec en param le nombre de directions, 4, 8, etc.)
 - Récupérer KeyCodeShortNames de Templar mais le changer en KeyCodeSymbols et ne garder que les symboles donc (et changer la méthode Get pour un TryGet? ou les deux ?)
+- Modifier les endregion pour en faire des commentaires.
+- Checker les singleton et passer les properties static en membres.
+- Singleton : méthodes log statiques.
+- Homogénéiser les newlines des summaries.
 
 - Art
 	- Tileset template de Templar

@@ -76,8 +76,9 @@ namespace TheLastStand.View.LevelEditor
             if (!RectTransformUtility.RectangleContainsScreenPoint(_colorPickerRect, Input.mousePosition))
                 return;
 
-            float width = _colorPickerRect.rect.width;
-            float height = _colorPickerRect.rect.height;
+            Rect colorPickerRect = _colorPickerRect.rect;
+            float width = colorPickerRect.width;
+            float height = colorPickerRect.height;
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(_colorPickerRect, Input.mousePosition, null, out Vector2 delta);
             delta += _colorPickerRect.rect.size * 0.5f;
@@ -109,12 +110,11 @@ namespace TheLastStand.View.LevelEditor
                         break;
 
                     case PickType.HOVER:
-                        if (colorHasChanged)
-                            PickColor(color);
+                        PickColor(color);
                         break;
 
                     case PickType.DRAG:
-                        if (colorHasChanged && _mousePressed)
+                        if (_mousePressed)
                             PickColor(color);
                         break;
 
@@ -144,7 +144,7 @@ namespace TheLastStand.View.LevelEditor
             _mousePressed = Input.GetMouseButton(0);
          
             UpdateColor();
-            // [TODO] Add some icon to show last picked color position. Might need to changed it as a nullable color.
+            // TODO: Add some icon to show last picked color position. Might need to changed it as a nullable color.
         }
 
         private void OnDestroy()

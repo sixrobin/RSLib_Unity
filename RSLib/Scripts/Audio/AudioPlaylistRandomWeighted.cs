@@ -17,7 +17,7 @@
 
         private Framework.Collections.WeightedList<AudioClipPlayDatasWeighted> _clipsList;
 
-        public override AudioClipPlayDatas GetNextClipDatas()
+        public override AudioClipPlayDatas GetNextClipData()
         {
             if (_clipsList == null)
                 Init();

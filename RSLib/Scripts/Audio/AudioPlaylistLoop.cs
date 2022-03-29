@@ -9,7 +9,7 @@
 
         private Framework.Collections.Loop<AudioClipPlayDatas> _clipsLoop;
 
-        public override AudioClipPlayDatas GetNextClipDatas()
+        public override AudioClipPlayDatas GetNextClipData()
         {
             if (_clipsLoop == null)
                 Init();

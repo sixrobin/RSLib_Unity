@@ -54,10 +54,10 @@
         }
 
         /// <summary>
-        /// Transferts all children of a gameObject to another parent.
+        /// Transfers all children of a gameObject to another parent.
         /// </summary>
         /// <param name="newParent">New parent transform.</param>
-        public static void TransfertChildren(this GameObject go, Transform newParent)
+        public static void TransferChildren(this GameObject go, Transform newParent)
         {
             Transform[] children = new Transform[go.transform.childCount];
             for (int i = children.Length - 1; i >= 0; --i)

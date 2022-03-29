@@ -53,7 +53,7 @@
 		public static void DestroyChildren(this Transform t)
 		{
 			for (int i = t.childCount - 1; i >= 0; --i)
-				GameObject.Destroy(t.GetChild(i).gameObject);
+				Object.Destroy(t.GetChild(i).gameObject);
 
 			t.DetachChildren();
 		}
@@ -64,16 +64,16 @@
 		public static void DestroyImmediateChildren(this Transform t)
 		{
 			for (int i = t.childCount - 1; i >= 0; --i)
-				GameObject.DestroyImmediate(t.GetChild(i).gameObject);
+				Object.DestroyImmediate(t.GetChild(i).gameObject);
 
 			t.DetachChildren();
 		}
 
 		/// <summary>
-		/// Transferts all children of a transform to another parent.
+		/// Transfers all children of a transform to another parent.
 		/// </summary>
 		/// <param name="newParent">New parent transform.</param>
-		public static void TransfertChildren(this Transform t, Transform newParent)
+		public static void TransferChildren(this Transform t, Transform newParent)
 		{
 			Transform[] children = new Transform[t.childCount];
 			for (int i = children.Length - 1; i >= 0; --i)
@@ -130,10 +130,7 @@
 			if (avoidSelf && comparedToList.Contains(t))
 				comparedToList.Remove(t);
 
-			comparedToList.Sort(delegate (Transform a, Transform b)
-			{
-				return Vector3.SqrMagnitude(t.position - a.position).CompareTo(Vector3.SqrMagnitude(t.position - b.position));
-			});
+			comparedToList.Sort((a, b) => Vector3.SqrMagnitude(t.position - a.position).CompareTo(Vector3.SqrMagnitude(t.position - b.position)));
 
 			int quantityClamped = Mathf.Clamp(quantity, 0, comparedToList.Count);
 			Transform[] closestTransforms = new Transform[quantityClamped];
@@ -212,7 +209,7 @@
 			{
 				child.ResetLocalPosition();
 				if (recursive)
-					child.ResetChildrenLocalPositions(recursive);
+					child.ResetChildrenLocalPositions(true);
 			}
 		}
 
@@ -226,7 +223,7 @@
 			{
 				child.ResetRotation();
 				if (recursive)
-					child.ResetChildrenLocalRotations(recursive);
+					child.ResetChildrenLocalRotations(true);
 			}
 		}
 
@@ -240,7 +237,7 @@
 			{
 				child.ResetScale();
 				if (recursive)
-					child.ResetChildrenScales(recursive);
+					child.ResetChildrenScales(true);
 			}
 		}
 
@@ -254,7 +251,7 @@
 			{
 				child.ResetAll(true);
 				if (recursive)
-					child.ResetChildrenAll(recursive);
+					child.ResetChildrenAll(true);
 			}
 		}
 

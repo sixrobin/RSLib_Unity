@@ -8,11 +8,13 @@
 		private static Framework.Collections.Heap<AStarNode> _openSet;
 		private static System.Collections.Generic.HashSet<AStarNode> _closeSet = new System.Collections.Generic.HashSet<AStarNode>();
 
-		/// <summary>Compares the two nodes to make sure a path research can proceed.</summary>
+		/// <summary>
+		/// Compares the two nodes to make sure a path research can proceed.
+		/// </summary>
 		/// <param name="start">The starting node.</param>
 		/// <param name="end">The destination node.</param>
 		/// <returns>True if the algorithm is allowed to run, else false.</returns>
-		public static bool CheckNodesValidity(AStarNode start, AStarNode end)
+		private static bool CheckNodesValidity(AStarNode start, AStarNode end)
 		{
 			if (start == end)
 			{
@@ -41,7 +43,9 @@
 			return true;
 		}
 
-		/// <summary>Returns the path to follow to go from a starting node to a destination node if both are in the same mesh.</summary>
+		/// <summary>
+		/// Returns the path to follow to go from a starting node to a destination node if both are in the same mesh.
+		/// </summary>
 		/// <param name="start">The starting node.</param>
 		/// <param name="end">The destination node.</param>
 		/// <returns>The path to follow.</returns>
@@ -97,18 +101,18 @@
 		/// <returns>The retraced back path.</returns>
 		private static System.Collections.Generic.List<AStarNode> Retrace(AStarNode start, AStarNode end)
 		{
-            System.Collections.Generic.List<AStarNode> _path = new System.Collections.Generic.List<AStarNode>();
+            System.Collections.Generic.List<AStarNode> path = new System.Collections.Generic.List<AStarNode>();
             AStarNode currentNode = end;
 
 			while (currentNode != start)
 			{
-				_path.Add(currentNode);
+				path.Add(currentNode);
 				currentNode = currentNode.Parent;
 			}
 
-			_path.Add(start);
-			_path.Reverse();
-			return _path;
+			path.Add(start);
+			path.Reverse();
+			return path;
 		}
 	}
 }

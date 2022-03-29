@@ -11,6 +11,6 @@
         public float PitchOffset => _pitchOffset;
 
         public virtual void Init() { }
-        public abstract AudioClipPlayDatas GetNextClipDatas();
+        public abstract AudioClipPlayDatas GetNextClipData();
     }
 }

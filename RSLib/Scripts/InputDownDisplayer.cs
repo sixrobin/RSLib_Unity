@@ -9,7 +9,7 @@
     public class InputDownDisplayer : MonoBehaviour
     {
         [Tooltip("Set as None so that gameObjects display can not be triggered without removing the script instance.")]
-        [SerializeField] private KeyCode _reloadKey = KeyCode.None;
+        [SerializeField] private KeyCode _key = KeyCode.None;
 
 #pragma warning disable CS0414
         [Tooltip("The script instance will be destroyed in build on awake if this is set to true.")]
@@ -19,7 +19,7 @@
         [Tooltip("GameObjects instances that should be displayed by the input.")]
         [SerializeField] private GameObject[] _objectsToDisplay = null;
 
-        public void Display(bool state)
+        private void Display(bool state)
         {
             for (int i = _objectsToDisplay.Length - 1; i >= 0; --i)
                 _objectsToDisplay[i].SetActive(state);
@@ -37,9 +37,9 @@
 
         private void Update()
         {
-            if (Input.GetKeyDown(_reloadKey))
+            if (Input.GetKeyDown(_key))
                 Display(true);
-            else if (Input.GetKeyUp(_reloadKey))
+            else if (Input.GetKeyUp(_key))
                 Display(false);
         }
     }

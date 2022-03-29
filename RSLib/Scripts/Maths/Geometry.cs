@@ -356,12 +356,9 @@
         /// <summary>
         /// Checks if a point is left to an edge, using an algorithm explained here http://geomalgorithms.com/a03-_inclusion.html.
         /// </summary>
-        /// <param name="ax">Segment first point x.</param>
-        /// <param name="ay">Segment first point y.</param>
-        /// <param name="bx">Segment second point x.</param>
-        /// <param name="by">Segment second point y.</param>
-        /// <param name="px">Point x.</param>
-        /// <param name="py">Point y.</param>
+        /// <param name="a">Segment first point.</param>
+        /// <param name="b">Segment second point.</param>
+        /// <param name="p">Reference point.</param>
         /// <returns>1 if it is left, -1 if not, 0 if it is right on the segment.</returns>
         public static int IsPointLeftToSegment(UnityEngine.Vector2 a, UnityEngine.Vector2 b, UnityEngine.Vector2 p)
         {

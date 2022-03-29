@@ -1,8 +1,8 @@
 ﻿namespace RSLib.Jumble.DungeonGenerator
 {
     /// <summary>
-    /// Class containing basic informations about a room.
-    /// Can be inherited to add specific datas.
+    /// Class containing basic information about a room.
+    /// Can be inherited to add specific data.
     /// </summary>
     public class Room
     {
@@ -11,6 +11,6 @@
             RoomType = roomType;
         }
 
-        public RoomType RoomType { get; private set; }
+        public RoomType RoomType { get; }
     }
 }

@@ -4,8 +4,8 @@
 
     public class AStarNodeGrid : AStarNode
     {
-        public int GridX { get; private set; }
-        public int GridY { get; private set; }
+        public int GridX { get; }
+        public int GridY { get; }
 
         public AStarNodeGrid(int gridX, int gridY, Vector3 worldPos, int baseCost) : base(worldPos, baseCost)
         {

@@ -27,7 +27,7 @@
             { "I", 1 }
         };
 
-        private static readonly Regex validRomanNumeralRegex = new Regex(
+        private static readonly Regex s_validRomanNumeralRegex = new Regex(
             "^(?i:(?=[MDCLXVI])((M{0,3})((C[DM])|(D?C{0,3}))?((X[LC])|(L?XX{0,2})|L)?((I[VX])|(V?(II{0,2}))|V)?))$",
             RegexOptions.Compiled);
         
@@ -37,7 +37,7 @@
         /// <returns>True if it is valid, else false.</returns>
         public static bool IsValidRomanNumeral(this string str)
         {
-            return validRomanNumeralRegex.IsMatch(str);
+            return s_validRomanNumeralRegex.IsMatch(str);
         }
 
         /// <summary>

@@ -23,9 +23,9 @@
                 Max = template.Max;
             }
 
-            public int Previous { get; private set; }
-            public int Current { get; private set; }
-            public int Max { get; private set; }
+            public int Previous { get; }
+            public int Current { get; }
+            public int Max { get; }
 
             public bool IsLoss => Previous > Current;
         }

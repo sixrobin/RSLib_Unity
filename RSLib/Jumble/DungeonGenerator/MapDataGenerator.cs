@@ -2,7 +2,7 @@
 {
     using System.Linq;
 
-    public class MapDatasGenerator
+    public class MapDataGenerator
     {
         private const byte INIT_W = 2;
         private const byte INIT_H = 2;
@@ -20,9 +20,9 @@
         private enum GenerationDirection : byte
         {
             NA = 255,
-            Left = 0,
-            Right = 1,
-            Down = 2
+            LEFT = 0,
+            RIGHT = 1,
+            DOWN = 2
         }
 
         public int Seed { get; private set; }
@@ -35,7 +35,7 @@
         private int _w;
         private int _h;
 
-        public MapDatasGenerator(int seed, int lvl)
+        public MapDataGenerator(int seed, int lvl)
         {
             Seed = seed;
             if (Seed == 0)
@@ -47,7 +47,7 @@
             _h = INIT_H + lvl;
         }
 
-        public MapDatasGenerator(int seed, int w, int h)
+        public MapDataGenerator(int seed, int w, int h)
         {
             Seed = seed;
             if (Seed == 0)
@@ -59,7 +59,7 @@
             _h = h > INIT_H ? h : INIT_H;
         }
 
-        public MapDatasGenerator(int seed, UnityEngine.Vector2Int size)
+        public MapDataGenerator(int seed, UnityEngine.Vector2Int size)
         {
             Seed = seed;
             if (Seed == 0)
@@ -71,7 +71,7 @@
             _h = size.y > INIT_H ? size.y : INIT_H;
         }
 
-        public MapDatas ComputeMapDatas()
+        public MapData ComputeMapData()
         {
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             sw.Start();
@@ -94,7 +94,7 @@
             sw.Stop();
             UnityEngine.Debug.Log($"Map generated in {sw.ElapsedMilliseconds} ms.");
 
-            return new MapDatas(rooms, _start, _end);
+            return new MapData(rooms, _start, _end);
         }
 
         private bool AreCoordinatesValid(int x, int y)
@@ -111,16 +111,16 @@
 
             int iterations = 0;
 
-            while (!(_dir == GenerationDirection.Down && BorderingBottom) && iterations++ < 10000)
+            while (!(_dir == GenerationDirection.DOWN && BorderingBottom) && iterations++ < 10000)
             {
                 switch (_dir)
                 {
-                    case GenerationDirection.Left:
+                    case GenerationDirection.LEFT:
                     {
                         if (BorderingLeft)
                         {
-                            _dir = GenerationDirection.Down;
-                            goto case GenerationDirection.Down;
+                            _dir = GenerationDirection.DOWN;
+                            goto case GenerationDirection.DOWN;
                         }
 
                         _x--;
@@ -130,12 +130,12 @@
                         break;
                     }
 
-                    case GenerationDirection.Right:
+                    case GenerationDirection.RIGHT:
                     {
                         if (BorderingRight)
                         {
-                            _dir = GenerationDirection.Down;
-                            goto case GenerationDirection.Down;
+                            _dir = GenerationDirection.DOWN;
+                            goto case GenerationDirection.DOWN;
                         }
 
                         _x++;
@@ -145,7 +145,7 @@
                         break;
                     }
 
-                    case GenerationDirection.Down:
+                    case GenerationDirection.DOWN:
                     {
                         if (BorderingBottom)
                             continue;
@@ -157,8 +157,9 @@
                         break;
                     }
 
+                    case GenerationDirection.NA:
                     default:
-                        UnityEngine.Debug.LogError("Invalid direction!");
+                        UnityEngine.Debug.LogError($"Unhandled direction {_dir}!");
                         break;
                 }
             }
@@ -256,28 +257,28 @@
                 (int x, int y) = roomsToCheck.Dequeue();
 
                 if (AreCoordinatesValid(x + 1, y) && _roomsTypes[x + 1, y].HasOpening(RoomType.L)
-                    && linkedRooms.Where(o => o.Item1 == x + 1 && o.Item2 == y).Count() == 0)
+                    && linkedRooms.Count(o => o.Item1 == x + 1 && o.Item2 == y) == 0)
                 {
                     roomsToCheck.Enqueue((x + 1, y));
                     linkedRooms.Add((x + 1, y));
                 }
 
                 if (AreCoordinatesValid(x - 1, y) && _roomsTypes[x - 1, y].HasOpening(RoomType.R)
-                    && linkedRooms.Where(o => o.Item1 == x - 1 && o.Item2 == y).Count() == 0)
+                    && linkedRooms.Count(o => o.Item1 == x - 1 && o.Item2 == y) == 0)
                 {
                     roomsToCheck.Enqueue((x - 1, y));
                     linkedRooms.Add((x - 1, y));
                 }
 
                 if (AreCoordinatesValid(x, y + 1) && _roomsTypes[x, y + 1].HasOpening(RoomType.T)
-                    && linkedRooms.Where(o => o.Item1 == x && o.Item2 == y + 1).Count() == 0)
+                    && linkedRooms.Count(o => o.Item1 == x && o.Item2 == y + 1) == 0)
                 {
                     roomsToCheck.Enqueue((x, y + 1));
                     linkedRooms.Add((x, y + 1));
                 }
 
                 if (AreCoordinatesValid(x, y - 1) && _roomsTypes[x, y - 1].HasOpening(RoomType.B)
-                    && linkedRooms.Where(o => o.Item1 == x && o.Item2 == y - 1).Count() == 0)
+                    && linkedRooms.Count(o => o.Item1 == x && o.Item2 == y - 1) == 0)
                 {
                     roomsToCheck.Enqueue((x, y - 1));
                     linkedRooms.Add((x, y - 1));

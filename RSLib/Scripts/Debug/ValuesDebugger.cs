@@ -8,12 +8,12 @@
     {
         public static bool IsRight(this ValuesDebugger.Anchor anchor)
         {
-            return anchor == ValuesDebugger.Anchor.LowerRight || anchor == ValuesDebugger.Anchor.UpperRight;
+            return anchor == ValuesDebugger.Anchor.LOWER_RIGHT || anchor == ValuesDebugger.Anchor.UPPER_RIGHT;
         }
 
         public static bool IsUp(this ValuesDebugger.Anchor anchor)
         {
-            return anchor == ValuesDebugger.Anchor.UpperLeft || anchor == ValuesDebugger.Anchor.UpperRight;
+            return anchor == ValuesDebugger.Anchor.UPPER_LEFT || anchor == ValuesDebugger.Anchor.UPPER_RIGHT;
         }
     }
 
@@ -44,13 +44,13 @@
 
         public enum Anchor
         {
-            UpperRight,
-            UpperLeft,
-            LowerRight,
-            LowerLeft
+            UPPER_RIGHT,
+            UPPER_LEFT,
+            LOWER_RIGHT,
+            LOWER_LEFT
         }
 
-        public static void DebugValue(string key, ValueGetter valueGetter, Anchor anchor = Anchor.UpperRight)
+        public static void DebugValue(string key, ValueGetter valueGetter, Anchor anchor = Anchor.UPPER_RIGHT)
         {
             if (!Instance._values.ContainsKey(anchor))
                 Instance._values.Add(anchor, new Dictionary<string, ValueGetter>());
@@ -108,10 +108,10 @@
 
             _styles = new Dictionary<Anchor, GUIStyle>()
             {
-                { Anchor.UpperLeft, upperLeftStyle },
-                { Anchor.UpperRight, upperRightStyle },
-                { Anchor.LowerLeft, lowerLeftStyle },
-                { Anchor.LowerRight, lowerRightStyle }
+                { Anchor.UPPER_LEFT, upperLeftStyle },
+                { Anchor.UPPER_RIGHT, upperRightStyle },
+                { Anchor.LOWER_LEFT, lowerLeftStyle },
+                { Anchor.LOWER_RIGHT, lowerRightStyle }
             };
         }
 

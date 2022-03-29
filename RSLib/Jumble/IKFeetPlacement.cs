@@ -63,8 +63,9 @@
 				return;
 			}
 
-			float leftOffsetPosition = _leftFootIKPosition.y - transform.position.y;
-			float rightOffsetPosition = _rightFootIKPosition.y - transform.position.y;
+			Vector3 position = transform.position;
+			float leftOffsetPosition = _leftFootIKPosition.y - position.y;
+			float rightOffsetPosition = _rightFootIKPosition.y - position.y;
 			float totalOffset = leftOffsetPosition < rightOffsetPosition ? leftOffsetPosition : rightOffsetPosition;
 
 			Vector3 newPelvisPosition = _animator.bodyPosition + Vector3.up * totalOffset;

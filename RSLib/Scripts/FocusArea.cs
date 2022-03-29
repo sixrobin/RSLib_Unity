@@ -23,9 +23,7 @@
         }
 
         public Vector2 Center { get; private set; }
-
         public Vector2 Size { get; private set; }
-
         public Vector2 Velocity { get; private set; }
 
         /// <summary>
@@ -71,10 +69,12 @@
 
         private void RefreshValues()
         {
-            _left = _targetBox.bounds.center.x - Size.x * 0.5f;
-            _right = _targetBox.bounds.center.x + Size.x * 0.5f;
-            _bottom = _targetBox.bounds.min.y;
-            _top = _targetBox.bounds.min.y + Size.y;
+            Bounds bounds = _targetBox.bounds;
+            
+            _left = bounds.center.x - Size.x * 0.5f;
+            _right = bounds.center.x + Size.x * 0.5f;
+            _bottom = bounds.min.y;
+            _top = bounds.min.y + Size.y;
 
             UpdateCenter();
         }
@@ -88,11 +88,11 @@
         /// Draws the area rect.
         /// Must be called inside OnDrawGizmos or OnDrawGizmosSelected.
         /// </summary>
-        /// <param name="col">Rect color.</param>
-        public void DrawArea(Color col)
+        /// <param name="color">Rect color.</param>
+        public void DrawArea(Color color)
         {
 #if UNITY_EDITOR
-            Gizmos.color = col;
+            Gizmos.color = color;
             Gizmos.DrawCube(Center, Size);
 #endif
         }
