@@ -4,6 +4,7 @@
     {
         UnityEngine.Audio.AudioMixerGroup MixerGroup { get; }
         float VolumeMultiplier { get; }
+        float PitchOffset { get; }
 
         AudioClipPlayDatas GetNextClipDatas();
     }

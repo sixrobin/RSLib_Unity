@@ -72,7 +72,7 @@
 
             source.clip = clipDatas.Clip;
             source.volume = clipDatas.RandomVolume * clipProvider.VolumeMultiplier;
-            source.pitch = 1f + clipDatas.PitchVariation;
+            source.pitch = 1f + clipDatas.PitchVariation + clipProvider.PitchOffset;
             source.Play();
         }
 
