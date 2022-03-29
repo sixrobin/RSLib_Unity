@@ -55,22 +55,35 @@
 
         public static void PlayNextPlaylistSound(IClipProvider clipProvider)
         {
+            if (!Exists())
+            {
+                Debug.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
+                return;
+            }
+
+            if (clipProvider == null)
+            {
+                Debug.LogWarning($"Trying to play a sound using a null {nameof(IClipProvider)} reference!");
+                return;
+            }
+            
             AudioSource source = GetSFXSource(clipProvider);
             AudioClipPlayDatas clipDatas = clipProvider.GetNextClipDatas();
 
             source.clip = clipDatas.Clip;
-            source.volume = clipDatas.RandomVolume;
+            source.volume = clipDatas.RandomVolume * clipProvider.VolumeMultiplier;
             source.pitch = 1f + clipDatas.PitchVariation;
             source.Play();
         }
 
-        public static void PlayNextPlaylistSound(ClipProvider clipProvider)
-        {
-            PlayNextPlaylistSound(clipProvider as IClipProvider);
-        }
-
         public static void PlayMusic(IClipProvider musicProvider, MusicTransitionsDatas transitionDatas)
         {
+            if (!Exists())
+            {
+                Debug.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
+                return;
+            }
+            
             if (_musicFadeCoroutine != null)
                 Instance.StopCoroutine(_musicFadeCoroutine);
 
