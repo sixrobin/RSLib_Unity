@@ -53,7 +53,7 @@
             return Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
         }
 
-        public static void PlayNextPlaylistSound(IClipProvider clipProvider)
+        public static void PlaySound(IClipProvider clipProvider)
         {
             if (!Exists())
             {
@@ -73,6 +73,7 @@
             source.clip = clipData.Clip;
             source.volume = clipData.RandomVolume * clipProvider.VolumeMultiplier;
             source.pitch = 1f + clipData.PitchVariation + clipProvider.PitchOffset;
+            
             source.Play();
         }
 
@@ -81,6 +82,12 @@
             if (!Exists())
             {
                 Debug.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
+                return;
+            }
+            
+            if (musicProvider == null)
+            {
+                Debug.LogWarning($"Trying to play a music using a null {nameof(IClipProvider)} reference!");
                 return;
             }
             
