@@ -10,13 +10,16 @@
         /// Checks if two CircleCollider instances are overlapping.
         /// Transforms scales are not taken into account.
         /// </summary>
-        /// <param name="other">Circle to check overlap with.</param>
+        /// <param name="circle">First circle to check overlap with.</param>
+        /// <param name="otherCircle">Second circle to check overlap with.</param>
         /// <returns>True if circles overlap, else false.</returns>
-        public static bool OverlapsWith(this CircleCollider2D circle, CircleCollider2D other)
+        public static bool OverlapsWith(this CircleCollider2D circle, CircleCollider2D otherCircle)
         {
-            return (circle.radius + other.radius) * (circle.radius + other.radius) > (circle.transform.position - other.transform.position).sqrMagnitude;
+            float circleRadius = circle.radius;
+            float otherCircleRadius = otherCircle.radius;
+            return (circleRadius + otherCircleRadius) * (circleRadius + otherCircleRadius) > (circle.transform.position - otherCircle.transform.position).sqrMagnitude;
         }
 
-        #endregion
+        #endregion // GENERAL
     }
 }

@@ -93,7 +93,7 @@
             {
                 for (float t = 0f; t < 1f; t += (TimeScaleDependent ? Time.deltaTime : Time.unscaledDeltaTime) / _colorFadeDur)
                 {
-                    _blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(Easing.Ease(t, _colorEasingCurve) * _blinkColorAlpha));
+                    _blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(t.Ease(_colorEasingCurve) * _blinkColorAlpha));
                     yield return null;
                 }
 
@@ -106,7 +106,7 @@
 
                 for (float t = 0f; t < 1f; t += (TimeScaleDependent ? Time.deltaTime : Time.unscaledDeltaTime) / _colorFadeDur)
                 {
-                    _blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(_blinkColorAlpha - Easing.Ease(t, _colorEasingCurve) * _blinkColorAlpha));
+                    _blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(_blinkColorAlpha - t.Ease(_colorEasingCurve) * _blinkColorAlpha));
                     yield return null;
                 }
 
@@ -130,7 +130,7 @@
 
 			    for (float t = 0f; t < 1f; t += (TimeScaleDependent ? Time.deltaTime : Time.unscaledDeltaTime) / _alphaFadeDur)
 			    {
-				    _blinkMaterial.SetColor(COLOR_SHADER_PARAM, initColor.WithA(Mathf.Lerp (1f, _targetAlpha, Easing.Ease(t, _alphaEasingCurve))));
+				    _blinkMaterial.SetColor(COLOR_SHADER_PARAM, initColor.WithA(Mathf.Lerp (1f, _targetAlpha, t.Ease(_alphaEasingCurve))));
 				    yield return null;
 			    }
 
@@ -143,7 +143,7 @@
 
 			    for (float t = 0f; t < 1f; t += (TimeScaleDependent ? Time.deltaTime : Time.unscaledDeltaTime) / _alphaFadeDur)
 			    {
-				    _blinkMaterial.SetColor(COLOR_SHADER_PARAM, initColor.WithA(Mathf.Lerp(_targetAlpha, 1f, Easing.Ease(t, _alphaEasingCurve))));
+				    _blinkMaterial.SetColor(COLOR_SHADER_PARAM, initColor.WithA(Mathf.Lerp(_targetAlpha, 1f, t.Ease(_alphaEasingCurve))));
 				    yield return null;
 			    }
 
@@ -181,11 +181,11 @@
     {
         protected override void DrawButtons()
         {
-            if (UnityEditor.EditorApplication.isPlaying)
-            {
-                DrawButton("Blink Color", () => Obj.BlinkColor(1, () => Debug.Log("Color blink over.")));
-                DrawButton("Blink Alpha", () => Obj.BlinkAlpha(1, () => Debug.Log("Alpha blink over.")));
-            }
+	        if (!UnityEditor.EditorApplication.isPlaying)
+		        return;
+	        
+	        DrawButton("Blink Color", () => Obj.BlinkColor(1, () => Debug.Log("Color blink over.")));
+	        DrawButton("Blink Alpha", () => Obj.BlinkAlpha(1, () => Debug.Log("Alpha blink over.")));
         }
     }
 #endif

@@ -56,7 +56,7 @@
             return new Vector2Int(v.x, Mathf.Abs(v.y));
         }
 
-        #endregion ABS
+        #endregion // ABS
 
         #region ADD
 
@@ -115,7 +115,7 @@
             return new Vector2Int(v.x, v.y + value);
         }
 
-        #endregion ADD
+        #endregion // ADD
 
         #region CLAMP
 
@@ -223,7 +223,7 @@
             return new Vector2(v.x, Mathf.Clamp01(v.y));
         }
 
-        #endregion CLAMP
+        #endregion // CLAMP
 
         #region CONVERSION
 
@@ -271,7 +271,7 @@
             return list.ToArray();
         }
 
-        #endregion CONVERSION
+        #endregion // CONVERSION
 
         #region NORMAL
 
@@ -302,7 +302,7 @@
             return v.Normal(clockwise).normalized;
         }
 
-        #endregion NORMAL
+        #endregion // NORMAL
 
         #region RANDOM
 
@@ -325,7 +325,7 @@
             return UnityEngine.Random.Range(v.x, v.y + (inclusive ? 1 : 0));
         }
 
-        #endregion
+        #endregion // RANDOM
 
         #region ROUND
 
@@ -353,7 +353,7 @@
             return new Vector2(v.x, Mathf.Round(v.y));
         }
 
-        #endregion ROUND
+        #endregion // ROUND
 
         #region SWAP
 
@@ -365,7 +365,7 @@
             return new Vector2(v.y, v.x);
         }
 
-        #endregion SWAP
+        #endregion // SWAP
 
         #region WITH
 
@@ -405,9 +405,9 @@
             return new Vector2Int(v.x, value);
         }
 
-        #endregion WITH
+        #endregion // WITH
 
-        #endregion VECTOR2
+        #endregion // VECTOR2
 
         #region VECTOR3
 
@@ -477,7 +477,7 @@
             return new Vector3Int(v.x, v.y, Mathf.Abs(v.z));
         }
 
-        #endregion ABS
+        #endregion // ABS
 
         #region ADD
 
@@ -553,7 +553,7 @@
             return new Vector3Int(v.x, v.y, v.z + value);
         }
 
-        #endregion ADD
+        #endregion // ADD
 
         #region CLAMP
 
@@ -689,7 +689,7 @@
             return new Vector3(v.x, v.y, Mathf.Clamp01(v.z));
         }
 
-        #endregion CLAMP
+        #endregion // CLAMP
 
         #region CONVERSION
 
@@ -737,7 +737,7 @@
             return list.ToArray();
         }
 
-        #endregion CONVERSION
+        #endregion // CONVERSION
 
         #region NORMAL
 
@@ -796,7 +796,7 @@
             return v.Normal(axis, clockwise).normalized;
         }
 
-        #endregion NORMAL
+        #endregion // NORMAL
 
         #region ROUND
 
@@ -832,7 +832,7 @@
             return new Vector3(v.x, v.y, Mathf.Round(v.z));
         }
 
-        #endregion ROUND
+        #endregion // ROUND
 
         #region WITH
 
@@ -890,8 +890,8 @@
             return new Vector3Int(v.x, v.y, value);
         }
 
-        #endregion WITH
+        #endregion // WITH
 
-        #endregion VECTOR3
+        #endregion // VECTOR3
     }
 }

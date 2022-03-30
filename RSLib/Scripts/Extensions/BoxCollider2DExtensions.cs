@@ -8,10 +8,10 @@
 
 		public enum BoxSide
 		{
-			Left,
-			Right,
-			Top,
-			Bottom
+			LEFT,
+			RIGHT,
+			TOP,
+			BOTTOM
 		}
 
         #region CORNERS
@@ -20,10 +20,10 @@
 		{
             switch (side)
 			{
-				case BoxSide.Left: return CornersLeft(box);
-				case BoxSide.Right: return CornersRight(box);
-				case BoxSide.Top: return CornersTop(box);
-				case BoxSide.Bottom: return CornersBottom(box);
+				case BoxSide.LEFT: return CornersLeft(box);
+				case BoxSide.RIGHT: return CornersRight(box);
+				case BoxSide.TOP: return CornersTop(box);
+				case BoxSide.BOTTOM: return CornersBottom(box);
 				default: return null;
 			}
 		}
@@ -155,7 +155,7 @@
 			return corners;
 		}
 
-        #endregion CORNERS
+        #endregion // CORNERS
 
         #region GENERAL
 
@@ -207,6 +207,6 @@
             return new Vector2(Random.Range(box.bounds.min.x, box.bounds.max.x), Random.Range(box.bounds.min.y, box.bounds.max.y));
         }
 
-		#endregion GENERAL
+		#endregion // GENERAL
 	}
 }

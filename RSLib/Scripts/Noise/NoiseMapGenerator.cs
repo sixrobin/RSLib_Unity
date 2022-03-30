@@ -28,7 +28,7 @@
         [SerializeField] private FilterMode _filterMode = FilterMode.Bilinear;
 
         [Header("COLORS")]
-        [SerializeField] private ColorMode _colorMode = ColorMode.NoiseMap;
+        [SerializeField] private ColorMode _colorMode = ColorMode.NOISE_MAP;
         [SerializeField] private Color _heightMapColorA = Color.white;
         [SerializeField] private Color _heightMapColorB = Color.black;
         [SerializeField] private Maths.Curve _heightMapLerpCurve = Maths.Curve.Linear;
@@ -36,8 +36,8 @@
 
         public enum ColorMode
         {
-            NoiseMap,
-            ColorMap
+            NOISE_MAP,
+            COLOR_MAP
         }
 
         public void GenerateMap()
@@ -63,14 +63,14 @@
 
             switch (_colorMode)
             {
-                case ColorMode.NoiseMap:
+                case ColorMode.NOISE_MAP:
                     _noiseMapView.SetRendererTexture(TextureGenerator.TextureFromHeightMap(noiseMap, _heightMapColorA, _heightMapColorB, FilterMode.Bilinear, TextureWrapMode.Clamp, _heightMapLerpCurve));
                     break;
-                case ColorMode.ColorMap:
+                case ColorMode.COLOR_MAP:
                     _noiseMapView.SetRendererTexture(TextureGenerator.TextureFromColorMap(colorMap, _size.x, _size.y, _filterMode, TextureWrapMode.Clamp));
                     break;
                 default:
-                    Debug.LogError($"Unhandled ColorMode {_colorMode}.");
+                    Debug.LogError($"Unhandled ColorMode {_colorMode}.", gameObject);
                     break;
             }
         }

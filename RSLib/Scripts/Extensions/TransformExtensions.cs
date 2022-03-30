@@ -43,7 +43,7 @@
 			t.position += new Vector3(0f, 0f, value);
 		}
 
-		#endregion ADD
+		#endregion // ADD
 
 		#region GENERAL
 
@@ -86,7 +86,7 @@
 			}
 		}
 
-		#endregion GENERAL
+		#endregion // GENERAL
 
 		#region GET CLOSEST
 
@@ -141,7 +141,7 @@
 			return closestTransforms;
 		}
 
-		#endregion GET CLOSEST
+		#endregion // GET CLOSEST
 
 		#region RESET
 
@@ -255,7 +255,7 @@
 			}
 		}
 
-		#endregion RESET
+		#endregion // RESET
 
 		#region SET
 
@@ -376,6 +376,6 @@
 			t.localScale = new Vector3(t.localScale.x, t.localScale.y, value);
 		}
 
-		#endregion SET
+		#endregion // SET
 	}
 }

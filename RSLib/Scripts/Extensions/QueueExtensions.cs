@@ -39,6 +39,6 @@
 			return peek;
 		}
 
-		#endregion GENERAL
+		#endregion // GENERAL
 	}
 }

@@ -22,7 +22,7 @@
             return element == null || string.IsNullOrEmpty(element.Value);
         }
 
-        #endregion GENERAL
+        #endregion // GENERAL
 
         #region PARSING
 
@@ -186,7 +186,7 @@
             return (min, max);
         }
 
-        #endregion PARSING
+        #endregion // PARSING
 
         #region TRY GET
 
@@ -216,6 +216,6 @@
             return attribute != null;
         }
 
-        #endregion TRY GET
+        #endregion // TRY GET
     }
 }

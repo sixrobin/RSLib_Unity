@@ -61,7 +61,7 @@
             return string.Join(separator, MaskToNames(layerMask));
         }
 
-        #endregion GENERAL
+        #endregion // GENERAL
 
         #region MASK MANIPULATION
 
@@ -116,7 +116,7 @@
             return ~layerMask;
         }
 
-        #endregion MASK MANIPULATION
+        #endregion // MASK MANIPULATION
 
         #region VALUES TO MASK
 
@@ -148,6 +148,6 @@
             return mask;
         }
 
-        #endregion VALUES TO MASK
+        #endregion // VALUES TO MASK
     }
 }

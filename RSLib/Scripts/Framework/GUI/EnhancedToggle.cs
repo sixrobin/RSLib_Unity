@@ -32,8 +32,8 @@
                 _onPointerClick?.Invoke();
                 PointerClick?.Invoke();
 
-                if (_autoDeselection)
-                    UnityEngine.EventSystems.EventSystem.current?.SetSelectedGameObject(null);
+                if (_autoDeselection && UnityEngine.EventSystems.EventSystem.current != null)
+                    UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
             }
         }
 

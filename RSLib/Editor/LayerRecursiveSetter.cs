@@ -4,10 +4,10 @@
 	using UnityEditor;
     using Extensions;
 
-    public sealed class LayerRecurviseSetterMenu
+    public static class LayerRecursiveSetterMenu
 	{
 		[MenuItem("RSLib/Layer Recursive Setter", true)]
-		static bool CheckSelectionCount()
+		private static bool CheckSelectionCount()
 		{
 			return Selection.gameObjects.Length > 0;
 		}

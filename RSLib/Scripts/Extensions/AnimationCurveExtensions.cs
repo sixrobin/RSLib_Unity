@@ -4,7 +4,7 @@
 
     public static class AnimationCurveExtensions
     {
-        public static readonly Keyframe DEFAULT_KEYFRAME = new Keyframe(0f, 0f);
+        private static readonly Keyframe s_defaultKeyFrame = new Keyframe(0f, 0f);
 
         #region GENERAL
 
@@ -26,7 +26,7 @@
             int length = curve.keys.Length;
 
             if (length == 0)
-                return DEFAULT_KEYFRAME;
+                return s_defaultKeyFrame;
 
             int minTimeIndex = 0;
             for (int i = 1; i < length; ++i)
@@ -45,7 +45,7 @@
             int length = curve.keys.Length;
 
             if (length == 0)
-                return DEFAULT_KEYFRAME;
+                return s_defaultKeyFrame;
 
             int maxTimeIndex = 0;
             for (int i = 1; i < length; ++i)
@@ -58,7 +58,7 @@
         /// <summary>
         /// Gets the minimum time of the curve.
         /// </summary>
-        /// <returns>Tthe found minimum time, or default keyframe's if there's no keyframe on the curve.</returns>
+        /// <returns>The found minimum time, or default keyframe's if there's no keyframe on the curve.</returns>
         public static float GetMinTime(this AnimationCurve curve)
         {
             return curve.GetFirstKeyframe().time;
@@ -67,7 +67,7 @@
         /// <summary>
         /// Gets the maximum time of the curve.
         /// </summary>
-        /// <returns>Tthe found maximum time, or default keyframe's if there's no keyframe on the curve.</returns>
+        /// <returns>The found maximum time, or default keyframe's if there's no keyframe on the curve.</returns>
         public static float GetMaxTime(this AnimationCurve curve)
         {
             return curve.GetLastKeyframe().time;
@@ -82,7 +82,7 @@
             int length = curve.keys.Length;
 
             if (length == 0)
-                return DEFAULT_KEYFRAME;
+                return s_defaultKeyFrame;
 
             int minValueIndex = 0;
             for (int i = 1; i < length; ++i)
@@ -101,7 +101,7 @@
             int length = curve.keys.Length;
 
             if (length == 0)
-                return DEFAULT_KEYFRAME;
+                return s_defaultKeyFrame;
 
             int maxValueIndex = 0;
             for (int i = 1; i < length; ++i)
@@ -129,6 +129,6 @@
             return curve.GetMaxValueKeyframe().value;
         }
 
-        #endregion GENERAL
+        #endregion // GENERAL
     }
 }

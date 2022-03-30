@@ -17,10 +17,10 @@
             [SerializeField] private KeyCode _altBtn = KeyCode.None;
             [SerializeField] private bool _userAssignable = true;
 
-            public KeyBinding(string actionId, (KeyCode btn, KeyCode altBtn) btns, bool userAccessible)
+            public KeyBinding(string actionId, (KeyCode btn, KeyCode altBtn) keyCodes, bool userAccessible)
             {
                 _actionId = actionId;
-                SetBtns(btns.btn, btns.altBtn);
+                SetKeyCodes(keyCodes.btn, keyCodes.altBtn);
                 _userAssignable = userAccessible;
             }
 
@@ -28,18 +28,18 @@
             public (KeyCode btn, KeyCode altBtn) KeyCodes => (_btn, _altBtn);
             public bool UserAssignable => _userAssignable;
 
-            public void SetBtns(KeyCode btn, KeyCode altBtn)
+            public void SetKeyCodes(KeyCode btn, KeyCode altBtn)
             {
-                SetBtn(btn);
-                SetAltBtn(altBtn);
+                SetButton(btn);
+                SetAltButton(altBtn);
             }
 
-            public void SetBtn(KeyCode keyCode)
+            public void SetButton(KeyCode keyCode)
             {
                 _btn = keyCode;
             }
 
-            public void SetAltBtn(KeyCode keyCode)
+            public void SetAltButton(KeyCode keyCode)
             {
                 _altBtn = keyCode;
             }

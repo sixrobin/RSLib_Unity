@@ -27,7 +27,7 @@
             return s_rnd.Next(101) < percentage01 * 100f;
         }
 
-        #endregion BOOLEAN
+        #endregion // BOOLEAN
 
         #region ENUM
 
@@ -51,7 +51,7 @@
             return System.Enum.GetValues(typeof(T)) as int[];
         }
 
-        #endregion ENUM
+        #endregion // ENUM
 
         #region FIND
 
@@ -67,7 +67,7 @@
             return UnityEngine.Object.FindObjectsOfType<UnityEngine.MonoBehaviour>().OfType<T>();
         }
 
-        #endregion FIND
+        #endregion // FIND
 
         #region GUI
 
@@ -107,7 +107,7 @@
                 scrollbar.value = 1f;
         }
 
-        #endregion GUI
+        #endregion // GUI
 
         #region MISC
 
@@ -234,7 +234,7 @@
                     UnityEngine.Debug.Log($"Value {duplicate.Key} has been found {duplicate.Value} times in the collection.");
         }
 
-        #endregion MISC
+        #endregion // MISC
 
         #region MODULO
 
@@ -249,6 +249,6 @@
             return (a % n + n) % n;
         }
 
-        #endregion MODULO
+        #endregion // MODULO
     }
 }

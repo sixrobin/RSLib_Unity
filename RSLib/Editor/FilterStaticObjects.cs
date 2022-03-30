@@ -28,15 +28,16 @@
             GameObject[] gameObjectsArray = new GameObject[gameObjects.Length];
 			int arrayPointer = 0;
 
-			foreach (GameObject gameObject in gameObjects)
+			foreach (Object obj in gameObjects)
 			{
+				GameObject gameObject = (GameObject)obj;
 				StaticEditorFlags flags = GameObjectUtility.GetStaticEditorFlags(gameObject);
 
-				if (include ? (flags & _flag) != 0 : (flags & _flag) == 0)
-				{
-					gameObjectsArray[arrayPointer] = gameObject;
-					arrayPointer += 1;
-				}
+				if (((flags & _flag) != 0) != include)
+					continue;
+				
+				gameObjectsArray[arrayPointer] = gameObject;
+				arrayPointer += 1;
 			}
 
 			Selection.objects = gameObjectsArray;

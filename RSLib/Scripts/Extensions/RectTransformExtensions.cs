@@ -4,17 +4,22 @@
 
     public static class RectTransformExtensions
     {
+        #region CLAMP
+        
         /// <summary>
         /// Clamps the RectTransform position to another RectTransform position.
         /// </summary>
         /// <param name="rectTransform">RectTransform to clamp.</param>
-        /// <param name="other">Reference RectTransform to clamp to.</param>
-        public static void ClampTo(this RectTransform rectTransform, RectTransform other)
+        /// <param name="otherRectTransform">Reference RectTransform to clamp to.</param>
+        public static void ClampTo(this RectTransform rectTransform, RectTransform otherRectTransform)
         {
             Vector3 localPos = rectTransform.localPosition;
 
-            Vector3 minPos = other.rect.min - rectTransform.rect.min;
-            Vector3 maxPos = other.rect.max - rectTransform.rect.max;
+            Rect rect = rectTransform.rect;
+            Rect otherRect = otherRectTransform.rect;
+
+            Vector3 minPos = otherRect.min - rect.min;
+            Vector3 maxPos = otherRect.max - rect.max;
 
             localPos.x = Mathf.Clamp(rectTransform.localPosition.x, minPos.x, maxPos.x);
             localPos.y = Mathf.Clamp(rectTransform.localPosition.y, minPos.y, maxPos.y);
@@ -39,5 +44,7 @@
 
             rectTransform.ClampTo(parentRectTransform);
         }
+        
+        #endregion // CLAMP
     }
 }

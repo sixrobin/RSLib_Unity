@@ -22,7 +22,7 @@
 			spriteRenderer.flipY = !spriteRenderer.flipY;
 		}
 
-		#endregion FLIP
+		#endregion // FLIP
 
 		#region SET COLOR
 
@@ -74,6 +74,6 @@
 			spriteRenderer.color = color;
 		}
 
-		#endregion SET COLOR
+		#endregion // SET COLOR
 	}
 }

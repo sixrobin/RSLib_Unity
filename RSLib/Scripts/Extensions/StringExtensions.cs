@@ -76,7 +76,7 @@
             }
         }
 
-        #endregion CONVERSION
+        #endregion // CONVERSION
 
         #region GENERAL
 
@@ -239,7 +239,7 @@
             return System.Text.RegularExpressions.Regex.Replace(str, @"\s+", " ");
         }
 
-        #endregion GENERAL
+        #endregion // GENERAL
 
         #region STYLES
 
@@ -308,6 +308,6 @@
             return condition ? str.ToItalic() : str;
         }
 
-        #endregion STYLES
+        #endregion // STYLES
     }
 }

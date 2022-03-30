@@ -4,7 +4,7 @@
 	using UnityEngine;
 	using UnityEditor;
 
-	public sealed class GameObjectsSorter
+	public static class GameObjectsSorter
 	{
         private const string SHORTCUT = "%&s";
 
@@ -18,7 +18,7 @@
 		public static void SortObjectsByName()
 		{
 			GameObject[] selection = Selection.gameObjects;
-			Array.Sort(selection, delegate(GameObject a, GameObject b) { return a.name.CompareTo(b.name); });
+			Array.Sort(selection, (a, b) => a.name.CompareTo(b.name));
 
 			foreach (GameObject go in Selection.gameObjects)
 				go.transform.SetSiblingIndex(Array.IndexOf(selection, go));

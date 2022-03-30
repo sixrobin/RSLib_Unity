@@ -36,7 +36,7 @@
 			return stack;
 		}
 
-		#endregion CONVERSION
+		#endregion // CONVERSION
 
 		#region GENERAL
 
@@ -118,6 +118,6 @@
 			(list[first], list[second]) = (list[second], list[first]);
 		}
 
-		#endregion GENERAL
+		#endregion // GENERAL
 	}
 }

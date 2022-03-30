@@ -31,6 +31,6 @@
             return $"{(sign < 0 ? "-" : string.Empty)}{valueStr + value}";
         }
 
-        #endregion GENERAL
+        #endregion // GENERAL
     }
 }

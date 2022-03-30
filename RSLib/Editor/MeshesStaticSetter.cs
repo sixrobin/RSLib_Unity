@@ -6,7 +6,7 @@
 
 	/// <summary>
 	/// This class is used to allow game artists to select some gameObjects, and set all meshes' gameObjects in
-	/// children as static or non-static, with an option to select if it includes inactives objects or not.
+	/// children as static or non-static, with an option to select if it includes inactive objects or not.
 	/// </summary>
 	public class MeshesStaticSetter : EditorWindow
 	{

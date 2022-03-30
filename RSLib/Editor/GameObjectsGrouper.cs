@@ -3,9 +3,9 @@
 	using UnityEngine;
 	using UnityEditor;
 
-	public sealed class GameObjectsGrouperMenu
+	public static class GameObjectsGrouperMenu
 	{
-		const string SHORTCUT = "%#q";
+		private const string SHORTCUT = "%#q";
 
 		[MenuItem("GameObject/Group Objects " + SHORTCUT, true)]
 		private static bool CheckSelectionCount()
@@ -16,11 +16,11 @@
 		[MenuItem("GameObject/Group Objects " + SHORTCUT)]
 		public static void LaunchObjectGrouper()
 		{
-			GamebjectsGrouperEditor.LaunchGrouper();
+			GameObjectsGrouperEditor.LaunchGrouper();
 		}
 	}
 
-    public sealed class GamebjectsGrouperEditor : EditorWindow
+    public sealed class GameObjectsGrouperEditor : EditorWindow
 	{
 		private const string FULL_HIERARCHY_CHANGE = "full object hierarchy change";
 		private const string CREATE_UNDO = "Create ";
@@ -32,7 +32,7 @@
 
 		public static void LaunchGrouper()
 		{
-			GetWindow<GamebjectsGrouperEditor>("Group selection").Show();
+			GetWindow<GameObjectsGrouperEditor>("Group selection").Show();
 		}
 
 		private Vector3 GetSelectionAveragePosition()
