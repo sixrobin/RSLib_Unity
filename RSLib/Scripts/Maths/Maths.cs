@@ -124,7 +124,7 @@
             return average;
         }
 
-        #endregion AVERAGE
+        #endregion // AVERAGE
 
         #region CLAMP
 
@@ -172,7 +172,7 @@
             return f < 0 ? 0 : f > 1 ? 1 : f;
         }
 
-        #endregion CLAMP
+        #endregion // CLAMP
 
         #region GENERAL
 
@@ -318,7 +318,7 @@
                 return new double[] { (-b - System.Math.Sqrt(delta)) / (2f * a), (-b + System.Math.Sqrt(delta)) / (2f * a) };
         }
 
-        #endregion GENERAL
+        #endregion // GENERAL
 
         #region NORMALIZATION
 
@@ -387,7 +387,7 @@
             return a;
         }
 
-        #endregion NORMALIZATION
+        #endregion // NORMALIZATION
 
         #region PERCENTAGE
 
@@ -446,6 +446,6 @@
             return (int)System.Math.Round(percentage * 0.01f * total);
         }
 
-        #endregion PERCENTAGE
+        #endregion // PERCENTAGE
     }
 }

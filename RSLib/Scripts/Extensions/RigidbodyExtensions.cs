@@ -37,7 +37,7 @@
 			rb.angularVelocity *= 0f;
 		}
 
-		#endregion RIGIDBODY 2D
+		#endregion // RIGIDBODY 2D
 
 		#region RIGIDBODY 3D
 
@@ -72,6 +72,6 @@
 			rb.angularVelocity *= 0f;
 		}
 
-		#endregion RIGIDBODY 3D
+		#endregion // RIGIDBODY 3D
 	}
 }

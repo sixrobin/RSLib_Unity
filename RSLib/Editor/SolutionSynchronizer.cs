@@ -10,23 +10,19 @@ namespace RSLib.Editor
 
     public static class SolutionSynchronizer
 	{
-		private static Type s_syncVSType;
-		private static MethodInfo s_syncSolutionMethodInfo;
-
 		private static object s_synchronizerObject;
-		private static Type s_synchronizerType;
-		private static FieldInfo s_synchronizerField;
+		private static MethodInfo s_syncSolutionMethodInfo;
 		private static MethodInfo s_synchronizerSyncMethodInfo;
 		
 		static SolutionSynchronizer()
 		{
-			s_syncVSType = Type.GetType("UnityEditor.SyncVS,UnityEditor");
-			s_synchronizerField = s_syncVSType.GetField("Synchronizer", BindingFlags.NonPublic | BindingFlags.Static);
-			s_syncSolutionMethodInfo = s_syncVSType.GetMethod("SyncSolution", BindingFlags.Public | BindingFlags.Static);
+			Type syncVSType = Type.GetType("UnityEditor.SyncVS,UnityEditor");
+			FieldInfo synchronizerField = syncVSType.GetField("Synchronizer", BindingFlags.NonPublic | BindingFlags.Static);
+			s_syncSolutionMethodInfo = syncVSType.GetMethod("SyncSolution", BindingFlags.Public | BindingFlags.Static);
 			
-			s_synchronizerObject = s_synchronizerField.GetValue(s_syncVSType);
-			s_synchronizerType = s_synchronizerObject.GetType();
-			s_synchronizerSyncMethodInfo = s_synchronizerType.GetMethod("Sync", BindingFlags.Public | BindingFlags.Instance);
+			s_synchronizerObject = synchronizerField.GetValue(syncVSType);
+			Type synchronizerType = s_synchronizerObject.GetType();
+			s_synchronizerSyncMethodInfo = synchronizerType.GetMethod("Sync", BindingFlags.Public | BindingFlags.Instance);
 		}
 
 		[MenuItem("Assets/Sync C# Solution", priority = 1000000)]
@@ -64,9 +60,9 @@ namespace RSLib.Editor
 
 		private static IEnumerable<FileInfo> GetFilesByExtensions(DirectoryInfo dir, params string[] extensions)
 		{
-			extensions = extensions ?? new []{"*"};
+			extensions = extensions ?? new[] {"*"};
 			IEnumerable<FileInfo> files = Enumerable.Empty<FileInfo>();
-			foreach(string ext in extensions)
+			foreach (string ext in extensions)
 				files = files.Concat(dir.GetFiles(ext));
 
 			return files;

@@ -25,16 +25,16 @@
 			editorWindow.Show();
 		}
 
-		public string SetScreenshotName(int width, int height)
+		private string SetScreenshotName(int width, int height)
 		{
-			string name = string.Format("{0}/screen_{1}x{2}_{3}.png", _destinationFolder, width, height, System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm"));
-			_lastScreenshot = name;
-			return name;
+			string screenshotName = string.Format("{0}/screen_{1}x{2}_{3}.png", _destinationFolder, width, height, System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm"));
+			_lastScreenshot = screenshotName;
+			return screenshotName;
 		}
 
-		public void TakeScreenshot()
+		private void TakeScreenshot()
 		{
-			Debug.Log ("Taking Screenshot");
+			Debug.Log("Taking Screenshot");
 			_takeScreenshot = true;
 		}
 
@@ -117,8 +117,7 @@
 				RenderTexture renderTexture = new RenderTexture(resolutionWidth, resolutionHeight, 24);
 				_targetCamera.targetTexture = renderTexture;
 
-				TextureFormat textureFormat;
-				textureFormat = _isTransparent ? TextureFormat.ARGB32 : TextureFormat.RGB24;
+				TextureFormat textureFormat = _isTransparent ? TextureFormat.ARGB32 : TextureFormat.RGB24;
 
 				Texture2D screenshot = new Texture2D(resolutionWidth, resolutionHeight, textureFormat, false);
 				_targetCamera.Render();
@@ -130,7 +129,7 @@
 				string filename = SetScreenshotName(resolutionWidth, resolutionHeight);
 
 				System.IO.File.WriteAllBytes(filename, bytes);
-				Debug.Log(string.Format("Took screenshot to: {0}", filename));
+				Debug.Log($"Took screenshot to: {filename}");
 				Application.OpenURL(filename);
 				_takeScreenshot = false;
 			}

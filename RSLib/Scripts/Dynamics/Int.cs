@@ -35,6 +35,10 @@
             }
         }
 
+        public Vector2Int Range => _range;
+        public int Min => Range.x;
+        public int Max => Range.y;
+        
         private void OnValidate()
         {
             _value = Mathf.Clamp(_value, _range.x, _range.y);
@@ -122,6 +126,84 @@
             return a;
         }
 
+        public static bool operator >(Int a, Int b)
+        {
+            return a.Value > b.Value;
+        }
+        public static bool operator >(Int a, int b)
+        {
+            return a.Value > b;
+        }
+        public static bool operator >(int a, Int b)
+        {
+            return a > b.Value;
+        }
+        
+        public static bool operator <(Int a, Int b)
+        {
+            return a.Value < b.Value;
+        }
+        public static bool operator <(Int a, int b)
+        {
+            return a.Value < b;
+        }
+        public static bool operator <(int a, Int b)
+        {
+            return a < b.Value;
+        }
+        
+        public static bool operator >=(Int a, Int b)
+        {
+            return a.Value >= b.Value;
+        }
+        public static bool operator >=(Int a, int b)
+        {
+            return a.Value >= b;
+        }
+        public static bool operator >=(int a, Int b)
+        {
+            return a >= b.Value;
+        }
+        
+        public static bool operator <=(Int a, Int b)
+        {
+            return a.Value <= b.Value;
+        }
+        public static bool operator <=(Int a, int b)
+        {
+            return a.Value <= b;
+        }
+        public static bool operator <=(int a, Int b)
+        {
+            return a <= b.Value;
+        }
+        
+        public static bool operator !=(Int a, Int b)
+        {
+            return a.Value != b.Value;
+        }
+        public static bool operator !=(Int a, int b)
+        {
+            return a.Value != b;
+        }
+        public static bool operator !=(int a, Int b)
+        {
+            return a != b.Value;
+        }
+        
+        public static bool operator ==(Int a, Int b)
+        {
+            return a.Value == b.Value;
+        }
+        public static bool operator ==(Int a, int b)
+        {
+            return a.Value == b;
+        }
+        public static bool operator ==(int a, Int b)
+        {
+            return a == b.Value;
+        }
+        
         #endregion OPERATORS
     }
 }

@@ -285,6 +285,6 @@
 			return -0.5f * (float)(Cos(PI * t) - 1f);
 		}
 
-		#endregion EASING FUNCTIONS
+		#endregion // EASING FUNCTIONS
 	}
 }

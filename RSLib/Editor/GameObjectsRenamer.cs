@@ -3,9 +3,9 @@
 	using UnityEngine;
 	using UnityEditor;
 
-    public sealed class ObjectsRenamerMenu
+    public static class GameObjectsRenamerMenu
 	{
-		const string SHORTCUT = "%&r";
+		private const string SHORTCUT = "%&r";
 
 		[MenuItem("GameObject/Rename Objects " + SHORTCUT, true)]
 		private static bool CheckIfAtLeastOneObjectIsSelected()
@@ -48,7 +48,7 @@
 				return;
 			}
 
-			System.Array.Sort(_selection, delegate(GameObject a, GameObject b) { return a.name.CompareTo(b.name); });
+			System.Array.Sort(_selection, (a, b) => a.name.CompareTo(b.name));
 
 			for (int i = 0; i < _selection.Length; i++)
 			{

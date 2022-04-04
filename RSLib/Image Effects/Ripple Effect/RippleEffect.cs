@@ -76,8 +76,8 @@
         private Texture2D _gradTexture;
         private Material _material;
 
-        int _nextDropletIndex;
-        public int NextDropletIndex
+        private int _nextDropletIndex;
+        private int NextDropletIndex
         {
             get => _nextDropletIndex;
             set => _nextDropletIndex = ++_nextDropletIndex % _droplets.Length;

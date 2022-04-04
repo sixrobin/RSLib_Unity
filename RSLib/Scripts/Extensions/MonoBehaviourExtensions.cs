@@ -26,6 +26,6 @@
             callback.Invoke();
         }
 
-        #endregion DO AFTER
+        #endregion // DO AFTER
     }
 }

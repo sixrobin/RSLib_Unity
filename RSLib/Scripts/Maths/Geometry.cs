@@ -125,7 +125,7 @@
             return !IsPointInsideCircle(px, py, r, cx, cy, strictly);
         }
 
-        #endregion CIRCLE
+        #endregion // CIRCLE
 
         #region DOT PRODUCT
 
@@ -153,7 +153,7 @@
             return a.x * b.x + a.y * b.y;
         }
 
-        #endregion DOT PRODUCT
+        #endregion // DOT PRODUCT
 
         #region GENERAL
 
@@ -366,6 +366,6 @@
             return positionFactor > 0f ? 1 : positionFactor < 0f ? -1 : 0;
         }
 
-        #endregion GENERAL
+        #endregion // GENERAL
     }
 }

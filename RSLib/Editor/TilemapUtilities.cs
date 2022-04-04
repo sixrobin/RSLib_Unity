@@ -4,18 +4,18 @@
     using UnityEngine;
     using UnityEngine.Tilemaps;
 
-    public sealed class TilemapUtilitiesMenu
+    public static class TilemapUtilitiesMenu
     {
         [MenuItem("RSLib/Tilemap Utilities")]
         public static void LaunchTilemapUtilities()
         {
-            TilemapUtiliesEditor.LaunchTilemapUtilities();
+            TilemapUtilitiesEditor.LaunchTilemapUtilities();
         }
     }
 
-    public sealed class TilemapUtiliesEditor : EditorWindow
+    public sealed class TilemapUtilitiesEditor : EditorWindow
     {
-        private static bool _firstOpenFrame = true;
+        private static bool s_firstOpenFrame = true;
 
         // Override tiles.
         private Tilemap _source;
@@ -32,53 +32,19 @@
 
         public static void LaunchTilemapUtilities()
         {
-            _firstOpenFrame = true;
+            s_firstOpenFrame = true;
 
-            EditorWindow window = GetWindow<TilemapUtiliesEditor>("Tilemap Utilities");
+            EditorWindow window = GetWindow<TilemapUtilitiesEditor>("Tilemap Utilities");
             window.Show();
         }
 
-        private void OverrideTiles()
-        {
-            _destination = Instantiate(_source, _source.transform.parent);
-            _destination.name = !string.IsNullOrEmpty(_destinationName) ? _destinationName : $"{_source.name} - COPY";
-            _destination.ClearAllTiles();
-
-            int tilesCounter = 0;
-
-            foreach (Vector3Int pos in _source.cellBounds.allPositionsWithin)
-            {
-                if (_source.HasTile(pos))
-                {
-                    _destination.SetTile(pos, _tile);
-                    tilesCounter++;
-                }
-            }
-
-            if (tilesCounter == 0)
-            {
-                Debug.LogWarning("No tile has been found on source Tilemap to create a new Tilemap.");
-                DestroyImmediate(_destination.gameObject);
-                return;
-            }
-
-            Debug.Log($"Created new Tilemap {_destination.name} with {tilesCounter} overridden tiles.");
-            Selection.activeGameObject = _destination.gameObject;
-
-            //EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
-            //EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
-        }
-
-        private void ClearTiles(Tilemap tilemap)
+        private static void ClearTiles(Tilemap tilemap)
         {
             tilemap.ClearAllTiles();
             tilemap.ClearAllEditorPreviewTiles();
-
-            //EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
-            //EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
         }
 
-        private void ClearAloneTiles(Tilemap tilemap, bool ignoreDiagonals)
+        private static void ClearAloneTiles(Tilemap tilemap, bool ignoreDiagonals)
         {
             System.Collections.Generic.List<Vector3Int> aloneTiles = new System.Collections.Generic.List<Vector3Int>();
 
@@ -114,16 +80,44 @@
             //EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
         }
 
+        private void OverrideTiles()
+        {
+            _destination = Instantiate(_source, _source.transform.parent);
+            _destination.name = !string.IsNullOrEmpty(_destinationName) ? _destinationName : $"{_source.name} - COPY";
+            _destination.ClearAllTiles();
+
+            int tilesCounter = 0;
+
+            foreach (Vector3Int pos in _source.cellBounds.allPositionsWithin)
+            {
+                if (_source.HasTile(pos))
+                {
+                    _destination.SetTile(pos, _tile);
+                    tilesCounter++;
+                }
+            }
+
+            if (tilesCounter == 0)
+            {
+                Debug.LogWarning("No tile has been found on source Tilemap to create a new Tilemap.");
+                DestroyImmediate(_destination.gameObject);
+                return;
+            }
+
+            Debug.Log($"Created new Tilemap {_destination.name} with {tilesCounter} overridden tiles.");
+            Selection.activeGameObject = _destination.gameObject;
+        }
+
         private void OnGUI()
         {
-            if (_firstOpenFrame)
+            if (s_firstOpenFrame)
             {
                 Tilemap selectedTilemap = Selection.activeGameObject?.GetComponent<Tilemap>();
 
                 _source = selectedTilemap;
                 _tilemapToClear = selectedTilemap;
                 _tilemapToClearAloneTiles = selectedTilemap;
-                _firstOpenFrame = false;
+                s_firstOpenFrame = false;
 
                 if (_source != null)
                     _destinationName = $"{_source.name} - COPY";
@@ -164,7 +158,8 @@
                 }
 
                 // Use name and not type directly because 2d extras can be missing in the project, causing errors with those types.
-                if (_tile.GetType().Name == "RuleTile" || _tile.GetType().Name == "RuleOverrideTile")
+                string tileTypeName = _tile != null ? _tile.GetType().Name : string.Empty;
+                if (tileTypeName == "RuleTile" || tileTypeName == "RuleOverrideTile")
                 {
                     OverrideTiles();
                 }
@@ -245,7 +240,6 @@
 
             GUILayout.Space(5f);
             EditorGUILayout.EndVertical();
-
 
             EditorGUILayout.EndVertical();
             GUILayout.Space(10f);

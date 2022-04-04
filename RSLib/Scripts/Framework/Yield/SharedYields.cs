@@ -11,7 +11,7 @@
         public static WaitForFixedUpdate WaitForFixedUpdate { get; } = new WaitForFixedUpdate();
 
         /// <summary>Waits for a given amount of frames.</summary>
-        /// <param name="duration">Frames to wait.</param>
+        /// <param name="framesCount">Frames to wait.</param>
         /// <returns>IEnumerator instance.</returns>
         public static System.Collections.IEnumerator WaitForFrames(int framesCount)
         {
@@ -45,7 +45,7 @@
         /// Waits while the given scene is not the active scene.
         /// This coroutine will not load the scene, it just handles the waiting.
         /// </summary>
-        /// <param name="duration">Loaded scene name.</param>
+        /// <param name="sceneName">Loaded scene name.</param>
         /// <returns>IEnumerator instance.</returns>
         public static System.Collections.IEnumerator WaitForSceneLoad(string sceneName)
         {

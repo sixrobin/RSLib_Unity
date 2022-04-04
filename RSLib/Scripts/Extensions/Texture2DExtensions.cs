@@ -70,6 +70,6 @@
             return original.FlipX().FlipY();
         }
 
-        #endregion FLIP
+        #endregion // FLIP
     }
 }

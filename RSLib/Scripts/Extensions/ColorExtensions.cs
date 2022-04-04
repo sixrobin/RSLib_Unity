@@ -35,7 +35,7 @@
             return blendedColor;
         }
 
-        #endregion
+        #endregion // BLEND
 
         #region CONVERSION
 
@@ -57,7 +57,7 @@
             return ColorUtility.ToHtmlStringRGBA(color);
         }
 
-        #endregion
+        #endregion // CONVERSION
 
         #region GENERAL
 
@@ -83,7 +83,7 @@
             return color.WithR(copy.r).WithG(copy.g).WithB(copy.b);
         }
 
-        #endregion GENERAL
+        #endregion // GENERAL
 
         #region WITH
 
@@ -127,6 +127,6 @@
             return new Color(color.r, color.g, color.b, a);
         }
 
-        #endregion WITH
+        #endregion // WITH
     }
 }

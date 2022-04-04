@@ -17,7 +17,7 @@
 
         private static Object[] LoadAllAssetsAtPath(string assetPath)
         {
-            return typeof(SceneAsset).Equals(AssetDatabase.GetMainAssetTypeAtPath(assetPath))
+            return typeof(SceneAsset) == AssetDatabase.GetMainAssetTypeAtPath(assetPath)
                 ? new[] { AssetDatabase.LoadMainAssetAtPath(assetPath) }
                 : AssetDatabase.LoadAllAssetsAtPath(assetPath);
         }

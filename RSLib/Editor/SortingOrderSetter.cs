@@ -4,22 +4,22 @@ namespace RSLib.Editor
 	using UnityEditor;
     using System.Linq;
 
-    public sealed class SpriteOrderingDatasSetterMenu
+    public static class SpriteOrderingDataSetterMenu
 	{
-		[MenuItem("RSLib/Set Sprites Ordering Datas", true)]
+		[MenuItem("RSLib/Set Sprites Ordering Data", true)]
 		private static bool CheckIfAtLeastOneObjectIsSelected()
 		{
 			return Selection.gameObjects.Length > 0;
 		}
 
-		[MenuItem("RSLib/Set Sprites Ordering Datas")]
+		[MenuItem("RSLib/Set Sprites Ordering Data")]
 		public static void SetSelectedObjectsSortingOrder()
 		{
-			SpriteOrderingDatasSetterEditor.LaunchSetter();
+			SpriteOrderingDataSetterEditor.LaunchSetter();
 		}
 	}
 
-	public sealed class SpriteOrderingDatasSetterEditor : EditorWindow
+	public sealed class SpriteOrderingDataSetterEditor : EditorWindow
 	{
 		private GameObject[] _selection;
 		private int _order;
@@ -31,10 +31,10 @@ namespace RSLib.Editor
 
 		public static void LaunchSetter()
 		{
-			GetWindow<SpriteOrderingDatasSetterEditor>("Set Sprites Ordering Datas").Show();
+			GetWindow<SpriteOrderingDataSetterEditor>("Set Sprites Ordering Data").Show();
 		}
 
-		private System.Collections.Generic.IEnumerable<SpriteRenderer> GetAllSpriteRenderersRecursively(Transform[] parents, bool includeInactive)
+		private static System.Collections.Generic.IEnumerable<SpriteRenderer> GetAllSpriteRenderersRecursively(Transform[] parents, bool includeInactive)
         {
 			System.Collections.Generic.List<SpriteRenderer> spriteRenderers = new System.Collections.Generic.List<SpriteRenderer>();
 			for (int i = 0; i < parents.Length; ++i)
@@ -164,7 +164,6 @@ namespace RSLib.Editor
             EditorGUILayout.EndVertical();
             GUILayout.Space(10f);
             EditorGUILayout.EndHorizontal();
-
 
             Repaint();
 		}

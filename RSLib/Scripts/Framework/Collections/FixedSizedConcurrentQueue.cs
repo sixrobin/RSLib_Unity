@@ -23,7 +23,9 @@
         public void Enqueue(T element)
         {
             _concurrentQueue.Enqueue(element);
-            while (_concurrentQueue.Count > FixedSize && _concurrentQueue.TryDequeue(out _));
+            while (_concurrentQueue.Count > FixedSize && _concurrentQueue.TryDequeue(out _))
+            {
+            }
         }
 
         public bool TryDequeue(out T element)

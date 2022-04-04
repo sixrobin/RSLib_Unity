@@ -15,8 +15,8 @@
                 Probability = probability;
 			}
 
-			public T Value { get; private set; }
-			public float Probability { get; private set; }
+			public T Value { get; }
+			public float Probability { get; }
 		}
 
 		private static System.Random s_rnd = new System.Random();
@@ -33,7 +33,7 @@
 		/// <summary>
 		/// Adds an item to the list, specifying its value and its drop chance.
 		/// </summary>
-		/// <param name="value">The value.</param>
+		/// <param name="value">Value to add.</param>
 		/// <param name="probability">The drop chance, that should not be less or equal to 0.</param>
 		public void Add(T value, float probability)
 		{
@@ -44,7 +44,7 @@
 		}
 
 		/// <summary>
-		/// Searches for the item with a specyfied value in the list and removes it.
+		/// Searches for the item with a specified value in the list and removes it.
 		/// </summary>
 		/// <param name="value">The probable item's value.</param>
 		public void Remove(T value)

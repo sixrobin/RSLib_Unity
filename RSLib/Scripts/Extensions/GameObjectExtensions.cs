@@ -41,7 +41,7 @@
             return component;
         }
 
-        #endregion COMPONENT
+        #endregion // COMPONENT
 
         #region GENERAL
 
@@ -56,6 +56,7 @@
         /// <summary>
         /// Transfers all children of a gameObject to another parent.
         /// </summary>
+        /// <param name="go">GameObject of which to transfer children.</param>
         /// <param name="newParent">New parent transform.</param>
         public static void TransferChildren(this GameObject go, Transform newParent)
         {
@@ -70,13 +71,14 @@
             }
         }
 
-        #endregion
+        #endregion // GENERAL
 
         #region LAYER
 
         /// <summary>
-        /// Sets the layer of the gameObject and all its children and subchildren.
+        /// Sets the layer of the gameObject and all its children and sub children.
         /// </summary>
+        /// <param name="go">GameObject to set layer and its children of.</param>
         /// <param name="layer">Layer index.</param>
         public static void SetChildrenLayers(this GameObject go, int layer)
         {
@@ -86,8 +88,9 @@
         }
 
         /// <summary>
-        /// Sets the layer of the gameObject and all its children and subchildren.
+        /// Sets the layer of the gameObject and all its children and sub children.
         /// </summary>
+        /// <param name="go">GameObject to set layer and its children of.</param>
         /// <param name="layerName">Layer name.</param>
         public static void SetChildrenLayers(this GameObject go, string layerName)
         {
@@ -98,6 +101,6 @@
                 child.gameObject.SetChildrenLayers(layer);
         }
 
-        #endregion LAYER
+        #endregion // LAYER
     }
 }

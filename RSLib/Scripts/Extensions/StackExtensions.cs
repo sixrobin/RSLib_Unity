@@ -28,6 +28,6 @@
 				stack.Push(element);
 		}
 
-		#endregion GENERAL
+		#endregion // GENERAL
 	}
 }

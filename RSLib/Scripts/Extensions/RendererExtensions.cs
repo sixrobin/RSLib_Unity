@@ -16,7 +16,7 @@
 			return GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(camera), rend.bounds);
 		}
 
-		#endregion
+		#endregion // GENERAL
 
 		#region MATERIALS
 
@@ -46,6 +46,6 @@
 			rend.sharedMaterials = sharedMaterialsCopy;
 		}
 
-		#endregion MATERIALS
+		#endregion // MATERIALS
 	}
 }

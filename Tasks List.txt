@@ -27,7 +27,6 @@
 - World LayoutGroup (avec SpriteRenderers)
 - Vector.Snap (avec en param le nombre de directions, 4, 8, etc.)
 - Récupérer KeyCodeShortNames de Templar mais le changer en KeyCodeSymbols et ne garder que les symboles donc (et changer la méthode Get pour un TryGet? ou les deux ?)
-- Modifier les endregion pour en faire des commentaires.
 - Checker les singleton et passer les properties static en membres.
 - Singleton : méthodes log statiques.
 - Homogénéiser les newlines des summaries.

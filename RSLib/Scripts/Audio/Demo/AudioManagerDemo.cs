@@ -18,7 +18,7 @@
 
         public void PlayNextPlaylistSound()
         {
-            AudioManager.PlayNextPlaylistSound(_playlist);
+            AudioManager.PlaySound(_playlist);
         }
 
         public void PlayNextMusic()

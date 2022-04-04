@@ -32,7 +32,9 @@ namespace RSLib.EditorUtilities
 
         protected abstract void DrawButtons();
 
-        /// <summary>Can be used to draw a button with a System.Action callback in one line.</summary>
+        /// <summary>
+        /// Can be used to draw a button with a System.Action callback in one line.
+        /// </summary>
         /// <param name="label">Button text.</param>
         /// <param name="onClick">Callback on button clicked. Will throw an ArgumentNullException if null.</param>
         protected virtual void DrawButton(string label, System.Action onClick)

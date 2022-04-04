@@ -8,12 +8,12 @@
     [AddComponentMenu("RSLib/Image Effects/2D Shadow Casting Light")]
 	public class ShadowCastingLight : MonoBehaviour
     {
-        private struct ObstacleDatas
+        private struct ObstacleData
 		{
 			public readonly Vector2[] Vertices;
 			public readonly float Precision;
 
-			public ObstacleDatas(Vector2[] vertices, float precision)
+			public ObstacleData(Vector2[] vertices, float precision)
 			{
 				Vertices = vertices;
 				Precision = precision;
@@ -27,12 +27,12 @@
 			public float Angle;
 		}
 
-		private enum CircleResolution : int
+		private enum CircleResolution
 		{
-			[InspectorName("4")] Four = 4,
-			[InspectorName("8")] Eight = 8,
-			[InspectorName("16")] Sixteen = 16,
-			[InspectorName("32")] ThirtyTwo = 32
+			[InspectorName("4")] FOUR = 4,
+			[InspectorName("8")] EIGHT = 8,
+			[InspectorName("16")] SIXTEEN = 16,
+			[InspectorName("32")] THIRTY_TWO = 32
 		}
 
 		[Header("DETECTION")]
@@ -47,7 +47,7 @@
 		[SerializeField, Range(0.001f, 0.1f)] private float _circlePrecision = 0.01f;
 
 		[Tooltip ("Circles that are close to the light will require higher resolution.")]
-		[SerializeField] private CircleResolution _circlesResolution = CircleResolution.Sixteen;
+		[SerializeField] private CircleResolution _circlesResolution = CircleResolution.SIXTEEN;
 
         [Header("DEBUG")]
         [SerializeField] private bool _showRange = true;
@@ -59,7 +59,7 @@
 		private Transform _lightTransform;
 		private Vector3 _lightPosition;
 		private Mesh _mesh;
-		private ObstacleDatas[] _obstaclesDatas;
+		private ObstacleData[] _obstaclesDatas;
 		private AngledVertex[] _angledVertices;
 		private Vector3[] _vertices;
         private Vector2[] _uvs;
@@ -73,32 +73,34 @@
 
 		private T[] ConcatenateArrays<T>(T[] first, T[] second)
 		{
-			T[] concatted = new T[first.Length + second.Length];
-			Array.Copy(first, concatted, first.Length);
-			Array.Copy(second, 0, concatted, first.Length, second.Length);
-			return concatted;
+			T[] concatenated = new T[first.Length + second.Length];
+			Array.Copy(first, concatenated, first.Length);
+			Array.Copy(second, 0, concatenated, first.Length, second.Length);
+			return concatenated;
 		}
 
-        private ObstacleDatas GetObstacleDatas(Collider2D collider)
-		{
-			if (collider is BoxCollider2D box)
-				return GetBoxDatas(box);
-			else if (collider is CircleCollider2D circle)
-				return GetCircleDatas(circle);
-			else if (collider is CompositeCollider2D composite)
-				return GetCompositeDatas(composite);
+        private ObstacleData GetObstacleData(Collider2D collider)
+        {
+	        switch (collider)
+	        {
+		        case BoxCollider2D box: return GetBoxData(box);
+		        case CircleCollider2D circle: return GetCircleData(circle);
+		        case CompositeCollider2D composite: return GetCompositeData(composite);
+		        default: return new ObstacleData();
+	        }
+        }
 
-			return new ObstacleDatas();
-		}
-
-        private ObstacleDatas GetBoxDatas(BoxCollider2D box)
+        private ObstacleData GetBoxData(BoxCollider2D box)
 		{
 			Vector2[] corners = new Vector2[4];
 
-			Vector2 boxPosition = box.transform.position;
-			Quaternion boxAngle = box.transform.localRotation;
-			Vector2 boxScale = box.transform.localScale;
-			boxPosition += new Vector2(box.offset.x * boxScale.x, box.offset.y * boxScale.y);
+			Transform boxTransform = box.transform;
+			Vector2 boxOffset = box.offset;
+			
+			Vector2 boxPosition = boxTransform.position;
+			Quaternion boxAngle = boxTransform.localRotation;
+			Vector2 boxScale = boxTransform.localScale;
+			boxPosition += new Vector2(boxOffset.x * boxScale.x, boxOffset.y * boxScale.y);
 			Vector2 boxSize = box.size;
 
 			Vector2 diagonal = new Vector2(boxSize.x * boxScale.x, boxSize.y * boxScale.y) * 0.5f;
@@ -114,15 +116,17 @@
 				foreach (Vector2 diag in corners)
 					Debug.DrawLine(boxPosition, diag, Color.blue);
 
-			return new ObstacleDatas(corners, _boxPrecision);
+			return new ObstacleData(corners, _boxPrecision);
 		}
 
-        private ObstacleDatas GetCircleDatas(CircleCollider2D circle)
+        private ObstacleData GetCircleData(CircleCollider2D circle)
 		{
 			Vector2[] points = new Vector2[(int)_circlesResolution / 2 + 1];
 
-			Vector2 circlePosition = circle.transform.position;
-			float circleRadius = circle.radius * circle.transform.localScale.x;
+			Transform circleTransform = circle.transform;
+			
+			Vector2 circlePosition = circleTransform.position;
+			float circleRadius = circle.radius * circleTransform.localScale.x;
 
 			for (int i = 0; i < points.Length; ++i)
 			{
@@ -144,10 +148,10 @@
 				_allCirclesPoints = ConcatenateArrays(_allCirclesPoints, points);
 			}
 
-			return new ObstacleDatas(points, _circlePrecision);
+			return new ObstacleData(points, _circlePrecision);
 		}
 
-        private ObstacleDatas GetCompositeDatas(CompositeCollider2D composite)
+        private ObstacleData GetCompositeData(CompositeCollider2D composite)
 		{
 			Vector2[] points = new Vector2[composite.pointCount];
 
@@ -158,7 +162,7 @@
 				points = ConcatenateArrays(points, path);
 			}
 
-			return new ObstacleDatas(points, _boxPrecision);
+			return new ObstacleData(points, _boxPrecision);
 		}
 
         private void GetInRangeObstacles()
@@ -168,7 +172,7 @@
 
 			if (_inRangeObstacles.Length == 0)
 			{
-				Debug.LogWarning ("ShadowsCastingLight WARNING: No obstacle found to the light, disabling component!", gameObject);
+				Debug.LogWarning ($"{nameof(ShadowCastingLight)}: No obstacle found to the light, disabling component!", gameObject);
 				enabled = false;
 			}
 		}
@@ -180,9 +184,9 @@
 
 			_lightPosition = _lightTransform.position;
 
-			_obstaclesDatas = new ObstacleDatas[_inRangeObstacles.Length];
-			for (int i = 0; i < _inRangeObstacles.Length; i++)
-				_obstaclesDatas[i] = GetObstacleDatas(_inRangeObstacles[i]);
+			_obstaclesDatas = new ObstacleData[_inRangeObstacles.Length];
+			for (int i = 0; i < _inRangeObstacles.Length; ++i)
+				_obstaclesDatas[i] = GetObstacleData(_inRangeObstacles[i]);
 
 			Vector2[] allVertices = _obstaclesDatas[0].Vertices;
 			for (int i = 1; i < _inRangeObstacles.Length; ++i)
@@ -202,12 +206,12 @@
 
 			for (int i = 0; i < _obstaclesDatas.Length; ++i)
 			{
-				ObstacleDatas datas = _obstaclesDatas[i];
+				ObstacleData data = _obstaclesDatas[i];
 
-				for (int j = 0; j < datas.Vertices.Length; ++j)
+				for (int j = 0; j < data.Vertices.Length; ++j)
 				{
-					Vector2 ray = new Vector2(datas.Vertices[j].x - _lightPosition.x, datas.Vertices[j].y - _lightPosition.y);
-					Vector2 offset = new Vector2(-ray.y, ray.x) * datas.Precision;
+					Vector2 ray = new Vector2(data.Vertices[j].x - _lightPosition.x, data.Vertices[j].y - _lightPosition.y);
+					Vector2 offset = new Vector2(-ray.y, ray.x) * data.Precision;
 					Vector2 rayLeft = ray + offset;
 					Vector2 rayRight = ray - offset;
 
@@ -219,8 +223,9 @@
 
 					if (_showRays)
 					{
-						Debug.DrawLine(_lightTransform.position, hit1.point, Color.red);
-						Debug.DrawLine(_lightTransform.position, hit2.point, Color.green);
+						Vector3 lightPosition = _lightTransform.position;
+						Debug.DrawLine(lightPosition, hit1.point, Color.red);
+						Debug.DrawLine(lightPosition, hit2.point, Color.green);
 					}
 
 					_angledVertices[h * 2].Vertex = _lightTransform.worldToLocalMatrix.MultiplyPoint3x4(hit1.point);
@@ -238,10 +243,7 @@
 
 		private void ConstructLightMesh()
 		{
-			Array.Sort(_angledVertices, delegate(AngledVertex one, AngledVertex two)
-			{
-				return one.Angle.CompareTo(two.Angle);
-			});
+			Array.Sort(_angledVertices, (a, b) => a.Angle.CompareTo(b.Angle));
 
 			for (int i = 0; i < _angledVertices.Length; ++i)
 			{
