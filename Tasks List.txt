@@ -6,6 +6,10 @@
 	- AudioOptions template avec les sliders nécessaires.
 	- Trouver un moyen de faire loop un son et de le garder en ref pour le stopper. Renvoyer l'AudioSource ? Et faire gaffe à ne pas l'écraser avec le GetNextSource tout ça
 	- Trouver un moyen de spatialiser.
+	- PlayUISound à attacher sur les boutons/selectables.
+	- PlaySounds pour jouer un Enumerable de sons.
+	- ClipProvider.PlayToAudioManager ?
+	- AudioManager delay dans PlaySound
 - Image Effects : invert.
 - Canvas Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
 - Checker sur LD48 ce qu'il fallait améliorer/récupérer dans RSLib.
@@ -27,6 +31,10 @@
 - Checker les singleton et passer les properties static en membres.
 - Singleton : méthodes log statiques.
 - Homogénéiser les newlines des summaries.
+- DataValues : opérateurs de comparaison si possible?
+- SprintBlink : override Color
+- Settings (prévoir de quoi hériter pour ajouter des settings propres à chaque jeu)
+	- Menu de base déjà tout fait et fonctionnel.
 
 - Art
 	- Tileset template de Templar
