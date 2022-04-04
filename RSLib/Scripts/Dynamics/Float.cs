@@ -126,6 +126,84 @@
             return a;
         }
 
+        public static bool operator >(Float a, Float b)
+        {
+            return a.Value > b.Value;
+        }
+        public static bool operator >(Float a, float b)
+        {
+            return a.Value > b;
+        }
+        public static bool operator >(float a, Float b)
+        {
+            return a > b.Value;
+        }
+        
+        public static bool operator <(Float a, Float b)
+        {
+            return a.Value < b.Value;
+        }
+        public static bool operator <(Float a, float b)
+        {
+            return a.Value < b;
+        }
+        public static bool operator <(float a, Float b)
+        {
+            return a < b.Value;
+        }
+        
+        public static bool operator >=(Float a, Float b)
+        {
+            return a.Value >= b.Value;
+        }
+        public static bool operator >=(Float a, float b)
+        {
+            return a.Value >= b;
+        }
+        public static bool operator >=(float a, Float b)
+        {
+            return a >= b.Value;
+        }
+        
+        public static bool operator <=(Float a, Float b)
+        {
+            return a.Value <= b.Value;
+        }
+        public static bool operator <=(Float a, float b)
+        {
+            return a.Value <= b;
+        }
+        public static bool operator <=(float a, Float b)
+        {
+            return a <= b.Value;
+        }
+        
+        public static bool operator !=(Float a, Float b)
+        {
+            return a.Value != b.Value;
+        }
+        public static bool operator !=(Float a, float b)
+        {
+            return a.Value != b;
+        }
+        public static bool operator !=(float a, Float b)
+        {
+            return a != b.Value;
+        }
+        
+        public static bool operator ==(Float a, Float b)
+        {
+            return a.Value == b.Value;
+        }
+        public static bool operator ==(Float a, float b)
+        {
+            return a.Value == b;
+        }
+        public static bool operator ==(float a, Float b)
+        {
+            return a == b.Value;
+        }
+        
         #endregion OPERATORS
     }
 }

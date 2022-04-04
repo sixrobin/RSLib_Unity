@@ -126,6 +126,84 @@
             return a;
         }
 
+        public static bool operator >(Int a, Int b)
+        {
+            return a.Value > b.Value;
+        }
+        public static bool operator >(Int a, int b)
+        {
+            return a.Value > b;
+        }
+        public static bool operator >(int a, Int b)
+        {
+            return a > b.Value;
+        }
+        
+        public static bool operator <(Int a, Int b)
+        {
+            return a.Value < b.Value;
+        }
+        public static bool operator <(Int a, int b)
+        {
+            return a.Value < b;
+        }
+        public static bool operator <(int a, Int b)
+        {
+            return a < b.Value;
+        }
+        
+        public static bool operator >=(Int a, Int b)
+        {
+            return a.Value >= b.Value;
+        }
+        public static bool operator >=(Int a, int b)
+        {
+            return a.Value >= b;
+        }
+        public static bool operator >=(int a, Int b)
+        {
+            return a >= b.Value;
+        }
+        
+        public static bool operator <=(Int a, Int b)
+        {
+            return a.Value <= b.Value;
+        }
+        public static bool operator <=(Int a, int b)
+        {
+            return a.Value <= b;
+        }
+        public static bool operator <=(int a, Int b)
+        {
+            return a <= b.Value;
+        }
+        
+        public static bool operator !=(Int a, Int b)
+        {
+            return a.Value != b.Value;
+        }
+        public static bool operator !=(Int a, int b)
+        {
+            return a.Value != b;
+        }
+        public static bool operator !=(int a, Int b)
+        {
+            return a != b.Value;
+        }
+        
+        public static bool operator ==(Int a, Int b)
+        {
+            return a.Value == b.Value;
+        }
+        public static bool operator ==(Int a, int b)
+        {
+            return a.Value == b;
+        }
+        public static bool operator ==(int a, Int b)
+        {
+            return a == b.Value;
+        }
+        
         #endregion OPERATORS
     }
 }
