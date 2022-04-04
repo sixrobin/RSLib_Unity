@@ -25,6 +25,7 @@
 
         [Header("GENERAL")]
         [SerializeField] private KeyCode _toggleKey = KeyCode.F1;
+        [SerializeField] private bool _defaultEnabled = true;
 #pragma warning disable CS0414
         [SerializeField] private bool _editorOnly = true;
 #pragma warning restore CS0414
@@ -119,6 +120,7 @@
         {
             base.Awake();
             InitGUIStyles();
+            _enabled = _defaultEnabled;
         }
 
         private void Update()
