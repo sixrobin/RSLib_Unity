@@ -21,8 +21,8 @@
     public sealed class ValuesDebugger : Framework.Singleton<ValuesDebugger>
     {
         private const float LINE_HEIGHT = 20f;
-        private const string VALUE_DEBUG_FORMAT = "{0}:{1}";
-
+        private const string DEFAULT_FORMAT = "{0}:{1}";
+        
         [Header("GENERAL")]
         [SerializeField] private KeyCode _toggleKey = KeyCode.F1;
         [SerializeField] private bool _defaultEnabled = true;
@@ -31,6 +31,7 @@
 #pragma warning restore CS0414
 
         [Header("STYLE")]
+        [SerializeField] private string _format = DEFAULT_FORMAT;
         [SerializeField, Min(0f)] private float _margin = 0f;
         [SerializeField, Min(0f)] private float _linesHeight = 15f;
         [SerializeField] private Color _textsColor = Color.yellow;
@@ -160,8 +161,17 @@
                     };
 
                     Rect rect = new Rect(rectPos, rectSize);
-                    GUI.TextField(rect, string.Format(VALUE_DEBUG_FORMAT, entry.Key, entry.Value().ToString()), _styles[values.Key]);
 
+                    try
+                    {
+                        GUI.TextField(rect, string.Format(_format, entry.Key, entry.Value()), _styles[values.Key]);
+                    }
+                    catch (System.Exception e)
+                    {
+                        LogError($"Exception caught while debugging value, using default format {DEFAULT_FORMAT}. Exception message : {e.Message}");
+                        GUI.TextField(rect, string.Format(DEFAULT_FORMAT, entry.Key, entry.Value()), _styles[values.Key]);
+                    }
+                    
                     i++;
                 }
             }
