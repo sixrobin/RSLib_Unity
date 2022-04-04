@@ -35,6 +35,10 @@
             }
         }
 
+        public Vector2 Range => _range;
+        public float Min => Range.x;
+        public float Max => Range.y;
+        
         private void OnValidate()
         {
             _value = Mathf.Clamp(_value, _range.x, _range.y);
