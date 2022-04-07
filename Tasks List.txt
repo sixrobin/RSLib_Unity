@@ -30,7 +30,6 @@
 - Checker les singleton et passer les properties static en membres.
 - Singleton : méthodes log statiques.
 - Homogénéiser les newlines des summaries.
-- DataValues : opérateurs de comparaison si possible?
 - SprintBlink : override Color
 - Settings (prévoir de quoi hériter pour ajouter des settings propres à chaque jeu)
 	- Menu de base déjà tout fait et fonctionnel.
@@ -42,6 +41,7 @@
 	- Puffs de Templar
 	- Dither fade de Juice Jam
 	- Tilesets + rule tiles de Juice Jam
+	- Particle systems génériques (sang, footstep, hit, etc.)
 
 - DungeonGenerator :
 	- Drunkard Walk
