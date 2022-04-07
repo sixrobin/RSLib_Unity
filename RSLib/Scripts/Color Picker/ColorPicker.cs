@@ -44,9 +44,9 @@ namespace TheLastStand.View.LevelEditor
 
         public enum PickType
         {
-            HOVER,
-            CLICK,
-            DRAG
+            [InspectorName("Hover")] HOVER,
+            [InspectorName("Click")] CLICK,
+            [InspectorName("Drag")] DRAG
         }
 
         public ColorEvent OnColorHovered => _onColorHovered;

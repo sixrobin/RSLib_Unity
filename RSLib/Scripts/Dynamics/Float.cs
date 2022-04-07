@@ -204,6 +204,36 @@
             return a == b.Value;
         }
         
-        #endregion OPERATORS
+        #endregion // OPERATORS
+        
+        protected bool Equals(Float other)
+        {
+            return base.Equals(other) && _value.Equals(other._value) && _range.Equals(other._range);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            
+            if (ReferenceEquals(this, obj))
+                return true;
+            
+            if (obj.GetType() != GetType())
+                return false;
+            
+            return Equals((Float) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = base.GetHashCode();
+                hashCode = (hashCode * 397) ^ _value.GetHashCode();
+                hashCode = (hashCode * 397) ^ _range.GetHashCode();
+                return hashCode;
+            }
+        }
     }
 }
