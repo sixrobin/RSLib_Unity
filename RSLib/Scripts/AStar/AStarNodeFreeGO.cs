@@ -69,6 +69,8 @@
 
             if (UnityEditor.EditorApplication.isPlaying)
             {
+	            UnityEngine.Assertions.Assert.IsNotNull(Node, "Trying to draw gizmos with a null Node.");
+	            
                 if (Node.Neighbours == null || Node.Neighbours.Count == 0)
                     return;
 

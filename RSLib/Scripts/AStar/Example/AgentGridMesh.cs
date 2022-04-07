@@ -14,7 +14,7 @@
         private AStarNode _startNode;
         private AStarNode _destinationNode;
 
-        IEnumerator FollowPathCoroutine()
+        private IEnumerator FollowPathCoroutine()
         {
             yield return new WaitForSeconds(0.1f);
             _startNode = _grid.NodeFromWorldPos(transform.position);

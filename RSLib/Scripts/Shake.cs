@@ -2,6 +2,7 @@
 {
 	using UnityEngine;
 
+	[System.Flags]
 	public enum CoordinateAxes : byte
 	{
 		X = 1,

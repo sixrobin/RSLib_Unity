@@ -17,7 +17,7 @@
         [Header("REFS")]
         [SerializeField] private NoiseTextureRendererUtilities _noiseMapView = null;
 
-        [Header("NOISE DATAS")]
+        [Header("NOISE DATA")]
         [SerializeField] private Vector2Int _size = Vector2Int.one;
         [SerializeField, Min(0.0001f)] private float _noiseScale = 1f;
         [SerializeField] private int _seed = 0;
@@ -36,8 +36,8 @@
 
         public enum ColorMode
         {
-            NOISE_MAP,
-            COLOR_MAP
+            [InspectorName("Noise Map")] NOISE_MAP,
+            [InspectorName("Color Map")] COLOR_MAP
         }
 
         public void GenerateMap()

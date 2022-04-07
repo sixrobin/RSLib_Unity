@@ -73,6 +73,7 @@
         /// Gets a pooled gameObject using an Id, and returns null if no pool has been found.
         /// </summary>
 		/// <param name="id">Reference ID to find a pool of.</param>
+		/// <param name="args">Arguments to pass as parameters to the pooled object if it implements IPoolItem.</param>
 		/// <returns>Instance of a gameObject of the pool corresponding to the ID.</returns>
 		public static GameObject Get(string id, params object[] args)
 		{
@@ -168,7 +169,7 @@
         /// Sets them active and tries to call the IPoolItem interface OnGetFromPool message.
         /// </summary>
         /// <param name="gameObject">GameObject instance to enable.</param>
-        /// <param name="args">Arguments to send to the pooled object instance.</param>
+        /// <param name="args">Arguments to pass as parameters to the pooled object if it implements IPoolItem.</param>
         private static void EnableFromPool(GameObject gameObject, params object[] args)
         {
             gameObject.SetActive(true);
