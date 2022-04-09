@@ -22,7 +22,8 @@
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
 - Maths : normalize from vector to vector
 - Maths : stick to world direction (https://answers.unity.com/questions/31744/how-do-i-snap-vector-to-the-nearest-cardinal-value.html)
-- Tilemap Utilites : RemoveCollision()
+- Tilemap Utilities : RemoveCollision()
+- Tilemap Utilities : méthode pour carve une tilemap selon une autre (murs secret de LDJAM50)
 - Curve editor de Sebastian Lague
 - World LayoutGroup (avec SpriteRenderers)
 - Vector.Snap (avec en param le nombre de directions, 4, 8, etc.)
@@ -33,6 +34,7 @@
 - SprintBlink : override Color
 - Settings (prévoir de quoi hériter pour ajouter des settings propres à chaque jeu)
 	- Menu de base déjà tout fait et fonctionnel.
+- SpriteRandomizer de LDJAM50
 
 - Art
 	- Tileset template de Templar
