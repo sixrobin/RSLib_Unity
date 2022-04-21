@@ -35,8 +35,6 @@
 - Settings (prévoir de quoi hériter pour ajouter des settings propres à chaque jeu)
 	- Menu de base déjà tout fait et fonctionnel.
 	- Bouton reset default.
-- SpriteRandomizer de LDJAM50
-- Fonction QuitApplicationPlatformDependent
 - Color flash générique.
 
 - Art
