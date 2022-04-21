@@ -66,7 +66,7 @@
                 Instance.LogWarning($"Trying to play a sound using a null {nameof(IClipProvider)} reference!");
                 return;
             }
-            
+
             AudioSource source = GetSFXSource(clipProvider);
             AudioClipPlayDatas clipData = clipProvider.GetNextClipData();
 
@@ -77,6 +77,18 @@
             source.Play();
         }
 
+        public static void PlaySounds(System.Collections.Generic.IEnumerable<IClipProvider> clipProviders)
+        {
+            if (!Exists())
+            {
+                Instance.LogWarning($"Trying to play sounds while no {nameof(AudioManager)} instance exists!");
+                return;
+            }
+
+            foreach (IClipProvider clipProvider in clipProviders)
+                PlaySound(clipProvider);
+        }
+        
         public static void PlayMusic(IClipProvider musicProvider, MusicTransitionsDatas transitionData)
         {
             if (!Exists())
