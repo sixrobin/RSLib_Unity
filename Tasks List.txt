@@ -7,8 +7,6 @@
 	- Trouver un moyen de faire loop un son et de le garder en ref pour le stopper. Renvoyer l'AudioSource ? Et faire gaffe à ne pas l'écraser avec le GetNextSource tout ça
 	- Trouver un moyen de spatialiser.
 	- PlayUISound à attacher sur les boutons/selectables.
-	- PlaySounds pour jouer un Enumerable de sons.
-	- ClipProvider.PlayToAudioManager ?
 	- AudioManager delay dans PlaySound
 - Image Effects : invert.
 - Canvas Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
