@@ -57,13 +57,13 @@
         {
             if (!Exists())
             {
-                Debug.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
+                Instance.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
                 return;
             }
 
             if (clipProvider == null)
             {
-                Debug.LogWarning($"Trying to play a sound using a null {nameof(IClipProvider)} reference!");
+                Instance.LogWarning($"Trying to play a sound using a null {nameof(IClipProvider)} reference!");
                 return;
             }
             
@@ -81,13 +81,26 @@
         {
             if (!Exists())
             {
-                Debug.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
+                Instance.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
                 return;
             }
             
             if (musicProvider == null)
             {
-                Debug.LogWarning($"Trying to play a music using a null {nameof(IClipProvider)} reference!");
+                Instance.LogWarning($"Trying to play a music using a null {nameof(IClipProvider)} reference!");
+                return;
+            }
+
+            if (transitionData == null)
+            {
+                Instance.LogWarning($"Trying to play a music using a null {nameof(transitionData)} reference, using default Instantaneous transition!");
+                transitionData = MusicTransitionsDatas.Instantaneous;
+            }
+
+            AudioSource currentMusicSource = GetCurrentMusicSource();
+            if (currentMusicSource.isPlaying && currentMusicSource.clip == musicProvider.GetNextClipData().Clip)
+            {
+                Instance.Log($"Music {nameof(currentMusicSource)} is already playing, aborting.");
                 return;
             }
             
