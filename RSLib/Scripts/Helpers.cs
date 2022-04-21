@@ -135,6 +135,18 @@
         }
 
         /// <summary>
+        /// Quits application while dealing with current platform (Unity editor, windows, etc.).
+        /// </summary>
+        public static void QuitPlatformDependent()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            UnityEngine.Application.Quit();
+#endif
+        }
+        
+        /// <summary>
         /// Computes the average position between transforms.
         /// This method uses Linq and a foreach loop, using an array would be better if possible.
         /// </summary>
