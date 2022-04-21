@@ -17,7 +17,7 @@
         [SerializeField] private UnityEngine.Events.UnityEvent _onPointerEnter = null;
         [SerializeField] private UnityEngine.Events.UnityEvent _onPointerExit = null;
 
-        public delegate void PointerEventHandler();
+        public delegate void PointerEventHandler(EnhancedToggle source);
 
         public event PointerEventHandler PointerClick;
         public event PointerEventHandler PointerEnter;
@@ -30,7 +30,7 @@
             if (interactable)
             {
                 _onPointerClick?.Invoke();
-                PointerClick?.Invoke();
+                PointerClick?.Invoke(this);
 
                 if (_autoDeselection && UnityEngine.EventSystems.EventSystem.current != null)
                     UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
@@ -44,7 +44,7 @@
             if (interactable)
             {
                 _onPointerEnter?.Invoke();
-                PointerEnter?.Invoke();
+                PointerEnter?.Invoke(this);
             }
         }
 
@@ -55,7 +55,7 @@
             if (interactable)
             {
                 _onPointerExit?.Invoke();
-                PointerExit?.Invoke();
+                PointerExit?.Invoke(this);
             }
         }
     }
