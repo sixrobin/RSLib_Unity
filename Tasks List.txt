@@ -34,6 +34,10 @@
 	- Menu de base déjà tout fait et fonctionnel.
 	- Bouton reset default.
 - Color flash générique.
+- FloatProperty pour choisir entre FloatScriptable et Constant
+- ImageFillAmountSetter qui utilise Float.
+- Float/Int etc. OnValidateEvent
+- Event SO + EventListener MonoBehaviour
 
 - Art
 	- Tileset template de Templar
