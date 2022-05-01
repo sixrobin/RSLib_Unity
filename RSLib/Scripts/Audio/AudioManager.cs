@@ -36,6 +36,7 @@
 
         [SerializeField] private SFXPlayer[] _sfxPlayers = null;
         [SerializeField] private AudioMixerGroup _musicMixerGroup = null;
+        [SerializeField] private AudioMixer _audioMixer = null;
 
         private static System.Collections.Generic.Dictionary<AudioMixerGroup, RuntimeSFXPlayer> s_sfxPlayersDict;
         private static AudioSource[] s_musicSources;
@@ -44,13 +45,23 @@
         private static System.Collections.IEnumerator s_musicFadeCoroutine;
 
         /// <summary>
-        /// Remaps a value from [0.0001f, 1f] to [-80f, 0f], to adjust a percentage to the decibels scaling.
+        /// Remaps a value from [0.0001f, 1f] to [-80f, 0f], to adjust a linear percentage to the decibels scaling.
         /// </summary>
-        /// <param name="value">Value to convert from percentage to decibels scale.</param>
+        /// <param name="value">Value to convert from linear percentage to decibels scale.</param>
         /// <returns>Decibels scaled value.</returns>
-        public static float RemapToDecibels(float value)
+        public static float LinearToDecibels(float value)
         {
             return Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
+        }
+        
+        /// <summary>
+        /// Remaps a value from [-80f, 0f] to [0.0001f, 1f], to adjust a decibel scaled value to a linear percentage.
+        /// </summary>
+        /// <param name="value">Value to convert from decibel scaling to linear percentage.</param>
+        /// <returns>Linear percentage value.</returns>
+        public static float DecibelsToLinear(float value)
+        {
+            return Mathf.Clamp01(Mathf.Pow(10f, value / 20f));
         }
 
         public static void PlaySound(IClipProvider clipProvider)
@@ -125,6 +136,21 @@
                 Instance.StartCoroutine(s_musicFadeCoroutine = FadeMusicCoroutine(musicProvider, transitionData));
         }
 
+        public static bool TryGetMixerFloatParameterValue(string mixerParameterName, out float value)
+        {
+            return Instance._audioMixer.GetFloat(mixerParameterName, out value);
+        }
+        
+        public static void SetMixerVolumePercentage(string mixerParameterName, float percentage)
+        {
+            SetMixerVolumeDecibels(mixerParameterName, LinearToDecibels(percentage));
+        }
+        
+        public static void SetMixerVolumeDecibels(string mixerParameterName, float decibels)
+        {
+            Instance._audioMixer.SetFloat(mixerParameterName, decibels);
+        }
+        
         private static System.Collections.IEnumerator CrossFadeMusicCoroutine(IClipProvider musicProvider, MusicTransitionsDatas transitionData)
         {
             AudioSource prev = GetCurrentMusicSource();
@@ -238,6 +264,9 @@
             base.Awake();
             InitSFXSources();
             InitMusicSources();
+            
+            RSLib.Debug.Console.DebugConsole.OverrideCommand(new RSLib.Debug.Console.Command<string, float>("VolumeSetPercentage", "Sets volume parameter.", SetMixerVolumePercentage));
+            RSLib.Debug.Console.DebugConsole.OverrideCommand(new RSLib.Debug.Console.Command<string, float>("VolumeSetDecibels", "Sets volume parameter.", SetMixerVolumeDecibels));
         }
     }
 }
