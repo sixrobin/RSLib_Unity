@@ -71,7 +71,7 @@
         public virtual void Log(string msg, Object context, bool forceVerbose = false)
         {
             if (Verbose || forceVerbose)
-                Debug.Log($"{typeof(T).Name}: {msg}", context);
+                Debug.Log($"{typeof(T).Name}: {msg}", context ? context : gameObject);
         }
 
         public virtual void LogError(string msg)
@@ -81,7 +81,7 @@
 
         public virtual void LogError(string msg, Object context)
         {
-            Debug.LogError($"{typeof(T).Name}: {msg}", context);
+            Debug.LogError($"{typeof(T).Name}: {msg}", context ? context : gameObject);
         }
 
         public virtual void LogWarning(string msg)
@@ -91,7 +91,7 @@
 
         public virtual void LogWarning(string msg, Object context)
         {
-            Debug.LogWarning($"{typeof(T).Name}: {msg}", context);
+            Debug.LogWarning($"{typeof(T).Name}: {msg}", context ? context : gameObject);
         }
 
         #endregion LOG

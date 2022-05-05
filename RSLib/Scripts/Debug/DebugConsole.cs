@@ -175,6 +175,7 @@
             {
                 if (Instance._registeredCmds[i].Id == cmd.Id && Instance._registeredCmds[i].ParamsCount == cmd.ParamsCount)
                 {
+                    // TODO: Also compare parameters types.
                     if (overrideIfCmdExists)
                     {
                         if (Instance._registeredCmds[i].IsConsoleNative)
