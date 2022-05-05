@@ -23,7 +23,7 @@
         public override void Log(string msg, Object context, bool forceVerbose = false)
         {
             if (Verbose || forceVerbose)
-                Debug.Log($"#{Prefix}#{msg}", context);
+                Debug.Log($"#{Prefix}#{msg}", context ? context : gameObject);
         }
 
         public override void LogWarning(string msg)
@@ -33,7 +33,7 @@
 
         public override void LogWarning(string msg, Object context)
         {
-            Debug.LogWarning($"#{Prefix}#{msg}", context);
+            Debug.LogWarning($"#{Prefix}#{msg}", context ? context : gameObject);
         }
 
         public override void LogError(string msg)
@@ -43,7 +43,7 @@
 
         public override void LogError(string msg, Object context)
         {
-            Debug.LogError($"#{Prefix}#{msg}", context);
+            Debug.LogError($"#{Prefix}#{msg}", context ? context : gameObject);
         }
     }
 }
