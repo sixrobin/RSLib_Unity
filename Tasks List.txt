@@ -39,7 +39,6 @@
 - Float/Int etc. OnValidateEvent
 - Event SO + EventListener MonoBehaviour
 - Traveler's salesman algo
-- Console : override/add command qui créent la commande à la volée
 - Récupérer LocalizationManager
 	- Méthode Format/TryFormat
 	- Localized label
