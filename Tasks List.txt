@@ -41,7 +41,10 @@
 - Traveler's salesman algo
 - Console : override/add command qui créent la commande à la volée
 	- Ajouter la comparaison de type de commande dans OverrideCommand.
-- Récupérer LocalizationManager (y ajouter des summaries et compagnie)
+- Récupérer LocalizationManager
+	- Méthode Format/TryFormat
+	- Localized label
+- Tool OpenPersistentDataPath
 
 - Art
 	- Tileset template de Templar
