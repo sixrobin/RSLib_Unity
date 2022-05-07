@@ -265,8 +265,8 @@
             InitSFXSources();
             InitMusicSources();
             
-            RSLib.Debug.Console.DebugConsole.OverrideCommand(new RSLib.Debug.Console.Command<string, float>("VolumeSetPercentage", "Sets volume parameter.", SetMixerVolumePercentage));
-            RSLib.Debug.Console.DebugConsole.OverrideCommand(new RSLib.Debug.Console.Command<string, float>("VolumeSetDecibels", "Sets volume parameter.", SetMixerVolumeDecibels));
+            RSLib.Debug.Console.DebugConsole.OverrideCommand<string, float>("VolumeSetPercentage", "Sets volume parameter.", SetMixerVolumePercentage);
+            RSLib.Debug.Console.DebugConsole.OverrideCommand<string, float>("VolumeSetDecibels", "Sets volume parameter.", SetMixerVolumeDecibels);
         }
     }
 }
