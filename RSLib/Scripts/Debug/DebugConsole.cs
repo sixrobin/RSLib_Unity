@@ -660,11 +660,8 @@
             //AddCommand(new DebugCommand("reloadActiveScene", "Reloads the currently active scene.", true, true,
             //    () => UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex)));
 
-            AddCommand(new Command<string>("loadSceneByName", "Loads a scene by its name.", true, true,
-                (sceneName) => UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName)));
-
-            AddCommand(new Command<int>("loadSceneByIndex", "Loads a scene by its build settings index.", true, true,
-                (sceneIndex) => UnityEngine.SceneManagement.SceneManager.LoadScene(sceneIndex)));
+            AddCommand(new Command<string>("loadSceneByName", "Loads a scene by its name.", true, true, UnityEngine.SceneManagement.SceneManager.LoadScene));
+            AddCommand(new Command<int>("loadSceneByIndex", "Loads a scene by its build settings index.", true, true, UnityEngine.SceneManagement.SceneManager.LoadScene));
 
             AddCommand(new Command("q", "Quits application.", false, true, () =>
             {
@@ -675,8 +672,7 @@
 #endif
             }));
 
-            AddCommand(new Command("OpenPersistentDataPath", "Opens Application.persistentDataPath folder.",
-                () => System.Diagnostics.Process.Start($@"{Application.persistentDataPath}")));
+            AddCommand(new Command("OpenPersistentDataPath", "Opens Application.persistentDataPath folder.", OpenPersistentDataPath));
         }
 
         private void ResetHistoryNavigation()
@@ -924,6 +920,12 @@
                 GUI.Label(logEntryRect, Constants.HelpText, _helpTextStyle);
         }
 
+        [ContextMenu("Open Persistent Data Path")]
+        private void OpenPersistentDataPath()
+        {
+            System.Diagnostics.Process.Start($@"{Application.persistentDataPath}");
+        }
+        
         protected override void Awake()
         {
             base.Awake();
