@@ -175,7 +175,6 @@
             {
                 if (Instance._registeredCmds[i].Id == cmd.Id && Instance._registeredCmds[i].ParamsCount == cmd.ParamsCount)
                 {
-                    // TODO: Also compare parameters types.
                     if (overrideIfCmdExists)
                     {
                         if (Instance._registeredCmds[i].IsConsoleNative)
@@ -193,11 +192,37 @@
             Instance._registeredCmds.Add(cmd);
         }
 
+        public static void AddCommand(string id, string desc, System.Action cmd, bool showInHistory = true, bool isConsoleNative = false)
+        {
+            AddCommand(new Command(id, desc, showInHistory, isConsoleNative, cmd));
+        }
+        public static void AddCommand<T>(string id, string desc, System.Action<T> cmd, bool showInHistory = true, bool isConsoleNative = false)
+        {
+            AddCommand(new Command<T>(id, desc, showInHistory, isConsoleNative, cmd));
+        }
+        public static void AddCommand<T1, T2>(string id, string desc, System.Action<T1, T2> cmd, bool showInHistory = true, bool isConsoleNative = false)
+        {
+            AddCommand(new Command<T1, T2>(id, desc, showInHistory, isConsoleNative, cmd));
+        }
+        
         public static void OverrideCommand(CommandBase cmd)
         {
             AddCommand(cmd, true);
         }
 
+        public static void OverrideCommand(string id, string desc, System.Action cmd, bool showInHistory = true, bool isConsoleNative = false)
+        {
+            OverrideCommand(new Command(id, desc, showInHistory, isConsoleNative, cmd));
+        }
+        public static void OverrideCommand<T>(string id, string desc, System.Action<T> cmd, bool showInHistory = true, bool isConsoleNative = false)
+        {
+            OverrideCommand(new Command<T>(id, desc, showInHistory, isConsoleNative, cmd));
+        }
+        public static void OverrideCommand<T1, T2>(string id, string desc, System.Action<T1, T2> cmd, bool showInHistory = true, bool isConsoleNative = false)
+        {
+            OverrideCommand(new Command<T1, T2>(id, desc, showInHistory, isConsoleNative, cmd));
+        }
+        
         public static void RemoveCommand(string id, int paramsCount = -1)
         {
             if (!Exists())
