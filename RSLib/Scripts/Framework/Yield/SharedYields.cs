@@ -10,7 +10,9 @@
         public static WaitForEndOfFrame WaitForEndOfFrame { get; } = new WaitForEndOfFrame();
         public static WaitForFixedUpdate WaitForFixedUpdate { get; } = new WaitForFixedUpdate();
 
-        /// <summary>Waits for a given amount of frames.</summary>
+        /// <summary>
+        /// Waits for a given amount of frames.
+        /// </summary>
         /// <param name="framesCount">Frames to wait.</param>
         /// <returns>IEnumerator instance.</returns>
         public static System.Collections.IEnumerator WaitForFrames(int framesCount)
@@ -19,7 +21,9 @@
                 yield return null;
         }
 
-        /// <summary>Returns an existing WaitForSeconds if one with the given duration has already been pooled, else a new one and pools it.</summary>
+        /// <summary>
+        /// Returns an existing WaitForSeconds if one with the given duration has already been pooled, else a new one and pools it.
+        /// </summary>
         /// <param name="duration">Seconds to wait.</param>
         /// <returns>WaitForSeconds instance.</returns>
         public static WaitForSeconds WaitForSeconds(float duration)
@@ -30,7 +34,9 @@
             return wait;
         }
 
-        /// <summary>Returns an existing WaitForSecondsRealtime if one with the given duration has already been pooled, else a new one and pools it.</summary>
+        /// <summary>
+        /// Returns an existing WaitForSecondsRealtime if one with the given duration has already been pooled, else a new one and pools it.
+        /// </summary>
         /// <param name="duration">Seconds to wait.</param>
         /// <returns>WaitForSecondsRealtime instance.</returns>
         public static WaitForSecondsRealtime WaitForSecondsRealtime(float duration)
