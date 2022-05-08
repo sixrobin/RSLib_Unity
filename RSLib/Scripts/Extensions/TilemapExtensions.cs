@@ -103,5 +103,34 @@
             Debug.Log($"Created new Tilemap {copy.name} with {tilesCounter} overridden tiles.", copy.gameObject);
             return copy;
         }
+
+        /// <summary>
+        /// Deletes collision related component on a Tilemap if some are found.
+        /// </summary>
+        /// <param name="tilemap">Tilemap to remove collision of.</param>
+        public static void TryRemoveCollision(this Tilemap tilemap, bool destroyImmediate = false)
+        {
+            if (tilemap.TryGetComponent(out TilemapCollider2D tilemapCollider2D))
+            {
+                if (destroyImmediate)
+                    Object.DestroyImmediate(tilemapCollider2D);
+                else                    
+                    Object.Destroy(tilemapCollider2D);
+            }
+
+            if (tilemap.TryGetComponent(out Rigidbody2D rigidbody2D) && tilemap.TryGetComponent(out CompositeCollider2D compositeCollider2D))
+            {
+                if (destroyImmediate)
+                {
+                    Object.DestroyImmediate(compositeCollider2D);
+                    Object.DestroyImmediate(rigidbody2D);
+                }
+                else
+                {
+                    Object.Destroy(compositeCollider2D);
+                    Object.Destroy(rigidbody2D);
+                }
+            }
+        }
     }
 }

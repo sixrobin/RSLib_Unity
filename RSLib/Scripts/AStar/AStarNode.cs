@@ -58,7 +58,10 @@
 			Mesh.NodeRemoved += OnNodeRemoved;
 		}
 
-		/// <summary>Resets the costs that are used to find a path. Should be called before the A* computation.</summary>
+		/// <summary>
+		/// Resets the costs that are used to find a path.
+		/// Should be called before the A* computation.
+		/// </summary>
 		public void Reset()
 		{
 			GCost = 0;
@@ -81,7 +84,9 @@
         {
         }
 
-		/// <summary>Called when a node is removed from the holding mesh.</summary>
+		/// <summary>
+		/// Called when a node is removed from the holding mesh.
+		/// </summary>
 		/// <param name="node">The removed node.</param>
 		public virtual void OnNodeRemoved(AStarNode node)
         {

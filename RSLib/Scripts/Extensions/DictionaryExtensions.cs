@@ -6,7 +6,9 @@
     {
         #region GENERAL
 
-        /// <summary>Loops through all KeyValuePairs in the dictionary and executes an action.</summary>
+        /// <summary>
+        /// Loops through all KeyValuePairs in the dictionary and executes an action.
+        /// </summary>
         /// <param name="dict">Dictionary to loop through.</param>
         /// <param name="action">Action to execute.</param>
         public static void ForEach<TKey, TValue>(this IDictionary<TKey, TValue> dict, System.Action<TKey, TValue> action)
@@ -15,7 +17,9 @@
                 action(kvp.Key, kvp.Value);
         }
 
-        /// <summary>Checks the value for key TKey and returns it, or returns the default value for TValue if key was not found.</summary>
+        /// <summary>
+        /// Checks the value for key TKey and returns it, or returns the default value for TValue if key was not found.
+        /// </summary>
         /// <param name="dict">Dictionary get the value in, if contained.</param>
         /// <param name="key">Key to look for.</param>
         /// <param name="customDefault">Custom default value to use in case key is not found.</param>
@@ -25,7 +29,9 @@
             return dict.TryGetValue(key, out TValue value) ? value : customDefault;
         }
 
-        /// <summary>Checks the value for key TKey and returns it, or returns the default value for TValue and triggers a callback if key was not found.</summary>
+        /// <summary>
+        /// Checks the value for key TKey and returns it, or returns the default value for TValue and triggers a callback if key was not found.
+        /// </summary>
         /// <param name="dict">Dictionary get the value in, if contained.</param>
         /// <param name="key">Key to look for.</param>
         /// <param name="defaultUsedCallback">Callback triggered if key is not found.</param>
@@ -40,7 +46,9 @@
             return customDefault;
         }
 
-        /// <summary>Checks the value for key TKey and returns it, or creates a new pair if key was not found.</summary>
+        /// <summary>
+        /// Checks the value for key TKey and returns it, or creates a new pair if key was not found.
+        /// </summary>
         /// <param name="dict">Dictionary get the value in if contained or insert new instance.</param>
         /// <param name="key">Key to look for.</param>
         /// <returns>Found existing value, or created one.</returns>
@@ -54,7 +62,9 @@
             return newObj;
         }
 
-        /// <summary>Checks the value for key TKey and returns it, or creates a new pair and triggers a callback if key was not found.</summary>
+        /// <summary>
+        /// Checks the value for key TKey and returns it, or creates a new pair and triggers a callback if key was not found.
+        /// </summary>
         /// <param name="dict">Dictionary get the value in if contained or insert new instance.</param>
         /// <param name="key">Key to look for.</param>
         /// <param name="insertNewCallback">Callback triggered if key is not found.</param>

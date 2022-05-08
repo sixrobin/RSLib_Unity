@@ -37,6 +37,9 @@
         private Tilemap _tilemapToCarve;
         private Tilemap _carveShape;
         
+        // Clear tilemap collision.
+        private Tilemap _tilemapToClearCollision;
+        
         public static void LaunchTilemapUtilities()
         {
             s_firstOpenFrame = true;
@@ -227,6 +230,36 @@
                     }
                     
                     _tilemapToCarve.CarveTilemap(_carveShape);
+                }
+                
+                GUILayout.Space(2f);
+                EditorGUILayout.EndVertical();
+            }
+            
+            GUILayout.Space(CATEGORIES_SPACING);
+
+            // Clear tilemap collision.
+            {
+                EditorGUILayout.LabelField("CLEAR TILEMAP COLLISION (NO UNDO)", EditorStyles.boldLabel);
+                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                GUILayout.Space(2f);
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Tilemap to clear collision of");
+                _tilemapToClearCollision = EditorGUILayout.ObjectField(_tilemapToClearCollision, typeof(Tilemap), true, null) as Tilemap;
+                EditorGUILayout.EndHorizontal();
+                
+                GUILayout.Space(5f);
+
+                if (GUILayout.Button("Clear tilemap collision", GUILayout.Height(BUTTON_HEIGHT), GUILayout.ExpandWidth(true)))
+                {
+                    if (_tilemapToClearCollision == null)
+                    {
+                        EditorUtility.DisplayDialog("Tilemap Utilities Warning", "You must provide a Tilemap to clear its collision!", "OK");
+                        return;
+                    }
+                    
+                    _tilemapToClearCollision.TryRemoveCollision(true);
                 }
                 
                 GUILayout.Space(2f);
