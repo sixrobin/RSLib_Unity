@@ -6,7 +6,6 @@
 	- AudioOptions template avec les sliders nécessaires.
 	- Trouver un moyen de faire loop un son et de le garder en ref pour le stopper. Renvoyer l'AudioSource ? Et faire gaffe à ne pas l'écraser avec le GetNextSource tout ça
 	- Trouver un moyen de spatialiser.
-	- PlayUISound à attacher sur les boutons/selectables.
 	- AudioManager delay dans PlaySound
 - Image Effects : invert.
 - Canvas Fade Manager : fade uni basique avec toute la custo (couleur, ordre, callback, etc.)
@@ -20,15 +19,12 @@
 	- Noter quelque part, dans le shader peut-être, les soucis avec les Graphic qui sont masqués.
 - Maths : normalize from vector to vector
 - Maths : stick to world direction (https://answers.unity.com/questions/31744/how-do-i-snap-vector-to-the-nearest-cardinal-value.html)
-- Tilemap Utilities : RemoveCollision()
-- Tilemap Utilities : méthode pour carve une tilemap selon une autre (murs secret de LDJAM50)
 - Curve editor de Sebastian Lague
 - World LayoutGroup (avec SpriteRenderers)
 - Vector.Snap (avec en param le nombre de directions, 4, 8, etc.)
 - Récupérer KeyCodeShortNames de Templar mais le changer en KeyCodeSymbols et ne garder que les symboles donc (et changer la méthode Get pour un TryGet? ou les deux ?)
 - Checker les singleton et passer les properties static en membres.
 - Singleton : méthodes log statiques.
-- Homogénéiser les newlines des summaries.
 - SprintBlink : override Color
 - Settings (prévoir de quoi hériter pour ajouter des settings propres à chaque jeu)
 	- Menu de base déjà tout fait et fonctionnel.
@@ -39,10 +35,10 @@
 - Float/Int etc. OnValidateEvent
 - Event SO + EventListener MonoBehaviour
 - Traveler's salesman algo
-- Récupérer LocalizationManager
+- Récupérer Localizer
 	- Méthode Format/TryFormat
 	- Localized label
-- Tool OpenPersistentDataPath
+- Tool OpenPersistentDataPath dans un menu
 
 - Art
 	- Tileset template de Templar
