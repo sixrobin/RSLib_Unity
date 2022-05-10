@@ -17,6 +17,8 @@
         
         public System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> MapCopy => new System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding>(_map);
 
+        public bool UseAltButtons { get; private set; }
+        
         public InputMap()
         {
         }
@@ -24,6 +26,7 @@
         public InputMap(InputMapDatas mapData)
         {
             GenerateMap(mapData);
+            UseAltButtons = mapData.UseAltButtons;
         }
 
         public InputMap(XContainer container)
@@ -34,11 +37,13 @@
         public InputMap(InputMap inputMap)
         {
             _map = inputMap._map;
+            UseAltButtons = inputMap.UseAltButtons;
         }
 
-        public InputMap(System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> map)
+        public InputMap(System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> map, bool useAltButtons)
         {
             _map = map;
+            UseAltButtons = useAltButtons;
         }
 
         /// <summary>
@@ -84,6 +89,24 @@
             {
                 InputManager.Instance.LogError($"Error while deserializing {nameof(InputMap)}, could not find XElement with name {InputManager.INPUT_MAP_ELEMENT_NAME}.", InputManager.Instance.gameObject);
                 return;
+            }
+
+            XAttribute useAltButtonsAttribute = inputMapElement.Attribute("UseAltButtons");
+            if (useAltButtonsAttribute != null)
+            {
+                if (bool.TryParse(useAltButtonsAttribute.Value, out bool useAltButtons))
+                {
+                    UseAltButtons = useAltButtons;
+                }
+                else
+                {
+                    InputManager.Instance.LogWarning($"Could not parse {useAltButtonsAttribute.Value} to a valid bool. Setting it to false.", InputManager.Instance.gameObject);
+                    UseAltButtons = false;
+                }
+            }
+            else
+            {
+                UseAltButtons = false;
             }
             
             foreach (XElement keyBindingElement in inputMapElement.Elements())

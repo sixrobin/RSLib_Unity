@@ -52,6 +52,10 @@
 
         [SerializeField] private KeyBinding[] _bindings = null;
 
+        [Space(10f)]
+        [SerializeField] private bool _useAltButtons = true; 
+        
         public KeyBinding[] Bindings => _bindings;
+        public bool UseAltButtons => _useAltButtons;
     }
 }

@@ -45,7 +45,7 @@
         public static bool GetInput(string actionId)
         {
             InputMapDatas.KeyBinding keyBinding = s_inputMap.GetActionBinding(actionId);
-            return Input.GetKey(keyBinding.KeyCodes.btn) || Input.GetKey(keyBinding.KeyCodes.altBtn);
+            return Input.GetKey(keyBinding.KeyCodes.btn) || (s_inputMap.UseAltButtons && Input.GetKey(keyBinding.KeyCodes.altBtn));
         }
 
         public static bool GetAnyInput(params string[] actionsIds)
@@ -60,7 +60,7 @@
         public static bool GetInputDown(string actionId)
         {
             InputMapDatas.KeyBinding keyBinding = s_inputMap.GetActionBinding(actionId);
-            return Input.GetKeyDown(keyBinding.KeyCodes.btn) || Input.GetKeyDown(keyBinding.KeyCodes.altBtn);
+            return Input.GetKeyDown(keyBinding.KeyCodes.btn) || (s_inputMap.UseAltButtons && Input.GetKeyDown(keyBinding.KeyCodes.altBtn));
         }
 
         public static bool GetAnyInputDown(params string[] actionsIds)
@@ -75,7 +75,7 @@
         public static bool GetInputUp(string actionId)
         {
             InputMapDatas.KeyBinding keyBinding = s_inputMap.GetActionBinding(actionId);
-            return Input.GetKeyUp(keyBinding.KeyCodes.btn) || Input.GetKeyUp(keyBinding.KeyCodes.altBtn);
+            return Input.GetKeyUp(keyBinding.KeyCodes.btn) || (s_inputMap.UseAltButtons && Input.GetKeyUp(keyBinding.KeyCodes.altBtn));
         }
 
         public static bool GetAnyInputUp(params string[] actionsIds)
@@ -87,14 +87,19 @@
             return false;
         }
 
+        public static InputMap GetMap()
+        {
+            return s_inputMap;
+        }
+        
         public static System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> GetMapCopy()
         {
-            return s_inputMap.MapCopy;
+            return GetMap().MapCopy;
         }
 
-        public static void SetBindings(System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> bindings)
+        public static void SetBindings(System.Collections.Generic.Dictionary<string, InputMapDatas.KeyBinding> bindings, bool useAltButtons)
         {
-            s_inputMap = new InputMap(bindings);
+            s_inputMap = new InputMap(bindings, useAltButtons);
         }
 
         public static void SetMap(InputMap map)
@@ -204,6 +209,8 @@
 
             XContainer container = new XElement(INPUT_MAP_ELEMENT_NAME);
 
+            container.Add(new XAttribute("UseAltButtons", s_inputMap.UseAltButtons));
+            
             foreach (System.Collections.Generic.KeyValuePair<string, InputMapDatas.KeyBinding> binding in s_inputMap.MapCopy)
             {
                 if (!s_inputMap.HasAction(binding.Key) || !binding.Value.UserAssignable)
@@ -216,7 +223,7 @@
 
                 container.Add(actionElement);
             }
-
+            
             try
             {
                 System.IO.FileInfo fileInfo = new System.IO.FileInfo(SavePath);
