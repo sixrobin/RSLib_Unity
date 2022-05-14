@@ -12,8 +12,8 @@
         private Slider _slider; 
         private RSLib.Framework.GUI.EnhancedButton _enhancedButton;
         private RSLib.Framework.GUI.EnhancedToggle _enhancedToggle;
+        private RSLib.Framework.GUI.EnhancedSlider _enhancedSlider;
         // TODO: EnhancedDropdown.
-        // TODO: EnhancedSlider.
         
         protected virtual void OnButtonClick()
         {
@@ -45,6 +45,11 @@
             UIAudioManager.PlayHoverClip();
         }
         
+        protected virtual void OnSliderPointerEnter(RSLib.Framework.GUI.EnhancedSlider source)
+        {
+            UIAudioManager.PlayHoverClip();
+        }
+
         private void Awake()
         {
             _button = GetComponent<Button>();
@@ -73,7 +78,9 @@
             if (_slider != null)
                 _slider.onValueChanged.AddListener(OnSliderValueChanged);
             
-            // TODO: Slider OnPointerEnter listener.
+            _enhancedSlider = GetComponent<RSLib.Framework.GUI.EnhancedSlider>();
+            if (_enhancedSlider != null)
+                _enhancedSlider.PointerEnter += OnSliderPointerEnter;
         }
 
         private void OnDestroy()
@@ -98,7 +105,8 @@
             if (_slider != null)
                 _slider.onValueChanged.RemoveListener(OnSliderValueChanged);
             
-            // TODO: Slider OnPointerEnter listener.
+            if (_enhancedSlider != null)
+                _enhancedSlider.PointerEnter -= OnSliderPointerEnter;
         }
     }
 }
