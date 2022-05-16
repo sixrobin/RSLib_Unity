@@ -68,7 +68,7 @@
         {
             if (!Exists())
             {
-                Instance.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
+                Debug.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
                 return;
             }
 
@@ -92,7 +92,7 @@
         {
             if (!Exists())
             {
-                Instance.LogWarning($"Trying to play sounds while no {nameof(AudioManager)} instance exists!");
+                Debug.LogWarning($"Trying to play sounds while no {nameof(AudioManager)} instance exists!");
                 return;
             }
 
@@ -104,7 +104,7 @@
         {
             if (!Exists())
             {
-                Instance.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
+                Debug.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
                 return;
             }
             
