@@ -45,6 +45,7 @@
         /// <returns>If the singleton instance is referenced or not.</returns>
         public static bool Exists()
         {
+            // Instance property is not used to avoid errors when this method is called in an OnDestroy method.
             return s_instance != null;
         }
 
