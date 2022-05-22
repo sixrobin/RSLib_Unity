@@ -191,12 +191,25 @@
 
     public partial class InputManager : Singleton<InputManager>
     {
+        public class SaveDoneEventArgs : System.EventArgs
+        {
+            public SaveDoneEventArgs(bool success)
+            {
+                Success = success;
+            }
+            
+            public bool Success { get; }
+        }
+        
         public const string INPUT_MAP_ELEMENT_NAME = "InputMap";
         public const string BTN_ATTRIBUTE_NAME = "Btn";
         public const string ALT_ATTRIBUTE_NAME = "Alt";
 
         private static string s_savePath;
 
+        public delegate void SaveDoneEventHandler(SaveDoneEventArgs args);
+        public static event SaveDoneEventHandler SaveDone;
+        
         public static string SavePath
         {
             get => string.IsNullOrEmpty(s_savePath) ? System.IO.Path.Combine(Application.persistentDataPath, "Inputs.xml") : s_savePath;
@@ -250,11 +263,15 @@
                         ms.CopyTo(diskStream);
                     }
                 }
+                
             }
             catch (System.Exception e)
             {
                 Instance.LogError($"Could not save Input map at {SavePath} ! Exception message:\n{e}", Instance.gameObject);
+                SaveDone?.Invoke(new SaveDoneEventArgs(false));
             }
+            
+            SaveDone?.Invoke(new SaveDoneEventArgs(true));
         }
 
         public static bool TryLoadMap()
