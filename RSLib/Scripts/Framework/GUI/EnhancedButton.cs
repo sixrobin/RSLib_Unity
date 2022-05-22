@@ -91,15 +91,15 @@
             }
         }
 
-        public string GetText()
+        public TMPro.TextMeshProUGUI GetText()
         {
             if (_buttonText == null)
             {
                 Debug.LogWarning($"Trying to get text on {transform.name}'s {GetType().Name}, but text isn't referenced.", gameObject);
-                return string.Empty;
+                return null;
             }
 
-            return _buttonText.text;
+            return _buttonText;
         }
 
         public void SetText(string text)
