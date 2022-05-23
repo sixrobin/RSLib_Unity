@@ -31,5 +31,14 @@
                 ValueChanged?.Invoke(valueChangedEventArgs);
             }
         }
+        
+#region CONVERSION OPERATORS
+        
+        public static implicit operator bool(Bool dataBool)
+        {
+            return dataBool.Value;
+        }
+
+#endregion // CONVERSION OPERATORS
     }
 }

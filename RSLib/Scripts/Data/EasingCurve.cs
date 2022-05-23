@@ -10,5 +10,14 @@
         [SerializeField] private RSLib.Maths.Curve _curve = DEFAULT;
 
         public RSLib.Maths.Curve Curve => _curve;
+        
+#region CONVERSION OPERATORS
+        
+        public static implicit operator RSLib.Maths.Curve(EasingCurve dataEasingCurve)
+        {
+            return dataEasingCurve.Curve;
+        }
+
+#endregion // CONVERSION OPERATORS
     }
 }
