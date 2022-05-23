@@ -25,10 +25,7 @@
         
         [Header("GENERAL")]
         [SerializeField] private KeyCode _toggleKey = KeyCode.F1;
-        [SerializeField] private bool _defaultEnabled = true;
-#pragma warning disable CS0414
-        [SerializeField] private bool _editorOnly = true;
-#pragma warning restore CS0414
+        [SerializeField] private bool _buildEnabled = false;
 
         [Header("STYLE")]
         [SerializeField] private string _format = DEFAULT_FORMAT;
@@ -63,6 +60,13 @@
                 Instance._values[anchor].Add(key, valueGetter);
         }
 
+        public void Enable(bool state)
+        {
+            _buildEnabled = state;
+            if (!state && !Application.isEditor)
+                _enabled = false;
+        }
+        
         private static void ClearValues()
         {
             foreach (KeyValuePair<Anchor, Dictionary<string, ValueGetter>> values in Instance._values)
@@ -121,17 +125,15 @@
         {
             base.Awake();
             InitGUIStyles();
-            _enabled = _defaultEnabled;
         }
 
         private void Update()
         {
-#if !UNITY_EDITOR
-            if (_editorOnly)
-                return;
-#endif
-            if (Input.GetKeyDown(_toggleKey))
+            if ((_enabled || Application.isEditor || _buildEnabled)
+                && Input.GetKeyDown(_toggleKey))
+            {
                 _enabled = !_enabled;
+            }
         }
 
         private void OnGUI()

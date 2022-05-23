@@ -106,7 +106,7 @@
         }
 
         [Header("CONSOLE DATA")]
-        [SerializeField] private bool _enabled = true;
+        [SerializeField] private bool _buildEnabled = false;
         [SerializeField, Min(512)] private int _width = 640;
         [SerializeField, Min(32)] private int _height = 146;
 
@@ -287,6 +287,13 @@
                 Instance.StartCoroutine(LogToConsoleCoroutine(log, HistoryLine.Validity.ERROR));
         }
 
+        public void Enable(bool state)
+        {
+            _buildEnabled = state;
+            if (!state && !Application.isEditor)
+                IsOpen = false;
+        }
+           
         private static System.Collections.IEnumerator LogToConsoleCoroutine(string log, HistoryLine.Validity validity)
         {
             yield return new WaitForEndOfFrame();
@@ -973,8 +980,12 @@
 
         private void Update()
         {
-            if (_enabled && !IsOpen && Input.GetKeyDown(KeyCode.Quote))
+            if ((_buildEnabled || Application.isEditor)
+                && !IsOpen
+                && Input.GetKeyDown(KeyCode.Quote))
+            {
                 IsOpen = true;
+            }
         }
 
         private void OnDestroy()
