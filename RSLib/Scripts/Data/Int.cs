@@ -1,8 +1,8 @@
-﻿namespace RSLib.Dynamics
+﻿namespace RSLib.Data
 {
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Dynamic Int", menuName = "RSLib/Dynamics/Int")]
+    [CreateAssetMenu(fileName = "New Data Int", menuName = "RSLib/Data/Int")]
     public class Int : ScriptableObject
     {
         public struct ValueChangedEventArgs
@@ -24,7 +24,7 @@
             {
                 int newValue = Mathf.Clamp(value, _range.x, _range.y);
 
-                ValueChangedEventArgs valueChangedEventArgs = new ValueChangedEventArgs()
+                ValueChangedEventArgs valueChangedEventArgs = new ValueChangedEventArgs
                 {
                     Previous = _value,
                     New = newValue
@@ -41,11 +41,11 @@
         
         private void OnValidate()
         {
-            _value = Mathf.Clamp(_value, _range.x, _range.y);
+            Value = Mathf.Clamp(_value, _range.x, _range.y);
         }
 
-        #region OPERATORS
-
+        #region ARITHMETIC OPERATORS
+        
         public static Int operator +(Int a, Int b)
         {
             a.Value += b.Value;
@@ -204,8 +204,17 @@
             return a == b.Value;
         }
         
-        #endregion // OPERATORS
+        #endregion // ARITHMETIC OPERATORS
         
+        #region CONVERSION OPERATORS
+        
+        public static implicit operator int(Int dataInt)
+        {
+            return dataInt.Value;
+        }
+        
+        #endregion // CONVERSION OPERATORS
+
         protected bool Equals(Int other)
         {
             return base.Equals(other) && _value == other._value && _range.Equals(other._range);

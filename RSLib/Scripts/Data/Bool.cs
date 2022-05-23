@@ -1,8 +1,8 @@
-﻿namespace RSLib.Dynamics
+﻿namespace RSLib.Data
 {
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Dynamic Bool", menuName = "RSLib/Dynamics/Bool")]
+    [CreateAssetMenu(fileName = "New Data Bool", menuName = "RSLib/Data/Bool")]
     public class Bool : ScriptableObject
     {
         public struct ValueChangedEventArgs
@@ -21,7 +21,7 @@
             get => _value;
             set
             {
-                ValueChangedEventArgs valueChangedEventArgs = new ValueChangedEventArgs()
+                ValueChangedEventArgs valueChangedEventArgs = new ValueChangedEventArgs
                 {
                     Previous = _value,
                     New = value

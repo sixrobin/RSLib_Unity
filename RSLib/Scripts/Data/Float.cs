@@ -1,8 +1,8 @@
-﻿namespace RSLib.Dynamics
+﻿namespace RSLib.Data
 {
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Dynamic Float", menuName = "RSLib/Dynamics/Float")]
+    [CreateAssetMenu(fileName = "New Data Float", menuName = "RSLib/Data/Float")]
     public class Float : ScriptableObject
     {
         public struct ValueChangedEventArgs
@@ -24,7 +24,7 @@
             {
                 float newValue = Mathf.Clamp(value, _range.x, _range.y);
 
-                ValueChangedEventArgs valueChangedEventArgs = new ValueChangedEventArgs()
+                ValueChangedEventArgs valueChangedEventArgs = new ValueChangedEventArgs
                 {
                     Previous = _value,
                     New = newValue
@@ -41,11 +41,11 @@
         
         private void OnValidate()
         {
-            _value = Mathf.Clamp(_value, _range.x, _range.y);
+            Value = Mathf.Clamp(_value, _range.x, _range.y);
         }
 
-        #region OPERATORS
-
+        #region ARITHMETIC OPERATORS
+        
         public static Float operator +(Float a, Float b)
         {
             a.Value += b.Value;
@@ -204,7 +204,16 @@
             return a == b.Value;
         }
         
-        #endregion // OPERATORS
+        #endregion // ARITHMETIC OPERATORS
+
+        #region CONVERSION OPERATORS
+        
+        public static implicit operator float(Float dataFloat)
+        {
+            return dataFloat.Value;
+        }
+
+        #endregion // CONVERSION OPERATORS
         
         protected bool Equals(Float other)
         {
