@@ -87,6 +87,13 @@
             
             source.Play();
         }
+        public static void PlaySound(IClipProvider clipProvider, float delay)
+        {
+            if (delay == 0f)
+                PlaySound(clipProvider);
+            else
+                Instance.StartCoroutine(PlaySoundDelayedCoroutine(clipProvider, delay));
+        }
 
         public static void PlaySounds(System.Collections.Generic.IEnumerable<IClipProvider> clipProviders)
         {
@@ -98,6 +105,14 @@
 
             foreach (IClipProvider clipProvider in clipProviders)
                 PlaySound(clipProvider);
+        }
+        
+        public static void PlaySounds(System.Collections.Generic.IEnumerable<IClipProvider> clipProviders, float delay)
+        {
+            if (delay == 0f)
+                PlaySounds(clipProviders);
+            else
+                Instance.StartCoroutine(PlaySoundsDelayedCoroutine(clipProviders, delay));
         }
         
         public static void PlayMusic(IClipProvider musicProvider, MusicTransitionsDatas transitionData)
@@ -205,6 +220,18 @@
             }
 
             next.volume = nextVol;
+        }
+
+        private static System.Collections.IEnumerator PlaySoundDelayedCoroutine(IClipProvider clipProvider, float delay)
+        {
+            yield return RSLib.Yield.SharedYields.WaitForSeconds(delay);
+            PlaySound(clipProvider);
+        }
+
+        private static System.Collections.IEnumerator PlaySoundsDelayedCoroutine(System.Collections.Generic.IEnumerable<IClipProvider> clipProviders, float delay)
+        {
+            yield return RSLib.Yield.SharedYields.WaitForSeconds(delay);
+            PlaySounds(clipProviders);
         }
 
         private static AudioSource GetSFXSource(IClipProvider clipProvider)
