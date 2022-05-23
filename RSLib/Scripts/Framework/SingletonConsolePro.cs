@@ -6,7 +6,7 @@
     /// Child class of Singleton to handle Console Pro plugin prefix system.
     /// </summary>
     [DisallowMultipleComponent]
-    public class ConsoleProSingleton<T> : Singleton<T> where T : MonoBehaviour
+    public class SingletonConsolePro<T> : Singleton<T> where T : MonoBehaviour
     {
         [SerializeField] private OptionalString _overrideLogPrefix = new OptionalString(string.Empty, false);
 
