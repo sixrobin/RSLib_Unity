@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Data Animation Curve", menuName = "RSLib/Data/Animation Curve")]
+    [CreateAssetMenu(fileName = "New Data Animation Curve", menuName = "RSLib/Data/Animation Curve", order = -50)]
     public class AnimationCurve : ScriptableObject
     {
         [SerializeField] private UnityEngine.AnimationCurve _curve = UnityEngine.AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);

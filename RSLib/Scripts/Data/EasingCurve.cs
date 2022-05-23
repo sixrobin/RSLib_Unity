@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Data Easing Curve", menuName = "RSLib/Data/Easing Curve")]
+    [CreateAssetMenu(fileName = "New Data Easing Curve", menuName = "RSLib/Data/Easing Curve", order = -50)]
     public class EasingCurve : ScriptableObject
     {
         public const RSLib.Maths.Curve DEFAULT = RSLib.Maths.Curve.Linear;

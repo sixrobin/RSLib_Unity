@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Data Float", menuName = "RSLib/Data/Float")]
+    [CreateAssetMenu(fileName = "New Data Float", menuName = "RSLib/Data/Float", order = -100)]
     public class Float : ScriptableObject
     {
         public struct ValueChangedEventArgs

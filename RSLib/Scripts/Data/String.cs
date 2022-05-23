@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Dynamic String", menuName = "RSLib/Dynamics/String")]
+    [CreateAssetMenu(fileName = "New Data String", menuName = "RSLib/Data/String")]
     public class String : ScriptableObject
     {
         public struct ValueChangedEventArgs

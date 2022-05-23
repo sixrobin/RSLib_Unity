@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Data Int", menuName = "RSLib/Data/Int")]
+    [CreateAssetMenu(fileName = "New Data Int", menuName = "RSLib/Data/Int", order = -100)]
     public class Int : ScriptableObject
     {
         public struct ValueChangedEventArgs
