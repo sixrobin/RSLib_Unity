@@ -24,6 +24,7 @@
      
         /// <summary>
         /// Splits a CSV text to a 2D string array.
+        /// New lines are not handled correctly, so make sure no cell contains a new line.
         /// </summary>
         /// <param name="csvText">CSV text.</param>
         /// <returns>2D string array.</returns>

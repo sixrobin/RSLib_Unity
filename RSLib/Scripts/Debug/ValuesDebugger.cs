@@ -51,6 +51,9 @@
 
         public static void DebugValue(string key, ValueGetter valueGetter, Anchor anchor = Anchor.UPPER_RIGHT)
         {
+            if (!Exists())
+                return;
+
             if (!Instance._values.ContainsKey(anchor))
                 Instance._values.Add(anchor, new Dictionary<string, ValueGetter>());
 
