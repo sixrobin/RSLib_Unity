@@ -44,7 +44,7 @@ namespace RSLib.ImageEffects
         {
             if (!Exists())
             {
-                Debug.LogWarning($"Trying to play a color flash but no instance of {nameof(ColorFlash)} exists!");
+                LogWarningStatic("Trying to play a color flash but no instance exists!");
                 return;
             }
 

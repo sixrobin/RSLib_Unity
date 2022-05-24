@@ -9,7 +9,6 @@
         [SerializeField] private bool _verbose = false;
 
         private static T s_instance;
-
         public static T Instance
         {
             get
@@ -23,8 +22,6 @@
 
                 return s_instance;
             }
-
-            set => s_instance = value;
         }
 
         /// <summary>
@@ -61,6 +58,58 @@
             s_instance = null;
         }
 
+        #region STATIC LOG
+        
+        public static void LogStatic(string msg, bool forceVerbose = false)
+        {
+            if (s_instance is Singleton<T> instance)
+                instance.Log(msg, forceVerbose);
+            else
+                Debug.Log($"{typeof(T).Name}: {msg}");
+        }
+
+        public static void LogStatic(string msg, Object context, bool forceVerbose = false)
+        {
+            if (s_instance is Singleton<T> instance)
+                instance.Log(msg, context, forceVerbose);
+            else
+                Debug.Log($"{typeof(T).Name}: {msg}");
+        }
+        
+        public static void LogWarningStatic(string msg)
+        {
+            if (s_instance is Singleton<T> instance)
+                instance.LogWarning(msg);
+            else
+                Debug.LogWarning($"{typeof(T).Name}: {msg}");
+        }
+        
+        public static void LogWarningStatic(string msg, Object context)
+        {
+            if (s_instance is Singleton<T> instance)
+                instance.LogWarning(msg, context);
+            else
+                Debug.LogWarning($"{typeof(T).Name}: {msg}");
+        }
+        
+        public static void LogErrorStatic(string msg)
+        {
+            if (s_instance is Singleton<T> instance)
+                instance.LogError(msg);
+            else
+                Debug.LogError($"{typeof(T).Name}: {msg}");
+        }
+        
+        public static void LogErrorStatic(string msg, Object context)
+        {
+            if (s_instance is Singleton<T> instance)
+                instance.LogError(msg, context);
+            else
+                Debug.LogError($"{typeof(T).Name}: {msg}");
+        }
+        
+        #endregion // STATIC LOG
+        
         #region LOG
 
         public virtual void Log(string msg, bool forceVerbose = false)
@@ -95,7 +144,7 @@
             Debug.LogWarning($"{typeof(T).Name}: {msg}", context ? context : gameObject);
         }
 
-        #endregion LOG
+        #endregion // LOG
 
         protected virtual void Awake()
         {
