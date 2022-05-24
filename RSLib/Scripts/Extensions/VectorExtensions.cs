@@ -751,6 +751,7 @@
         /// <summary>
         /// Computes the vector normal. Use NormalNormalized to get it normalized.
         /// </summary>
+        /// <param name="v">Vector to compute the normal of.</param>
         /// <param name="axis">Rotation axis.</param>
         /// <param name="clockwise">Normal is rotated clockwise.</param>
         /// <returns>Normal as a new vector.</returns>
@@ -788,6 +789,7 @@
         /// <summary>
         /// Computes the vector normal normalized.
         /// </summary>
+        /// <param name="v">Vector to compute the normal of.</param>
         /// <param name="axis">Rotation axis.</param>
         /// <param name="clockwise">Normal is rotated clockwise.</param>
         /// <returns>Normalized normal as a new vector.</returns>
@@ -834,6 +836,34 @@
 
         #endregion // ROUND
 
+        #region SNAP
+
+        /// <summary>
+        /// Snaps the vector to 6 world directions (up, down, left, right, forward, back).
+        /// </summary>
+        /// <param name="v">Vector to snap.</param>
+        /// <param name="relativeTo">Transform to use as reference for snap directions.</param>
+        /// <returns>Snapped direction vector.</returns>
+        public static Vector3 SnapToWorldDirection(this Vector3 v, Transform relativeTo = null)
+        {
+            if (relativeTo)
+                v = relativeTo.InverseTransformDirection(v);
+
+            int largestIndex = 0;
+            for (int i = 1; i < 3; ++i)
+                largestIndex = Mathf.Abs(v[i]) > Mathf.Abs(v[largestIndex]) ? i : largestIndex;
+            
+            v = Vector3.zero;
+            v[largestIndex] = Mathf.Sign(v[largestIndex]); // Normalize largest index.
+            
+            if (relativeTo)
+                v = relativeTo.TransformDirection(v);
+            
+            return v;
+        }
+
+        #endregion // SNAP
+        
         #region WITH
 
         /// <summary>
