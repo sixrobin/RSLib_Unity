@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _color: {r: 1, g: 1, b: 1, a: 1}
   _overrideAlpha:
-    _value: 1
-    _enabled: 0
+    _value: 0.8
+    _enabled: 1
   _inDuration: 0
   _duration: 0.2
-  _outDuration: 0
+  _outDuration: 1
   _inCurve: 0
-  _outCurve: 0
+  _outCurve: 16

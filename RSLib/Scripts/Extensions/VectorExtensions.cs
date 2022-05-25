@@ -273,6 +273,32 @@
 
         #endregion // CONVERSION
 
+        #region LERP
+
+        /// <summary>
+        /// Computes the linear interpolation between x and y components using an interpolation value.
+        /// </summary>
+        /// <param name="v">Vector to use as lerp start and end values.</param>
+        /// <param name="t">Interpolation value.</param>
+        /// <returns>Interpolated value.</returns>
+        public static float Lerp(this Vector2 v, float t)
+        {
+            return Mathf.Lerp(v.x, v.y, t);
+        }
+
+        /// <summary>
+        /// Computes the unclamped linear interpolation between x and y components using an interpolation value.
+        /// </summary>
+        /// <param name="v">Vector to use as lerp start and end values.</param>
+        /// <param name="t">Interpolation value.</param>
+        /// <returns>Interpolated value.</returns>
+        public static float LerpUnclamped(this Vector2 v, float t)
+        {
+            return Mathf.LerpUnclamped(v.x, v.y, t);
+        }
+        
+        #endregion // LERP
+        
         #region NORMAL
 
         /// <summary>
