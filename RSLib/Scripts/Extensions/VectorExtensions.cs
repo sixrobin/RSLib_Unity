@@ -888,6 +888,32 @@
             return v;
         }
 
+        /// <summary>
+        /// Snaps the vector based on a snap angle.
+        /// For instance, snapping with an angle of 45 degrees will snap to compass directions.
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="snapAngle">Angle to snap to.</param>
+        /// <returns>Snapped vector.</returns>
+        public static Vector3 SnapToAngle(this Vector3 v, float snapAngle)
+        {
+            float angle = Vector3.Angle(v, Vector3.up);
+            
+            if (angle < snapAngle * 0.5f) 
+                return Vector3.up * v.magnitude;
+            
+            if (angle > 180f - snapAngle * 0.5f)
+                return Vector3.down * v.magnitude;
+ 
+            float t = Mathf.Round(angle / snapAngle);
+            float deltaAngle = t * snapAngle - angle;
+ 
+            Vector3 axis = Vector3.Cross(Vector3.up, v);
+            Quaternion q = Quaternion.AngleAxis(deltaAngle, axis);
+            
+            return q * v;
+        }
+        
         #endregion // SNAP
         
         #region WITH
