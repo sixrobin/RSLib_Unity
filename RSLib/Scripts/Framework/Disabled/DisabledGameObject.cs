@@ -20,7 +20,7 @@
 
 #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(DisabledGameObject))]
-    public class DisabledGameObjectProperty : PropertyDrawer
+    public class DisabledGameObjectPropertyDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {

@@ -5,22 +5,25 @@
     using UnityEditor;
 #endif
 
+    /// <summary>
+    /// Requires Unity 2020.1+ because generic types serialization is not possible in older versions.
+    /// </summary>
     [System.Serializable]
-    public struct DisabledVector3
+    public struct Disabled<T>
     {
-        [SerializeField] private Vector3 _value;
+        [SerializeField] private T _value;
 
-        public DisabledVector3(Vector3 initValue)
+        public Disabled(T initValue)
         {
             _value = initValue;
         }
 
-        public Vector3 Value => _value;
+        public T Value => _value;
     }
 
 #if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof(DisabledVector3))]
-    public class DisabledVector3PropertyDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(Disabled<>))]
+    public class DisabledPropertyDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
