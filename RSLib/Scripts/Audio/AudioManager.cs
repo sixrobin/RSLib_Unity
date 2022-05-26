@@ -87,6 +87,7 @@
             
             source.Play();
         }
+        
         public static void PlaySound(IClipProvider clipProvider, float delay)
         {
             if (delay == 0f)
@@ -119,7 +120,7 @@
         {
             if (!Exists())
             {
-                Debug.LogWarning($"Trying to play a sound while no {nameof(AudioManager)} instance exists!");
+                LogWarningStatic($"Trying to play music while no {nameof(AudioManager)} instance exists!");
                 return;
             }
             
@@ -151,6 +152,26 @@
                 Instance.StartCoroutine(s_musicFadeCoroutine = FadeMusicCoroutine(musicProvider, transitionData));
         }
 
+        public static void StopMusic(float duration, Curve curve)
+        {
+            if (!Exists())
+            {
+                LogWarningStatic($"Trying to stop music while no {nameof(AudioManager)} instance exists!");
+                return;
+            }
+
+            if (!GetCurrentMusicSource().isPlaying)
+            {
+                Instance.Log($"Trying to stop music while no music is playing in {nameof(AudioManager)} instance.");
+                return;
+            }
+            
+            if (s_musicFadeCoroutine != null)
+                Instance.StopCoroutine(s_musicFadeCoroutine);
+            
+            Instance.StartCoroutine(s_musicFadeCoroutine = FadeOutMusicCoroutine(duration, curve));
+        }
+
         public static bool TryGetMixerFloatParameterValue(string mixerParameterName, out float value)
         {
             return Instance._audioMixer.GetFloat(mixerParameterName, out value);
@@ -173,7 +194,7 @@
             AudioClipPlayDatas clipData = musicProvider.GetNextClipData();
 
             float prevVol = prev.volume;
-            float nextVol = clipData.RandomVolume;
+            float nextVol = clipData.RandomVolume * musicProvider.VolumeMultiplier;
 
             next.clip = clipData.Clip;
             next.pitch = 1f + clipData.PitchVariation;
@@ -193,21 +214,11 @@
 
         private static System.Collections.IEnumerator FadeMusicCoroutine(IClipProvider musicProvider, MusicTransitionsDatas transitionData)
         {
-            AudioSource prev = GetCurrentMusicSource();
+            yield return FadeOutMusicCoroutine(transitionData.Duration / 2f, transitionData.CurveOut);
+            
             AudioSource next = GetNextMusicSource();
             AudioClipPlayDatas clipData = musicProvider.GetNextClipData();
-
-            float prevVol = prev.volume;
-            float nextVol = clipData.RandomVolume;
-
-            for (float t = prevVol; t >= 0f; t -= Time.deltaTime / transitionData.Duration * 2f)
-            {
-                prev.volume = t.Ease(transitionData.CurveIn);
-                yield return null;
-            }
-
-            prev.volume = 0f;
-            prev.Stop();
+            float nextVol = clipData.RandomVolume * musicProvider.VolumeMultiplier;
 
             next.clip = clipData.Clip;
             next.pitch = 1f + clipData.PitchVariation;
@@ -222,6 +233,21 @@
             next.volume = nextVol;
         }
 
+        private static System.Collections.IEnumerator FadeOutMusicCoroutine(float duration, Curve curve)
+        {
+            AudioSource source = GetCurrentMusicSource();
+            float previousVolume = source.volume;
+
+            for (float t = 1f; t >= 0f; t -= Time.deltaTime / duration)
+            {
+                source.volume = t.Ease(curve) * previousVolume;
+                yield return null;
+            }
+
+            source.volume = 0f;
+            source.Stop();
+        }
+        
         private static System.Collections.IEnumerator PlaySoundDelayedCoroutine(IClipProvider clipProvider, float delay)
         {
             yield return RSLib.Yield.SharedYields.WaitForSeconds(delay);
