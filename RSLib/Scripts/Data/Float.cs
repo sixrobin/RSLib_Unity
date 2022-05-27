@@ -1,6 +1,9 @@
 ﻿namespace RSLib.Data
 {
     using UnityEngine;
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
     [CreateAssetMenu(fileName = "New Data Float", menuName = "RSLib/Data/Float", order = -100)]
     public class Float : ScriptableObject
@@ -219,4 +222,218 @@
             }
         }
     }
+    
+    [System.Serializable]
+    public class FloatField
+    {
+        [SerializeField] private Float _dataFloat = null;
+        [SerializeField] private float _valueFloat = 0f;
+        [SerializeField] private bool _useDataFloat = true;
+
+        public float Value => _useDataFloat ? _dataFloat : _valueFloat;
+
+        public void Set(float value)
+        {
+            if (_useDataFloat) _dataFloat.Value = value;
+            else _valueFloat = value;
+        }
+        public void Set(Float dataFloat)
+        {
+            if (_useDataFloat) _dataFloat.Value = dataFloat;
+            else _valueFloat = dataFloat;
+        }
+        public void Set(FloatField floatField)
+        {
+            if (_useDataFloat) _dataFloat.Value = floatField;
+            else _valueFloat = floatField;
+        }
+        
+        #region ARITHMETIC OPERATORS
+        
+        public static FloatField operator +(FloatField a, FloatField b)
+        {
+            if (a._useDataFloat) a._dataFloat += b.Value;
+            else a._valueFloat += b.Value;
+            return a;
+        }
+        public static FloatField operator +(FloatField a, float b)
+        {
+            if (a._useDataFloat) a._dataFloat += b;
+            else a._valueFloat += b;
+            return a;
+        }
+        public static float operator +(float a, FloatField b)
+        {
+            a += b.Value;
+            return a;
+        }
+
+        public static FloatField operator -(FloatField a, FloatField b)
+        {
+            if (a._useDataFloat) a._dataFloat -= b.Value;
+            else a._valueFloat -= b.Value;
+            return a;
+        }
+        public static FloatField operator -(FloatField a, float b)
+        {
+            if (a._useDataFloat) a._dataFloat -= b;
+            else a._valueFloat -= b;
+            return a;
+        }
+        public static float operator -(float a, FloatField b)
+        {
+            a -= b.Value;
+            return a;
+        }
+
+        public static FloatField operator *(FloatField a, FloatField b)
+        {
+            if (a._useDataFloat) a._dataFloat *= b.Value;
+            else a._valueFloat *= b.Value;
+            return a;
+        }
+        public static FloatField operator *(FloatField a, float b)
+        {
+            if (a._useDataFloat) a._dataFloat *= b;
+            else a._valueFloat *= b;
+            return a;
+        }
+        public static float operator *(float a, FloatField b)
+        {
+            a *= b.Value;
+            return a;
+        }
+
+        public static FloatField operator /(FloatField a, FloatField b)
+        {
+            if (a._useDataFloat) a._dataFloat /= b.Value;
+            else a._valueFloat /= b.Value;
+            return a;
+        }
+        public static FloatField operator /(FloatField a, float b)
+        {
+            if (a._useDataFloat) a._dataFloat /= b;
+            else a._valueFloat /= b;
+            return a;
+        }
+        public static float operator /(float a, FloatField b)
+        {
+            a /= b.Value;
+            return a;
+        }
+
+        public static FloatField operator %(FloatField a, FloatField b)
+        {
+            if (a._useDataFloat) a._dataFloat %= b.Value;
+            else a._valueFloat %= b.Value;
+            return a;
+        }
+        public static FloatField operator %(FloatField a, float b)
+        {
+            if (a._useDataFloat) a._dataFloat %= b;
+            else a._valueFloat %= b;
+            return a;
+        }
+        public static float operator %(float a, FloatField b)
+        {
+            a %= b.Value;
+            return a;
+        }
+
+        public static bool operator >(FloatField a, FloatField b)
+        {
+            return a.Value > b.Value;
+        }
+        public static bool operator >(FloatField a, float b)
+        {
+            return a.Value > b;
+        }
+        public static bool operator >(float a, FloatField b)
+        {
+            return a > b.Value;
+        }
+        
+        public static bool operator <(FloatField a, FloatField b)
+        {
+            return a.Value < b.Value;
+        }
+        public static bool operator <(FloatField a, float b)
+        {
+            return a.Value < b;
+        }
+        public static bool operator <(float a, FloatField b)
+        {
+            return a < b.Value;
+        }
+        
+        public static bool operator >=(FloatField a, FloatField b)
+        {
+            return a.Value >= b.Value;
+        }
+        public static bool operator >=(FloatField a, float b)
+        {
+            return a.Value >= b;
+        }
+        public static bool operator >=(float a, FloatField b)
+        {
+            return a >= b.Value;
+        }
+        
+        public static bool operator <=(FloatField a, FloatField b)
+        {
+            return a.Value <= b.Value;
+        }
+        public static bool operator <=(FloatField a, float b)
+        {
+            return a.Value <= b;
+        }
+        public static bool operator <=(float a, FloatField b)
+        {
+            return a <= b.Value;
+        }
+        
+        #endregion // ARITHMETIC OPERATORS
+        
+        #region CONVERSION OPERATORS
+        
+        public static implicit operator float(FloatField floatField)
+        {
+            return floatField.Value;
+        }
+        
+        #endregion // CONVERSION OPERATORS
+    }
+    
+#if UNITY_EDITOR
+    [CustomPropertyDrawer(typeof(FloatField))]
+    public class FloatFieldPropertyDrawer : PropertyDrawer
+    {
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            SerializedProperty valueProperty = property.FindPropertyRelative("_dataFloat");
+            return EditorGUI.GetPropertyHeight(valueProperty);
+        }
+        
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            SerializedProperty useDataFloatProperty = property.FindPropertyRelative("_useDataFloat");
+            SerializedProperty valueFloatProperty = property.FindPropertyRelative("_valueFloat");
+            SerializedProperty dataFloatProperty = property.FindPropertyRelative("_dataFloat");
+
+            position.width -= 24;
+
+            EditorGUI.PropertyField(position,
+                useDataFloatProperty.boolValue ? dataFloatProperty : valueFloatProperty,
+                label, 
+                true);
+            
+            position.x += position.width + 24;
+            position.width = EditorGUI.GetPropertyHeight(useDataFloatProperty);
+            position.height = position.width;
+            position.x -= position.width;
+            
+            EditorGUI.PropertyField(position, useDataFloatProperty, GUIContent.none);
+        }
+    }
+#endif
 }

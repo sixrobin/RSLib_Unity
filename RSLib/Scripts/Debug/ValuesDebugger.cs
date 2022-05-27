@@ -39,6 +39,10 @@
 
         private bool _enabled;
 
+        // FPS display.
+        private float _lastInterval;
+        private float _frames;
+        
         public delegate object ValueGetter();
 
         public enum Anchor
@@ -63,6 +67,11 @@
                 Instance._values[anchor].Add(key, valueGetter);
         }
 
+        public static void DebugValue(ValueGetter valueGetter, Anchor anchor = Anchor.UPPER_RIGHT)
+        {
+            DebugValue(string.Empty, valueGetter, anchor);
+        }
+        
         public void Enable(bool state)
         {
             _buildEnabled = state;
@@ -124,10 +133,31 @@
             };
         }
 
+        private void UpdateFPSCounter()
+        {
+            _frames++;
+            float realtimeSinceStartup = Time.realtimeSinceStartup;
+
+            const float updateInterval = 0.5f;
+            if (_lastInterval + updateInterval >= realtimeSinceStartup)
+                return;
+            
+            float fps = _frames / (realtimeSinceStartup - _lastInterval);
+            float ms = 1000f / Mathf.Max(fps, 0.00001f);
+            
+            DebugValue(() => $"{fps:f2}FPS ({ms:f1}ms)", Anchor.LOWER_RIGHT);
+
+            _frames = 0;
+            _lastInterval = realtimeSinceStartup;
+        }
+        
         protected override void Awake()
         {
             base.Awake();
             InitGUIStyles();
+            
+            _lastInterval = Time.realtimeSinceStartup;
+            _frames = 0;
         }
 
         private void Update()
@@ -137,6 +167,8 @@
             {
                 _enabled = !_enabled;
             }
+            
+            UpdateFPSCounter();
         }
 
         private void OnGUI()
@@ -169,7 +201,10 @@
 
                     try
                     {
-                        GUI.TextField(rect, string.Format(_format, entry.Key, entry.Value()), _styles[values.Key]);
+                        if (string.IsNullOrEmpty(entry.Key))
+                            GUI.TextField(rect, entry.Value().ToString(), _styles[values.Key]);
+                        else
+                            GUI.TextField(rect, string.Format(_format, entry.Key, entry.Value()), _styles[values.Key]);
                     }
                     catch (System.Exception e)
                     {

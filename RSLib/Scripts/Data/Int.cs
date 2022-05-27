@@ -1,7 +1,10 @@
 ﻿namespace RSLib.Data
 {
     using UnityEngine;
-
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
+    
     [CreateAssetMenu(fileName = "New Data Int", menuName = "RSLib/Data/Int", order = -100)]
     public class Int : ScriptableObject
     {
@@ -219,4 +222,218 @@
             }
         }
     }
+    
+    [System.Serializable]
+    public class IntField
+    {
+        [SerializeField] private Int _dataInt = null;
+        [SerializeField] private int _valueInt = 0;
+        [SerializeField] private bool _useDataInt = true;
+
+        public int Value => _useDataInt ? _dataInt : _valueInt;
+        
+        public void Set(int value)
+        {
+            if (_useDataInt) _dataInt.Value = value;
+            else _valueInt = value;
+        }
+        public void Set(Int dataInt)
+        {
+            if (_useDataInt) _dataInt.Value = dataInt;
+            else _valueInt = dataInt;
+        }
+        public void Set(IntField intField)
+        {
+            if (_useDataInt) _dataInt.Value = intField;
+            else _valueInt = intField;
+        }
+        
+        #region ARITHMETIC OPERATORS
+        
+        public static IntField operator +(IntField a, IntField b)
+        {
+            if (a._useDataInt) a._dataInt += b.Value;
+            else a._valueInt += b.Value;
+            return a;
+        }
+        public static IntField operator +(IntField a, int b)
+        {
+            if (a._useDataInt) a._dataInt += b;
+            else a._valueInt += b;
+            return a;
+        }
+        public static int operator +(int a, IntField b)
+        {
+            a += b.Value;
+            return a;
+        }
+
+        public static IntField operator -(IntField a, IntField b)
+        {
+            if (a._useDataInt) a._dataInt -= b.Value;
+            else a._valueInt -= b.Value;
+            return a;
+        }
+        public static IntField operator -(IntField a, int b)
+        {
+            if (a._useDataInt) a._dataInt -= b;
+            else a._valueInt -= b;
+            return a;
+        }
+        public static int operator -(int a, IntField b)
+        {
+            a -= b.Value;
+            return a;
+        }
+
+        public static IntField operator *(IntField a, IntField b)
+        {
+            if (a._useDataInt) a._dataInt *= b.Value;
+            else a._valueInt *= b.Value;
+            return a;
+        }
+        public static IntField operator *(IntField a, int b)
+        {
+            if (a._useDataInt) a._dataInt *= b;
+            else a._valueInt *= b;
+            return a;
+        }
+        public static int operator *(int a, IntField b)
+        {
+            a *= b.Value;
+            return a;
+        }
+
+        public static IntField operator /(IntField a, IntField b)
+        {
+            if (a._useDataInt) a._dataInt /= b.Value;
+            else a._valueInt /= b.Value;
+            return a;
+        }
+        public static IntField operator /(IntField a, int b)
+        {
+            if (a._useDataInt) a._dataInt /= b;
+            else a._valueInt /= b;
+            return a;
+        }
+        public static int operator /(int a, IntField b)
+        {
+            a /= b.Value;
+            return a;
+        }
+
+        public static IntField operator %(IntField a, IntField b)
+        {
+            if (a._useDataInt) a._dataInt %= b.Value;
+            else a._valueInt %= b.Value;
+            return a;
+        }
+        public static IntField operator %(IntField a, int b)
+        {
+            if (a._useDataInt) a._dataInt %= b;
+            else a._valueInt %= b;
+            return a;
+        }
+        public static int operator %(int a, IntField b)
+        {
+            a %= b.Value;
+            return a;
+        }
+
+        public static bool operator >(IntField a, IntField b)
+        {
+            return a.Value > b.Value;
+        }
+        public static bool operator >(IntField a, int b)
+        {
+            return a.Value > b;
+        }
+        public static bool operator >(int a, IntField b)
+        {
+            return a > b.Value;
+        }
+        
+        public static bool operator <(IntField a, IntField b)
+        {
+            return a.Value < b.Value;
+        }
+        public static bool operator <(IntField a, int b)
+        {
+            return a.Value < b;
+        }
+        public static bool operator <(int a, IntField b)
+        {
+            return a < b.Value;
+        }
+        
+        public static bool operator >=(IntField a, IntField b)
+        {
+            return a.Value >= b.Value;
+        }
+        public static bool operator >=(IntField a, int b)
+        {
+            return a.Value >= b;
+        }
+        public static bool operator >=(int a, IntField b)
+        {
+            return a >= b.Value;
+        }
+        
+        public static bool operator <=(IntField a, IntField b)
+        {
+            return a.Value <= b.Value;
+        }
+        public static bool operator <=(IntField a, int b)
+        {
+            return a.Value <= b;
+        }
+        public static bool operator <=(int a, IntField b)
+        {
+            return a <= b.Value;
+        }
+        
+        #endregion // ARITHMETIC OPERATORS
+        
+        #region CONVERSION OPERATORS
+        
+        public static implicit operator int(IntField intField)
+        {
+            return intField.Value;
+        }
+        
+        #endregion // CONVERSION OPERATORS
+    }
+    
+#if UNITY_EDITOR
+    [CustomPropertyDrawer(typeof(IntField))]
+    public class IntFieldPropertyDrawer : PropertyDrawer
+    {
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            SerializedProperty valueProperty = property.FindPropertyRelative("_dataInt");
+            return EditorGUI.GetPropertyHeight(valueProperty);
+        }
+        
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            SerializedProperty useDataIntProperty = property.FindPropertyRelative("_useDataInt");
+            SerializedProperty valueIntProperty = property.FindPropertyRelative("_valueInt");
+            SerializedProperty dataIntProperty = property.FindPropertyRelative("_dataInt");
+
+            position.width -= 24;
+
+            EditorGUI.PropertyField(position,
+                useDataIntProperty.boolValue ? dataIntProperty : valueIntProperty,
+                label, 
+                true);
+            
+            position.x += position.width + 24;
+            position.width = EditorGUI.GetPropertyHeight(useDataIntProperty);
+            position.height = position.width;
+            position.x -= position.width;
+            
+            EditorGUI.PropertyField(position, useDataIntProperty, GUIContent.none);
+        }
+    }
+#endif
 }
