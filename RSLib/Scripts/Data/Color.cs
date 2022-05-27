@@ -16,4 +16,23 @@
             return color._color;
         }
     }
+    
+    [System.Serializable]
+    public class ColorField
+    {
+        [SerializeField] private Color _dataColor = null;
+        [SerializeField] private UnityEngine.Color _valueColor = UnityEngine.Color.white;
+        [SerializeField] private bool _useDataValue = true;
+
+        public UnityEngine.Color Value => _useDataValue ? _dataColor : _valueColor;
+
+        #region CONVERSION OPERATORS
+        
+        public static implicit operator UnityEngine.Color(ColorField colorField)
+        {
+            return colorField.Value;
+        }
+        
+        #endregion // CONVERSION OPERATORS
+    }
 }
