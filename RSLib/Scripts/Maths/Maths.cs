@@ -317,6 +317,33 @@
             else
                 return new double[] { (-b - System.Math.Sqrt(delta)) / (2f * a), (-b + System.Math.Sqrt(delta)) / (2f * a) };
         }
+        
+        /// <summary>
+        /// Computes the solution(s) to a quadratic equation ax²+bx+c=0.
+        /// Returns the number of valid solutions.
+        /// </summary>
+        /// <param name="a">Equation first value. Cannot be equal to 0.</param>
+        /// <param name="b">Equation second value.</param>
+        /// <param name="c">Equation third value.</param>
+        /// <param name="r1">Equation first solution.</param>
+        /// <param name="r2">Equation second solution.</param>
+        /// <returns>Number of valid solutions.</returns>
+        public static int QuadraticEquation(float a, float b, float c, out float r1, out float r2)
+        {
+            float delta = b * b - 4 * a * c;
+
+            if (delta < 0f)
+            {
+                r1 = UnityEngine.Mathf.Infinity;
+                r2 = -r1;
+                return 0;
+            }
+            
+            r1 = (-b + UnityEngine.Mathf.Sqrt(delta)) / (2f * a);
+            r2 = (-b - UnityEngine.Mathf.Sqrt(delta)) / (2f * a);
+
+            return delta > 0f ? 2 : 1;
+        }
 
         #endregion // GENERAL
 
