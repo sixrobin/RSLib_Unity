@@ -22,4 +22,4 @@ MonoBehaviour:
   - Behaviour: {fileID: 11400000, guid: 2d70ca60deadfb946a2efe7bd9fbead1, type: 2}
     Weight: 1
   - Behaviour: {fileID: 11400000, guid: ae3bcb20afbd84247b9c32f3012bc8bd, type: 2}
-    Weight: 1
+    Weight: 0.4
