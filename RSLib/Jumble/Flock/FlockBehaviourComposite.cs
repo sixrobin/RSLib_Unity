@@ -76,7 +76,7 @@
             EditorGUI.PropertyField(position, behaviourProperty, label, true);
 
             position.x += position.width + 50;
-            position.width = EditorGUI.GetPropertyHeight(weightProperty) + 42;
+            position.width = EditorGUI.GetPropertyHeight(weightProperty) + 26;
             position.height = EditorGUI.GetPropertyHeight(weightProperty);
             position.x -= position.width;
 

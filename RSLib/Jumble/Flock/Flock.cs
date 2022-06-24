@@ -11,9 +11,10 @@
         [SerializeField] private FlockAgent _flockAgentPrefab = null;
         [SerializeField] private FlockBehaviour _flockBehaviour = null;
         [SerializeField] private Transform _center = null;
-
+        [SerializeField] private FlockAgent[] _startingAgents = null;
+        
         [Header("AGENTS BEHAVIOUR")]
-        [SerializeField, Range(10, 500)] private int _startingCount = 100;
+        [SerializeField, Range(0, 500)] private int _startingCount = 100;
         [SerializeField, Range(1f, 100f)] private float _driveFactor = 10f;
         [SerializeField, Range(1f, 100f)] private float _maxSpeed = 5f;
         [SerializeField, Range(1f, 10f)] private float _neighbourRadius = 1.5f;
@@ -51,7 +52,7 @@
 
         private void Start()
         {
-            _context = new List<Transform>(_startingCount);
+            _context = new List<Transform>(_startingCount + _startingAgents.Length);
 
             for (int i = 0; i < _startingCount; ++i)
             {
@@ -62,6 +63,12 @@
                 agentInstance.Init(this);
                 agentInstance.name = $"FlockAgent_{i}";
                 _agents.Add(agentInstance);
+            }
+            
+            for (int i = 0; i < _startingAgents.Length; ++i)
+            {
+                _startingAgents[i].Init(this);
+                _agents.Add(_startingAgents[i]);
             }
         }
 
