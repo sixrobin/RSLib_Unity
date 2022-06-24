@@ -299,7 +299,10 @@
             newPlayerParent.transform.SetParent(Instance.transform);
 
             for (int i = 0; i < 2; ++i)
+            {
                 s_musicSources[i] = CreateAudioSource($"Music Source {i}", newPlayerParent.transform, Instance._musicMixerGroup);
+                s_musicSources[i].loop = true;
+            }
         }
 
         private static AudioSource CreateAudioSource(string gameObjectName, Transform parent, AudioMixerGroup mixerGroup)
