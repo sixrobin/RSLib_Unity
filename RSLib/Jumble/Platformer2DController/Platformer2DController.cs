@@ -20,7 +20,7 @@
         protected Vector3 _currentVelocity;
         protected Vector3 _previousVelocity;
         protected float _refVelocityX;
-
+        
         protected Recoil _currentRecoil;
         
         protected float _debugSpeedMultiplier = 1f;
@@ -39,7 +39,8 @@
         public DashController DashController { get; protected set; }
         
         public float CurrentDirection { get; protected set; }
-        
+        public float NoGroundTimer { get; private set; }
+
         public Vector3 CurrentVelocity => _currentVelocity;
         public Vector3 PreviousVelocity => _previousVelocity;
 
@@ -256,6 +257,11 @@
 
         protected virtual void Update()
         {
+            if (CollisionsController.CurrentState.Grounded)
+                NoGroundTimer = 0f;
+            else
+                NoGroundTimer += Time.deltaTime;
+            
 #if UNITY_EDITOR
             _debugCollisionsState = new RSLib.Framework.DisabledString(CollisionsController.CurrentState.ToString());
             _debugSlopeAngle = new RSLib.Framework.DisabledString(CollisionsController.CurrentState.SlopeAngle.ToString("f2"));

@@ -17,6 +17,9 @@
         [Tooltip("Duration in seconds that the controller takes to reach his jump apex.")]
         [SerializeField, Min(0f)] private float _jumpApexDuration = 0.5f;
 
+        [Tooltip("Duration in seconds during which the player can still jump after falling down.")]
+        [SerializeField, Min(0f)] private float _coyoteTime = 0.15f;
+        
         [Tooltip("Multiplier applied to Y velocity when controller is falling. Use 1 for no multiplying.")]
         [SerializeField, Min(0f)] private float _fallMultiplier = 1f;
 
@@ -53,6 +56,7 @@
         public float JumpHeightMin => _jumpHeightMin;
         public float JumpApexDuration => _jumpApexDuration;
         public float JumpApexDurationSqr => JumpApexDuration * JumpApexDuration;
+        public float CoyoteTime => _coyoteTime;
         public float FallMultiplier => _fallMultiplier;
         public float AirborneDamping => _airborneDamping;
         public float JumpAnticipationSpeedMultiplier => _jumpAnticipationSpeedMultiplier;

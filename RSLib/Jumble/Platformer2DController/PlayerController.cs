@@ -197,7 +197,7 @@
                 Moved?.Invoke(transform.position);
             
             // Doing a grounded jump or falling will trigger this condition and remove one jump left. Need to do this after the ComputeCollisions call.
-            if (!CollisionsController.CurrentState.Grounded && CollisionsController.PreviousState.Grounded)
+            if (!CollisionsController.CurrentState.Grounded && NoGroundTimer >= ControllerData.Jump.CoyoteTime)
                 JumpController.SpendOneJumpLeft();
         }
 
