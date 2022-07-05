@@ -118,8 +118,7 @@
                 if (InputController.CheckInput(InputController.ButtonCategory.JUMP) && InputController.CurrentVerticalDirection < 0f)
                     StartCoroutine(_effectorDownCoroutine = EffectorDownCoroutine());
 
-                // TODO: This causes descending slopes to have a weird behaviour, since descending slopes requires Y velocity being strictly negative.
-                if (!EffectorDown)
+                if (!EffectorDown && !CollisionsController.CurrentState.Slope)
                     _currentVelocity.y = 0f;
             }
 

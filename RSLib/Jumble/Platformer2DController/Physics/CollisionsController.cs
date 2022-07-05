@@ -45,6 +45,7 @@
             
             public bool SlopeClimb => Get(CollisionOrigin.SLOPE_CLIMB);
             public bool SlopeDescend => Get(CollisionOrigin.SLOPE_DESCEND);
+            public bool Slope => SlopeClimb || SlopeDescend;
             
             public bool Horizontal => Get(CollisionOrigin.RIGHT) || Get(CollisionOrigin.LEFT);
             public bool Vertical => Get(CollisionOrigin.ABOVE) || Get(CollisionOrigin.BELOW);
