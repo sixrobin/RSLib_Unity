@@ -1,5 +1,6 @@
 ﻿namespace RSLib.Extensions
 {
+    using Maths;
     using UnityEngine;
 
     public static class VectorExtensions
@@ -295,6 +296,54 @@
         public static float LerpUnclamped(this Vector2 v, float t)
         {
             return Mathf.LerpUnclamped(v.x, v.y, t);
+        }
+        
+        /// <summary>
+        /// Computes the interpolation between x and y components using an interpolation value and an animation curve.
+        /// </summary>
+        /// <param name="v">Vector to use as lerp start and end values.</param>
+        /// <param name="t">Interpolation value.</param>
+        /// <param name="animationCurve">Animation curve.</param>
+        /// <returns>Interpolated value.</returns>
+        public static float Lerp(this Vector2 v, float t, AnimationCurve animationCurve)
+        {
+            return Mathf.Lerp(v.x, v.y, animationCurve.Evaluate(t));
+        }
+
+        /// <summary>
+        /// Computes the interpolation between x and y components using an interpolation value and an animation curve.
+        /// </summary>
+        /// <param name="v">Vector to use as lerp start and end values.</param>
+        /// <param name="t">Interpolation value.</param>
+        /// <param name="animationCurve">Animation curve.</param>
+        /// <returns>Interpolated value.</returns>
+        public static float LerpUnclamped(this Vector2 v, float t, AnimationCurve animationCurve)
+        {
+            return Mathf.LerpUnclamped(v.x, v.y, animationCurve.Evaluate(t));
+        }
+
+        /// <summary>
+        /// Computes the interpolation between x and y components using an interpolation value and an easing curve.
+        /// </summary>
+        /// <param name="v">Vector to use as lerp start and end values.</param>
+        /// <param name="t">Interpolation value.</param>
+        /// <param name="curve">Easing curve.</param>
+        /// <returns>Interpolated value.</returns>
+        public static float Lerp(this Vector2 v, float t, RSLib.Maths.Curve curve)
+        {
+            return Mathf.Lerp(v.x, v.y, t.Ease(curve));
+        }
+
+        /// <summary>
+        /// Computes the interpolation between x and y components using an interpolation value and an animation curve.
+        /// </summary>
+        /// <param name="v">Vector to use as lerp start and end values.</param>
+        /// <param name="t">Interpolation value.</param>
+        /// <param name="curve">Easing curve.</param>
+        /// <returns>Interpolated value.</returns>
+        public static float LerpUnclamped(this Vector2 v, float t, RSLib.Maths.Curve curve)
+        {
+            return Mathf.LerpUnclamped(v.x, v.y, t.Ease(curve));
         }
         
         #endregion // LERP
