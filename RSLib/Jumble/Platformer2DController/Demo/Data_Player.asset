@@ -18,6 +18,6 @@ MonoBehaviour:
   _minRunSpeed: 2
   _groundedDamping: 0.05
   _maxFallVelocity: 1000
-  _maxSlopeClimbAngle: 90
-  _maxSlopeDescendAngle: 90
+  _maxSlopeClimbAngle: 80
+  _maxSlopeDescendAngle: 80
   _groundOnAwake: 1
