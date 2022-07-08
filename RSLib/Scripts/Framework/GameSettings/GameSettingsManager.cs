@@ -80,10 +80,13 @@
 
         public bool TryLoadXML()
         {
-            if (!System.IO.File.Exists(SavePath))
-                return false;
-
             Log("Loading game settings...", gameObject, true);
+
+            if (!System.IO.File.Exists(SavePath))
+            {
+                Log($"Game settings save file does not exist (path:{SavePath}), aborting loading.", gameObject, true);
+                return false;
+            }
 
             try
             {
@@ -129,6 +132,7 @@
         /// <param name="gameSettingsElement">Game settings save element.</param>
         protected virtual void LoadCustomSettings(System.Xml.Linq.XElement gameSettingsElement)
         {
+            
         }
 
         /// <summary>
@@ -163,6 +167,18 @@
 
             RSLib.Debug.Console.DebugConsole.OverrideCommand("SaveSettings", "Saves settings.", () => SaveXML());
             RSLib.Debug.Console.DebugConsole.OverrideCommand("LoadSettings", "Tries to load settings.", () => TryLoadXML());
+        }
+
+        [ContextMenu("Save")]
+        private void DebugSave()
+        {
+            SaveXML();
+        }
+
+        [ContextMenu("Load")]
+        private void DebugLoad()
+        {
+            TryLoadXML();
         }
     }
 }
