@@ -15,7 +15,7 @@
         protected override void LoadCustomSettings(System.Xml.Linq.XElement gameSettingsElement)
         {
             base.LoadCustomSettings(gameSettingsElement);
-            FloatExample = new CustomFloatSettingExample(gameSettingsElement.Element(FloatExample.SerializationName));
+            FloatExample = new CustomFloatSettingExample(gameSettingsElement.Element(CustomFloatSettingExample.SERIALIZATION_NAME));
         }
 
         public override void Init()
