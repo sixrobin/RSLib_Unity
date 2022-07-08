@@ -41,6 +41,8 @@
                 container.Add(StickDeadZone.Save());
                 container.Add(TargetFrameRate.Save());
 
+                SaveCustomSettings(container);
+                
                 System.IO.FileInfo fileInfo = new System.IO.FileInfo(SavePath);
                 if (fileInfo.Directory != null && !fileInfo.Directory.Exists)
                     System.IO.Directory.CreateDirectory(fileInfo.DirectoryName);
@@ -99,6 +101,8 @@
                     ShowTutorials = new ShowTutorials(gameSettingsElement.Element(ShowTutorials.SERIALIZATION_NAME));
                     StickDeadZone = new StickDeadZone(gameSettingsElement.Element(StickDeadZone.SERIALIZATION_NAME));
                     TargetFrameRate = new TargetFrameRate(gameSettingsElement.Element(TargetFrameRate.SERIALIZATION_NAME));
+
+                    LoadCustomSettings(gameSettingsElement);
                 }
             }
             catch (System.Exception e)
@@ -111,7 +115,27 @@
             return true;
         }
 
-        public void Init()
+        /// <summary>
+        /// Can be overridden to save data that are specific to a project.
+        /// </summary>
+        /// <param name="container">Game settings save container.</param>
+        protected virtual void SaveCustomSettings(System.Xml.Linq.XContainer container)
+        {
+        }
+        
+        /// <summary>
+        /// Can be overridden to load data that are specific to a project.
+        /// </summary>
+        /// <param name="gameSettingsElement">Game settings save element.</param>
+        protected virtual void LoadCustomSettings(System.Xml.Linq.XElement gameSettingsElement)
+        {
+        }
+
+        /// <summary>
+        /// Initializes game settings.
+        /// Can be overridden to initialize data that are specific to a project, but do not forget to call base when doing so.
+        /// </summary>
+        public virtual void Init()
         {
             ConstrainCursor = new ConstrainCursor();
             MonitorIndex = new MonitorIndex();
