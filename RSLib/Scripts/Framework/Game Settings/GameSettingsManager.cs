@@ -165,8 +165,9 @@
             if (_saveOnAwake)
                 SaveXML();
 
-            RSLib.Debug.Console.DebugConsole.OverrideCommand("SaveSettings", "Saves settings.", () => SaveXML());
-            RSLib.Debug.Console.DebugConsole.OverrideCommand("LoadSettings", "Tries to load settings.", () => TryLoadXML());
+            RSLib.Debug.Console.DebugConsole.OverrideCommand("SettingsSave", "Saves settings.", () => SaveXML());
+            RSLib.Debug.Console.DebugConsole.OverrideCommand("SettingsLoad", "Tries to load settings.", () => TryLoadXML());
+            RSLib.Debug.Console.DebugConsole.OverrideCommand("SettingsLog", "Log settings values.", DebugLogSettings);
         }
 
         [ContextMenu("Save")]
@@ -179,6 +180,35 @@
         private void DebugLoad()
         {
             TryLoadXML();
+        }
+        
+        [ContextMenu("Log Settings")]
+        private void DebugLogSettings()
+        {
+            string log = DebugGetSettingsLog();
+            
+            Log(log, gameObject, true);
+            
+            if (RSLib.Debug.Console.DebugConsole.Instance.IsOpen)
+                RSLib.Debug.Console.DebugConsole.LogExternal(log);
+        }
+
+        protected virtual string DebugGetSettingsLog()
+        {
+            const string format = "\n\r{0}: {1}";
+            string log = "SETTINGS";
+
+            log += string.Format(format, ConstrainCursor.SerializationName, ConstrainCursor.Value);
+            log += string.Format(format, MonitorIndex.SerializationName, MonitorIndex.Value);
+            log += string.Format(format, PixelPerfect.SerializationName, PixelPerfect.Value);
+            log += string.Format(format, RunInBackground.SerializationName, RunInBackground.Value);
+            log += string.Format(format, ScreenMode.SerializationName, ScreenMode.Value);
+            log += string.Format(format, ShakeAmount.SerializationName, $"{ShakeAmount.Value * 100f}%");
+            log += string.Format(format, ShowTutorials.SerializationName, ShowTutorials.Value);
+            log += string.Format(format, StickDeadZone.SerializationName, StickDeadZone.Value);
+            log += string.Format(format, TargetFrameRate.SerializationName, TargetFrameRate.Value == -1 ? "MAX" : $"{TargetFrameRate.Value}fps");
+
+            return log;
         }
     }
 }

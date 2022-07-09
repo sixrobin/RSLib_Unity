@@ -23,5 +23,15 @@
             base.Init();
             FloatExample = new CustomFloatSettingExample();
         }
+
+        protected override string DebugGetSettingsLog()
+        {
+            const string format = "\n\r{0}: {1}";
+            string log = base.DebugGetSettingsLog();
+
+            log += string.Format(format, FloatExample.SerializationName, FloatExample.Value);
+            
+            return log;
+        }
     }
 }
