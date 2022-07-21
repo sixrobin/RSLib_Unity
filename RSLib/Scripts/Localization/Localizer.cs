@@ -158,7 +158,7 @@
                 if (string.IsNullOrEmpty(key) || key[0] == IGNORE_CHAR)
                     continue;
 
-                for (int x = 1; x < Instance.Languages.Length; ++x)
+                for (int x = 1; x <= Instance.Languages.Length; ++x)
                 {
                     string language = grid[x, 0];
                     if (string.IsNullOrEmpty(language))
