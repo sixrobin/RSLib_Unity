@@ -22,5 +22,10 @@
         }
         
 #endregion // CONVERSION OPERATORS
+        
+        public override string ToString()
+        {
+            return Mask.ToString();
+        }
     }
 }

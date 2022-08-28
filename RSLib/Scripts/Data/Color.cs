@@ -15,6 +15,11 @@
         {
             return color._color;
         }
+        
+        public override string ToString()
+        {
+            return _color.ToString();
+        }
     }
     
     [System.Serializable]

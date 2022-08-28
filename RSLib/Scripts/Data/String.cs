@@ -41,5 +41,9 @@
 
 #endregion // CONVERSION OPERATORS
 
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 }

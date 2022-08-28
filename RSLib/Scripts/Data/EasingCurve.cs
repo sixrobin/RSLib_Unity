@@ -19,5 +19,10 @@
         }
 
 #endregion // CONVERSION OPERATORS
+
+        public override string ToString()
+        {
+            return Curve.ToString();
+        }
     }
 }

@@ -218,6 +218,11 @@
                 return hashCode;
             }
         }
+        
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
     
     [System.Serializable]
