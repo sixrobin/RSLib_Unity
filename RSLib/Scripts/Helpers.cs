@@ -81,7 +81,8 @@
         /// <param name="scrollbar">Related Scrollbar.</param>
         /// <param name="stepValue">Step size to apply while item is not focused correctly.</param>
         /// <param name="margin">Margin to use to check if focus is correct.</param>
-        public static void AdjustScrollViewToFocusedItem(UnityEngine.RectTransform focusedRect, UnityEngine.RectTransform scrollViewViewport, UnityEngine.UI.Scrollbar scrollbar, float stepValue, float margin)
+        /// <param name="snap">Scroll bar percentage below which it can snap to either 0 or 1.</param>
+        public static void AdjustScrollViewToFocusedItem(UnityEngine.RectTransform focusedRect, UnityEngine.RectTransform scrollViewViewport, UnityEngine.UI.Scrollbar scrollbar, float stepValue, float margin, float? snap = null)
         {
             UnityEngine.Vector3[] sourceCorners = new UnityEngine.Vector3[4];
             UnityEngine.Vector3[] slotsViewportWorldCorners = new UnityEngine.Vector3[4];
@@ -101,9 +102,9 @@
                 focusedRect.GetWorldCorners(sourceCorners);
             }
 
-            if (scrollbar.value - margin < 0f)
+            if (scrollbar.value - margin < 0f || (snap.HasValue && scrollbar.value < snap.Value))
                 scrollbar.value = 0f;
-            else if (scrollbar.value + margin > 1f)
+            else if (scrollbar.value + margin > 1f || (snap.HasValue && scrollbar.value > 1f - snap.Value))
                 scrollbar.value = 1f;
         }
 
