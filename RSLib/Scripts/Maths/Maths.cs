@@ -353,8 +353,8 @@
         /// Brings any value in a given range to an unclamped custom range.
         /// </summary>
         /// <param name="x">Value to normalize.</param>
-        /// <param name="r1Min">Minimum range.</param>
-        /// <param name="r1Max">Maximum range.</param>
+        /// <param name="r1Min">Source range minimum value.</param>
+        /// <param name="r1Max">Source range maximum value.</param>
         /// <param name="r2Min">Target range minimum value.</param>
         /// <param name="r2Max">Target range maximum value.</param>
         /// <returns>Normalized value.</returns>
@@ -362,19 +362,43 @@
         {
             return r2Min + (x - r1Min) * (r2Max - r2Min) / (r1Max - r1Min);
         }
+        
+        /// <summary>
+        /// Brings any value in a given range to an unclamped custom range.
+        /// </summary>
+        /// <param name="x">Value to normalize.</param>
+        /// <param name="r1">Source range.</param>
+        /// <param name="r2">Target range.</param>
+        /// <returns>Normalized value.</returns>
+        public static float Normalize(this float x, UnityEngine.Vector2 r1, UnityEngine.Vector2 r2)
+        {
+            return Normalize(x, r1.x, r1.y, r2.x, r2.y);
+        }
 
         /// <summary>
         /// Brings any value in a given range to a clamped custom range.
         /// </summary>
         /// <param name="x">Value to normalize.</param>
-        /// <param name="r1Min">Minimum range.</param>
-        /// <param name="r1Max">Maximum range.</param>
+        /// <param name="r1Min">Source range minimum value.</param>
+        /// <param name="r1Max">Source range maximum value.</param>
         /// <param name="r2Min">Target range minimum value.</param>
         /// <param name="r2Max">Target range maximum value.</param>
         /// <returns>Normalized value.</returns>
         public static float NormalizeClamped(this float x, float r1Min, float r1Max, float r2Min, float r2Max)
         {
             return Normalize(x, r1Min, r1Max, r2Min, r2Max).Clamp(r2Min, r2Max);
+        }
+        
+        /// <summary>
+        /// Brings any value in a given range to a clamped custom range.
+        /// </summary>
+        /// <param name="x">Value to normalize.</param>
+        /// <param name="r1">Source range.</param>
+        /// <param name="r2">Target range.</param>
+        /// <returns>Normalized value.</returns>
+        public static float NormalizeClamped(this float x, UnityEngine.Vector2 r1, UnityEngine.Vector2 r2)
+        {
+            return NormalizeClamped(x, r1.x, r1.y, r2.x, r2.y);
         }
 
         /// <summary>
@@ -390,6 +414,17 @@
         }
 
         /// <summary>
+        /// Brings any value in a given range to the [0,1] unclamped range.
+        /// </summary>
+        /// <param name="x">Value to normalize.</param>
+        /// <param name="r">Source range.</param>
+        /// <returns>Normalized value.</returns>
+        public static float Normalize01(this float x, UnityEngine.Vector2 r)
+        {
+            return (x - r.x) / (r.y - r.x);
+        }
+
+        /// <summary>
         /// Brings any value in a given range to the [0,1] clamped range.
         /// </summary>
         /// <param name="x">Value to normalize.</param>
@@ -401,6 +436,17 @@
             return Normalize01(x, rMin, rMax).Clamp01();
         }
 
+        /// <summary>
+        /// Brings any value in a given range to the [0,1] clamped range.
+        /// </summary>
+        /// <param name="x">Value to normalize.</param>
+        /// <param name="r">Source range.</param>
+        /// <returns>Normalized value.</returns>
+        public static float Normalize01Clamped(this float x, UnityEngine.Vector2 r)
+        {
+            return Normalize01Clamped(x, r.x, r.y);
+        }
+        
         /// <summary>
         /// Computes the normalized value for a given angle.
         /// </summary>
