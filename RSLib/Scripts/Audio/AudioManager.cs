@@ -36,6 +36,7 @@
 
         [SerializeField] private SFXPlayer[] _sfxPlayers = null;
         [SerializeField] private AudioMixerGroup _musicMixerGroup = null;
+        [SerializeField] private AudioMixerGroup _clipsDefaultMixerGroup = null;
         [SerializeField] private AudioMixer _audioMixer = null;
 
         private static System.Collections.Generic.Dictionary<AudioMixerGroup, RuntimeSFXPlayer> s_sfxPlayersDict;
@@ -96,6 +97,36 @@
                 Instance.StartCoroutine(PlaySoundDelayedCoroutine(clipProvider, delay));
         }
 
+        public static void PlaySound(AudioClip clip, float volume)
+        {
+            if (clip == null)
+            {
+                Instance.LogWarning($"Trying to play a sound using a null {nameof(AudioClip)} reference!");
+                return;
+            }
+            
+            if (Instance._clipsDefaultMixerGroup == null)
+            {
+                Instance.LogWarning($"Trying to play an AudioClip using a null {nameof(Instance._clipsDefaultMixerGroup)} reference!");
+                return;
+            }
+            
+            AudioSource source = s_sfxPlayersDict[Instance._clipsDefaultMixerGroup].GetNextSource();
+            
+            source.clip = clip;
+            source.volume = volume;
+            
+            source.Play();
+        }
+        
+        public static void PlaySound(AudioClip clip, float volume, float delay)
+        {
+            if (delay == 0f)
+                PlaySound(clip, volume);
+            else
+                Instance.StartCoroutine(PlaySoundDelayedCoroutine(clip, volume, delay));
+        }
+        
         public static void PlaySounds(System.Collections.Generic.IEnumerable<IClipProvider> clipProviders)
         {
             if (!Exists())
@@ -254,6 +285,12 @@
             PlaySound(clipProvider);
         }
 
+        private static System.Collections.IEnumerator PlaySoundDelayedCoroutine(AudioClip clip, float volume, float delay)
+        {
+            yield return RSLib.Yield.SharedYields.WaitForSeconds(delay);
+            PlaySound(clip, volume);
+        }
+        
         private static System.Collections.IEnumerator PlaySoundsDelayedCoroutine(System.Collections.Generic.IEnumerable<IClipProvider> clipProviders, float delay)
         {
             yield return RSLib.Yield.SharedYields.WaitForSeconds(delay);
