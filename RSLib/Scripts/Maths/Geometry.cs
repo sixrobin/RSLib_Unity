@@ -125,6 +125,35 @@
             return !IsPointInsideCircle(px, py, r, cx, cy, strictly);
         }
 
+        /// <summary>
+        /// Computes points positions around a circle.
+        /// </summary>
+        /// <param name="pointsCount">Points count to compute, that must be 3 or higher.</param>
+        /// <param name="radius">Circle radius.</param>
+        /// <param name="angleOffset">Angle offset applied to circle in degrees.</param>
+        /// <returns>Array of points around circle.</returns>
+        public static UnityEngine.Vector2[] ComputePointsAroundCircle(int pointsCount, float radius, float angleOffset = 0f)
+        {
+            if (pointsCount < 3)
+            {
+                UnityEngine.Debug.LogWarning($"A minimum of 3 points are required to compute points positions around circle (current count is {pointsCount})! Returning a null points array.");
+                return System.Array.Empty<UnityEngine.Vector2>();
+            }
+
+            UnityEngine.Vector2[] points = new UnityEngine.Vector2[pointsCount];
+            float angleOffsetRad = angleOffset * UnityEngine.Mathf.Deg2Rad;
+            
+            for (int i = 0; i < pointsCount; ++i)
+            {
+                float theta = (UnityEngine.Mathf.PI * 2 * i) / pointsCount + angleOffsetRad;
+                float x = UnityEngine.Mathf.Sin(theta) * radius;
+                float y = UnityEngine.Mathf.Cos(theta) * radius;
+                points[i] = new UnityEngine.Vector2(x, y);
+            }
+
+            return points;
+        }
+
         #endregion // CIRCLE
 
         #region DOT PRODUCT
