@@ -12,5 +12,19 @@
 
         public virtual void Init() { }
         public abstract AudioClipPlayDatas GetNextClipData();
+
+        #if UNITY_EDITOR
+        [UnityEngine.ContextMenu("Debug Play Sound")]
+        public void DebugPlaySound()
+        {
+            if (!UnityEngine.Application.isPlaying)
+            {
+                UnityEngine.Debug.LogWarning($"Cannot play {this.name} while application is not playing!");
+                return;
+            }
+            
+            AudioManager.PlaySound(this);
+        }
+        #endif
     }
 }
