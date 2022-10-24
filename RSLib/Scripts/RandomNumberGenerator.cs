@@ -14,6 +14,13 @@
             _seed = seed;
         }
 
+        [System.Serializable]
+        public struct GeneratorState
+        {
+            public string Id;
+            public byte[] State;
+        }
+        
         private readonly int _seed;
         private readonly Dictionary<string, System.Random> _randomsLibrary = new Dictionary<string, System.Random>();
         
@@ -181,5 +188,53 @@
             return enumerable.Select(o => o).OrderBy(o => random.Next());
         }
         #endregion // COLLECTIONS
+
+        #region SERIALIZATION
+        /// <summary>
+        /// Serializes the random state for a given calling object.
+        /// </summary>
+        /// <param name="random">Random to serialize.</param>
+        /// <returns>Serialized random state.</returns>
+        private byte[] SerializeRandom(System.Random random)
+        {
+            using (System.IO.MemoryStream memoryStream = new System.IO.MemoryStream())
+            {
+                new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter().Serialize(memoryStream, random);
+                return memoryStream.ToArray();
+            }
+        }
+        
+        /// <summary>
+        /// Serializes the random state for a given calling object.
+        /// Can return null if calling object has no related random generator.
+        /// </summary>
+        /// <param name="caller">Calling object, which type will be used.</param>
+        /// <returns>Serialized random state or null if calling object has no related random generator.</returns>
+        public byte[] SerializeRandom(object caller)
+        {
+            string callerId = caller.GetType().Name;
+            return _randomsLibrary.ContainsKey(callerId) ? SerializeRandom(GetRandom(caller)) : null;
+        }
+
+        /// <summary>
+        /// Serializes all the generators states, as a list of generator states.
+        /// Each generator state corresponds to an object type and its random state.
+        /// </summary>
+        /// <returns>Serialized global random number generator state.</returns>
+        public List<GeneratorState> SerializeGlobalState()
+        {
+            List<GeneratorState> state = new List<GeneratorState>();
+            foreach (KeyValuePair<string, System.Random> random in _randomsLibrary)
+            {
+                state.Add(new GeneratorState()
+                {
+                    Id = random.Key,
+                    State = SerializeRandom(random.Value)
+                });
+            }
+
+            return state;
+        }
+        #endregion // SERIALIZATION
     }
 }
