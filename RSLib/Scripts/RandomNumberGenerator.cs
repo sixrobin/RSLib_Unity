@@ -14,11 +14,24 @@
             _seed = seed;
         }
 
+        public RandomNumberGenerator(GeneratorState state)
+        {
+            _seed = state.Seed;
+            DeserializeGlobalState(state);
+        }
+
         [System.Serializable]
-        public struct GeneratorState
+        public struct RandomState
         {
             public string Id;
             public byte[] State;
+        }
+
+        [System.Serializable]
+        public struct GeneratorState
+        {
+            public int Seed;
+            public List<RandomState> RandomStates;
         }
         
         private readonly int _seed;
@@ -221,19 +234,51 @@
         /// Each generator state corresponds to an object type and its random state.
         /// </summary>
         /// <returns>Serialized global random number generator state.</returns>
-        public List<GeneratorState> SerializeGlobalState()
+        public GeneratorState SerializeGlobalState()
         {
-            List<GeneratorState> state = new List<GeneratorState>();
+            List<RandomState> randomStates = new List<RandomState>();
             foreach (KeyValuePair<string, System.Random> random in _randomsLibrary)
             {
-                state.Add(new GeneratorState()
+                randomStates.Add(new RandomState()
                 {
                     Id = random.Key,
                     State = SerializeRandom(random.Value)
                 });
             }
 
-            return state;
+            return new GeneratorState()
+            {
+                Seed = this._seed,
+                RandomStates = randomStates
+            };
+        }
+        
+        /// <summary>
+        /// Deserializes the generators states, using a list of generator states as parameter.
+        /// </summary>
+        /// <param name="globalState">Serialized state.</param>
+        /// <returns>True if deserialization was successful, else false.</returns>
+        public bool DeserializeGlobalState(GeneratorState globalState)
+        {
+            try
+            {
+                foreach (RandomState generatorState in globalState.RandomStates)
+                {
+                    using (System.IO.MemoryStream memoryStream = new System.IO.MemoryStream(generatorState.State))
+                    {
+                        System.Runtime.Serialization.Formatters.Binary.BinaryFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                        System.Random deserializedRandom = formatter.Deserialize(memoryStream) as System.Random;
+                        _randomsLibrary.Add(generatorState.Id, deserializedRandom);
+                    }
+                }
+
+                return true;
+            }
+            catch (System.Exception e)
+            {
+                UnityEngine.Debug.LogError($"An error occured while deserializing global random number generator state! Exception: {e}");
+                return false;
+            }
         }
         #endregion // SERIALIZATION
     }
