@@ -3,7 +3,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
-
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
+    
     public static class AnchorExtensions
     {
         public static bool IsRight(this ValuesDebugger.Anchor anchor)
@@ -23,16 +26,62 @@
         private const float LINE_HEIGHT = 20f;
         private const string DEFAULT_FORMAT = "{0}:{1}";
         
-        [Header("GENERAL")]
-        [SerializeField] private KeyCode _toggleKey = KeyCode.F1;
-        [SerializeField] private bool _buildEnabled = false;
+        #if !ODIN_INSPECTOR
+        [Header("DATA")]
+        #endif
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Data")]
+        #else
+        [SerializeField]
+        #endif
+        private KeyCode _toggleKey = KeyCode.F1;
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Data")]
+        #else
+        [SerializeField]
+        #endif
+        private bool _buildEnabled = false;
 
+        #if !ODIN_INSPECTOR
         [Header("STYLE")]
-        [SerializeField] private string _format = DEFAULT_FORMAT;
-        [SerializeField, Min(0f)] private float _margin = 0f;
-        [SerializeField, Min(0f)] private float _linesHeight = 15f;
-        [SerializeField] private Color _textsColor = Color.yellow;
-        [SerializeField] private bool _boldFont = true;
+        #endif
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        private string _format = DEFAULT_FORMAT;
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        [Min(0f)] private float _margin = 0f;
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        [Min(0f)] private float _linesHeight = 15f;
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        private Color _textsColor = Color.yellow;
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        private bool _boldFont = true;
 
         private Dictionary<Anchor, Dictionary<string, ValueGetter>> _values = new Dictionary<Anchor, Dictionary<string, ValueGetter>>();
         private Dictionary<Anchor, GUIStyle> _styles = new Dictionary<Anchor, GUIStyle>();
