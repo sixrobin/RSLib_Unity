@@ -2,11 +2,17 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
 
     public class Localizer : RSLib.Framework.SingletonConsolePro<Localizer>
     {
         private const char IGNORE_CHAR = '#';
         
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("CSV file")]
+        #endif
         [UnityEngine.SerializeField] private UnityEngine.TextAsset _localizationCsv = null;
 
         private Dictionary<string, Dictionary<string, string>> _entries;
