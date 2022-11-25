@@ -3,7 +3,10 @@
     using RSLib.Extensions;
     using System.Collections.Generic;
     using UnityEngine;
-
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
+    
     /// <summary>
     /// This console system is used to access code at runtime and in build by referencing methods.
     /// It is very simple and has been made for "quick & dirty" implementation but useful results.
@@ -53,18 +56,17 @@
                 { HistoryLine.Validity.ERROR, "> <b>CMD ERROR:</b> {0}" }
             };
 
-            public const string AutoCompletionOptionsSplit = "  |  ";
-            public const string AutoCompletionSelectedFormat = "<color=white><b>[ {0} ]</b></color>"; // Highlight the autocompletion selection.
-            public const string CmdHelpFormat = "<b><i>{0}</i></b>  -  <i>{1}</i>"; // 0 is command format, 1 is description.
-            public const string ControlName = "ConsoleInputEntry";
-            public const string CurrentNavigatedInHistoryMarker = "<b>  <<<</b>";
-            public const string HelpText = "Type <b>\"h\"</b> to display available commands and console hotkeys.";
+            public const string AUTO_COMPLETION_OPTIONS_SPLIT = "  |  ";
+            public const string AUTO_COMPLETION_SELECTED_FORMAT = "<color=white><b>[ {0} ]</b></color>"; // Highlight the autocompletion selection.
+            public const string CMD_HELP_FORMAT = "<b><i>{0}</i></b>  -  <i>{1}</i>"; // 0 is command format, 1 is description.
+            public const string CONTROL_NAME = "ConsoleInputEntry";
+            public const string CURRENT_NAVIGATED_IN_HISTORY_MARKER = "<b>  <<<</b>";
+            public const string HELP_TEXT = "Type <b>\"h\"</b> to display available commands and console hotkeys.";
 
-            public const int BoxesSpacing = 1;
-            public const int LinesSpacing = 16;
-
-            public const int EntryBoxHeight = 30;
-            public const int HelpBoxHeight = 96;
+            public const int BOXES_SPACING = 1;
+            public const int LINES_SPACING = 16;
+            public const int ENTRY_BOX_HEIGHT = 30;
+            public const int HELP_BOX_HEIGHT = 96;
         }
 
         public class HistoryLine
@@ -105,16 +107,62 @@
             public bool IsExternalLog { get; }
         }
 
-        [Header("CONSOLE DATA")]
-        [SerializeField] private bool _buildEnabled = false;
-        [SerializeField, Min(512)] private int _width = 640;
-        [SerializeField, Min(32)] private int _height = 146;
+        #if !ODIN_INSPECTOR
+        [Header("DATA")]
+        #endif
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Data")]
+        #else
+        [SerializeField]
+        #endif
+        private bool _buildEnabled = false;
 
+        #if !ODIN_INSPECTOR
         [Header("STYLE")]
-        [SerializeField] private Color _consoleColor = new Color(0f, 0f, 0f, 0.9f);
-        [SerializeField] private Color _validColor = new Color(0f, 1f, 0f, 1f);
-        [SerializeField] private Color _invalidColor = new Color(1f, 0f, 0f, 1f);
-        [SerializeField] private Color _neutralColor = new Color(1f, 1f, 1f, 1f);
+        #endif
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        [Min(512)] private int _width = 640;
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        [Min(32)] private int _height = 146;
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        private Color _consoleColor = new Color(0f, 0f, 0f, 0.9f);
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        private Color _validColor = new Color(0f, 1f, 0f, 1f);
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        private Color _invalidColor = new Color(1f, 0f, 0f, 1f);
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Style")]
+        #else
+        [SerializeField]
+        #endif
+        private Color _neutralColor = new Color(1f, 1f, 1f, 1f);
 
         private GUIStyle _consoleStyle;
         private GUIStyle _helpTextStyle;
@@ -126,7 +174,7 @@
         private Vector2 _historyScroll;
 
         private int _autoCompletionNavIndex = -1;
-        private List<CommandBase> _autoCompletionOptions = new List<CommandBase>(16);
+        private readonly List<CommandBase> _autoCompletionOptions = new List<CommandBase>(16);
         private string _autoCompletionStr;
         private int _historyNavIndex = -1;
         private string _inputStr;
@@ -135,8 +183,8 @@
 
         private bool _textCursorNeedsRefocus;
 
-        private List<HistoryLine> _cmdsHistory = new List<HistoryLine>();
-        private List<CommandBase> _registeredCmds = new List<CommandBase>();
+        private readonly List<HistoryLine> _cmdsHistory = new List<HistoryLine>();
+        private readonly List<CommandBase> _registeredCmds = new List<CommandBase>();
 
         private Dictionary<HistoryLine.Validity, Color> _colorsByValidity;
 
@@ -304,7 +352,7 @@
         {
             float h = 0f;
             for (int i = _cmdsHistory.Count - 1; i >= 0; --i)
-                h += _cmdsHistory[i].LinesCount * Constants.LinesSpacing;
+                h += _cmdsHistory[i].LinesCount * Constants.LINES_SPACING;
 
             return h;
         }
@@ -345,11 +393,11 @@
 
             for (int i = 0, autoCompletionOptionsCount = _autoCompletionOptions.Count; i < autoCompletionOptionsCount; ++i)
                 _autoCompletionStr += _autoCompletionNavIndex == i
-                    ? $"{string.Format(Constants.AutoCompletionSelectedFormat, _autoCompletionOptions[i].GetFormat())}{Constants.AutoCompletionOptionsSplit}"
-                    : $"{_autoCompletionOptions[i].GetFormat()}{Constants.AutoCompletionOptionsSplit}";
+                    ? $"{string.Format(Constants.AUTO_COMPLETION_SELECTED_FORMAT, _autoCompletionOptions[i].GetFormat())}{Constants.AUTO_COMPLETION_OPTIONS_SPLIT}"
+                    : $"{_autoCompletionOptions[i].GetFormat()}{Constants.AUTO_COMPLETION_OPTIONS_SPLIT}";
 
             if (!string.IsNullOrEmpty(_autoCompletionStr))
-                _autoCompletionStr = _autoCompletionStr.RemoveLast(Constants.AutoCompletionOptionsSplit.Length);
+                _autoCompletionStr = _autoCompletionStr.RemoveLast(Constants.AUTO_COMPLETION_OPTIONS_SPLIT.Length);
 
             return _autoCompletionStr;
         }
@@ -741,7 +789,7 @@
             ///////////////////////////////
 
             if (_consoleStyle == null)
-                _consoleStyle = ComputeConsoleStyle(Constants.EntryBoxHeight, _width);
+                _consoleStyle = ComputeConsoleStyle(Constants.ENTRY_BOX_HEIGHT, _width);
 
             if (_helpTextStyle == null)
                 _helpTextStyle = new GUIStyle()
@@ -857,25 +905,25 @@
             // Help box.
             if (_showHelp)
             {
-                float helpBoxPosY = y - Constants.HelpBoxHeight - Constants.EntryBoxHeight - _height - Constants.BoxesSpacing * 2;
-                GUI.Box(new Rect(0f, helpBoxPosY, _width, Constants.HelpBoxHeight), string.Empty, _consoleStyle);
-                Rect helpViewport = new Rect(0f, 0f, _width - 30f, Constants.LinesSpacing * 0.5f + Constants.LinesSpacing * (_registeredCmds.Count + Constants.HotkeyHelps.Length + 1));
+                float helpBoxPosY = y - Constants.HELP_BOX_HEIGHT - Constants.ENTRY_BOX_HEIGHT - _height - Constants.BOXES_SPACING * 2;
+                GUI.Box(new Rect(0f, helpBoxPosY, _width, Constants.HELP_BOX_HEIGHT), string.Empty, _consoleStyle);
+                Rect helpViewport = new Rect(0f, 0f, _width - 30f, Constants.LINES_SPACING * 0.5f + Constants.LINES_SPACING * (_registeredCmds.Count + Constants.HotkeyHelps.Length + 1));
 
-                float helpScrollPosY = y - Constants.HelpBoxHeight - 25f - _height;
-                _helpScroll = GUI.BeginScrollView(new Rect(5f, helpScrollPosY, _width - 10f, Constants.HelpBoxHeight - 15f), _helpScroll, helpViewport);
+                float helpScrollPosY = y - Constants.HELP_BOX_HEIGHT - 25f - _height;
+                _helpScroll = GUI.BeginScrollView(new Rect(5f, helpScrollPosY, _width - 10f, Constants.HELP_BOX_HEIGHT - 15f), _helpScroll, helpViewport);
 
                 // Hotkeys.
                 for (int i = Constants.HotkeyHelps.Length - 1; i >= 0; --i)
                 {
-                    Rect hotkeysRect = new Rect(5f, Constants.LinesSpacing * i, helpViewport.width - 15f, 20f);
+                    Rect hotkeysRect = new Rect(5f, Constants.LINES_SPACING * i, helpViewport.width - 15f, 20f);
                     GUI.Label(hotkeysRect, Constants.HotkeyHelps[i]);
                 }
 
                 for (int i = _registeredCmds.Count - 1; i >= 0; --i)
                 {
                     CommandBase cmd = _registeredCmds[i];
-                    string cmdHelp = string.Format(Constants.CmdHelpFormat, cmd.GetFormat(), (cmd.IsConsoleNative ? "(Native) " : "") + cmd.Description);
-                    Rect cmdHelpRect = new Rect(5f, Constants.LinesSpacing * (i + Constants.HotkeyHelps.Length + 1), helpViewport.width - 15f, 20f);
+                    string cmdHelp = string.Format(Constants.CMD_HELP_FORMAT, cmd.GetFormat(), (cmd.IsConsoleNative ? "(Native) " : "") + cmd.Description);
+                    Rect cmdHelpRect = new Rect(5f, Constants.LINES_SPACING * (i + Constants.HotkeyHelps.Length + 1), helpViewport.width - 15f, 20f);
                     GUI.Label(cmdHelpRect, cmdHelp);
                 }
 
@@ -883,7 +931,7 @@
             }
 
             // History box.
-            GUI.Box(new Rect(0f, y - _height - Constants.EntryBoxHeight - Constants.BoxesSpacing, _width, _height), string.Empty, _consoleStyle);
+            GUI.Box(new Rect(0f, y - _height - Constants.ENTRY_BOX_HEIGHT - Constants.BOXES_SPACING, _width, _height), string.Empty, _consoleStyle);
             Rect historyViewport = new Rect(0f, 0f, _width - 30f, ComputeHistoryHeight());
             _historyScroll = GUI.BeginScrollView(new Rect(5f, y - _height - 25f, _width - 10f, _height - 15f), _historyScroll, historyViewport);
 
@@ -892,23 +940,23 @@
             {
                 string cmdDisplay = string.Format(Constants.ValidityFormats[_cmdsHistory[i].CmdValidity], _cmdsHistory[i].Cmd).ToColored(_colorsByValidity[_cmdsHistory[i].CmdValidity]);
                 if (_historyNavIndex != -1 && i == _cmdsHistory.Count - 1 - _historyNavIndex)
-                    cmdDisplay += Constants.CurrentNavigatedInHistoryMarker;
+                    cmdDisplay += Constants.CURRENT_NAVIGATED_IN_HISTORY_MARKER;
 
-                lineY -= _cmdsHistory[i].LinesCount * Constants.LinesSpacing;
-                Rect cmdHistoryRect = new Rect(5f, lineY, historyViewport.width - 100f, _cmdsHistory[i].LinesCount * Constants.LinesSpacing);
+                lineY -= _cmdsHistory[i].LinesCount * Constants.LINES_SPACING;
+                Rect cmdHistoryRect = new Rect(5f, lineY, historyViewport.width - 100f, _cmdsHistory[i].LinesCount * Constants.LINES_SPACING);
                 GUI.Label(cmdHistoryRect, cmdDisplay, _historyLineTextStyle);
             }
 
             GUI.EndScrollView();
 
             // Entry box.
-            GUI.Box(new Rect(0f, y - 30f, _width, Constants.EntryBoxHeight), string.Empty, _consoleStyle);
+            GUI.Box(new Rect(0f, y - 30f, _width, Constants.ENTRY_BOX_HEIGHT), string.Empty, _consoleStyle);
             GUI.backgroundColor = new Color(0f, 0f, 0f, 0f);
 
-            GUI.SetNextControlName(Constants.ControlName);
-            Rect logEntryRect = new Rect(5f, y - 25f, _width - 20f, Constants.EntryBoxHeight - 5f);
+            GUI.SetNextControlName(Constants.CONTROL_NAME);
+            Rect logEntryRect = new Rect(5f, y - 25f, _width - 20f, Constants.ENTRY_BOX_HEIGHT - 5f);
             _inputStr = GUI.TextField(logEntryRect, _inputStr);
-            GUI.FocusControl(Constants.ControlName);
+            GUI.FocusControl(Constants.CONTROL_NAME);
 
             if (_textCursorNeedsRefocus)
             {
@@ -949,7 +997,7 @@
 
             // Display help tooltip message.
             if (!_showHelp && (string.IsNullOrEmpty(_inputStr) || string.IsNullOrWhiteSpace(_inputStr)))
-                GUI.Label(logEntryRect, Constants.HelpText, _helpTextStyle);
+                GUI.Label(logEntryRect, Constants.HELP_TEXT, _helpTextStyle);
         }
 
         [ContextMenu("Open Persistent Data Path")]
