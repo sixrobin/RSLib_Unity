@@ -1,11 +1,25 @@
 ﻿namespace RSLib
 {
     using UnityEngine;
-
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
+    
     public class PasswordTyper : MonoBehaviour
     {
+        #if ODIN_INSPECTOR
+        [BoxGroup("Data")]
+        #endif
         [SerializeField] private string _password = string.Empty;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Callbacks")]
+        #endif
         [SerializeField] private UnityEngine.Events.UnityEvent _onUnlock = null;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Callbacks")]
+        #endif
         [SerializeField] private UnityEngine.Events.UnityEvent _onLock = null;
 
         private bool _unlocked;
