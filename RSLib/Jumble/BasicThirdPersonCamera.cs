@@ -1,20 +1,58 @@
 ﻿namespace RSLib.Jumble
 {
 	using UnityEngine;
+	#if ODIN_INSPECTOR
+	using Sirenix.OdinInspector;
+	#endif
 
 	[RequireComponent(typeof(Camera))]
 	public class BasicThirdPersonCamera : MonoBehaviour
 	{
+		#if ODIN_INSPECTOR
+		[FoldoutGroup("Refs")]
+		#endif
 		[SerializeField] private Camera _camera = null;
+		
+		#if ODIN_INSPECTOR
+		[FoldoutGroup("Refs")]
+		#endif
 		[SerializeField] private Transform _target = null;
+		
+		#if ODIN_INSPECTOR
+		[FoldoutGroup("Positioning")]
+		#endif
 		[SerializeField] private float _height = 0.5f;
+		
+		#if ODIN_INSPECTOR
+		[FoldoutGroup("Positioning")]
+		#endif
 		[SerializeField] private float _distance = 2f;
+		
+		#if ODIN_INSPECTOR
+		[FoldoutGroup("Positioning")]
+		#endif
 		[SerializeField] private float _minimumPitch = 90f;
+		
+		#if ODIN_INSPECTOR
+		[FoldoutGroup("Positioning")]
+		#endif
 		[SerializeField] private float _maximumPitch = 90f;
-		[SerializeField] private Vector2 _sensitivity = Vector2.one;
+		
+		#if ODIN_INSPECTOR
+		[FoldoutGroup("Positioning")]
+		#endif
 		[SerializeField] private Vector3 _localOffset = Vector3.zero;
+		
+		#if ODIN_INSPECTOR
+		[FoldoutGroup("Positioning")]
+		#endif
 		[SerializeField] private LayerMask _cameraMask = 0;
-
+		
+		#if ODIN_INSPECTOR
+		[FoldoutGroup("Input")]
+		#endif
+		[SerializeField] private Vector2 _sensitivity = Vector2.one;
+		
 		private float _x;
 		private float _y;
 		private Vector3[] _corners;
