@@ -3,6 +3,9 @@
     using RSLib.Maths;
     using UnityEngine;
     using UnityEngine.Audio;
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
 
     public class AudioManager : Framework.Singleton<AudioManager>
     {
@@ -34,9 +37,24 @@
             }
         }
 
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("SFX")]
+        #endif
         [SerializeField] private SFXPlayer[] _sfxPlayers = null;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Mixers")]
+        #endif
         [SerializeField] private AudioMixerGroup _musicMixerGroup = null;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Mixers")]
+        #endif
         [SerializeField] private AudioMixerGroup _clipsDefaultMixerGroup = null;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Mixers")]
+        #endif
         [SerializeField] private AudioMixer _audioMixer = null;
 
         private static System.Collections.Generic.Dictionary<AudioMixerGroup, RuntimeSFXPlayer> s_sfxPlayersDict;
