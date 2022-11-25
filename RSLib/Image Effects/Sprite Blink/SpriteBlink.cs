@@ -7,6 +7,9 @@
 #if UNITY_EDITOR
 	using UnityEditor;
 #endif
+#if ODIN_INSPECTOR
+	using Sirenix.OdinInspector;
+#endif
 
     [DisallowMultipleComponent]
 #if UNITY_EDITOR
@@ -17,37 +20,139 @@
         private const string COLOR_SHADER_PARAM = "_Color";
         private const string BLINK_COLOR_SHADER_PARAM = "_BlinkColor";
 
-        private Material _blinkMaterial;
-
-		private IEnumerator _colorCoroutine;
-        private IEnumerator _alphaCoroutine;
-
-		[Header("GENERAL")]
-		[SerializeField] private Shader _blinkShader = null;
-		[SerializeField] private bool _useSharedMaterial = false;
-
-		[Header("COLOR BLINK SETTINGS")]
-		[SerializeField] private Color _color = Color.white;
-		[SerializeField, Min(0f)] private float _colorFadeDur = 0.08f;
-		[SerializeField, Min(0f)] private float _coloredDur = 0.05f;
-		[SerializeField, Min(0f)] private float _inBetweenColorBlinksDur = 0.05f;
-        [SerializeField, Range(0f, 1f)] private float _blinkColorAlpha = 1f;
-		[SerializeField] private Curve _colorEasingCurve = Curve.InQuad;
-		[SerializeField] private bool _colorResetIfBlinking = true;
-
-		[Header("ALPHA BLINK SETTINGS")]
-		[SerializeField, Min(0f)] private float _alphaFadeDur = 0.08f;
-		[SerializeField, Min(0f)] private float _transparencyDur = 0.05f;
-		[SerializeField, Min(0f)] private float _inBetweenAlphaBlinksDur = 0.05f;
-		[SerializeField, Range(0f, 1f)] private float _targetAlpha = 0f;
-		[SerializeField] private Curve _alphaEasingCurve = Curve.InQuad;
-		[SerializeField] private bool _alphaResetIfBlinking = true;
-
+        #if !ODIN_INSPECTOR
         [Header("GENERAL")]
-        private bool _timeScaleDependent = false;
+		#endif
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("General")]
+		#else
+        [SerializeField]
+		#endif
+        private Shader _blinkShader = null;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("General")]
+		#else
+        [SerializeField]
+		#endif
+		private bool _useSharedMaterial = false;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("General")]
+		#else
+        [SerializeField]
+		#endif
+		private bool _timeScaleDependent = false;
+		
+		#if !ODIN_INSPECTOR
+        [Header("COLOR BLINK SETTINGS")]
+		#endif
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Color Blink")]
+		#else
+        [SerializeField]
+		#endif
+		private Color _color = Color.white;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Color Blink")]
+		#else
+        [SerializeField]
+		#endif
+		[Min(0f)] private float _colorFadeDur = 0.08f;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Color Blink")]
+		#else
+        [SerializeField]
+		#endif
+		[Min(0f)] private float _coloredDur = 0.05f;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Color Blink")]
+		#else
+        [SerializeField]
+		#endif
+		[Min(0f)] private float _inBetweenColorBlinksDur = 0.05f;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Color Blink")]
+		#else
+        [SerializeField]
+		#endif
+        [Range(0f, 1f)] private float _blinkColorAlpha = 1f;
+        
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Color Blink")]
+		#else
+        [SerializeField]
+		#endif
+		private Curve _colorEasingCurve = Curve.InQuad;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Color Blink")]
+		#else
+        [SerializeField]
+		#endif
+		private bool _colorResetIfBlinking = true;
 
+		#if !ODIN_INSPECTOR
+        [Header("ALPHA BLINK SETTINGS")]
+		#endif
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Alpha Blink")]
+		#else
+        [SerializeField]
+		#endif
+		[Min(0f)] private float _alphaFadeDur = 0.08f;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Alpha Blink")]
+		#else
+        [SerializeField]
+		#endif
+		[Min(0f)] private float _transparencyDur = 0.05f;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Alpha Blink")]
+		#else
+        [SerializeField]
+		#endif
+		[Min(0f)] private float _inBetweenAlphaBlinksDur = 0.05f;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Alpha Blink")]
+		#else
+        [SerializeField]
+		#endif
+		[Range(0f, 1f)] private float _targetAlpha = 0f;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Alpha Blink")]
+		#else
+        [SerializeField]
+		#endif
+		private Curve _alphaEasingCurve = Curve.InQuad;
+		
+		#if ODIN_INSPECTOR
+		[SerializeField, FoldoutGroup("Alpha Blink")]
+		#else
+        [SerializeField]
+		#endif
+		private bool _alphaResetIfBlinking = true;
+
+		private Material _blinkMaterial;
+        private IEnumerator _colorCoroutine;
+        private IEnumerator _alphaCoroutine;
+        
 		public bool TimeScaleDependent { get; set; }
 
+		#if ODIN_INSPECTOR
+		[Button("Blink (Color)")]
+		#endif
 		public void BlinkColor(int count = 1, System.Action callback = null)
 		{
             UnityEngine.Assertions.Assert.IsTrue(count >= 1, "Can not blink color less than 1 time.");
@@ -58,6 +163,9 @@
 			StartCoroutine(_colorCoroutine = BlinkColorCoroutine(count, callback));
 		}
 
+		#if ODIN_INSPECTOR
+		[Button("Blink (Alpha)")]
+		#endif
 		public void BlinkAlpha(int count = 1, System.Action callback = null)
 		{
             UnityEngine.Assertions.Assert.IsTrue(count >= 1, "Can not blink alpha less than 1 time.");
@@ -175,7 +283,7 @@
 		}
 	}
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && !ODIN_INSPECTOR
     [CustomEditor(typeof(SpriteBlink))]
     public class SpriteBlinkEditor : EditorUtilities.ButtonProviderEditor<SpriteBlink>
     {
