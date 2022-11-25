@@ -1,12 +1,26 @@
 ﻿namespace RSLib.Framework
 {
     using UnityEngine;
-
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
+    
     [DisallowMultipleComponent]
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        [SerializeField] private bool _dontDestroy = false;
-        [SerializeField] private bool _verbose = false;
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Singleton")]
+        #else
+        [SerializeField]
+        #endif
+        private bool _dontDestroy = false;
+        
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Singleton")]
+        #else
+        [SerializeField]
+        #endif
+        private bool _verbose = false;
 
         private static T s_instance;
         public static T Instance
