@@ -1,7 +1,10 @@
 namespace LDJAM50
 {
     using UnityEngine;
-
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
+    
     /// <summary>
     /// Used to randomize some SpriteRenderer values like sprite, flip and color.
     /// </summary>
@@ -9,21 +12,57 @@ namespace LDJAM50
     [RequireComponent(typeof(SpriteRenderer))]
     public class SpriteRendererRandomizer : MonoBehaviour
     {
+        #if !ODIN_INSPECTOR
         [Header("REFS")]
+        #endif
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Refs")]
+        #endif
         [SerializeField] private SpriteRenderer _spriteRenderer = null;
 
-        [Header("SPRITE (Let empty not to change sprite)")]
+        #if !ODIN_INSPECTOR
+        [Header("SPRITE (Leave sprites array empty not to randomize sprite)")]
+        #endif
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Refs")]
+        [InfoBox("Leave sprites array empty not to randomize sprite.")]
+        #endif
         [SerializeField] private Sprite[] _sprites = null;
         
+        #if !ODIN_INSPECTOR
         [Header("FLIP")]
+        #endif
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Flip")]
+        #endif
         [SerializeField, Range(0f, 1f)] private float _flipXChance = 0.5f;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Flip")]
+        #endif
         [SerializeField, Range(0f, 1f)] private float _flipYChance = 0.5f;
 
+        #if !ODIN_INSPECTOR
         [Header("COLOR")]
+        #endif
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Color")]
+        #endif
         [SerializeField] private Color _colorA = Color.white;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Color")]
+        #endif
         [SerializeField] private Color _colorB = Color.white;
 
         [ContextMenu("Randomize")]
+        #if ODIN_INSPECTOR
+        [Button("Randomize")]
+        #endif
         public void Randomize()
         {
             _spriteRenderer.flipX = Random.value < _flipXChance;

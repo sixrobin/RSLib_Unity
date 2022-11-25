@@ -1,14 +1,25 @@
 ﻿namespace RSLib
 {
     using UnityEngine;
-#if UNITY_EDITOR
-    using UnityEditor;
-#endif
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
 
+    /// <summary>
+    /// Used to reference both a SpriteRenderer and an Animator, as both are often together.
+    /// Can also avoid doing two loops on both components, but instead do only one on this component.
+    /// </summary>
     [DisallowMultipleComponent]
     public sealed class SpriteRendererAnimatorPair : MonoBehaviour
     {
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Refs")]
+        #endif
         [SerializeField] private SpriteRenderer _spriteRenderer = null;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Refs")]
+        #endif
         [SerializeField] private Animator _animator = null;
 
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
@@ -39,20 +50,4 @@
             GetMissingComponents();
         }
     }
-
-#if UNITY_EDITOR
-    [CustomEditor(typeof(SpriteRendererAnimatorPair))]
-    public sealed class SpriteRendererAnimatorPairEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            EditorGUILayout.HelpBox("Used to reference both a SpriteRenderer and an Animator, as both are often together, " +
-                "and it can avoid doing two loops on both components, but instead do only one on this component.", MessageType.Info);
-
-            EditorGUILayout.Space(10f);
-
-            base.OnInspectorGUI();
-        }
-    }
-#endif
 }

@@ -1,6 +1,9 @@
 namespace RSLib
 {
     using UnityEngine;
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
 
     /// <summary>
     /// Plays a simple animation on a SpriteRenderer's sprite, with a constant frame rate and sprites sequence.
@@ -8,11 +11,29 @@ namespace RSLib
     /// </summary>
     public class SpriteRendererAnimator : MonoBehaviour
     {
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Refs")]
+        #endif
         [SerializeField] private SpriteRenderer _spriteRenderer = null;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Data")]
+        #endif
         [SerializeField] private Sprite[] _sprites = null;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Data")]
+        #endif
         [SerializeField, Min(1)] private int _frameRate = 12;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Data")]
+        #endif
         [SerializeField] private bool _randomizeStartSprite = false;
 
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Data")]
+        #endif
         public bool Paused;
 
         private int _currentSpriteIndex;
