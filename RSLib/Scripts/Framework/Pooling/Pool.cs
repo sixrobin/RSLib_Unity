@@ -6,6 +6,9 @@
 #if UNITY_EDITOR
     using UnityEditor;
 #endif
+#if ODIN_INSPECTOR
+	using Sirenix.OdinInspector;
+#endif
 
     [DisallowMultipleComponent]
 	public class Pool : Singleton<Pool>
@@ -29,12 +32,16 @@
             public int Quantity => _quantity;
         }
 
-        [SerializeField] private PooledObject[] _pooledObjects = null;
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Pool")]
+        #else
+        [SerializeField]
+        #endif
+        private PooledObject[] _pooledObjects = null;
 
-		private static Dictionary<int, Queue<GameObject>> s_poolsByGameObject = new Dictionary<int, Queue<GameObject>>();
-		private static Dictionary<string, Queue<GameObject>> s_poolsById = new Dictionary<string, Queue<GameObject>>();
-
-        private static Dictionary<GameObject, IPoolItem> s_poolItems = new Dictionary<GameObject, IPoolItem>();
+		private static readonly Dictionary<int, Queue<GameObject>> s_poolsByGameObject = new Dictionary<int, Queue<GameObject>>();
+		private static readonly Dictionary<string, Queue<GameObject>> s_poolsById = new Dictionary<string, Queue<GameObject>>();
+        private static readonly Dictionary<GameObject, IPoolItem> s_poolItems = new Dictionary<GameObject, IPoolItem>();
 
 		/// <summary>
         /// Clears all the pooled objects.
@@ -205,11 +212,43 @@
         /// Sorts pooled objects by alphabetical order.
         /// </summary>
         /// <param name="inverted">Sort in opposite order.</param>
-        public void DebugSortPooledObjectsAlphabetical(bool inverted = false)
+        public void DebugSortPooledObjectsAlphabetical(bool inverted)
         {
-            System.Array.Sort(
-                _pooledObjects,
-                (a, b) => a.Id.CompareTo(b.Id) * (inverted ? -1 : 1));
+            System.Array.Sort(_pooledObjects, (a, b) => a.Id.CompareTo(b.Id) * (inverted ? -1 : 1));
+
+            EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
+            EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
+        }
+
+        /// <summary>
+        /// Sorts pooled objects by alphabetical order.
+        /// </summary>
+        #if ODIN_INSPECTOR
+        [Button("Sort Alphabetical")]
+        #endif
+        public void DebugSortPooledObjectsAlphabetical()
+        {
+	        DebugSortPooledObjectsAlphabetical(false);
+        }
+        
+        /// <summary>
+        /// Sorts pooled objects by inverted alphabetical order.
+        /// </summary>
+        #if ODIN_INSPECTOR
+        [Button("Sort Alphabetical (Inverted)")]
+        #endif
+        public void DebugSortPooledObjectsAlphabeticalInverted()
+        {
+	        DebugSortPooledObjectsAlphabetical(true);
+        }
+
+        /// <summary>
+        /// Sorts pooled objects by their instances quantity.
+        /// </summary>
+        /// <param name="inverted">Sort in opposite order.</param>
+        public void DebugSortPooledObjectsByQuantity(bool inverted)
+        {
+            System.Array.Sort(_pooledObjects, (a, b) => a.Quantity.CompareTo(b.Quantity) * (inverted ? -1 : 1));
 
             EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
             EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
@@ -218,20 +257,31 @@
         /// <summary>
         /// Sorts pooled objects by their instances quantity.
         /// </summary>
-        /// <param name="inverted">Sort in opposite order.</param>
-        public void DebugSortPooledObjectsByQuantity(bool inverted = false)
+        #if ODIN_INSPECTOR
+        [Button("Sort by Quantity")]
+        #endif
+        public void DebugSortPooledObjectsByQuantity()
         {
-            System.Array.Sort(
-                _pooledObjects,
-                (a, b) => a.Quantity.CompareTo(b.Quantity) * (inverted ? -1 : 1));
-
-            EditorUtilities.SceneManagerUtilities.SetCurrentSceneDirty();
-            EditorUtilities.PrefabEditorUtilities.SetCurrentPrefabStageDirty();
+	        DebugSortPooledObjectsByQuantity(false);
         }
-
+        
+        /// <summary>
+        /// Sorts pooled objects by their instances quantity inverted.
+        /// </summary>
+        #if ODIN_INSPECTOR
+        [Button("Sort by Quantity (Inverted)")]
+        #endif
+        public void DebugSortPooledObjectsByQuantityInverted()
+        {
+	        DebugSortPooledObjectsByQuantity(true);
+        }
+        
         /// <summary>
         /// Scans the pool to check for basic errors like missing Ids or objects, duplicate Ids, etc.
         /// </summary>
+        #if ODIN_INSPECTOR
+        [Button("Scan")]
+        #endif
         public void DebugScan()
         {
             // Missing ids.
@@ -266,7 +316,7 @@
         #endregion EDITOR UTILITIES
     }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && !ODIN_INSPECTOR
     [CustomEditor(typeof(Pool))]
     public class PoolEditor : EditorUtilities.ButtonProviderEditor<Pool>
     {

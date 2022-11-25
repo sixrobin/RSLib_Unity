@@ -1,14 +1,22 @@
 ﻿namespace RSLib.Framework
 {
     using UnityEngine;
-
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
+    
     /// <summary>
     /// Child class of Singleton to handle Console Pro plugin prefix system.
     /// </summary>
     [DisallowMultipleComponent]
     public class SingletonConsolePro<T> : Singleton<T> where T : MonoBehaviour
     {
-        [SerializeField] private OptionalString _overrideLogPrefix = new OptionalString(string.Empty, false);
+        #if ODIN_INSPECTOR
+        [SerializeField, FoldoutGroup("Singleton")]
+        #else
+        [SerializeField]
+        #endif
+        private OptionalString _overrideLogPrefix = new OptionalString(string.Empty, false);
 
         private string Prefix => !_overrideLogPrefix.Enabled
             ? GetType().Name
