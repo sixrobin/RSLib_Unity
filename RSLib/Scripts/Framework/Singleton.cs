@@ -9,18 +9,14 @@
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Singleton")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Singleton")]
         #endif
-        private bool _dontDestroy = false;
+        [SerializeField] private bool _dontDestroy = false;
         
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Singleton")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Singleton")]
         #endif
-        private bool _verbose = false;
+        [SerializeField] private bool _verbose = false;
 
         private static T s_instance;
         public static T Instance

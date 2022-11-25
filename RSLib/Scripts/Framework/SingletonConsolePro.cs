@@ -12,11 +12,9 @@
     public class SingletonConsolePro<T> : Singleton<T> where T : MonoBehaviour
     {
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Singleton")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Singleton")]
         #endif
-        private OptionalString _overrideLogPrefix = new OptionalString(string.Empty, false);
+        [SerializeField] private OptionalString _overrideLogPrefix = new OptionalString(string.Empty, false);
 
         private string Prefix => !_overrideLogPrefix.Enabled
             ? GetType().Name

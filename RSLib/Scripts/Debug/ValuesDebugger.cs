@@ -31,57 +31,43 @@
         #endif
         
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Data")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Data")]
         #endif
-        private KeyCode _toggleKey = KeyCode.F1;
+        [SerializeField] private KeyCode _toggleKey = KeyCode.F1;
         
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Data")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Data")]
         #endif
-        private bool _buildEnabled = false;
+        [SerializeField] private bool _buildEnabled = false;
 
         #if !ODIN_INSPECTOR
         [Header("STYLE")]
         #endif
         
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Style")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Style")]
         #endif
-        private string _format = DEFAULT_FORMAT;
+        [SerializeField] private string _format = DEFAULT_FORMAT;
         
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Style")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Style")]
         #endif
-        [Min(0f)] private float _margin = 0f;
+        [SerializeField, Min(0f)] private float _margin = 0f;
         
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Style")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Style")]
         #endif
-        [Min(0f)] private float _linesHeight = 15f;
+        [SerializeField, Min(0f)] private float _linesHeight = 15f;
         
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Style")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Style")]
         #endif
-        private Color _textsColor = Color.yellow;
+        [SerializeField] private Color _textsColor = Color.yellow;
         
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Style")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Style")]
         #endif
-        private bool _boldFont = true;
+        [SerializeField] private bool _boldFont = true;
 
         private Dictionary<Anchor, Dictionary<string, ValueGetter>> _values = new Dictionary<Anchor, Dictionary<string, ValueGetter>>();
         private Dictionary<Anchor, GUIStyle> _styles = new Dictionary<Anchor, GUIStyle>();

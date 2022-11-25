@@ -33,11 +33,9 @@
         }
 
         #if ODIN_INSPECTOR
-        [SerializeField, FoldoutGroup("Pool")]
-        #else
-        [SerializeField]
+        [FoldoutGroup("Pool")]
         #endif
-        private PooledObject[] _pooledObjects = null;
+        [SerializeField] private PooledObject[] _pooledObjects = null;
 
 		private static readonly Dictionary<int, Queue<GameObject>> s_poolsByGameObject = new Dictionary<int, Queue<GameObject>>();
 		private static readonly Dictionary<string, Queue<GameObject>> s_poolsById = new Dictionary<string, Queue<GameObject>>();

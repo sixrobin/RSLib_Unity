@@ -25,124 +25,92 @@
 		#endif
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("General")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("General")]
 		#endif
-        private Shader _blinkShader = null;
+		[SerializeField] private Shader _blinkShader = null;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("General")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("General")]
 		#endif
-		private bool _useSharedMaterial = false;
+		[SerializeField] private bool _useSharedMaterial = false;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("General")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("General")]
 		#endif
-		private bool _timeScaleDependent = false;
+		[SerializeField] private bool _timeScaleDependent = false;
 		
 		#if !ODIN_INSPECTOR
         [Header("COLOR BLINK SETTINGS")]
 		#endif
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Color Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Color Blink")]
 		#endif
-		private Color _color = Color.white;
+		[SerializeField] private Color _color = Color.white;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Color Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Color Blink")]
 		#endif
-		[Min(0f)] private float _colorFadeDur = 0.08f;
+		[SerializeField, Min(0f)] private float _colorFadeDur = 0.08f;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Color Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Color Blink")]
 		#endif
-		[Min(0f)] private float _coloredDur = 0.05f;
+		[SerializeField, Min(0f)] private float _coloredDur = 0.05f;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Color Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Color Blink")]
 		#endif
-		[Min(0f)] private float _inBetweenColorBlinksDur = 0.05f;
+		[SerializeField, Min(0f)] private float _inBetweenColorBlinksDur = 0.05f;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Color Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Color Blink")]
 		#endif
-        [Range(0f, 1f)] private float _blinkColorAlpha = 1f;
+        [SerializeField, Range(0f, 1f)] private float _blinkColorAlpha = 1f;
         
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Color Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Color Blink")]
 		#endif
-		private Curve _colorEasingCurve = Curve.InQuad;
+		[SerializeField] private Curve _colorEasingCurve = Curve.InQuad;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Color Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Color Blink")]
 		#endif
-		private bool _colorResetIfBlinking = true;
+		[SerializeField] private bool _colorResetIfBlinking = true;
 
 		#if !ODIN_INSPECTOR
         [Header("ALPHA BLINK SETTINGS")]
 		#endif
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Alpha Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Alpha Blink")]
 		#endif
-		[Min(0f)] private float _alphaFadeDur = 0.08f;
+		[SerializeField, Min(0f)] private float _alphaFadeDur = 0.08f;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Alpha Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Alpha Blink")]
 		#endif
-		[Min(0f)] private float _transparencyDur = 0.05f;
+		[SerializeField, Min(0f)] private float _transparencyDur = 0.05f;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Alpha Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Alpha Blink")]
 		#endif
-		[Min(0f)] private float _inBetweenAlphaBlinksDur = 0.05f;
+		[SerializeField, Min(0f)] private float _inBetweenAlphaBlinksDur = 0.05f;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Alpha Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Alpha Blink")]
 		#endif
-		[Range(0f, 1f)] private float _targetAlpha = 0f;
+		[SerializeField, Range(0f, 1f)] private float _targetAlpha = 0f;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Alpha Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Alpha Blink")]
 		#endif
-		private Curve _alphaEasingCurve = Curve.InQuad;
+		[SerializeField] private Curve _alphaEasingCurve = Curve.InQuad;
 		
 		#if ODIN_INSPECTOR
-		[SerializeField, FoldoutGroup("Alpha Blink")]
-		#else
-        [SerializeField]
+		[FoldoutGroup("Alpha Blink")]
 		#endif
-		private bool _alphaResetIfBlinking = true;
+		[SerializeField] private bool _alphaResetIfBlinking = true;
 
 		private Material _blinkMaterial;
         private IEnumerator _colorCoroutine;
