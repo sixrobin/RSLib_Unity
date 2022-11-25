@@ -2,17 +2,44 @@
 {
     using RSLib.Extensions;
     using UnityEngine;
-
+    #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+    #endif
+    
     [DisallowMultipleComponent]
     public class Physics2DEventReceiver : MonoBehaviour
     {
+        #if !ODIN_INSPECTOR
         [Header("LAYER MASK")]
+        #endif
+
+        #if ODIN_INSPECTOR
+        [BoxGroup("Layer Mask")]
+        #endif
         [SerializeField] private LayerMask _mask = 0;
 
+        #if !ODIN_INSPECTOR
         [Header("EVENTS")]
+        #endif
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Events")]
+        #endif
         [SerializeField] private Framework.Events.Collider2DEvent _onTriggerEnter = null;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Events")]
+        #endif
         [SerializeField] private Framework.Events.Collider2DEvent _onTriggerExit = null;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Events")]
+        #endif
         [SerializeField] private Framework.Events.Collision2DEvent _onCollisionEnter = null;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Events")]
+        #endif
         [SerializeField] private Framework.Events.Collision2DEvent _onCollisionExit = null;
 
         public delegate void Collider2DEventHandler(Collider2D collider);
