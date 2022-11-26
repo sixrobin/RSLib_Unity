@@ -5,6 +5,7 @@
     [DisallowMultipleComponent]
     public sealed class LocalizerDebugger : MonoBehaviour
     {
+        #if RSLIB
         private void Awake()
         {
             RSLib.Debug.Console.DebugConsole.OverrideCommand<string>("locKey", "Localizes a given key.", key => Localizer.Instance.Log(Localizer.Get(key), forceVerbose: true));
@@ -26,5 +27,6 @@
         {
             RSLib.Debug.ValuesDebugger.DebugValue("localization_language", () => Localizer.Instance.Language);
         }
+        #endif
     }
 }
