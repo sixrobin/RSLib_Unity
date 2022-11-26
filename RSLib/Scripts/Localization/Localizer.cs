@@ -240,6 +240,17 @@
         #else
         private void Awake()
         {
+            if (s_instance == null)
+                s_instance = this;
+
+            if (s_instance != this)
+            {
+                if (s_instance.gameObject == gameObject)
+                    DestroyImmediate(this);
+                else
+                    DestroyImmediate(gameObject);
+            }
+            
             if (s_instance != this)
                 return;
             
