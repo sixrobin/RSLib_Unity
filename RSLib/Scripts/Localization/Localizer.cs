@@ -6,7 +6,11 @@
     using Sirenix.OdinInspector;
     #endif
 
+    #if RSLIB
     public class Localizer : RSLib.Framework.SingletonConsolePro<Localizer>
+    #else
+    public class Localizer : UnityEngine.MonoBehaviour
+    #endif
     {
         private const char IGNORE_CHAR = '#';
         
@@ -18,6 +22,24 @@
         private Dictionary<string, Dictionary<string, string>> _entries;
         
         public static event System.Action LanguageChanged;
+
+        #if !RSLIB
+        private static Localizer s_instance;
+        public static Localizer Instance
+        {
+            get
+            {
+                if (s_instance == null)
+                {
+                    s_instance = FindObjectOfType<Localizer>();
+                    if (s_instance == null)
+                        UnityEngine.Debug.LogError($"No {nameof(Localizer)} instance found in the scene to make a singleton.");
+                }
+
+                return s_instance;
+            }
+        }
+        #endif
         
         /// <summary>
         /// All languages handled in loaded CSV file.
@@ -61,14 +83,24 @@
 
             if (!languageKnown)
             {
+                #if RSLIB
                 Instance.LogWarning($"Language {languageName} is not known in languages list! Known languages are: {string.Join(",", Instance.Languages)}");
+                #else
+                UnityEngine.Debug.LogWarning($"Language {languageName} is not known in languages list! Known languages are: {string.Join(",", Instance.Languages)}");
+                #endif
+                
                 return key;
             }
             
             if (Instance._entries[languageName].TryGetValue(key, out string entry))
                 return entry;
 
+            #if RSLIB
             Instance.LogWarning($"Key {key} is not in language {languageName}!");
+            #else
+            UnityEngine.Debug.LogWarning($"Key {key} is not in language {languageName}!");
+            #endif
+            
             return key;
         }
         
@@ -103,7 +135,12 @@
         {
             if (languageIndex > Instance._entries.Count - 1)
             {
+                #if RSLIB
                 Instance.LogWarning($"Tried to set language index to {languageIndex} but only {Instance._entries.Count} languages are known!");
+                #else
+                UnityEngine.Debug.LogWarning($"Tried to set language index to {languageIndex} but only {Instance._entries.Count} languages are known!");
+                #endif
+                
                 return;
             }
             
@@ -118,15 +155,22 @@
         {
             if (!Instance._entries.ContainsKey(languageName))
             {
+                #if RSLIB
                 Instance.LogWarning($"Tried to set language to {languageName} but it has not been found!");
+                #else
+                UnityEngine.Debug.LogWarning($"Tried to set language to {languageName} but it has not been found!");
+                #endif
+                
                 return;
             }
 
-            string previousLanguage = Instance.Language;
-            
+            #if RSLIB
             Instance.Log($"Setting language to {languageName}.");
-            Instance.Language = languageName;
+            #else
+            UnityEngine.Debug.Log($"Setting language to {languageName}.");
+            #endif
             
+            Instance.Language = languageName;
             LanguageChanged?.Invoke();
         }
         
@@ -155,7 +199,12 @@
             }
 
             Instance.Languages = languages.ToArray();
+            
+            #if RSLIB
             Instance.Log($"Initialized {Instance.Languages.Length} languages: {string.Join(",", Instance.Languages)}.");
+            #else
+            UnityEngine.Debug.Log($"Initialized {Instance.Languages.Length} languages: {string.Join(",", Instance.Languages)}.");
+            #endif
             
             // Initialize entries.
             for (int y = 1; y < grid.GetLength(1); ++y)
@@ -176,6 +225,7 @@
             }
         }
         
+        #if RSLIB
         protected override void Awake()
         {
             base.Awake();
@@ -187,5 +237,17 @@
             if (Instance._entries.Count > 0)
                 Instance.Language = Instance._entries.ElementAt(0).Key;
         }
+        #else
+        private void Awake()
+        {
+            if (s_instance != this)
+                return;
+            
+            LoadCSV(_localizationCsv);
+            
+            if (Instance._entries.Count > 0)
+                Instance.Language = Instance._entries.ElementAt(0).Key;
+        }
+        #endif
     }
 }
