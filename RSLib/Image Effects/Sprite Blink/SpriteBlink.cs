@@ -1,15 +1,17 @@
 ﻿namespace RSLib.ImageEffects
 {
+	#if RSLIB
 	using RSLib.Extensions;
 	using RSLib.Maths;
+	#endif
 	using System.Collections;
 	using UnityEngine;
-#if UNITY_EDITOR
+	#if UNITY_EDITOR
 	using UnityEditor;
-#endif
-#if ODIN_INSPECTOR
+	#endif
+	#if ODIN_INSPECTOR
 	using Sirenix.OdinInspector;
-#endif
+	#endif
 
     [DisallowMultipleComponent]
 #if UNITY_EDITOR
@@ -325,7 +327,7 @@
 		}
 	}
 
-#if UNITY_EDITOR && !ODIN_INSPECTOR
+	#if RSLIB && UNITY_EDITOR && !ODIN_INSPECTOR
     [CustomEditor(typeof(SpriteBlink))]
     public class SpriteBlinkEditor : EditorUtilities.ButtonProviderEditor<SpriteBlink>
     {
@@ -338,5 +340,5 @@
 	        DrawButton("Blink Alpha", () => Obj.BlinkAlpha(1, () => Debug.Log("Alpha blink over.")));
         }
     }
-#endif
+	#endif
 }
