@@ -199,7 +199,8 @@
         public static System.Tuple<float, float> ComputeClosestPointOnSegment(float ax, float ay, float bx, float by, float px, float py)
         {
             float d = ComputeDotProduct(px - ax, py - ay, bx - ax, by - ay) / ComputeDotProduct(bx - ax, by - ay, bx - ax, by - ay);
-            return System.Tuple.Create(ax + d.Clamp01() * (bx - ax), ay + d.Clamp01() * (by - ay));
+            d = d < 0f ? 0f : d > 1f ? 1f : d;
+            return System.Tuple.Create(ax + d * (bx - ax), ay + d * (by - ay));
         }
 
         /// <summary>
@@ -212,7 +213,8 @@
         public static UnityEngine.Vector2 ComputeClosestPointOnSegment(UnityEngine.Vector2 a, UnityEngine.Vector2 b, UnityEngine.Vector2 p)
         {
             float d = UnityEngine.Vector2.Dot(p - a, b - a) / UnityEngine.Vector2.Dot(b - a, b - a);
-            return a + d.Clamp01() * (b - a);
+            d = d < 0f ? 0f : d > 1f ? 1f : d;
+            return a + d * (b - a);
         }
 
         /// <summary>
