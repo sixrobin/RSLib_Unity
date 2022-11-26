@@ -50,7 +50,9 @@
         /// </summary>
         public static void RemoveCloneFromName(this GameObject go)
         {
-            go.name = go.name.RemoveFirstOccurrence("(Clone)");
+            const string toRemove = "(Clone)";
+            int index = go.name.IndexOf(toRemove);
+            go.name = index < 0 ? go.name : go.name.Remove(index, toRemove.Length);
         }
 
         /// <summary>
