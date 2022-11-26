@@ -68,11 +68,13 @@
 		#endif
         [SerializeField, Range(0f, 1f)] private float _blinkColorAlpha = 1f;
         
+        #if RSLIB
 		#if ODIN_INSPECTOR
 		[FoldoutGroup("Color Blink")]
 		#endif
 		[SerializeField] private Curve _colorEasingCurve = Curve.InQuad;
-		
+		#endif
+
 		#if ODIN_INSPECTOR
 		[FoldoutGroup("Color Blink")]
 		#endif
@@ -102,11 +104,13 @@
 		#endif
 		[SerializeField, Range(0f, 1f)] private float _targetAlpha = 0f;
 		
+		#if RSLIB
 		#if ODIN_INSPECTOR
 		[FoldoutGroup("Alpha Blink")]
 		#endif
 		[SerializeField] private Curve _alphaEasingCurve = Curve.InQuad;
-		
+		#endif
+
 		#if ODIN_INSPECTOR
 		[FoldoutGroup("Alpha Blink")]
 		#endif
@@ -149,7 +153,12 @@
 			if (_colorCoroutine != null)
 				StopCoroutine(_colorCoroutine);
 
+			#if RSLIB
 			_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(0f));
+			#else
+			Color color = new Color(_color.r, _color.g, _color.b, 0f);
+			_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, color);
+			#endif
 		}
 
 		public void ResetAlpha()
@@ -157,7 +166,14 @@
 			if (_alphaCoroutine != null)
 				StopCoroutine(_alphaCoroutine);
 
+			#if RSLIB
 			_blinkMaterial.SetColor(COLOR_SHADER_PARAM, _blinkMaterial.GetColor(COLOR_SHADER_PARAM).WithA(1f));
+			#else
+			Color color = _blinkMaterial.GetColor(COLOR_SHADER_PARAM);
+			color.a = 1f;
+			_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, color);
+			#endif
+			
 		}
 
         private IEnumerator BlinkColorCoroutine(int count, System.Action callback = null)
@@ -165,15 +181,30 @@
             if (count < 1)
                 yield break;
 
+            #if !RSLIB
+            Color color = _color;
+            #endif
+            
             for (int i = 0; i < count; ++i)
             {
                 for (float t = 0f; t < 1f; t += (TimeScaleDependent ? Time.deltaTime : Time.unscaledDeltaTime) / _colorFadeDur)
                 {
-                    _blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(t.Ease(_colorEasingCurve) * _blinkColorAlpha));
+	                #if RSLIB
+	                _blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(t.Ease(_colorEasingCurve) * _blinkColorAlpha));
+	                #else
+	                color.a = t * _blinkColorAlpha;
+					_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, color);
+	                #endif
+	                
                     yield return null;
                 }
-
+                
+                #if RSLIB
                 _blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(_blinkColorAlpha));
+                #else
+	            color.a = _blinkColorAlpha;
+				_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, color);
+                #endif
 
                 if (TimeScaleDependent)
                     yield return Yield.SharedYields.WaitForSeconds(_coloredDur);
@@ -182,12 +213,23 @@
 
                 for (float t = 0f; t < 1f; t += (TimeScaleDependent ? Time.deltaTime : Time.unscaledDeltaTime) / _colorFadeDur)
                 {
-                    _blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(_blinkColorAlpha - t.Ease(_colorEasingCurve) * _blinkColorAlpha));
+	                #if RSLIB
+	                _blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(_blinkColorAlpha - t.Ease(_colorEasingCurve) * _blinkColorAlpha));
+	                #else
+	                color.a = _blinkColorAlpha - t * _blinkColorAlpha;
+					_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, color);
+	                #endif
+	                
                     yield return null;
                 }
 
+                #if RSLIB
                 _blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(0f));
-
+                #else
+                color.a = 0f;
+				_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, color);
+                #endif
+                
 				if (_inBetweenColorBlinksDur > 0f)
 					yield return Yield.SharedYields.WaitForSeconds(_inBetweenColorBlinksDur);
 			}
@@ -200,17 +242,32 @@
             if (count < 1)
                 yield break;
 
+            Color initColor = _blinkMaterial.GetColor(COLOR_SHADER_PARAM);
+
+			#if !RSLIB
+            Color color = initColor;
+            #endif
+
             for (int i = 0; i < count; ++i)
             {
-			    Color initColor = _blinkMaterial.GetColor(COLOR_SHADER_PARAM);
-
 			    for (float t = 0f; t < 1f; t += (TimeScaleDependent ? Time.deltaTime : Time.unscaledDeltaTime) / _alphaFadeDur)
 			    {
-				    _blinkMaterial.SetColor(COLOR_SHADER_PARAM, initColor.WithA(Mathf.Lerp (1f, _targetAlpha, t.Ease(_alphaEasingCurve))));
+				    #if RSLIB
+				    _blinkMaterial.SetColor(COLOR_SHADER_PARAM, initColor.WithA(Mathf.Lerp(1f, _targetAlpha, t.Ease(_alphaEasingCurve))));
+				    #else
+				    color.a = Mathf.Lerp(1f, _targetAlpha, t);
+					_blinkMaterial.SetColor(COLOR_SHADER_PARAM, color);
+				    #endif
+				    
 				    yield return null;
 			    }
 
+			    #if RSLIB
 			    _blinkMaterial.SetColor(COLOR_SHADER_PARAM, initColor.WithA(_targetAlpha));
+				#else
+	            color.a = _targetAlpha;
+				_blinkMaterial.SetColor(COLOR_SHADER_PARAM, color);
+				#endif
 
 			    if (TimeScaleDependent)
                     yield return Yield.SharedYields.WaitForSeconds(_transparencyDur);
@@ -219,11 +276,22 @@
 
 			    for (float t = 0f; t < 1f; t += (TimeScaleDependent ? Time.deltaTime : Time.unscaledDeltaTime) / _alphaFadeDur)
 			    {
+				    #if RSLIB
 				    _blinkMaterial.SetColor(COLOR_SHADER_PARAM, initColor.WithA(Mathf.Lerp(_targetAlpha, 1f, t.Ease(_alphaEasingCurve))));
+				    #else
+				    color.a = Mathf.Lerp(_targetAlpha, 1f, t);
+					_blinkMaterial.SetColor(COLOR_SHADER_PARAM, color);
+				    #endif
+				    
 				    yield return null;
 			    }
 
+			    #if RSLIB
 			    _blinkMaterial.SetColor(COLOR_SHADER_PARAM, initColor.WithA(1f));
+			    #else
+	            color.a = 1f;
+				_blinkMaterial.SetColor(COLOR_SHADER_PARAM, color);
+			    #endif
 
 				if (_inBetweenAlphaBlinksDur > 0f)
 	                yield return Yield.SharedYields.WaitForSeconds(_inBetweenAlphaBlinksDur);
@@ -235,11 +303,17 @@
         private void Awake()
 		{
 			SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+			TimeScaleDependent = _timeScaleDependent;
 
 			_blinkMaterial = _useSharedMaterial ? spriteRenderer.sharedMaterial : spriteRenderer.material;
 			_blinkMaterial.shader = _blinkShader;
-			_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(0));
-            TimeScaleDependent = _timeScaleDependent;
+			
+			#if RSLIB
+			_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, _color.WithA(0f));
+			#else
+			Color color = new Color(_color.r, _color.g, _color.b, 0f);
+			_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, color);
+			#endif
         }
 
 		private void OnValidate()
