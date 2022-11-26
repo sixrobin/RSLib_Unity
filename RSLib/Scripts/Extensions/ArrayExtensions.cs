@@ -73,7 +73,7 @@
 			T[] choice = new T[quantity];
 			for (int i = quantity - 1; i >= 0; --i)
 			{
-				T pick = list.RandomElement();
+				T pick = list[s_rnd.Next(list.Count)];
 				choice[i] = pick;
 				list.Remove(pick);
 			}
