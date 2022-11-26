@@ -322,6 +322,7 @@
             return Mathf.LerpUnclamped(v.x, v.y, animationCurve.Evaluate(t));
         }
 
+        #if RSLIB
         /// <summary>
         /// Computes the interpolation between x and y components using an interpolation value and an easing curve.
         /// </summary>
@@ -345,7 +346,8 @@
         {
             return Mathf.LerpUnclamped(v.x, v.y, t.Ease(curve));
         }
-        
+        #endif
+
         #endregion // LERP
         
         #region NORMAL
