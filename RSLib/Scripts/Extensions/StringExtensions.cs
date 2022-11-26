@@ -1,7 +1,5 @@
 ﻿namespace RSLib.Extensions
 {
-    using RSLib.Maths;
-
     public static class StringExtensions
     {
         #region CONVERSION
@@ -163,7 +161,8 @@
         /// <returns>String with removed characters.</returns>
         public static string RemoveFirst(this string str, int amount)
         {
-            return string.IsNullOrEmpty(str) ? str : str.Substring(amount.Clamp(1, str.Length));
+            int amountClamped = amount < 1 ? 1 : amount > str.Length ? str.Length : amount;
+            return string.IsNullOrEmpty(str) ? str : str.Substring(amountClamped);
         }
 
         /// <summary>
@@ -195,7 +194,8 @@
         /// <returns>String with removed characters.</returns>
         public static string RemoveLast(this string str, int amount)
         {
-            return string.IsNullOrEmpty(str) ? str : str.Substring(0, str.Length - amount.Clamp(0, str.Length));
+            int amountClamped = amount < 0 ? 0 : amount > str.Length ? str.Length : amount;
+            return string.IsNullOrEmpty(str) ? str : str.Substring(0, str.Length - amountClamped);
         }
 
         /// <summary>
