@@ -208,10 +208,7 @@
 				_blinkMaterial.SetColor(BLINK_COLOR_SHADER_PARAM, color);
                 #endif
 
-                if (TimeScaleDependent)
-                    yield return Yield.SharedYields.WaitForSeconds(_coloredDur);
-                else
-                    yield return Yield.SharedYields.WaitForSecondsRealtime(_coloredDur);
+                yield return WaitForDuration(_coloredDur);
 
                 for (float t = 0f; t < 1f; t += (TimeScaleDependent ? Time.deltaTime : Time.unscaledDeltaTime) / _colorFadeDur)
                 {
@@ -233,7 +230,7 @@
                 #endif
                 
 				if (_inBetweenColorBlinksDur > 0f)
-					yield return Yield.SharedYields.WaitForSeconds(_inBetweenColorBlinksDur);
+					yield return WaitForDuration(_inBetweenColorBlinksDur);
 			}
 
             callback?.Invoke();
@@ -271,10 +268,7 @@
 				_blinkMaterial.SetColor(COLOR_SHADER_PARAM, color);
 				#endif
 
-			    if (TimeScaleDependent)
-                    yield return Yield.SharedYields.WaitForSeconds(_transparencyDur);
-			    else
-                    yield return Yield.SharedYields.WaitForSecondsRealtime(_transparencyDur);
+				yield return WaitForDuration(_transparencyDur);
 
 			    for (float t = 0f; t < 1f; t += (TimeScaleDependent ? Time.deltaTime : Time.unscaledDeltaTime) / _alphaFadeDur)
 			    {
@@ -296,12 +290,27 @@
 			    #endif
 
 				if (_inBetweenAlphaBlinksDur > 0f)
-	                yield return Yield.SharedYields.WaitForSeconds(_inBetweenAlphaBlinksDur);
+					yield return WaitForDuration(_inBetweenAlphaBlinksDur);
 			}
 
 			callback?.Invoke();
         }
 
+        private IEnumerator WaitForDuration(float duration)
+        {
+	        #if RSLIB
+	        if (TimeScaleDependent)
+		        yield return Yield.SharedYields.WaitForSeconds(duration);
+	        else
+		        yield return Yield.SharedYields.WaitForSecondsRealtime(duration);
+	        #else
+	        if (TimeScaleDependent)
+		        yield return new WaitForSeconds(duration);
+	        else
+		        yield return new WaitForSecondsRealtime(duration);
+	        #endif
+        }
+        
         private void Awake()
 		{
 			SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
