@@ -43,7 +43,7 @@
 
 			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
 			Vector2 angledDiagonal = rotation * diagonal;
-			Vector2 angledDiagonalOpposite = rotation * diagonal.WithX(-diagonal.x);
+			Vector2 angledDiagonalOpposite = rotation * new Vector3(-diagonal.x, diagonal.y);
 
 			position += (Vector2)(rotation * Vector2.Scale(box.offset, scale));
 
@@ -70,7 +70,7 @@
 
 			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
 			Vector2 angledDiagonal = rotation * diagonal;
-			Vector2 angledDiagonalOpposite = rotation * diagonal.WithX(-diagonal.x);
+			Vector2 angledDiagonalOpposite = rotation * new Vector3(-diagonal.x, diagonal.y);
 
 			position += (Vector2)(rotation * Vector2.Scale(box.offset, scale));
 
@@ -95,7 +95,7 @@
 
 			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
 			Vector2 angledDiagonal = rotation * diagonal;
-			Vector2 angledDiagonalOpposite = rotation * diagonal.WithX(-diagonal.x);
+			Vector2 angledDiagonalOpposite = rotation * new Vector3(-diagonal.x, diagonal.y);
 
 			position += (Vector2)(rotation * Vector2.Scale(box.offset, scale));
 
@@ -120,7 +120,7 @@
 
 			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
 			Vector2 angledDiagonal = rotation * diagonal;
-			Vector2 angledDiagonalOpposite = rotation * diagonal.WithX(-diagonal.x);
+			Vector2 angledDiagonalOpposite = rotation * new Vector3(-diagonal.x, diagonal.y);
 
 			position += (Vector2)(rotation * Vector2.Scale(box.offset, scale));
 
@@ -145,7 +145,7 @@
 
 			Vector2 diagonal = Vector2.Scale(box.size, scale) * 0.5f;
 			Vector2 angledDiagonal = rotation * diagonal;
-			Vector2 angledDiagonalOpposite = rotation * diagonal.WithX(-diagonal.x);
+			Vector2 angledDiagonalOpposite = rotation * new Vector3(-diagonal.x, diagonal.y);
 
 			position += (Vector2)(rotation * Vector2.Scale(box.offset, scale));
 
