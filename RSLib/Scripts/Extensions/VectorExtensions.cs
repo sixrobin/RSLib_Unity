@@ -1,6 +1,8 @@
 ﻿namespace RSLib.Extensions
 {
+    #if RSLIB
     using Maths;
+    #endif
     using UnityEngine;
 
     public static class VectorExtensions
