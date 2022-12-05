@@ -230,10 +230,23 @@
     {
         [SerializeField] private Float _dataFloat = null;
         [SerializeField] private float _valueFloat = 0f;
-        [SerializeField] private bool _useDataValue = true;
+        [SerializeField] private bool _useDataValue = false;
 
-        public float Value => _useDataValue ? _dataFloat : _valueFloat;
+        public float Value
+        {
+            get
+            {
+                if (!this._useDataValue)
+                    return this._valueFloat;
 
+                if (this._dataFloat != null)
+                    return this._dataFloat;
+                
+                Debug.LogError("Trying to get a DataFloat value with a null reference! Returning default float value.");
+                return default;
+            }
+        }
+        
         public void Set(float value)
         {
             if (_useDataValue) _dataFloat.Value = value;

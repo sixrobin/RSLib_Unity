@@ -230,9 +230,22 @@
     {
         [SerializeField] private Int _dataInt = null;
         [SerializeField] private int _valueInt = 0;
-        [SerializeField] private bool _useDataValue = true;
+        [SerializeField] private bool _useDataValue = false;
 
-        public int Value => _useDataValue ? _dataInt : _valueInt;
+        public int Value
+        {
+            get
+            {
+                if (!this._useDataValue)
+                    return this._valueInt;
+
+                if (this._dataInt != null)
+                    return this._dataInt;
+                
+                Debug.LogError("Trying to get a DataInt value with a null reference! Returning default int value.");
+                return default;
+            }
+        }
         
         public void Set(int value)
         {

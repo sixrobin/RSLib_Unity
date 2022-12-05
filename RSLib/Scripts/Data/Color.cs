@@ -27,9 +27,22 @@
     {
         [SerializeField] private Color _dataColor = null;
         [SerializeField] private UnityEngine.Color _valueColor = UnityEngine.Color.white;
-        [SerializeField] private bool _useDataValue = true;
+        [SerializeField] private bool _useDataValue = false;
 
-        public UnityEngine.Color Value => _useDataValue ? _dataColor : _valueColor;
+        public UnityEngine.Color Value
+        {
+            get
+            {
+                if (!this._useDataValue)
+                    return this._valueColor;
+
+                if (this._dataColor != null)
+                    return this._dataColor;
+                
+                Debug.LogError("Trying to get a DataColor value with a null reference! Returning magenta.");
+                return UnityEngine.Color.magenta;
+            }
+        }
 
         #region CONVERSION OPERATORS
         
