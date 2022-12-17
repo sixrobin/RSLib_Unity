@@ -9,7 +9,8 @@ namespace RSLib.AStar
         public IAStarMesh AStarMesh;
         public T ParentNode;
         public System.Collections.Generic.List<T> Neighbours;
-        public bool IsNodeAvailable = true;
+		
+        public virtual bool IsNodeAvailable { get; set; } = true;
 
         public int HeapIndex { get; set; }
         
