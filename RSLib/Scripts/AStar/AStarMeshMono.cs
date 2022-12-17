@@ -9,9 +9,6 @@
     [DisallowMultipleComponent]
     public abstract class AStarMeshMono : MonoBehaviour, IAStarMesh
     {
-        /// <summary>
-        /// Count of nodes inside the mesh.
-        /// </summary>
         public abstract int Size { get; }
 
         public delegate void NodeChangeEventHandler(AStarNodeMono node);
@@ -19,9 +16,6 @@
         public event NodeChangeEventHandler NodeAdded;
         public event NodeChangeEventHandler NodeRemoved;
 
-        /// <summary>
-        /// Resets the costs used to find a path. Should be called before the A* computation.
-        /// </summary>
         public abstract void ResetNodes();
 
         /// <summary>

@@ -33,17 +33,7 @@
 			mesh.NodeRemoved += OnNodeRemoved;
 		}
 
-		/// <summary>
-		/// Resets the costs that are used to find a path.
-		/// Should be called before the A* computation.
-		/// </summary>
-		public void Reset()
-		{
-			GCost = 0;
-			HCost = 0;
-		}
-
-		/// <summary>
+        /// <summary>
 		/// Called when a new node is added to the holding mesh.
 		/// </summary>
 		/// <param name="node">The new node.</param>

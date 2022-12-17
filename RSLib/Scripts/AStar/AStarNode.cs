@@ -26,5 +26,15 @@ namespace RSLib.AStar
 
             return -comparison;
         }
+        
+        /// <summary>
+        /// Resets the costs that are used to find a path.
+        /// Should be called before the A* computation.
+        /// </summary>
+        public virtual void Reset()
+        {
+            GCost = 0;
+            HCost = 0;
+        }
     }
 }
