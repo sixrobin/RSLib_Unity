@@ -7,7 +7,7 @@
     /// Grid mesh placed anywhere in the scene, based on grid size and nodes sizes.
     /// Holds a 2D array of AStarNodeGrid which dimensions are not editable.
     /// </summary>
-    public class AStarMeshGrid : AStarMesh
+    public class AStarMeshGrid : AStarMeshMono
     {
         [Header("GRID SETTINGS")]
         [SerializeField] private LayerMask UnwalkableMask = 0;
@@ -29,7 +29,7 @@
                 node.Reset();
         }
 
-        public override bool ContainsNode(AStarNode node)
+        public override bool ContainsNode(AStarNodeMono node)
         {
             for (int x = 0; x < _width; ++x)
                 for (int y = 0; y < _height; ++y)
@@ -83,7 +83,7 @@
                 {
                     Vector3 worldPos = worldBottomLeft + Vector3.right * (x * NodeDiameter + NodeRadius) + Vector3.forward * (y * NodeDiameter + NodeRadius);
                     bool walkable = !Physics.CheckSphere(worldPos, NodeRadius, UnwalkableMask);
-                    _mesh[x, y] = new AStarNodeGrid(x, y, worldPos, 1) { IsAvailable = walkable };
+                    _mesh[x, y] = new AStarNodeGrid(x, y, worldPos, 1) { IsNodeAvailable = walkable };
                     _mesh[x, y].SetMesh(this);
                 }
             }
@@ -99,9 +99,9 @@
         /// <param name="nodeX">X index of the node.</param>
         /// <param name="nodeY">Y index of the node.</param>
         /// <returns>List of the node neighbours.</returns>
-        private System.Collections.Generic.List<AStarNode> GetNodeNeighbours(int nodeX, int nodeY)
+        private System.Collections.Generic.List<AStarNodeMono> GetNodeNeighbours(int nodeX, int nodeY)
         {
-            System.Collections.Generic.List<AStarNode> neighbours = new System.Collections.Generic.List<AStarNode>();
+            System.Collections.Generic.List<AStarNodeMono> neighbours = new System.Collections.Generic.List<AStarNodeMono>();
 
             for (int x = -1; x <= 1; ++x)
             {
@@ -134,11 +134,11 @@
 
             foreach (AStarNodeGrid node in _mesh)
             {
-                Gizmos.color = node.IsAvailable ? Color.cyan : Color.red;
+                Gizmos.color = node.IsNodeAvailable ? Color.cyan : Color.red;
                 Gizmos.DrawSphere(node.WorldPos, 0.12f);
 
                 Gizmos.color = Color.white.WithA(0.1f);
-                foreach (AStarNode neighbour in node.Neighbours)
+                foreach (AStarNodeMono neighbour in node.Neighbours)
                     Gizmos.DrawLine(node.WorldPos, neighbour.WorldPos);
             }
         }

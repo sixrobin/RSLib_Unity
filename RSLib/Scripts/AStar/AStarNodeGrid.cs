@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    public class AStarNodeGrid : AStarNode
+    public class AStarNodeGrid : AStarNodeMono
     {
         public int GridX { get; }
         public int GridY { get; }
@@ -13,7 +13,7 @@
             GridY = gridY;
         }
 
-        public override int CostToNode(AStarNode node)
+        public override int CostToNode(AStarNodeMono node)
         {
             int xDist = Mathf.Abs((node as AStarNodeGrid).GridX - GridX);
             int yDist = Mathf.Abs((node as AStarNodeGrid).GridY - GridY);

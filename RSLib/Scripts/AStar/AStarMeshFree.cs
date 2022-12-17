@@ -6,7 +6,7 @@
     /// Free mesh where nodes are placed manually in the scene.
     /// Has an array of AStarNodeFreeGO to generate the mesh on start.
     /// </summary>
-    public class AStarMeshFree : AStarMesh
+    public class AStarMeshFree : AStarMeshMono
     {
         [Header ("NODES BAKED ON START")]
         // Nodes that are added to the mesh on start.
@@ -22,12 +22,12 @@
                 node.Reset();
         }
 
-        public override bool ContainsNode(AStarNode node)
+        public override bool ContainsNode(AStarNodeMono node)
         {
             return Mesh.Contains(node as AStarNodeFree);
         }
 
-        public override void AddNode(AStarNode node)
+        public override void AddNode(AStarNodeMono node)
         {
             base.AddNode(node);
 
@@ -38,7 +38,7 @@
             Mesh.Add((AStarNodeFree)node);
         }
 
-        public override void AddNode(AStarNode node, System.Collections.Generic.List<AStarNode> nodeNeighbours)
+        public override void AddNode(AStarNodeMono node, System.Collections.Generic.List<AStarNodeMono> nodeNeighbours)
         {
             base.AddNode(node, nodeNeighbours);
 
@@ -53,7 +53,7 @@
                     potentialNeighbour.Neighbours.Add(node);
         }
 
-        public override void RemoveNode(AStarNode node)
+        public override void RemoveNode(AStarNodeMono node)
         {
             base.RemoveNode(node);
             Mesh.Remove((AStarNodeFree)node);

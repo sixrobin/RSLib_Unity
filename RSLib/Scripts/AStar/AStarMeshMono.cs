@@ -7,14 +7,14 @@
     /// Contains event for adding or removing node, the size of the mesh and an abstract method to generate it.
     /// </summary>
     [DisallowMultipleComponent]
-    public abstract class AStarMesh : MonoBehaviour
+    public abstract class AStarMeshMono : MonoBehaviour, IAStarMesh
     {
         /// <summary>
         /// Count of nodes inside the mesh.
         /// </summary>
         public abstract int Size { get; }
 
-        public delegate void NodeChangeEventHandler(AStarNode node);
+        public delegate void NodeChangeEventHandler(AStarNodeMono node);
 
         public event NodeChangeEventHandler NodeAdded;
         public event NodeChangeEventHandler NodeRemoved;
@@ -27,19 +27,19 @@
         /// <summary>
         /// Checks if a node is already in the mesh.
         /// </summary>
-        public abstract bool ContainsNode(AStarNode node);
+        public abstract bool ContainsNode(AStarNodeMono node);
 
-        public virtual void AddNode(AStarNode node)
+        public virtual void AddNode(AStarNodeMono node)
         {
             NodeAdded?.Invoke(node);
         }
 
-        public virtual void AddNode(AStarNode node, System.Collections.Generic.List<AStarNode> nodeNeighbours)
+        public virtual void AddNode(AStarNodeMono node, System.Collections.Generic.List<AStarNodeMono> nodeNeighbours)
         {
             NodeAdded?.Invoke(node);
         }
 
-        public virtual void RemoveNode(AStarNode node)
+        public virtual void RemoveNode(AStarNodeMono node)
         {
             NodeRemoved?.Invoke(node);
         }

@@ -5,14 +5,14 @@
 	/// <summary>
 	/// Node belonging to any A* free mesh.
 	/// </summary>
-	public class AStarNodeFree : AStarNode
+	public class AStarNodeFree : AStarNodeMono
     {
 		public AStarNodeFree(Vector3 worldPos, int baseCost) : base(worldPos, baseCost)
 		{
 
 		}
 
-		public override void OnNodeRemoved(AStarNode node)
+		public override void OnNodeRemoved(AStarNodeMono node)
 		{
 			if (node == this)
 				return;
@@ -26,7 +26,7 @@
 		/// </summary>
 		/// <param name="node">The compared node.</param>
 		/// <returns>The cost to move to the other node.</returns>
-		public override int CostToNode(AStarNode node)
+		public override int CostToNode(AStarNodeMono node)
         {
 			return (int)(WorldPos - node.WorldPos).sqrMagnitude + BaseCost * BaseCost;
         }
@@ -36,7 +36,7 @@
 		/// </summary>
 		public void RemoveFromMesh()
 		{
-			Mesh.RemoveNode(this);
+			((AStarMeshFree)AStarMesh).RemoveNode(this);
 		}
 	}
 }

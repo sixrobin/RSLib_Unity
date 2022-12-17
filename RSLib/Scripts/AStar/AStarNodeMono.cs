@@ -4,11 +4,8 @@
 	/// Main class of any A* mesh type node.
 	/// Holds information about the pathfinding, along with some events and the node's world position.
 	/// </summary>
-	public abstract class AStarNode : Framework.Collections.IHeapElement<AStarNode>
+	public abstract class AStarNodeMono : IAStarNode<AStarNodeMono>
 	{
-		public AStarNode Parent;
-        public System.Collections.Generic.List<AStarNode> Neighbours;
-
 		/// <summary>
 		/// World position of the node, used for gameObjects path follow.
 		/// </summary>
@@ -20,25 +17,27 @@
         public int HCost { get; set; }
         public int FCost => GCost + HCost;
 
-        public AStarMesh Mesh { get; protected set; }
+        public IAStarMesh AStarMesh { get; private set; }
+        public AStarNodeMono ParentNode { get; set; }
+        public System.Collections.Generic.List<AStarNodeMono> Neighbours { get; set; }
 
 		/// <summary>
 		/// One by default, increase the value to make the node more expensive during the A* research.
 		/// </summary>
-		public int BaseCost { get; set; }
+		public int BaseCost { get; }
 
         /// <summary>
         /// Node will be ignored during the A* research if this is false.
         /// </summary>
-        public bool IsAvailable { get; set; } = true;
+        public bool IsNodeAvailable { get; set; } = true;
 
-		public AStarNode(UnityEngine.Vector3 worldPos, int baseCost)
+		public AStarNodeMono(UnityEngine.Vector3 worldPos, int baseCost)
 		{
 			WorldPos = worldPos;
 			BaseCost = baseCost;
 		}
 
-		public int CompareTo(AStarNode node)
+		public int CompareTo(AStarNodeMono node)
 		{
 			int comparison = FCost.CompareTo(node.FCost);
 			if (comparison == 0)
@@ -51,11 +50,11 @@
 		/// Sets the mesh in which the node is belonging and adds listeners to this mesh events.
 		/// </summary>
 		/// <param name="mesh">The holding mesh.</param>
-		public void SetMesh(AStarMesh mesh)
+		public void SetMesh(AStarMeshMono mesh)
 		{
-			Mesh = mesh;
-			Mesh.NodeAdded += OnNodeAdded;
-			Mesh.NodeRemoved += OnNodeRemoved;
+			AStarMesh = mesh;
+			mesh.NodeAdded += OnNodeAdded;
+			mesh.NodeRemoved += OnNodeRemoved;
 		}
 
 		/// <summary>
@@ -74,13 +73,13 @@
 		/// </summary>
 		/// <param name="node">The compared node.</param>
 		/// <returns>The cost to move to the other node.</returns>
-		public abstract int CostToNode(AStarNode node);
+		public abstract int CostToNode(AStarNodeMono node);
 
 		/// <summary>
 		/// Called when a new node is added to the holding mesh.
 		/// </summary>
 		/// <param name="node">The new node.</param>
-		public virtual void OnNodeAdded(AStarNode node)
+		public virtual void OnNodeAdded(AStarNodeMono node)
         {
         }
 
@@ -88,8 +87,8 @@
 		/// Called when a node is removed from the holding mesh.
 		/// </summary>
 		/// <param name="node">The removed node.</param>
-		public virtual void OnNodeRemoved(AStarNode node)
+		public virtual void OnNodeRemoved(AStarNodeMono node)
         {
-        }	
+        }
 	}
 }

@@ -28,7 +28,7 @@
         /// <param name="mesh">The mesh to add this node to.</param>
         public void AddToMesh(AStarMeshFree mesh)
 		{
-            List<AStarNode> neighboursNodes = new List<AStarNode>();
+            List<AStarNodeMono> neighboursNodes = new List<AStarNodeMono>();
 			foreach (AStarNodeFreeGO neighbourGO in _neighbours)
 				neighboursNodes.Add(neighbourGO.Node);
 
@@ -37,12 +37,12 @@
 
 		private void Awake()
 		{
-			Node = new AStarNodeFree(transform.position, _baseCost) { IsAvailable = _availableOnAwake };
+			Node = new AStarNodeFree(transform.position, _baseCost) { IsNodeAvailable = _availableOnAwake };
 		}
 
         private void Start()
 		{
-			List<AStarNode> neighbours = new List<AStarNode>();
+			List<AStarNodeMono> neighbours = new List<AStarNodeMono>();
 			foreach (AStarNodeFreeGO neighbourGO in _neighbours)
 				neighbours.Add (neighbourGO.Node);
 
@@ -64,7 +64,7 @@
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Node == null || !Node.IsAvailable ? Color.red : Color.cyan;
+            Gizmos.color = Node == null || !Node.IsNodeAvailable ? Color.red : Color.cyan;
             Gizmos.DrawSphere(transform.position, 0.4f);
 
             if (UnityEditor.EditorApplication.isPlaying)
@@ -74,11 +74,11 @@
                 if (Node.Neighbours == null || Node.Neighbours.Count == 0)
                     return;
 
-                foreach (AStarNode neighbour in Node.Neighbours)
+                foreach (AStarNodeMono neighbour in Node.Neighbours)
                 {
                     Gizmos.color = (!neighbour.Neighbours.Contains(Node)
                         ? Color.white
-                        : !neighbour.IsAvailable || !Node.IsAvailable
+                        : !neighbour.IsNodeAvailable || !Node.IsNodeAvailable
                             ? Color.red
                             : Color.cyan).WithA(0.25f);
 
@@ -99,7 +99,7 @@
                 }
             }
 
-            if (Node != null && Node.IsAvailable)
+            if (Node != null && Node.IsNodeAvailable)
                 UnityEditor.Handles.Label(transform.position + Vector3.up * _costHeight, $"COST: {Node.BaseCost}", UnityEditor.EditorStyles.boldLabel);
 		}
 #endif

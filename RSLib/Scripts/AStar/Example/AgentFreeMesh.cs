@@ -9,7 +9,7 @@
         [SerializeField] private AStarNodeFreeGO _start = null;
         [SerializeField] private AStarNodeFreeGO _destination = null;
 
-        private List<AStarNode> _path = new List<AStarNode>();
+        private List<AStarNodeMono> _path = new List<AStarNodeMono>();
 
         private IEnumerator FollowPathCoroutine()
         {
@@ -17,7 +17,8 @@
 
             while (true)
             {
-                _path = AStar.FindPath(_start.Node, _destination.Node);
+                AStar<AStarNodeMono> aStar = new AStar<AStarNodeMono>();
+                _path = aStar.FindPath(_start.Node, _destination.Node);
                 transform.position = _path[0].WorldPos;
 
                 for (int i = 1; i < _path.Count; ++i)

@@ -10,9 +10,9 @@
         [SerializeField] private AStarMeshGrid _grid = null;
         [SerializeField] private Transform _destination = null;
 
-        private List<AStarNode> _path = new List<AStarNode>();
-        private AStarNode _startNode;
-        private AStarNode _destinationNode;
+        private List<AStarNodeMono> _path = new List<AStarNodeMono>();
+        private AStarNodeMono _startNode;
+        private AStarNodeMono _destinationNode;
 
         private IEnumerator FollowPathCoroutine()
         {
@@ -22,7 +22,8 @@
 
             while (true)
             {
-                _path = AStar.FindPath(_startNode, _destinationNode);
+                AStar<AStarNodeMono> aStar = new AStar<AStarNodeMono>();
+                _path = aStar.FindPath(_startNode, _destinationNode);
                 transform.position = _path[0].WorldPos;
 
                 for (int i = 1; i < _path.Count; ++i)
