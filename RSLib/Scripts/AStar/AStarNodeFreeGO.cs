@@ -37,7 +37,10 @@
 
 		private void Awake()
 		{
-			Node = new AStarNodeFree(transform.position, _baseCost) { IsNodeAvailable = _availableOnAwake };
+			Node = new AStarNodeFree(transform.position, _baseCost)
+			{
+				IsNodeAvailable = _availableOnAwake
+			};
 		}
 
         private void Start()
@@ -59,7 +62,7 @@
 					closeNodes.Add(node);
 
 			_neighbours = closeNodes.ToArray();
-			Debug.Log ($"Found {_neighbours.Length} neighbours in a radius of {_autoFindRadius}.", gameObject);
+			Debug.Log($"Found {_neighbours.Length} neighbours in a radius of {_autoFindRadius}.", gameObject);
 		}
 
         private void OnDrawGizmos()

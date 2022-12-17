@@ -1,6 +1,6 @@
 ﻿namespace RSLib.AStar
 {
-	public sealed class AStar<T> where T : class, IAStarNode<T>
+	public sealed class AStar<T> where T : AStarNode<T>
 	{
 		/// <summary>
 		/// Returns the path to follow to go from a starting node to a destination node if both are in the same mesh.
