@@ -10,8 +10,12 @@
 		/// <returns>The path to follow.</returns>
 		public System.Collections.Generic.List<T> FindPath(T start, T destination)
 		{
+			if (start == destination)
+			{
+				return new System.Collections.Generic.List<T>() { start, destination };
+			}
+			
 			// Precondition checks.
-			UnityEngine.Assertions.Assert.IsTrue(start != destination, $"A* error: {nameof(start)} node and {nameof(destination)} node are the same.");
 			UnityEngine.Assertions.Assert.IsTrue(start.AStarMesh != null, $"A* error: {nameof(start)} node mesh is null.");
 			UnityEngine.Assertions.Assert.IsTrue(destination.AStarMesh != null, $"A* error: {nameof(destination)} node mesh is null.");
 			UnityEngine.Assertions.Assert.IsTrue(start.AStarMesh == destination.AStarMesh, $"A* error: {nameof(start)} node and {nameof(destination)} don't belong to the same mesh.");
