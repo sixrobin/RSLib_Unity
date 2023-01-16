@@ -11,12 +11,12 @@
 
         public RandomNumberGenerator(int seed)
         {
-            _seed = seed;
+            this.Seed = seed;
         }
 
         public RandomNumberGenerator(GeneratorState state)
         {
-            _seed = state.Seed;
+            this.Seed = state.Seed;
             DeserializeGlobalState(state);
         }
 
@@ -33,10 +33,11 @@
             public int Seed;
             public List<RandomState> RandomStates;
         }
-        
-        private readonly int _seed;
+
         private readonly Dictionary<string, System.Random> _randomsLibrary = new Dictionary<string, System.Random>();
-        
+
+        public int Seed { get; }
+
         /// <summary>
         /// Retrieves the Random instance to use for a given calling object, based on its type.
         /// If no Random is found, a new instance is created on the fly and added to the randoms library.
@@ -49,7 +50,7 @@
             
             if (!_randomsLibrary.TryGetValue(callerId, out System.Random random))
             {
-                random = _seed != 0 ? new System.Random(_seed) : new System.Random();
+                random = this.Seed != 0 ? new System.Random(this.Seed) : new System.Random();
                 _randomsLibrary.Add(callerId, random);
             }
 
@@ -83,9 +84,9 @@
         /// </summary>
         /// <param name="caller">Calling object, which type will be used.</param>
         /// <returns>True or false.</returns>
-        public bool GetRandomBool(object caller)
+        public bool RandomBool(object caller)
         {
-            return GetRandomRange(caller, 0f, 1f) > 0.5f;
+            return this.RandomRange(caller, 0f, 1f) > 0.5f;
         }
         #endregion // BOOLEAN
 
@@ -97,7 +98,7 @@
         /// <param name="min">Minimum value (inclusive).</param>
         /// <param name="max">Maximum value (inclusive).</param>
         /// <returns>Random float value.</returns>
-        private float GetRandomRange(System.Random random, float min, float max)
+        private float RandomRange(System.Random random, float min, float max)
         {
             return (float)random.NextDouble() * (max - min) + min;
         }
@@ -109,9 +110,9 @@
         /// <param name="min">Minimum value (inclusive).</param>
         /// <param name="max">Maximum value (inclusive).</param>
         /// <returns>Random float value.</returns>
-        public float GetRandomRange(object caller, float min, float max)
+        public float RandomRange(object caller, float min, float max)
         {
-            return GetRandomRange(GetRandom(caller), min, max);
+            return this.RandomRange(GetRandom(caller), min, max);
         }
         
         /// <summary>
@@ -120,9 +121,19 @@
         /// <param name="caller">Calling object, which type will be used.</param>
         /// <param name="range">Minimum and maximum values (both inclusive).</param>
         /// <returns>Random float value.</returns>
-        public float GetRandomRange(object caller, UnityEngine.Vector2 range)
+        public float RandomRange(object caller, UnityEngine.Vector2 range)
         {
-            return GetRandomRange(caller, range.x, range.y);
+            return this.RandomRange(caller, range.x, range.y);
+        }
+        
+        /// <summary>
+        /// Computes a random float value between 0f and 1f (both inclusive).
+        /// </summary>
+        /// <param name="caller">Calling object, which type will be used.</param>
+        /// <returns>Random float value between 0f and 1f.</returns>
+        public float RandomValue(object caller)
+        {
+            return this.RandomRange(caller, 0f, 1f);
         }
         #endregion // FLOAT RANGE
 
@@ -134,7 +145,7 @@
         /// <param name="min">Minimum value (inclusive).</param>
         /// <param name="max">Maximum value (exclusive).</param>
         /// <returns>Random int value.</returns>
-        private int GetRandomRange(System.Random random, int min, int max)
+        private int RandomRange(System.Random random, int min, int max)
         {
             return random.Next(min, max);
         }
@@ -146,9 +157,9 @@
         /// <param name="min">Minimum value (inclusive).</param>
         /// <param name="max">Maximum value (exclusive).</param>
         /// <returns>Random int value.</returns>
-        public int GetRandomRange(object caller, int min, int max)
+        public int RandomRange(object caller, int min, int max)
         {
-            return GetRandomRange(GetRandom(caller), min, max);
+            return this.RandomRange(GetRandom(caller), min, max);
         }
         
         /// <summary>
@@ -157,9 +168,9 @@
         /// <param name="caller">Calling object, which type will be used.</param>
         /// <param name="range">Minimum and maximum values (minimum is inclusive, maximum is exclusive).</param>
         /// <returns>Random int value.</returns>
-        public int GetRandomRange(object caller, UnityEngine.Vector2Int range)
+        public int RandomRange(object caller, UnityEngine.Vector2Int range)
         {
-            return GetRandomRange(caller, range.x, range.y);
+            return this.RandomRange(caller, range.x, range.y);
         }
         #endregion // INT RANGE
 
@@ -170,9 +181,9 @@
         /// <param name="caller">Calling object, which type will be used.</param>
         /// <param name="list">List to pick a random element in.</param>
         /// <returns>Random list element.</returns>
-        private T GetRandomElement<T>(object caller, IReadOnlyList<T> list)
+        private T RandomElement<T>(object caller, IReadOnlyList<T> list)
         {
-            return list[GetRandomRange(caller, 0, list.Count)];
+            return list[this.RandomRange(caller, 0, list.Count)];
         }
         
         /// <summary>
@@ -181,10 +192,10 @@
         /// <param name="caller">Calling object, which type will be used.</param>
         /// <param name="enumerable">IEnumerable to pick a random element in.</param>
         /// <returns>Random IEnumerable element.</returns>
-        public T GetRandomElement<T>(object caller, IEnumerable<T> enumerable)
+        public T RandomElement<T>(object caller, IEnumerable<T> enumerable)
         {
             List<T> list = enumerable.ToList();
-            return GetRandomElement(caller, list);
+            return this.RandomElement(caller, list);
         }
         
         /// <summary>
@@ -248,7 +259,7 @@
 
             return new GeneratorState()
             {
-                Seed = this._seed,
+                Seed = this.Seed,
                 RandomStates = randomStates
             };
         }

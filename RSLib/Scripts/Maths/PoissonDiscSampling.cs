@@ -25,7 +25,7 @@ namespace RSLib.Maths
         private Vector2 _sampleBox;
         private int _rejectionSamplesCount;
 
-        public System.Collections.Generic.List<Vector2> Sample()
+        public System.Collections.Generic.List<Vector2> Sample(RandomNumberGenerator rng = null)
         {
             int[,] grid = new int[Mathf.CeilToInt(_sampleBox.x / _cellSize), Mathf.CeilToInt(_sampleBox.y / _cellSize)];
 
@@ -36,16 +36,16 @@ namespace RSLib.Maths
 
             while (spawnPoints.Count > 0)
             {
-                int spawnIndex = Random.Range(0, spawnPoints.Count);
+                int spawnIndex = rng?.RandomRange(this, 0, spawnPoints.Count) ?? Random.Range(0, spawnPoints.Count);
                 Vector2 spawnCenter = spawnPoints[spawnIndex];
 
                 bool validCandidate = false;
 
                 for (int i = 0; i < _rejectionSamplesCount; ++i)
                 {
-                    float angle = Random.value * Mathf.PI * 2f;
+                    float angle = (rng?.RandomValue(this) ?? Random.value) * Mathf.PI * 2f;
                     Vector2 direction = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
-                    Vector2 candidate = spawnCenter + (direction * Random.Range(_radius, _radius * 2f));
+                    Vector2 candidate = spawnCenter + (direction * (rng?.RandomRange(this, _radius, _radius * 2f) ?? Random.Range(_radius, _radius * 2f)));
 
                     if (IsValidCandidate(candidate, points, grid))
                     {
