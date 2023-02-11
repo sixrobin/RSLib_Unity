@@ -66,7 +66,7 @@
         /// <summary>
         /// Gets a vector's copy with all components incremented.
         /// </summary>
-        /// <param name="incr">Incrementation amount.</param>
+        /// <param name="value">Incrementation amount.</param>
         public static Vector2 AddAll(this Vector2 v, float value)
         {
             return new Vector2(v.x + value, v.y + value);
@@ -351,6 +351,46 @@
         #endif
 
         #endregion // LERP
+
+        #region MIN/MAX
+
+        /// <summary>
+        /// Returns the smallest of the vector's components.
+        /// </summary>
+        /// <returns>Smallest vector component.</returns>
+        public static float Min(this Vector2 v)
+        {
+            return Mathf.Min(v.x, v.y);
+        }
+        
+        /// <summary>
+        /// Returns the smallest of the vector's components.
+        /// </summary>
+        /// <returns>Smallest vector component.</returns>
+        public static int Min(this Vector2Int v)
+        {
+            return Mathf.Min(v.x, v.y);
+        }
+        
+        /// <summary>
+        /// Returns the largest of the vector's components.
+        /// </summary>
+        /// <returns>Largest vector component.</returns>
+        public static float Max(this Vector2 v)
+        {
+            return Mathf.Max(v.x, v.y);
+        }
+        
+        /// <summary>
+        /// Returns the largest of the vector's components.
+        /// </summary>
+        /// <returns>Largest vector component.</returns>
+        public static int Max(this Vector2Int v)
+        {
+            return Mathf.Max(v.x, v.y);
+        }
+
+        #endregion // MIN/MAX
         
         #region NORMAL
 
@@ -818,6 +858,46 @@
 
         #endregion // CONVERSION
 
+        #region MIN/MAX
+
+        /// <summary>
+        /// Returns the smallest of the vector's components.
+        /// </summary>
+        /// <returns>Smallest vector component.</returns>
+        public static float Min(this Vector3 v)
+        {
+            return Mathf.Min(v.x, v.y, v.z);
+        }
+        
+        /// <summary>
+        /// Returns the smallest of the vector's components.
+        /// </summary>
+        /// <returns>Smallest vector component.</returns>
+        public static int Min(this Vector3Int v)
+        {
+            return Mathf.Min(v.x, v.y, v.z);
+        }
+        
+        /// <summary>
+        /// Returns the largest of the vector's components.
+        /// </summary>
+        /// <returns>Largest vector component.</returns>
+        public static float Max(this Vector3 v)
+        {
+            return Mathf.Max(v.x, v.y, v.z);
+        }
+        
+        /// <summary>
+        /// Returns the largest of the vector's components.
+        /// </summary>
+        /// <returns>Largest vector component.</returns>
+        public static int Max(this Vector3Int v)
+        {
+            return Mathf.Max(v.x, v.y, v.z);
+        }
+
+        #endregion // MIN/MAX
+        
         #region NORMAL
 
         public enum Axis
