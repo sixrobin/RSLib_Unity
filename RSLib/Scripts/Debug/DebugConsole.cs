@@ -5,14 +5,147 @@
     #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
     #endif
+
+    #region COMMANDS
+    
+    public abstract class CommandBase : System.IComparable
+    {
+        public CommandBase(string id, string desc, bool showInHistory, bool isConsoleNative)
+        {
+            Id = id;
+            Description = desc;
+            IsConsoleNative = isConsoleNative;
+            ShowInHistory = showInHistory;
+        }
+
+        public string Id { get; }
+        public string Description { get; }
+        public abstract int ParamsCount { get; }
+        public bool IsConsoleNative { get; }
+        public bool ShowInHistory { get; }
+
+        int System.IComparable.CompareTo(object obj)
+        {
+            return Id.CompareTo((obj as CommandBase).Id);
+        }
+
+        public abstract string GetFormat();
+    }
+
+    public class Command : CommandBase
+    {
+        private System.Action _cmd;
+
+        public Command(string id, string description, System.Action cmd)
+            : base(id, description, true, false)
+        {
+            _cmd = cmd;
+        }
+
+        public Command(string id, string description, bool showInHistory, System.Action cmd)
+            : base(id, description, showInHistory, false)
+        {
+            _cmd = cmd;
+        }
+
+        public Command(string id, string description, bool showInHistory, bool isConsoleNative, System.Action cmd)
+            : base(id, description, showInHistory, isConsoleNative)
+        {
+            _cmd = cmd;
+        }
+
+        public override int ParamsCount => 0;
+
+        public void Execute()
+        {
+            _cmd.Invoke();
+        }
+
+        public override string GetFormat()
+        {
+            return Id;
+        }
+    }
+
+    public class Command<T> : CommandBase
+    {
+        private System.Action<T> _cmd;
+
+        public Command(string id, string description, System.Action<T> cmd)
+            : base(id, description, true, false)
+        {
+            _cmd = cmd;
+        }
+
+        public Command(string id, string description, bool showInHistory, System.Action<T> cmd)
+            : base(id, description, showInHistory, false)
+        {
+            _cmd = cmd;
+        }
+
+        public Command(string id, string description, bool showInHistory, bool isConsoleNative, System.Action<T> cmd)
+            : base(id, description, showInHistory, isConsoleNative)
+        {
+            _cmd = cmd;
+        }
+
+        public override int ParamsCount => 1;
+
+        public void Execute(T param)
+        {
+            _cmd.Invoke(param);
+        }
+    
+        public override string GetFormat()
+        {
+            return $"{Id} [{DebugConsole.Constants.TypesFormats[typeof(T)]}]";
+        }
+    }
+
+    public class Command<T1, T2> : CommandBase
+    {
+        private System.Action<T1, T2> _cmd;
+
+        public Command(string id, string description, System.Action<T1, T2> cmd)
+            : base(id, description, true, false)
+        {
+            _cmd = cmd;
+        }
+
+        public Command(string id, string description, bool showInHistory, System.Action <T1, T2> cmd)
+            : base(id, description, showInHistory, false)
+        {
+            _cmd = cmd;
+        }
+
+        public Command(string id, string description, bool showInHistory, bool isConsoleNative, System.Action<T1, T2> cmd)
+            : base(id, description, showInHistory, isConsoleNative)
+        {
+            _cmd = cmd;
+        }
+
+        public override int ParamsCount => 2;
+
+        public void Execute(T1 param1, T2 param2)
+        {
+            _cmd.Invoke(param1, param2);
+        }
+
+        public override string GetFormat()
+        {
+            return $"{Id} [{DebugConsole.Constants.TypesFormats[typeof(T1)]}] [{DebugConsole.Constants.TypesFormats[typeof(T2)]}]";
+        }
+    }
+
+    #endregion // COMMANDS
     
     /// <summary>
     /// This console system is used to access code at runtime and in build by referencing methods.
     /// It is very simple and has been made for "quick & dirty" implementation but useful results.
     /// The console does support :
     /// - Methods with no parameter,
-    /// - Methods with one parameter of type : bool, float, integer or string,
-    /// - Methods with two parameters of type : bool, float, integer or string (any order).
+    /// - Methods with one parameter of type : bool, float, int or string,
+    /// - Methods with two parameters of type : bool, float, int or string (any order).
     /// 
     /// Methods can NOT have the same name AND the same count of parameters (the system checks the command ID and the parameters count before their types).
     /// This class is a MonoBehaviour Singleton that should have its instance created before anything else in the game.
