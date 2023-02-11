@@ -1,6 +1,5 @@
 ﻿namespace RSLib.Debug.Console
 {
-    using RSLib.Extensions;
     using System.Collections.Generic;
     using UnityEngine;
     #if ODIN_INSPECTOR
@@ -21,7 +20,7 @@
     /// - The AddCommand method adds a new command if possible, and has an extra parameter to specify if it should override an existing command of the same type (which might be useful for same scenes/classes reloading),
     /// - The OverrideCommand method is a shortcut to call the AddCommand method with the override system enabled,
     /// - The RemoveCommand method does remove a command by its ID and the possibility to specify the parameters count.
-    /// To create a command, simply use **new SB.Debug.Console.DebugCommand<paramsTypes>(params)** constructor.
+    /// To create a command, simply use **new RSLib.Debug.Console.DebugCommand<paramsTypes>(params)** constructor.
     /// 
     /// N.B.: This console system is NOT a good implementation of such a feature, simply a basic working one.
     /// </summary>
@@ -48,7 +47,7 @@
                 ">>> Use <b>RETURN</b> to validate autocompletion and <b>BACKSPACE</b> to cancel it."
             };
 
-            public static readonly Dictionary<HistoryLine.Validity, string> ValidityFormats = new Dictionary<HistoryLine.Validity, string>(new RSLib.Framework.Comparers.EnumComparer<HistoryLine.Validity>())
+            public static readonly Dictionary<HistoryLine.Validity, string> ValidityFormats = new Dictionary<HistoryLine.Validity, string>()
             {
                 { HistoryLine.Validity.VALID, "<b>> {0}</b>" },
                 { HistoryLine.Validity.INVALID, "<b>> {0}  -  Invalid command!</b>" },
@@ -369,7 +368,7 @@
             string inputToLower = _inputStrBeforeAutoComplete.ToLower();
 
             for (int i = 0, registeredCommandsCount = _registeredCmds.Count; i < registeredCommandsCount; ++i)
-                if (_registeredCmds[i].Id.ToLower().StartsWith(inputToLower) || _registeredCmds[i].Id.ExtractCapitalLetters(true).ToLower().StartsWith(inputToLower))
+                if (_registeredCmds[i].Id.ToLower().StartsWith(inputToLower) || ExtractCapitalLetters(_registeredCmds[i].Id, true).ToLower().StartsWith(inputToLower))
                     _autoCompletionOptions.Add(_registeredCmds[i]);
         }
 
@@ -383,7 +382,7 @@
                     : $"{_autoCompletionOptions[i].GetFormat()}{Constants.AUTO_COMPLETION_OPTIONS_SPLIT}";
 
             if (!string.IsNullOrEmpty(_autoCompletionStr))
-                _autoCompletionStr = _autoCompletionStr.RemoveLast(Constants.AUTO_COMPLETION_OPTIONS_SPLIT.Length);
+                _autoCompletionStr = RemoveStringLastCharacters(_autoCompletionStr, Constants.AUTO_COMPLETION_OPTIONS_SPLIT.Length);
 
             return _autoCompletionStr;
         }
@@ -764,6 +763,23 @@
             _inputStr = _historyNavIndex != -1 ? _cmdsHistory[_cmdsHistory.Count - 1 - _historyNavIndex].Cmd : string.Empty;
         }
 
+        private string ExtractCapitalLetters(string cmd, bool forceIncludeFirstChar = false)
+        {
+            string result = string.Empty;
+
+            for (int i = 0; i < cmd.Length; ++i)
+                if (i == 0 && forceIncludeFirstChar || char.IsUpper(cmd[i]))
+                    result += cmd[i];
+
+            return result;
+        }
+        
+        private string RemoveStringLastCharacters(string str, int amount)
+        {
+            int amountClamped = amount < 0 ? 0 : amount > str.Length ? str.Length : amount;
+            return string.IsNullOrEmpty(str) ? str : str.Substring(0, str.Length - amountClamped);
+        }
+        
         private void OnGUI()
         {
             if (!IsOpen)
@@ -924,7 +940,9 @@
             float lineY = ComputeHistoryHeight();
             for (int i = _cmdsHistory.Count - 1; i >= 0; --i)
             {
-                string cmdDisplay = string.Format(Constants.ValidityFormats[_cmdsHistory[i].CmdValidity], _cmdsHistory[i].Cmd).ToColored(_colorsByValidity[_cmdsHistory[i].CmdValidity]);
+                string cmdDisplay = string.Format(Constants.ValidityFormats[_cmdsHistory[i].CmdValidity], _cmdsHistory[i].Cmd);
+                cmdDisplay = $"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGB(_colorsByValidity[_cmdsHistory[i].CmdValidity])}>{cmdDisplay}</color>";
+                
                 if (_historyNavIndex != -1 && i == _cmdsHistory.Count - 1 - _historyNavIndex)
                     cmdDisplay += Constants.CURRENT_NAVIGATED_IN_HISTORY_MARKER;
 
