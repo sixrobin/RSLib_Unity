@@ -1,4 +1,4 @@
-Shader "RSLib/Grayscale Ramp Effect"
+Shader "RSLib/Post Effects/Grayscale Ramp"
 {
 	Properties
 	{

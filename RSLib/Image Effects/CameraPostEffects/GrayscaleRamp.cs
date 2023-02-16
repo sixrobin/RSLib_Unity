@@ -5,7 +5,7 @@ namespace RSLib.ImageEffects
 
     [ExecuteInEditMode]
     [AddComponentMenu("RSLib/Image Effects/Ramp Grayscale")]
-    public class CameraGrayscaleRamp : ImageEffectBase
+    public class GrayscaleRamp : ImageEffectBase
     {
         /// <summary>
         /// Ramp applied to camera render.
