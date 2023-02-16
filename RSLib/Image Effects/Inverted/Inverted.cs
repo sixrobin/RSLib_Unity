@@ -26,7 +26,7 @@ public class Inverted : MonoBehaviour
     {
         if (_shader == null)
         {
-            _shader = Shader.Find("RSLib/Inverted");
+            _shader = Shader.Find("RSLib/Post Effects/Inverted");
             if (_shader == null)
                 return;
         }

@@ -44,7 +44,11 @@
         private void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
             if (_shader == null)
-                return;
+            {
+                _shader = Shader.Find("RSLib/Post Effects/Pixelate");
+                if (_shader == null)
+                    return;
+            }
 
             if (_material == null)
                 _material = new Material(_shader);

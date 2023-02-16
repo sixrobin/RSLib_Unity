@@ -1,4 +1,4 @@
-Shader "RSLib/Inverted"
+Shader "RSLib/Post Effects/Inverted"
 {
     Properties
     {

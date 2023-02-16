@@ -25,7 +25,7 @@ public class InvertedFlash : MonoBehaviour
     {
         if (_shader == null)
         {
-            _shader = Shader.Find("RSLib/InvertedFlash");
+            _shader = Shader.Find("RSLib/Post Effects/Inverted Flash");
             if (_shader == null)
                 return;
         }

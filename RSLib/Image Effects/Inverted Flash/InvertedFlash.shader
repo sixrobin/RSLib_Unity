@@ -1,4 +1,4 @@
-Shader "RSLib/InvertedFlash"
+Shader "RSLib/Post Effects/Inverted Flash"
 {
     Properties
     {
