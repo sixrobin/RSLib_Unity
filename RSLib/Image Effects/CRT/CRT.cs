@@ -5,7 +5,7 @@ namespace RSLib.ImageEffects
     [ExecuteInEditMode]
     [RequireComponent(typeof(Camera))]
     [AddComponentMenu("RSLib/Image Effects/CRT")]
-    public class CameraCRT : MonoBehaviour
+    public class CRT : MonoBehaviour
     {
         [Header("SHADER")]
         [SerializeField] private Shader _shader = null;

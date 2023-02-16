@@ -1,4 +1,4 @@
-Shader "RSLib/CRT"
+Shader "RSLib/Post Effects/CRT"
 {
     Properties
     {

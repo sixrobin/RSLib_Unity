@@ -1,9 +1,9 @@
-﻿Shader "Hidden/Ripple Effect"
+﻿Shader "RSLib/Post Effects/Ripple"
 {
     Properties
     {
-        _MainTex ("Base", 2D) = "white" { }
-        _GradTex ("Gradient", 2D) = "white" { }
+        _MainTex ("Base", 2D) = "white" {}
+        _GradTex ("Gradient", 2D) = "white" {}
         _Reflection ("Reflection Color", Color) = (0, 0, 0, 0)
         _Params1 ("Parameters 1", Vector) = (1, 1, 0.8, 0)
         _Params2 ("Parameters 2", Vector) = (1, 1, 1, 0)
@@ -18,7 +18,10 @@
     {
         Pass
         {
-            ZTest Always Cull Off ZWrite Off
+            ZTest Always
+            Cull Off
+            ZWrite Off
+            
             Fog { Mode off }
 
             CGPROGRAM
@@ -51,38 +54,37 @@
     float3 _Drop4;
     float3 _Drop5;
 
-    float Wave (float2 position, float2 origin, float time)
+    float Wave(float2 position, float2 origin, float time)
     {
-        float d = length (position - origin);
+        float d = length(position - origin);
         float t = time - d * _Params1.z;
-        return (tex2D (_GradTex, float2 (t, 0)).a - 0.5f) * 2;
+        return (tex2D(_GradTex, float2(t, 0)).a - 0.5f) * 2;
     }
 
-    float WaveAll (float2 position)
+    float WaveAll(float2 position)
     {
-        return
-            Wave (position, _Drop1.xy, _Drop1.z) +
-            Wave (position, _Drop2.xy, _Drop2.z) +
-            Wave (position, _Drop3.xy, _Drop3.z) +
-            Wave (position, _Drop4.xy, _Drop4.z) +
-            Wave (position, _Drop5.xy, _Drop5.z);
+        return Wave(position, _Drop1.xy, _Drop1.z)
+             + Wave(position, _Drop2.xy, _Drop2.z)
+             + Wave(position, _Drop3.xy, _Drop3.z)
+             + Wave(position, _Drop4.xy, _Drop4.z)
+             + Wave(position, _Drop5.xy, _Drop5.z);
     }
 
-    half4 frag (v2f_img i) : SV_Target
+    half4 frag(v2f_img i) : SV_Target
     {
-        const float2 dx = float2 (0.01f, 0);
-        const float2 dy = float2 (0, 0.01f);
+        const float2 dx = float2(0.01f, 0);
+        const float2 dy = float2(0, 0.01f);
 
         float2 p = i.uv * _Params1.xy;
 
-        float w = WaveAll (p);
-        float2 dw = float2 (WaveAll (p + dx) - w, WaveAll (p + dy) - w);
+        float w = WaveAll(p);
+        float2 dw = float2 (WaveAll(p + dx) - w, WaveAll(p + dy) - w);
 
         float2 duv = dw * _Params2.xy * 0.2f * _Params2.z;
-        half4 c = tex2D (_MainTex, i.uv + duv);
-        float fr = pow (length(dw) * 3 * _Params2.w, 3);
+        half4 c = tex2D(_MainTex, i.uv + duv);
+        float fr = pow(length(dw) * 3 * _Params2.w, 3);
 
-        return lerp (c, _Reflection, fr);
+        return lerp(c, _Reflection, fr);
     }
 
     ENDCG
