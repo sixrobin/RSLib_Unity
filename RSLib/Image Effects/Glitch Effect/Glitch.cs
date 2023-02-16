@@ -4,7 +4,7 @@ namespace RSLib.ImageEffects
 
     [ExecuteInEditMode]
     [AddComponentMenu("RSLib/Image Effects/Glitch Effect")]
-    public class GlitchEffect : ImageEffectBase 
+    public class Glitch : ImageEffectBase 
     {
         [Header("Glitch Values")]
         [SerializeField, Range(0f, 1f)] private float _intensity = 0f;
@@ -44,14 +44,14 @@ namespace RSLib.ImageEffects
             _flicker += Time.deltaTime * _colorIntensity;
             if (_flicker > _flickerTime)
 		    {
-			    Material.SetFloat("filterRadius", Random.Range(-3f, 3f) * _colorIntensity);
+			    Material.SetFloat("filter_radius", Random.Range(-3f, 3f) * _colorIntensity);
                 Material.SetVector("direction", Quaternion.AngleAxis(Random.Range(0f, 360f) * _colorIntensity, Vector3.forward) * Vector4.one);
                 _flicker = 0f;
 			    _flickerTime = Random.value;
 		    }
 
             if (_colorIntensity == 0f)
-                Material.SetFloat("filterRadius", 0f);
+                Material.SetFloat("filter_radius", 0f);
         
             _glitchUp += Time.deltaTime * _flipIntensity;
             if (_glitchUp > _glitchUpTime)

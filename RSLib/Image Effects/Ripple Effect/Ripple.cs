@@ -8,7 +8,7 @@
     /// </summary>
     [RequireComponent(typeof(Camera))]
     [AddComponentMenu("RSLib/Image Effects/Ripple Effect")]
-    public class RippleEffect : RSLib.Framework.Singleton<RippleEffect>
+    public class Ripple : RSLib.Framework.Singleton<Ripple>
     {
         private class Droplet
         {

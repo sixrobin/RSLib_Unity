@@ -5,7 +5,7 @@
     [ExecuteInEditMode]
     [RequireComponent(typeof(Camera))]
     [AddComponentMenu("RSLib/Image Effects/Pixelate Effect")]
-    public class PixelateEffect : MonoBehaviour
+    public class Pixelate : MonoBehaviour
     {
         [SerializeField] private Shader _shader = null;
         [SerializeField] private bool _lockXY = true;
