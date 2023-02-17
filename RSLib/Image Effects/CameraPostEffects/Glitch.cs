@@ -1,4 +1,4 @@
-namespace RSLib.ImageEffects
+namespace RSLib.ImageEffects.CameraPostEffects
 {
     using UnityEngine;
 
