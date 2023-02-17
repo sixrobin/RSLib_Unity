@@ -15,9 +15,9 @@ namespace RSLib.ImageEffects
         [SerializeField]
         private Vector2 _desaturationSmoothstep = new Vector2(0.45f, 0.55f);
 
-        private static readonly int PercentageID = Shader.PropertyToID("_Percentage");
-        private static readonly int DesaturateID = Shader.PropertyToID("_Desaturate");
-        private static readonly int DesaturationSmoothstepID = Shader.PropertyToID("_DesaturationSmoothstep");
+        private static readonly int s_percentageID = Shader.PropertyToID("_Percentage");
+        private static readonly int s_desaturateID = Shader.PropertyToID("_Desaturate");
+        private static readonly int s_desaturationSmoothstepID = Shader.PropertyToID("_DesaturationSmoothstep");
 
         protected override string ShaderName => "RSLib/Post Effects/Inverted Flash";
         
@@ -29,9 +29,9 @@ namespace RSLib.ImageEffects
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            material.SetFloat(PercentageID, _percentage);
-            material.SetFloat(DesaturateID, this.Desaturated ? 1f : 0f);
-            material.SetVector(DesaturationSmoothstepID, _desaturationSmoothstep);
+            material.SetFloat(s_percentageID, _percentage);
+            material.SetFloat(s_desaturateID, this.Desaturated ? 1f : 0f);
+            material.SetVector(s_desaturationSmoothstepID, _desaturationSmoothstep);
         }
 
         private void OnValidate()

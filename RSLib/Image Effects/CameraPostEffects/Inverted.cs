@@ -9,7 +9,7 @@ namespace RSLib.ImageEffects
         [SerializeField, Range(0f, 1f)]
         public float _percentage = 1f;
 
-        private static readonly int PercentageID = Shader.PropertyToID("_Percentage");
+        private static readonly int s_percentageID = Shader.PropertyToID("_Percentage");
 
         protected override string ShaderName => "RSLib/Post Effects/Inverted";
 
@@ -26,7 +26,7 @@ namespace RSLib.ImageEffects
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            material.SetFloat(PercentageID, _percentage);
+            material.SetFloat(s_percentageID, _percentage);
         }
     }
 }

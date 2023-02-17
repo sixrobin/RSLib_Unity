@@ -9,9 +9,12 @@
         [SerializeField] private bool _lockXY = true;
         [SerializeField] private Vector2Int _size = Vector2Int.one;
 
+        private static readonly int s_pixelateXID = Shader.PropertyToID("_PixelateX");
+        private static readonly int s_pixelateYID = Shader.PropertyToID("_PixelateY");
+
         private int _pixelSizeX;
         private int _pixelSizeY;
-
+        
         protected override string ShaderName => "RSLib/Post Effects/Pixelate";
 
         public void SetSizeX(int value)
@@ -44,8 +47,8 @@
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            material.SetInt("_PixelateX", _size.x);
-            material.SetInt("_PixelateY", _size.y);
+            material.SetInt(s_pixelateXID, _size.x);
+            material.SetInt(s_pixelateYID, _size.y);
         }
 
         private void Update()

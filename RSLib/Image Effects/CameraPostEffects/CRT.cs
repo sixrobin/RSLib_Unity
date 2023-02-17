@@ -12,19 +12,19 @@ namespace RSLib.ImageEffects
         [SerializeField, Range(0.5f, 3f)] private float _scanlinesMultiplier = 1f;
         [SerializeField] private Vector3 _rgbMultiplier = new(0.25f, 0.2f, 0.3f);
         
-        private static readonly int s_crtCurvature = Shader.PropertyToID("_Curvature");
-        private static readonly int s_crtVignetteWidth = Shader.PropertyToID("_VignetteWidth");
-        private static readonly int s_crtScanlinesMultiplier = Shader.PropertyToID("_ScanlinesMultiplier");
-        private static readonly int s_crtRGBMultiplier = Shader.PropertyToID("_RGBMultiplier");
+        private static readonly int s_curvatureID = Shader.PropertyToID("_Curvature");
+        private static readonly int s_vignetteWidthID = Shader.PropertyToID("_VignetteWidth");
+        private static readonly int s_scanlinesMultiplierID = Shader.PropertyToID("_ScanlinesMultiplier");
+        private static readonly int s_rgbMultiplierID = Shader.PropertyToID("_RGBMultiplier");
         
         protected override string ShaderName => "RSLib/Post Effects/CRT";
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            material.SetFloat(s_crtCurvature, this._curvature);
-            material.SetFloat(s_crtVignetteWidth, this._vignetteWidth);
-            material.SetFloat(s_crtScanlinesMultiplier, this._scanlinesMultiplier);
-            material.SetVector(s_crtRGBMultiplier, this._rgbMultiplier); 
+            material.SetFloat(s_curvatureID, this._curvature);
+            material.SetFloat(s_vignetteWidthID, this._vignetteWidth);
+            material.SetFloat(s_scanlinesMultiplierID, this._scanlinesMultiplier);
+            material.SetVector(s_rgbMultiplierID, this._rgbMultiplier); 
         }
     }
 }

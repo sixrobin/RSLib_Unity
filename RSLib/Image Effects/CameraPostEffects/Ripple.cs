@@ -63,6 +63,11 @@
         [SerializeField] private Color _reflectionColor = Color.gray;
         [SerializeField] private bool _timeScaleDependent = false;
 
+        private static readonly int s_gradTexID = Shader.PropertyToID("_GradTex");
+        private static readonly int s_reflectionID = Shader.PropertyToID("_Reflection");
+        private static readonly int s_params1ID = Shader.PropertyToID("_Params1");
+        private static readonly int s_params2ID = Shader.PropertyToID("_Params2");
+        
         private Camera _camera;
         private Droplet[] _droplets;
         private Texture2D _gradTexture;
@@ -70,10 +75,11 @@
         protected override string ShaderName => "RSLib/Post Effects/Ripple";
         
         private int _nextDropletIndex;
+
         private int NextDropletIndex
         {
             get => _nextDropletIndex;
-            set => _nextDropletIndex = ++_nextDropletIndex % _droplets.Length;
+            set => _nextDropletIndex = value % _droplets.Length;
         }
 
         public void RippleAtWorldPosition(Vector3 position)
@@ -113,7 +119,7 @@
             }
 
             _gradTexture.Apply();
-            Material.SetTexture("_GradTex", _gradTexture);
+            Material.SetTexture(s_gradTexID, _gradTexture);
         }
 
         private void Emit(float x, float y)
@@ -137,9 +143,9 @@
                 material.SetVector($"_Drop{i + 1}", _droplets[i].MakeShaderParameter(_camera.aspect));
             }
 
-            material.SetColor("_Reflection", _reflectionColor);
-            material.SetVector("_Params1", new Vector4(_camera.aspect, 1f, 1f / _waveSpeed, 0f));
-            material.SetVector("_Params2", new Vector4(1f, 1f / _camera.aspect, _refractionStrength, _reflectionStrength));
+            material.SetColor(s_reflectionID, _reflectionColor);
+            material.SetVector(s_params1ID, new Vector4(_camera.aspect, 1f, 1f / _waveSpeed, 0f));
+            material.SetVector(s_params2ID, new Vector4(1f, 1f / _camera.aspect, _refractionStrength, _reflectionStrength));
         }
     }
 }

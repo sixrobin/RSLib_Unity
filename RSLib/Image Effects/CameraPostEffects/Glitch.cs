@@ -11,13 +11,23 @@ namespace RSLib.ImageEffects
 	    [SerializeField, Range(0f, 1f)] private float _colorIntensity = 1f;
 	    [SerializeField] private Texture2D _displacementMap = null;
 
+	    private static readonly int s_intensityID = Shader.PropertyToID("_Intensity");
+	    private static readonly int s_colorIntensityID = Shader.PropertyToID("_ColorIntensity");
+	    private static readonly int s_displacementTextureID = Shader.PropertyToID("_DispTex");
+	    private static readonly int s_filterRadiusID = Shader.PropertyToID("filter_radius");
+	    private static readonly int s_directionID = Shader.PropertyToID("direction");
+	    private static readonly int s_flipUpID = Shader.PropertyToID("flip_up");
+	    private static readonly int s_flipDownID = Shader.PropertyToID("flip_down");
+	    private static readonly int s_displaceID = Shader.PropertyToID("displace");
+	    private static readonly int s_scaleID = Shader.PropertyToID("scale");
+
 	    private float _glitchUp;
 	    private float _glitchDown;
 	    private float _flicker;
 	    private float _glitchUpTime = 0.05f;
 	    private float _glitchDownTime = 0.05f;
 	    private float _flickerTime = 0.5f;
-
+	    
 	    protected override string ShaderName => "RSLib/Post Effects/Glitch";
 	    
 	    public void IncreaseIntensity(float intensityIncrease, float flipIncrease, float colorIncrease)
@@ -43,9 +53,9 @@ namespace RSLib.ImageEffects
 
 	    protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
 	    {
-		    material.SetFloat("_Intensity", _intensity);
-            material.SetFloat("_ColorIntensity", _colorIntensity);
-		    material.SetTexture("_DispTex", _displacementMap);
+		    material.SetFloat(s_intensityID, _intensity);
+            material.SetFloat(s_colorIntensityID, _colorIntensity);
+		    material.SetTexture(s_displacementTextureID, _displacementMap);
         
             _flicker += Time.deltaTime * _colorIntensity;
             _glitchUp += Time.deltaTime * _flipIntensity;
@@ -53,43 +63,43 @@ namespace RSLib.ImageEffects
 
             if (_flicker > _flickerTime)
 		    {
-			    material.SetFloat("filter_radius", Random.Range(-3f, 3f) * _colorIntensity);
-			    material.SetVector("direction", Quaternion.AngleAxis(Random.Range(0f, 360f) * _colorIntensity, Vector3.forward) * Vector4.one);
+			    material.SetFloat(s_filterRadiusID, Random.Range(-3f, 3f) * _colorIntensity);
+			    material.SetVector(s_directionID, Quaternion.AngleAxis(Random.Range(0f, 360f) * _colorIntensity, Vector3.forward) * Vector4.one);
                 _flicker = 0f;
 			    _flickerTime = Random.value;
 		    }
 
             if (_colorIntensity == 0f)
-	            material.SetFloat("filter_radius", 0f);
+	            material.SetFloat(s_filterRadiusID, 0f);
         
             if (_glitchUp > _glitchUpTime)
 		    {
-			    material.SetFloat("flip_up", Random.value < 0.1f * _flipIntensity ? Random.value * _flipIntensity : 0f);
+			    material.SetFloat(s_flipUpID, Random.value < 0.1f * _flipIntensity ? Random.value * _flipIntensity : 0f);
 			    _glitchUp = 0f;
 			    _glitchUpTime = Random.value * 0.1f;
 		    }
 
             if (_flipIntensity == 0f)
-	            material.SetFloat("flip_up", 0f);
+	            material.SetFloat(s_flipUpID, 0f);
 
             if (_glitchDown > _glitchDownTime)
 		    {
-			    material.SetFloat("flip_down", Random.value < _flipIntensity * 0.1f ? 1f - Random.value * _flipIntensity : 1f);
+			    material.SetFloat(s_flipDownID, Random.value < _flipIntensity * 0.1f ? 1f - Random.value * _flipIntensity : 1f);
 			    _glitchDown = 0f;
 			    _glitchDownTime = Random.value * 0.1f;
             }
 
             if (_flipIntensity == 0f)
-	            material.SetFloat("flip_down", 1f);
+	            material.SetFloat(s_flipDownID, 1f);
 
             if (Random.value < 0.05f * _intensity)
 		    {
-			    material.SetFloat("displace", Random.value * _intensity);
-			    material.SetFloat("scale", 1f - Random.value * _intensity);
+			    material.SetFloat(s_displaceID, Random.value * _intensity);
+			    material.SetFloat(s_scaleID, 1f - Random.value * _intensity);
             }
             else
 		    {
-			    material.SetFloat("displace", 0f);
+			    material.SetFloat(s_displaceID, 0f);
 		    }
 	    }
     }
