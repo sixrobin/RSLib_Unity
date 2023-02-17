@@ -4,23 +4,19 @@ namespace RSLib.ImageEffects
     using UnityEngine;
 
     [ExecuteInEditMode]
-    [AddComponentMenu("RSLib/Image Effects/Ramp Grayscale")]
-    public class GrayscaleRamp : ImageEffectBase
+    [AddComponentMenu("RSLib/Camera Post Effects/Grayscale Ramp")]
+    public class GrayscaleRamp : CameraPostEffect
     {
-        /// <summary>
-        /// Ramp applied to camera render.
-        /// Read/Write must be enabled.
-        /// </summary>
         [SerializeField] private Texture2D _textureRamp = null;
-
         [SerializeField, Range(-1f, 1f)] private float _offset = 0f;
         [SerializeField, Range(0f, 1f)] private float _weight = 1f;
 
+        public bool Inverted;
         private Texture2D _initRamp;
 
-        public Texture2D TextureRamp => _textureRamp;
+        protected override string ShaderName => "RSLib/Post Effects/Grayscale Ramp";
 
-        public bool Inverted { get; set; }
+        public Texture2D TextureRamp => _textureRamp;
 
         public float Offset
         {
@@ -28,12 +24,12 @@ namespace RSLib.ImageEffects
             set => _offset = Mathf.Clamp(value, -1f, 1f);
         }
 
-        public void OverrideRamp(Texture2D ramp)
+        public void SetRamp(Texture2D ramp)
         {
             _textureRamp = ramp;
         }
 
-        public void ResetInitRamp()
+        public void ResetRamp()
         {
             _textureRamp = _initRamp;
         }
@@ -43,13 +39,11 @@ namespace RSLib.ImageEffects
             _initRamp = _textureRamp;
         }
 
-        private void OnRenderImage(RenderTexture source, RenderTexture destination)
+        protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            Material.SetTexture("_RampTex", Inverted ? _textureRamp.FlipX() : _textureRamp);
-            Material.SetFloat("_RampOffset", _offset);
-            Material.SetFloat("_Weight", _weight);
-
-            Graphics.Blit(source, destination, Material);
+            material.SetTexture("_RampTex", Inverted && _textureRamp != null ? _textureRamp.FlipX() : _textureRamp);
+            material.SetFloat("_RampOffset", _offset);
+            material.SetFloat("_Weight", _weight);
         }
     }
 }

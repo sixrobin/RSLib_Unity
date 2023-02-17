@@ -3,14 +3,10 @@ namespace RSLib.ImageEffects
     using UnityEngine;
     
     [ExecuteInEditMode]
-    [RequireComponent(typeof(Camera))]
-    [AddComponentMenu("RSLib/Image Effects/CRT")]
-    public class CRT : MonoBehaviour
+    [DisallowMultipleComponent]
+    [AddComponentMenu("RSLib/Camera Post Effects/CRT")]
+    public class CRT : CameraPostEffect
     {
-        [Header("SHADER")]
-        [SerializeField] private Shader _shader = null;
-    
-        [Header("DATA")]
         [SerializeField, Range(1f, 30f)] private float _curvature = 8f;
         [SerializeField, Range(0f, 100f)] private float _vignetteWidth = 50f;
         [SerializeField, Range(0.5f, 3f)] private float _scanlinesMultiplier = 1f;
@@ -21,58 +17,14 @@ namespace RSLib.ImageEffects
         private static readonly int s_crtScanlinesMultiplier = Shader.PropertyToID("_ScanlinesMultiplier");
         private static readonly int s_crtRGBMultiplier = Shader.PropertyToID("_RGBMultiplier");
         
-        private Material _material;
-    
-        private bool InitMaterial()
-        {
-            if (_shader == null)
-                return false;
-    
-            if (_material == null)
-                _material = new Material(_shader);
-    
-            return true;
-        }
-        
-        private void OnRenderImage(RenderTexture source, RenderTexture destination)
-        {
-            if (!this.InitMaterial())
-                return;
-    
-            this.UpdateValues();
-            Graphics.Blit(source, destination, _material);
-        }
-    
-        private void OnValidate()
-        {
-            if (!this.InitMaterial())
-                return;
-            
-            this.UpdateValues();
-        }
-    
-        private void UpdateValues()
-        {
-            _material.SetFloat(s_crtCurvature, this._curvature);
-            _material.SetFloat(s_crtVignetteWidth, this._vignetteWidth);
-            _material.SetFloat(s_crtScanlinesMultiplier, this._scanlinesMultiplier);
-            _material.SetVector(s_crtRGBMultiplier, this._rgbMultiplier); 
-        }
-    
-        private void OnEnable()
-        {
-            this.InitMaterial();
-        }
-    
-        private void OnDisable()
-        {
-            DestroyImmediate(_material);
-        }
+        protected override string ShaderName => "RSLib/Post Effects/CRT";
 
-        private void Reset()
+        protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            if (_shader == null)
-                _shader = Shader.Find("RSLib/CRT");
+            material.SetFloat(s_crtCurvature, this._curvature);
+            material.SetFloat(s_crtVignetteWidth, this._vignetteWidth);
+            material.SetFloat(s_crtScanlinesMultiplier, this._scanlinesMultiplier);
+            material.SetVector(s_crtRGBMultiplier, this._rgbMultiplier); 
         }
     }
 }

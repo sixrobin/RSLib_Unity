@@ -1,41 +1,32 @@
-using UnityEngine;
-
-[ExecuteInEditMode]
-public class Inverted : MonoBehaviour
+namespace RSLib.ImageEffects
 {
-    [SerializeField] private Shader _shader = null;
+    using UnityEngine;
 
-    [SerializeField, Range(0f, 1f)] public float _percentage = 0f;
-    
-    private static readonly int PercentageID = Shader.PropertyToID("_Percentage");
-    
-    private Material _material;
+    [ExecuteInEditMode]
+    [AddComponentMenu("RSLib/Camera Post Effects/Inverted")]
+    public class Inverted : CameraPostEffect
+    {
+        [SerializeField, Range(0f, 1f)]
+        public float _percentage = 1f;
 
-    public float Percentage
-    {
-        get => _percentage;
-        set => _percentage = Mathf.Clamp01(value);
-    }
+        private static readonly int PercentageID = Shader.PropertyToID("_Percentage");
 
-    public void SetInverted(bool inverted)
-    {
-        Percentage = inverted ? 1f : 0f;
-    }
-    
-    private void OnRenderImage(RenderTexture source, RenderTexture destination)
-    {
-        if (_shader == null)
+        protected override string ShaderName => "RSLib/Post Effects/Inverted";
+
+        public float Percentage
         {
-            _shader = Shader.Find("RSLib/Post Effects/Inverted");
-            if (_shader == null)
-                return;
+            get => _percentage;
+            set => _percentage = Mathf.Clamp01(value);
         }
 
-        if (_material == null)
-            _material = new Material(_shader);
+        public void SetInverted(bool inverted)
+        {
+            Percentage = inverted ? 1f : 0f;
+        }
 
-        _material.SetFloat(PercentageID, _percentage);
-
-        Graphics.Blit(source, destination, _material);
+        protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
+        {
+            material.SetFloat(PercentageID, _percentage);
+        }
     }
 }

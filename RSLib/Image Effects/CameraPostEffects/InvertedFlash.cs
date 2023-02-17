@@ -1,48 +1,43 @@
-using UnityEngine;
-
-[ExecuteInEditMode]
-public class InvertedFlash : MonoBehaviour
+namespace RSLib.ImageEffects
 {
-    [SerializeField] private Shader _shader = null;
+    using UnityEngine;
 
-    [SerializeField, Range(0f, 1f)] public float _percentage = 0f;
-    [SerializeField] public bool Desaturated = true;
-    [SerializeField] private Vector2 _desaturationSmoothstep = new Vector2(0.45f, 0.55f);
-    
-    private static readonly int PercentageID = Shader.PropertyToID("_Percentage");
-    private static readonly int DesaturateID = Shader.PropertyToID("_Desaturate");
-    private static readonly int DesaturationSmoothstepID = Shader.PropertyToID("_DesaturationSmoothstep");
-    
-    private Material _material;
+    [ExecuteInEditMode]
+    [AddComponentMenu("RSLib/Camera Post Effects/Inverted Flash")]
+    public class InvertedFlash : CameraPostEffect
+    {
+        [SerializeField, Range(0f, 1f)]
+        public float _percentage = 1f;
 
-    public float Percentage
-    {
-        get => _percentage;
-        set => _percentage = Mathf.Clamp01(value);
-    }
-    
-    private void OnRenderImage(RenderTexture source, RenderTexture destination)
-    {
-        if (_shader == null)
+        [SerializeField]
+        public bool Desaturated = true;
+
+        [SerializeField]
+        private Vector2 _desaturationSmoothstep = new Vector2(0.45f, 0.55f);
+
+        private static readonly int PercentageID = Shader.PropertyToID("_Percentage");
+        private static readonly int DesaturateID = Shader.PropertyToID("_Desaturate");
+        private static readonly int DesaturationSmoothstepID = Shader.PropertyToID("_DesaturationSmoothstep");
+
+        protected override string ShaderName => "RSLib/Post Effects/Inverted Flash";
+        
+        public float Percentage
         {
-            _shader = Shader.Find("RSLib/Post Effects/Inverted Flash");
-            if (_shader == null)
-                return;
+            get => _percentage;
+            set => _percentage = Mathf.Clamp01(value);
         }
 
-        if (_material == null)
-            _material = new Material(_shader);
+        protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
+        {
+            material.SetFloat(PercentageID, _percentage);
+            material.SetFloat(DesaturateID, this.Desaturated ? 1f : 0f);
+            material.SetVector(DesaturationSmoothstepID, _desaturationSmoothstep);
+        }
 
-        _material.SetFloat(PercentageID, _percentage);
-        _material.SetFloat(DesaturateID, this.Desaturated ? 1f : 0f);
-        _material.SetVector(DesaturationSmoothstepID, _desaturationSmoothstep);
-
-        Graphics.Blit(source, destination, _material);
-    }
-
-    private void OnValidate()
-    {
-        _desaturationSmoothstep.x = Mathf.Clamp01(_desaturationSmoothstep.x);
-        _desaturationSmoothstep.y = Mathf.Clamp01(_desaturationSmoothstep.y);
+        private void OnValidate()
+        {
+            _desaturationSmoothstep.x = Mathf.Clamp01(_desaturationSmoothstep.x);
+            _desaturationSmoothstep.y = Mathf.Clamp01(_desaturationSmoothstep.y);
+        }
     }
 }

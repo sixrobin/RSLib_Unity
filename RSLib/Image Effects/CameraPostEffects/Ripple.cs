@@ -1,14 +1,11 @@
 ﻿namespace RSLib.ImageEffects
 {
+    using Extensions;
     using UnityEngine;
 
-    /// <summary>
-    /// Used to emit ripple effect on screen.
-    /// Can emit up to 5 droplets at the same time (not procedural due to shader code).
-    /// </summary>
-    [RequireComponent(typeof(Camera))]
-    [AddComponentMenu("RSLib/Image Effects/Ripple Effect")]
-    public class Ripple : RSLib.Framework.Singleton<Ripple>
+    [ExecuteInEditMode]
+    [AddComponentMenu("RSLib/Camera Post Effects/Ripple")]
+    public class Ripple : CameraPostEffect
     {
         private class Droplet
         {
@@ -43,11 +40,7 @@
                 return new Vector4(_pos.x * aspect, _pos.y, _time, 0f);
             }
         }
-
-        [Header("SHADER")]
-        [SerializeField] private Shader _shader = null;
-
-        [Header("DROPLET WAVE")]
+        
         [SerializeField]
         private AnimationCurve _waveform = new AnimationCurve
         (
@@ -63,19 +56,19 @@
             new Keyframe(0.85f, 0.52f, 0f, 0f),
             new Keyframe(0.99f, 0.50f, 0f, 0f)
         );
-
-        [Header("DROPLET SETTINGS")]
+        
         [SerializeField, Range(0.01f, 1f)] private float _refractionStrength = 0.5f;
         [SerializeField, Range(0.01f, 1f)] private float _reflectionStrength = 0.7f;
         [SerializeField, Range(1f, 3f)] private float _waveSpeed = 1.25f;
         [SerializeField] private Color _reflectionColor = Color.gray;
         [SerializeField] private bool _timeScaleDependent = false;
 
-        private Camera _cam;
+        private Camera _camera;
         private Droplet[] _droplets;
         private Texture2D _gradTexture;
-        private Material _material;
 
+        protected override string ShaderName => "RSLib/Post Effects/Ripple";
+        
         private int _nextDropletIndex;
         private int NextDropletIndex
         {
@@ -83,21 +76,20 @@
             set => _nextDropletIndex = ++_nextDropletIndex % _droplets.Length;
         }
 
-        public static void RippleAtWorldPosition(Vector3 pos)
+        public void RippleAtWorldPosition(Vector3 position)
         {
-            Vector3 screenPos = Instance._cam.WorldToViewportPoint(pos);
-            Instance.Emit(screenPos.x, screenPos.y);
+            Vector3 screenPosition = _camera.WorldToViewportPoint(position);
+            Emit(screenPosition.x, screenPosition.y);
         }
 
-        public static void RippleAtWorldPosition(float x, float y)
+        public void RippleAtWorldPosition(float x, float y)
         {
-            Vector3 viewportPos = Instance._cam.WorldToViewportPoint(new Vector3(x, y));
-            Instance.Emit(viewportPos.x, viewportPos.y);
+            RippleAtWorldPosition(new Vector3(x, y));
         }
 
         private void Initialize()
         {
-            _cam = GetComponent<Camera>();
+            this._camera = GetComponent<Camera>();
 
             _droplets = new Droplet[5]
             {
@@ -121,21 +113,7 @@
             }
 
             _gradTexture.Apply();
-
-            _material = new Material(_shader) { hideFlags = HideFlags.DontSave };
-            _material.SetTexture("_GradTex", _gradTexture);
-
-            UpdateShaderParameters();
-        }
-
-        private void UpdateShaderParameters()
-        {
-            for (int i = 0; i < _droplets.Length; ++i)
-                _material.SetVector($"_Drop{i + 1}", _droplets[i].MakeShaderParameter(_cam.aspect));
-
-            _material.SetColor("_Reflection", _reflectionColor);
-            _material.SetVector("_Params1", new Vector4(_cam.aspect, 1f, 1f / _waveSpeed, 0f));
-            _material.SetVector("_Params2", new Vector4(1f, 1f / _cam.aspect, _refractionStrength, _reflectionStrength));
+            Material.SetTexture("_GradTex", _gradTexture);
         }
 
         private void Emit(float x, float y)
@@ -143,23 +121,25 @@
             _droplets[NextDropletIndex++].Reset(x, y);
         }
 
-        protected override void Awake()
+        private void Start()
         {
-            base.Awake();
             Initialize();
         }
 
-        private void Update()
+        protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
+            if (this._droplets == null)
+                return;
+            
             for (int i = _droplets.Length - 1; i >= 0; --i)
+            {
                 _droplets[i].Update();
+                material.SetVector($"_Drop{i + 1}", _droplets[i].MakeShaderParameter(_camera.aspect));
+            }
 
-            UpdateShaderParameters();
-        }
-
-        private void OnRenderImage(RenderTexture source, RenderTexture destination)
-        {
-            Graphics.Blit(source, destination, _material);
+            material.SetColor("_Reflection", _reflectionColor);
+            material.SetVector("_Params1", new Vector4(_camera.aspect, 1f, 1f / _waveSpeed, 0f));
+            material.SetVector("_Params2", new Vector4(1f, 1f / _camera.aspect, _refractionStrength, _reflectionStrength));
         }
     }
 }

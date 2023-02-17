@@ -3,17 +3,16 @@
     using UnityEngine;
 
     [ExecuteInEditMode]
-    [RequireComponent(typeof(Camera))]
-    [AddComponentMenu("RSLib/Image Effects/Pixelate Effect")]
-    public class Pixelate : MonoBehaviour
+    [AddComponentMenu("RSLib/Camera Post Effects/Pixelate")]
+    public class Pixelate : CameraPostEffect
     {
-        [SerializeField] private Shader _shader = null;
         [SerializeField] private bool _lockXY = true;
         [SerializeField] private Vector2Int _size = Vector2Int.one;
 
-        private Material _material;
         private int _pixelSizeX;
         private int _pixelSizeY;
+
+        protected override string ShaderName => "RSLib/Post Effects/Pixelate";
 
         public void SetSizeX(int value)
         {
@@ -27,41 +26,26 @@
 
         public void SetSize(int x, int y)
         {
-            _size.x = x;
-            _size.y = y;
+            SetSizeX(x);
+            SetSizeY(y);
         }
 
         public void SetSize(Vector2Int size)
         {
-            _size = size;
+            SetSizeX(size.x);
+            SetSizeY(size.y);
         }
 
         public void ResetSize()
         {
-            _size = Vector2Int.one;
+            SetSizeX(1);
+            SetSizeY(1);
         }
 
-        private void OnRenderImage(RenderTexture source, RenderTexture destination)
+        protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            if (_shader == null)
-            {
-                _shader = Shader.Find("RSLib/Post Effects/Pixelate");
-                if (_shader == null)
-                    return;
-            }
-
-            if (_material == null)
-                _material = new Material(_shader);
-
-            _material.SetInt("_PixelateX", _size.x);
-            _material.SetInt("_PixelateY", _size.y);
-
-            Graphics.Blit(source, destination, _material);
-        }
-
-        private void OnDisable()
-        {
-            DestroyImmediate(_material);
+            material.SetInt("_PixelateX", _size.x);
+            material.SetInt("_PixelateY", _size.y);
         }
 
         private void Update()
