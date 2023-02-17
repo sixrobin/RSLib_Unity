@@ -1,6 +1,5 @@
 ﻿namespace RSLib.ImageEffects.CameraPostEffects
 {
-    using Extensions;
     using UnityEngine;
 
     [ExecuteInEditMode]
