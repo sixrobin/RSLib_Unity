@@ -7,7 +7,7 @@
     public class Pixelate : CameraPostEffect
     {
         [SerializeField] private bool _lockXY = true;
-        [SerializeField] private Vector2Int _size = Vector2Int.one;
+        [SerializeField] private Vector2Int _size = new Vector2Int(10, 10);
 
         private static readonly int s_pixelateXID = Shader.PropertyToID("_PixelateX");
         private static readonly int s_pixelateYID = Shader.PropertyToID("_PixelateY");
