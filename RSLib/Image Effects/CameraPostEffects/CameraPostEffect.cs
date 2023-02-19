@@ -40,7 +40,13 @@ namespace RSLib.ImageEffects.CameraPostEffects
         private void Cleanup()
         {
             if (_material != null)
+            {
+                #if UNITY_EDITOR
                 DestroyImmediate(_material);
+                #else
+                Destroy(_material);
+                #endif
+            }
         }
         
         protected abstract void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material);
