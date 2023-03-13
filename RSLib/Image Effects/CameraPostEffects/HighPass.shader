@@ -3,7 +3,7 @@ Shader "RSLib/Post Effects/High Pass"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Radius ("Radius", float) = 5
+        _Radius ("Radius", Range(0.51, 30)) = 5
     }
     
     SubShader
