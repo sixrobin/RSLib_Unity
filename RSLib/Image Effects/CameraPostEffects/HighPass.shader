@@ -32,18 +32,8 @@ Shader "RSLib/Post Effects/High Pass"
             sampler2D _MainTex;
             fixed _Radius;
 
-            v2f vert(const appdata v)
+            float3 compute_high_pass(const float2 uv)
             {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
-                return o;
-            }
-
-            fixed4 frag(const v2f i) : SV_Target
-            {
-                float2 uv = i.uv;
-
                 float max = sqrt(_Radius * _Radius * 2);
 
                 float3 blur = float3(0, 0, 0);
@@ -61,7 +51,20 @@ Shader "RSLib/Post Effects/High Pass"
                
                 blur /= sum;
                 fixed3 col = tex2D(_MainTex, uv).rgb;
-                return fixed4(float3(col - blur) + float3(0.5, 0.5, 0.5), 1);
+                return float3(col - blur) + float3(0.5, 0.5, 0.5);
+            }
+            
+            v2f vert(const appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = v.uv;
+                return o;
+            }
+
+            fixed4 frag(const v2f i) : SV_Target
+            {
+                return fixed4(compute_high_pass(i.uv), 1);
             }
             
             ENDCG
