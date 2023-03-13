@@ -21,8 +21,8 @@
 			
 			struct v2f 
 			{
-				float4 pos : SV_POSITION;
-				float2 uv : TEXCOORD0;
+				float4 position : SV_POSITION;
+				float2 uv       : TEXCOORD0;
 			};
 
 			sampler2D _MainTex;
@@ -34,7 +34,7 @@
 			v2f vert(appdata_img v) 
 			{
 				v2f o;
-				o.pos = UnityObjectToClipPos(v.vertex);
+				o.position = UnityObjectToClipPos(v.vertex);
 				o.uv = v.texcoord.xy;
 				return o;
 			} 
