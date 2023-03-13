@@ -1,10 +1,10 @@
-﻿Shader "RSLib/Post Effects/Pixelate"
+﻿Shader "RSLib/Post Effects/Pixelate Blurred"
 {
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_PixelateX ("Pixelate X", Int) = 5
-		_PixelateY ("Pixelate Y", Int) = 5
+		_ScaleX ("Scale X", float) = 10
+		_ScaleY ("Scale Y", float) = 10
 	}
 	
 	SubShader
@@ -19,8 +19,8 @@
 			#include "UnityCG.cginc"
 
 			sampler2D _MainTex;
-			int _PixelateX;
-			int _PixelateY;
+			float _ScaleX;
+			float _ScaleY;
 
 			struct appdata
 			{
@@ -30,8 +30,8 @@
 
 			struct v2f
 			{
-				float2 uv     : TEXCOORD0;
 				float4 vertex : SV_POSITION;
+				float2 uv     : TEXCOORD0;
 			};
 
 			v2f vert(const appdata v)
@@ -44,14 +44,12 @@
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				int2 pixelate = int2(_PixelateX, _PixelateY);
-				
 				fixed4 color;
 				
-				if (_PixelateX > 1 || _PixelateY > 1)
+				if (_ScaleX > 1 || _ScaleY > 1)
 				{
 					float2 pixel_size = 1.0 / float2(_ScreenParams.xy);
-					float2 block_size = pixel_size * pixelate;
+					float2 block_size = pixel_size * float2(_ScaleX, _ScaleY);
 					
 					float2 current_block = float2
 					(
