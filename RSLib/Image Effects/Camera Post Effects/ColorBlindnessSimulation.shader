@@ -63,7 +63,7 @@ Shader "RSLib/Post Effects/Color Blindness Simulation"
 
         Pass
         {
-            Name "Protanomaly" // "L" cone (red).
+            Name "Protanomaly" // L cone - Red.
 
             CGPROGRAM
 
@@ -83,7 +83,7 @@ Shader "RSLib/Post Effects/Color Blindness Simulation"
 
         Pass
         {
-            Name "Deuteranomaly" // "M" cone (red).
+            Name "Deuteranomaly" // M cone - Green.
 
             CGPROGRAM
 
@@ -103,7 +103,7 @@ Shader "RSLib/Post Effects/Color Blindness Simulation"
 
         Pass
         {
-            Name "Tritanomaly" // "S" cone (blue).
+            Name "Tritanomaly" // S cone - Blue.
             
             CGPROGRAM
 
