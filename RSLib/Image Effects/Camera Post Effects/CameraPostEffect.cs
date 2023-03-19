@@ -29,6 +29,8 @@ namespace RSLib.ImageEffects.CameraPostEffects
             }
         }
 
+        protected virtual int Pass => -1;
+        
         private bool FindShader()
         {
             if (!string.IsNullOrEmpty(ShaderName))
@@ -57,7 +59,7 @@ namespace RSLib.ImageEffects.CameraPostEffects
                 return;
             
             OnBeforeRenderImage(source, destination, Material);
-            Graphics.Blit(source, destination, Material);
+            Graphics.Blit(source, destination, Material, Pass);
         }
 
         protected virtual void OnEnable()
