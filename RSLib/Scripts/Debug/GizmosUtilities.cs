@@ -96,7 +96,37 @@
             }
         }
 
-        public static void DrawArrowHead(Vector3 position, Vector3 direction, float length = 0.25f, float angle = 45f)
+        /// <summary>
+        /// Draws two lines representing a 2D arrow head.
+        /// This must be called only inside OnDrawGizmos or OnDrawGizmosSelected methods.
+        /// </summary>
+        /// <param name="position">Arrow head position.</param>
+        /// <param name="direction">Arrow direction.</param>
+        /// <param name="length">Head length (probably should not be negative).</param>
+        /// <param name="angle">Head angle (probably should not exceed 90°).</param>
+        public static void DrawArrowHead2D(Vector3 position, Vector3 direction, float length = 0.25f, float angle = 45f)
+        {
+            if (direction == Vector3.zero)
+                return;
+
+            float theta = angle * 0.5f;
+            
+            Vector3 left = Quaternion.Euler(0f, 0f, -theta) * -direction;
+            Vector3 right = Quaternion.Euler(0f, 0f, theta) * -direction;
+            
+            Gizmos.DrawRay(position + direction, left.normalized * length);
+            Gizmos.DrawRay(position + direction, right.normalized * length);
+        }
+
+        /// <summary>
+        /// Draws four lines representing a 3D arrow head.
+        /// This must be called only inside OnDrawGizmos or OnDrawGizmosSelected methods.
+        /// </summary>
+        /// <param name="position">Arrow head position.</param>
+        /// <param name="direction">Arrow direction.</param>
+        /// <param name="length">Head length (probably should not be negative).</param>
+        /// <param name="angle">Head angle (probably should not exceed 90°).</param>
+        public static void DrawArrowHead3D(Vector3 position, Vector3 direction, float length = 0.25f, float angle = 45f)
         {
             if (direction == Vector3.zero)
                 return;
