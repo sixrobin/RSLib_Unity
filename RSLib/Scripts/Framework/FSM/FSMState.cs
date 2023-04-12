@@ -1,51 +1,67 @@
 ﻿namespace RSLib.Framework.FSM
 {
     using System.Collections.Generic;
-    using UnityEngine;
 
-    public abstract class FSMState
+    public abstract class FSMState<TStateID, TTransitionID, TBehaviourContext> where TStateID : System.Enum where TTransitionID : System.Enum
     {
-        protected Dictionary<FSMTransition, FSMStateId> _map = new Dictionary<FSMTransition, FSMStateId>(new FSMTransitionComparer());
-
-        public FSMStateId Id { get; protected set; }
-
-        public void AddTransition(FSMTransition transition, FSMStateId id)
+        public FSMState(TStateID id)
         {
-            UnityEngine.Assertions.Assert.IsTrue(transition != FSMTransition.NONE, $"{transition} FSMTransition is not allowed to add a transition.");
-            UnityEngine.Assertions.Assert.IsTrue(id != FSMStateId.NONE, $"{id} FSMStateId is not allowed to add a transition.");
-            UnityEngine.Assertions.Assert.IsFalse(_map.ContainsKey(transition), $"A FSMTransition for Id {id} already exists in the map.");
-
-            _map.Add(transition, id);
+            this.Id = id;
         }
 
-        public void RemoveTransition(FSMTransition transition)
-        {
-            UnityEngine.Assertions.Assert.IsTrue(transition != FSMTransition.NONE, $"{transition} FSMTransition is not allowed to remove a transition.");
-            UnityEngine.Assertions.Assert.IsTrue(_map.ContainsKey(transition), $"Map does not contain {transition} FSMTransition.");
+        private readonly Dictionary<TTransitionID, TStateID> _transitionsMap = new Dictionary<TTransitionID, TStateID>();
 
-            _map.Remove(transition);
+        public TStateID Id { get; }
+
+        public void AddTransition(TTransitionID transition, TStateID id)
+        {
+            if (_transitionsMap.ContainsKey(transition))
+            {
+                UnityEngine.Debug.LogWarning($"A transition with enum ID {transition} already exists in the transitions map!");
+                return;
+            }
+            
+            _transitionsMap.Add(transition, id);
         }
 
-        public FSMStateId GetTransitionOutputState(FSMTransition transition)
+        public void RemoveTransition(TTransitionID transition)
         {
-            return _map.TryGetValue(transition, out FSMStateId id) ? id : FSMStateId.NONE;
+            if (!_transitionsMap.ContainsKey(transition))
+            {
+                UnityEngine.Debug.LogWarning($"No transition with enum ID {transition} exists in the transitions map to remove it!");
+                return;
+            }
+            
+            _transitionsMap.Remove(transition);
         }
 
-        public virtual void OnStateEntered() { }
-        public virtual void OnStateExit() { }
+        public TStateID GetTransitionOutputState(TTransitionID transition)
+        {
+            if (!_transitionsMap.ContainsKey(transition))
+            {
+                UnityEngine.Debug.LogWarning($"No transition with enum ID {transition} exists in the transitions map to get its output state! Returning default value.");
+                return default;
+            }
+            
+            return this._transitionsMap[transition];
+        }
+
+        public virtual void OnStateEntered()
+        {
+        }
+        
+        public virtual void OnStateExit()
+        {
+        }
 
         /// <summary>
-        /// Method used for the FSM owner to check if it should transition to another state.
-        /// GameObject parameter type and parameters can be changed if needed.
+        /// State transition if current context requires one.
         /// </summary>
-        /// <param name="player">Player's gameObject.</param>
-        public abstract void Reason(GameObject player);
+        public abstract TTransitionID Reason(TBehaviourContext context);
 
         /// <summary>
-        /// Method used for the FSM owner to behave according to its current state.
-        /// GameObject parameter type and parameters can be changed if needed.
+        /// State behaviour.
         /// </summary>
-        /// <param name="player">Player's gameObject.</param>
-        public abstract void Act(GameObject player);
+        public abstract void Act(TBehaviourContext context);
     }
 }
