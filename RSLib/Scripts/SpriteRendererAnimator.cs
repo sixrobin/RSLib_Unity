@@ -36,6 +36,16 @@ namespace RSLib
         #endif
         public bool Paused;
 
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Data")]
+        #endif
+        public bool UseUnscaledTime;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Data")]
+        #endif
+        public bool DestroyOnLastFrame;
+        
         private int _currentSpriteIndex;
         private float _timer;
 
@@ -53,7 +63,8 @@ namespace RSLib
             if (Paused)
                 return;
 
-            _timer += Time.deltaTime;
+            _timer += UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+            
             if (_timer < 1f / _frameRate)
                 return;
 
@@ -62,12 +73,15 @@ namespace RSLib
                 _currentSpriteIndex = ++_currentSpriteIndex % _sprites.Length;
                 _spriteRenderer.sprite = _sprites[_currentSpriteIndex];
                 _timer = 0f;
+                
+                if (DestroyOnLastFrame && _currentSpriteIndex == 0)
+                    Destroy(gameObject);
             }
         }
 
         private void Reset()
         {
-            _spriteRenderer = _spriteRenderer ?? GetComponent<SpriteRenderer>();
+            _spriteRenderer = this._spriteRenderer != null ? this._spriteRenderer : this.GetComponent<SpriteRenderer>();
         }
     }
 }

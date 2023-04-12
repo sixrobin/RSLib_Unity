@@ -7,7 +7,7 @@ namespace RSLib.ImageEffects.CameraPostEffects
     public class InvertedFlash : CameraPostEffect
     {
         [SerializeField, Range(0f, 1f)]
-        public float _percentage = 1f;
+        private float _percentage = 1f;
 
         [SerializeField]
         public bool Desaturated = true;
