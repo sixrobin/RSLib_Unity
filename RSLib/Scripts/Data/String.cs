@@ -32,14 +32,14 @@
             }
         }
         
-#region CONVERSION OPERATORS
+        #region CONVERSION OPERATORS
         
         public static implicit operator string(String dataString)
         {
             return dataString.Value;
         }
 
-#endregion // CONVERSION OPERATORS
+        #endregion // CONVERSION OPERATORS
 
         public override string ToString()
         {

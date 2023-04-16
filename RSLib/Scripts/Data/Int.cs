@@ -46,6 +46,11 @@
 
         #region ARITHMETIC OPERATORS
         
+        public static Int operator ++(Int a)
+        {
+            a.Value += 1;
+            return a;
+        }
         public static Int operator +(Int a, Int b)
         {
             a.Value += b.Value;
@@ -62,6 +67,11 @@
             return a;
         }
 
+        public static Int operator --(Int a)
+        {
+            a.Value -= 1;
+            return a;
+        }
         public static Int operator -(Int a, Int b)
         {
             a.Value -= b.Value;
@@ -265,6 +275,11 @@
         
         #region ARITHMETIC OPERATORS
         
+        public static IntField operator ++(IntField a)
+        {
+            a._valueInt += 1;
+            return a;
+        }
         public static IntField operator +(IntField a, IntField b)
         {
             if (a._useDataValue) a._dataInt += b.Value;
@@ -283,6 +298,11 @@
             return a;
         }
 
+        public static IntField operator --(IntField a)
+        {
+            a._valueInt -= 1;
+            return a;
+        }
         public static IntField operator -(IntField a, IntField b)
         {
             if (a._useDataValue) a._dataInt -= b.Value;

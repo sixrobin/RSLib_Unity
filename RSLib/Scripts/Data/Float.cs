@@ -46,6 +46,11 @@
 
         #region ARITHMETIC OPERATORS
         
+        public static Float operator ++(Float a)
+        {
+            a.Value += 1f;
+            return a;
+        }
         public static Float operator +(Float a, Float b)
         {
             a.Value += b.Value;
@@ -62,6 +67,11 @@
             return a;
         }
 
+        public static Float operator --(Float a)
+        {
+            a.Value -= 1f;
+            return a;
+        }
         public static Float operator -(Float a, Float b)
         {
             a.Value -= b.Value;
@@ -265,6 +275,11 @@
         
         #region ARITHMETIC OPERATORS
         
+        public static FloatField operator ++(FloatField a)
+        {
+            a._valueFloat += 1f;
+            return a;
+        }
         public static FloatField operator +(FloatField a, FloatField b)
         {
             if (a._useDataValue) a._dataFloat += b.Value;
@@ -283,6 +298,11 @@
             return a;
         }
 
+        public static FloatField operator --(FloatField a)
+        {
+            a._valueFloat -= 1f;
+            return a;
+        }
         public static FloatField operator -(FloatField a, FloatField b)
         {
             if (a._useDataValue) a._dataFloat -= b.Value;
