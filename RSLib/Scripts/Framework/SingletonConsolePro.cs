@@ -9,7 +9,11 @@
     /// Child class of Singleton to handle Console Pro plugin prefix system.
     /// </summary>
     [DisallowMultipleComponent]
+    #if ODIN_INSPECTOR
+    public class SingletonConsolePro<T> : Singleton<T> where T : SerializedMonoBehaviour
+    #else
     public class SingletonConsolePro<T> : Singleton<T> where T : MonoBehaviour
+    #endif
     {
         #if ODIN_INSPECTOR
         [FoldoutGroup("Singleton")]

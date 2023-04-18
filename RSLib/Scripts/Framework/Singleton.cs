@@ -6,7 +6,11 @@
     #endif
     
     [DisallowMultipleComponent]
+    #if ODIN_INSPECTOR
+    public abstract class Singleton<T> : SerializedMonoBehaviour where T : SerializedMonoBehaviour
+    #else
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    #endif
     {
         #if ODIN_INSPECTOR
         [FoldoutGroup("Singleton")]
