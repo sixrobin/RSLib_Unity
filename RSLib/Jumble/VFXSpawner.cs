@@ -55,7 +55,7 @@ namespace RSLib.Jumble
             Vector3? forward = null,
             Quaternion? rotation = null,
             Vector3? localOffset = null,
-            float scale = 1f)
+            Vector3? scale = null)
         {
             if (!Exists())
             {
@@ -83,7 +83,14 @@ namespace RSLib.Jumble
             if (localOffset.HasValue)
                 instance.Translate(localOffset.Value, Space.Self);
 
-            instance.localScale *= scale;
+            if (scale.HasValue)
+            {
+                Vector3 localScale = instance.localScale;
+                localScale.x *= scale.Value.x;
+                localScale.y *= scale.Value.y;
+                localScale.z *= scale.Value.z;
+                instance.localScale = localScale;
+            }
 
             return instance.gameObject;
         }
