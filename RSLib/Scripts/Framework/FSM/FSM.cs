@@ -34,7 +34,7 @@
         {
             for (int i = _states.Count - 1; i >= 0; --i)
             {
-                if (System.Collections.Generic.EqualityComparer<TState>.Default.Equals(this._states[i].Id, state))
+                if (System.Collections.Generic.EqualityComparer<TState>.Default.Equals(_states[i].Id, state))
                 {
                     _states.RemoveAt(i);
                     return;
@@ -50,15 +50,15 @@
 
             for (int i = _states.Count - 1; i >= 0; --i)
             {
-                if (!System.Collections.Generic.EqualityComparer<TState>.Default.Equals(this._states[i].Id, state))
+                if (!System.Collections.Generic.EqualityComparer<TState>.Default.Equals(_states[i].Id, state))
                 {
                     continue;
                 }
                 
-                this.CurrentStateID = state;
-                this.CurrentState.OnStateExit();
-                this.CurrentState = this._states[i];
-                this.CurrentState.OnStateEntered();
+                CurrentStateID = state;
+                CurrentState.OnStateExit();
+                CurrentState = _states[i];
+                CurrentState.OnStateEntered();
                 
                 return;
             }

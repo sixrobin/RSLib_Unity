@@ -69,11 +69,11 @@ namespace RSLib.Maths
 
         private bool IsValidCandidate(Vector2 candidate, System.Collections.Generic.List<Vector2> points, int[,] grid)
         {
-            if (candidate.x < 0f || candidate.x >= this._sampleBox.x || candidate.y < 0 || candidate.y >= this._sampleBox.y)
+            if (candidate.x < 0f || candidate.x >= _sampleBox.x || candidate.y < 0 || candidate.y >= _sampleBox.y)
                 return false;
             
-            int cellX = (int)(candidate.x / this._cellSize);
-            int cellY = (int)(candidate.y / this._cellSize);
+            int cellX = (int)(candidate.x / _cellSize);
+            int cellY = (int)(candidate.y / _cellSize);
                 
             int searchStartX = Mathf.Max(0, cellX - 2);
             int searchEndX = Mathf.Min(cellX + 2, grid.GetLength(0) - 1);
@@ -85,7 +85,7 @@ namespace RSLib.Maths
                 for (int y = searchStartY; y <= searchEndY; ++y)
                 {
                     int pointIndex = grid[x, y] - 1;
-                    if (pointIndex != -1 && (candidate - points[pointIndex]).sqrMagnitude < this._radius * this._radius)
+                    if (pointIndex != -1 && (candidate - points[pointIndex]).sqrMagnitude < _radius * _radius)
                         return false;
                 }
             }

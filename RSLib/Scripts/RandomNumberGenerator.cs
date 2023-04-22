@@ -11,12 +11,12 @@
 
         public RandomNumberGenerator(int seed)
         {
-            this.Seed = seed;
+            Seed = seed;
         }
 
         public RandomNumberGenerator(GeneratorState state)
         {
-            this.Seed = state.Seed;
+            Seed = state.Seed;
             DeserializeGlobalState(state);
         }
 
@@ -50,7 +50,7 @@
             
             if (!_randomsLibrary.TryGetValue(callerId, out System.Random random))
             {
-                random = this.Seed != 0 ? new System.Random(this.Seed) : new System.Random();
+                random = Seed != 0 ? new System.Random(Seed) : new System.Random();
                 _randomsLibrary.Add(callerId, random);
             }
 
@@ -86,7 +86,7 @@
         /// <returns>True or false.</returns>
         public bool RandomBool(object caller)
         {
-            return this.RandomRange(caller, 0f, 1f) > 0.5f;
+            return RandomRange(caller, 0f, 1f) > 0.5f;
         }
         #endregion // BOOLEAN
 
@@ -112,7 +112,7 @@
         /// <returns>Random float value.</returns>
         public float RandomRange(object caller, float min, float max)
         {
-            return this.RandomRange(GetRandom(caller), min, max);
+            return RandomRange(GetRandom(caller), min, max);
         }
         
         /// <summary>
@@ -123,7 +123,7 @@
         /// <returns>Random float value.</returns>
         public float RandomRange(object caller, UnityEngine.Vector2 range)
         {
-            return this.RandomRange(caller, range.x, range.y);
+            return RandomRange(caller, range.x, range.y);
         }
         
         /// <summary>
@@ -133,7 +133,7 @@
         /// <returns>Random float value between 0f and 1f.</returns>
         public float RandomValue(object caller)
         {
-            return this.RandomRange(caller, 0f, 1f);
+            return RandomRange(caller, 0f, 1f);
         }
         #endregion // FLOAT RANGE
 
@@ -159,7 +159,7 @@
         /// <returns>Random int value.</returns>
         public int RandomRange(object caller, int min, int max)
         {
-            return this.RandomRange(GetRandom(caller), min, max);
+            return RandomRange(GetRandom(caller), min, max);
         }
         
         /// <summary>
@@ -170,7 +170,7 @@
         /// <returns>Random int value.</returns>
         public int RandomRange(object caller, UnityEngine.Vector2Int range)
         {
-            return this.RandomRange(caller, range.x, range.y);
+            return RandomRange(caller, range.x, range.y);
         }
         #endregion // INT RANGE
 
@@ -183,7 +183,7 @@
         /// <returns>Random list element.</returns>
         private T RandomElement<T>(object caller, IReadOnlyList<T> list)
         {
-            return list[this.RandomRange(caller, 0, list.Count)];
+            return list[RandomRange(caller, 0, list.Count)];
         }
         
         /// <summary>
@@ -195,7 +195,7 @@
         public T RandomElement<T>(object caller, IEnumerable<T> enumerable)
         {
             List<T> list = enumerable.ToList();
-            return this.RandomElement(caller, list);
+            return RandomElement(caller, list);
         }
         
         /// <summary>
@@ -259,7 +259,7 @@
 
             return new GeneratorState()
             {
-                Seed = this.Seed,
+                Seed = Seed,
                 RandomStates = randomStates
             };
         }

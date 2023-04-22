@@ -33,11 +33,11 @@
         {
             get
             {
-                if (!this._useDataValue)
-                    return this._valueColor;
+                if (!_useDataValue)
+                    return _valueColor;
 
-                if (this._dataColor != null)
-                    return this._dataColor;
+                if (_dataColor != null)
+                    return _dataColor;
                 
                 Debug.LogError("Trying to get a DataColor value with a null reference! Returning magenta.");
                 return UnityEngine.Color.magenta;

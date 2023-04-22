@@ -81,7 +81,7 @@ namespace RSLib
 
         private void Reset()
         {
-            _spriteRenderer = this._spriteRenderer != null ? this._spriteRenderer : this.GetComponent<SpriteRenderer>();
+            _spriteRenderer = _spriteRenderer != null ? _spriteRenderer : GetComponent<SpriteRenderer>();
         }
     }
 }

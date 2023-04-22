@@ -94,7 +94,7 @@
 
         private void Initialize()
         {
-            this._camera = GetComponent<Camera>();
+            _camera = GetComponent<Camera>();
 
             _droplets = new Droplet[5]
             {
@@ -133,7 +133,7 @@
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            if (this._droplets == null)
+            if (_droplets == null)
                 return;
             
             for (int i = _droplets.Length - 1; i >= 0; --i)

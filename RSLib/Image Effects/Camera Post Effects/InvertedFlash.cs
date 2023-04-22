@@ -30,7 +30,7 @@ namespace RSLib.ImageEffects.CameraPostEffects
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
             material.SetFloat(s_percentageID, _percentage);
-            material.SetFloat(s_desaturateID, this.Desaturated ? 1f : 0f);
+            material.SetFloat(s_desaturateID, Desaturated ? 1f : 0f);
             material.SetVector(s_desaturationSmoothstepID, _desaturationSmoothstep);
         }
 

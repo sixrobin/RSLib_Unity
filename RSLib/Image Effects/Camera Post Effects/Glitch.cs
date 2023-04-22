@@ -32,16 +32,16 @@ namespace RSLib.ImageEffects.CameraPostEffects
 	    
 	    public void IncreaseIntensity(float intensityIncrease, float flipIncrease, float colorIncrease)
 	    {
-		    _intensity = Mathf.Clamp01(this._intensity + intensityIncrease);
-		    _flipIntensity += Mathf.Clamp01(this._intensity + flipIncrease);
-		    _colorIntensity += Mathf.Clamp01(this._intensity + colorIncrease);
+		    _intensity = Mathf.Clamp01(_intensity + intensityIncrease);
+		    _flipIntensity += Mathf.Clamp01(_intensity + flipIncrease);
+		    _colorIntensity += Mathf.Clamp01(_intensity + colorIncrease);
 	    }
 	    
 	    public void DecreaseIntensity(float intensityDecrease, float flipDecrease, float colorDecrease)
 	    {
-		    _intensity = Mathf.Clamp01(this._intensity - intensityDecrease);
-		    _flipIntensity += Mathf.Clamp01(this._intensity - flipDecrease);
-		    _colorIntensity += Mathf.Clamp01(this._intensity - colorDecrease);
+		    _intensity = Mathf.Clamp01(_intensity - intensityDecrease);
+		    _flipIntensity += Mathf.Clamp01(_intensity - flipDecrease);
+		    _colorIntensity += Mathf.Clamp01(_intensity - colorDecrease);
 	    }
 
 	    public void ResetValues()

@@ -19,12 +19,12 @@
 
         public void SetScaleX(int value)
         {
-            this._scale.x = value;
+            _scale.x = value;
         }
 
         public void SetScaleY(int value)
         {
-            this._scale.y = value;
+            _scale.y = value;
         }
 
         public void SetScale(int x, int y)
@@ -47,31 +47,31 @@
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            material.SetInt(s_scaleXID, this._scale.x);
-            material.SetInt(s_scaleYID, this._scale.y);
+            material.SetInt(s_scaleXID, _scale.x);
+            material.SetInt(s_scaleYID, _scale.y);
         }
 
         private void Update()
         {
-            if (_scaleX != this._scale.x)
+            if (_scaleX != _scale.x)
             {
-                _scaleX = this._scale.x;
+                _scaleX = _scale.x;
                 if (_lockXY)
-                    _scaleY = this._scale.y = _scaleX;
+                    _scaleY = _scale.y = _scaleX;
             }
 
-            if (_scaleY != this._scale.y)
+            if (_scaleY != _scale.y)
             {
-                _scaleY = this._scale.y;
+                _scaleY = _scale.y;
                 if (_lockXY)
-                    _scaleX = this._scale.x = _scaleY;
+                    _scaleX = _scale.x = _scaleY;
             }
         }
 
         private void OnValidate()
         {
-            this._scale.x = Mathf.Clamp(this._scale.x, 1, 200);
-            this._scale.y = Mathf.Clamp(this._scale.y, 1, 200);
+            _scale.x = Mathf.Clamp(_scale.x, 1, 200);
+            _scale.y = Mathf.Clamp(_scale.y, 1, 200);
         }
     }
 }

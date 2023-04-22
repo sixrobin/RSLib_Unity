@@ -246,11 +246,11 @@
         {
             get
             {
-                if (!this._useDataValue)
-                    return this._valueFloat;
+                if (!_useDataValue)
+                    return _valueFloat;
 
-                if (this._dataFloat != null)
-                    return this._dataFloat;
+                if (_dataFloat != null)
+                    return _dataFloat;
                 
                 Debug.LogError("Trying to get a DataFloat value with a null reference! Returning default float value.");
                 return default;

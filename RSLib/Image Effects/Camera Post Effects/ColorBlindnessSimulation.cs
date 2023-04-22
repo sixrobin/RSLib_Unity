@@ -32,8 +32,8 @@ namespace RSLib.ImageEffects.CameraPostEffects
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            Material.SetFloat(s_severityID, this._severity);
-            Material.SetInt(s_differenceID, this._difference ? 1 : 0);
+            Material.SetFloat(s_severityID, _severity);
+            Material.SetInt(s_differenceID, _difference ? 1 : 0);
         }
     }
 }

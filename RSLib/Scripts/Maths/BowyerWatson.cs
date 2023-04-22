@@ -17,7 +17,7 @@ namespace RSLib.Maths
             public Triangle(Vector2 a, Vector2 b, Vector2 c)
             {
                 // Compute vertices array.
-                this.Vertices = new Vector2[]
+                Vertices = new Vector2[]
                 {
                     a,
                     b,
@@ -25,7 +25,7 @@ namespace RSLib.Maths
                 };
                 
                 // Compute edges array.
-                this.Edges = new Edge[]
+                Edges = new Edge[]
                 {
                     new Edge(a, b),
                     new Edge(b, c),
@@ -39,10 +39,10 @@ namespace RSLib.Maths
                 float d = (a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) * 2f;
                 float x = ((sqrA.x + sqrA.y) * (b.y - c.y) + (sqrB.x + sqrB.y) * (c.y - a.y) + (sqrC.x + sqrC.y) * (a.y - b.y)) / d;
                 float y = ((sqrA.x + sqrA.y) * (c.x - b.x) + (sqrB.x + sqrB.y) * (a.x - c.x) + (sqrC.x + sqrC.y) * (b.x - a.x)) / d;
-                this._circumcenter = new Vector2(x, y);
+                _circumcenter = new Vector2(x, y);
 
                 // Compute circumradius (must be done AFTER circumcenter).
-                this._circumradius = (this._circumcenter - a).magnitude;
+                _circumradius = (_circumcenter - a).magnitude;
             }
             
             // Circumcircle data.
@@ -55,8 +55,8 @@ namespace RSLib.Maths
             
             public bool HasEdge(Edge edge)
             {
-                for (int i = this.Edges.Length - 1; i >= 0; --i)
-                    if (this.Edges[i].EqualsEdge(edge))
+                for (int i = Edges.Length - 1; i >= 0; --i)
+                    if (Edges[i].EqualsEdge(edge))
                         return true;
                 
                 return false;
@@ -67,7 +67,7 @@ namespace RSLib.Maths
                 for (int i = triangle.Vertices.Length - 1; i >= 0; --i)
                 {
                     Vector2 vertex = triangle.Vertices[i];
-                    if (vertex == this.Vertices[0] || vertex == this.Vertices[1] || vertex == this.Vertices[2])
+                    if (vertex == Vertices[0] || vertex == Vertices[1] || vertex == Vertices[2])
                         return true;
                 }
 
@@ -76,7 +76,7 @@ namespace RSLib.Maths
             
             public bool IsPointInsideCircumcircle(Vector2 point)
             {
-                return (this._circumcenter - point).magnitude <= this._circumradius;
+                return (_circumcenter - point).magnitude <= _circumradius;
             }
         }
 
@@ -84,8 +84,8 @@ namespace RSLib.Maths
         {
             public Edge(Vector2 a, Vector2 b)
             {
-                this.A = a;
-                this.B = b;
+                A = a;
+                B = b;
             }
             
             public Vector2 A { get; }
@@ -93,8 +93,8 @@ namespace RSLib.Maths
 
             public bool EqualsEdge(Edge edge)
             {
-                return Vector2.Distance(this.A, edge.A) <= float.Epsilon && Vector2.Distance(this.B, edge.B) <= float.Epsilon
-                       || Vector2.Distance(this.A, edge.B) <= float.Epsilon && Vector2.Distance(this.B, edge.A) <= float.Epsilon;
+                return Vector2.Distance(A, edge.A) <= float.Epsilon && Vector2.Distance(B, edge.B) <= float.Epsilon
+                       || Vector2.Distance(A, edge.B) <= float.Epsilon && Vector2.Distance(B, edge.A) <= float.Epsilon;
             }
         }
 
@@ -151,7 +151,7 @@ namespace RSLib.Maths
         /// <returns>Triangulation result.</returns>
         public Triangulation Triangulate(IReadOnlyList<Vector2> points)
         {
-            Triangle superTriangle = this.ComputeSuperTriangle(points);
+            Triangle superTriangle = ComputeSuperTriangle(points);
             List<Triangle> triangles = new List<Triangle>() { superTriangle };
 
             // This algorithm is incremental -> compute each point one by one.

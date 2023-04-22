@@ -246,11 +246,11 @@
         {
             get
             {
-                if (!this._useDataValue)
-                    return this._valueInt;
+                if (!_useDataValue)
+                    return _valueInt;
 
-                if (this._dataInt != null)
-                    return this._dataInt;
+                if (_dataInt != null)
+                    return _dataInt;
                 
                 Debug.LogError("Trying to get a DataInt value with a null reference! Returning default int value.");
                 return default;

@@ -6,7 +6,7 @@
     {
         public FSMState(TStateID id)
         {
-            this.Id = id;
+            Id = id;
         }
 
         private readonly Dictionary<TTransitionID, TStateID> _transitionsMap = new Dictionary<TTransitionID, TStateID>();
@@ -43,7 +43,7 @@
                 return default;
             }
             
-            return this._transitionsMap[transition];
+            return _transitionsMap[transition];
         }
 
         public virtual void OnStateEntered()

@@ -19,7 +19,7 @@
         {
             if (!UnityEngine.Application.isPlaying)
             {
-                UnityEngine.Debug.LogWarning($"Cannot play {this.name} while application is not playing!");
+                UnityEngine.Debug.LogWarning($"Cannot play {name} while application is not playing!");
                 return;
             }
             

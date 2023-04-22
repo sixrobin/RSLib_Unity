@@ -21,10 +21,10 @@ namespace RSLib.ImageEffects.CameraPostEffects
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            material.SetFloat(s_curvatureID, this._curvature);
-            material.SetFloat(s_vignetteWidthID, this._vignetteWidth);
-            material.SetFloat(s_scanlinesMultiplierID, this._scanlinesMultiplier);
-            material.SetVector(s_rgbMultiplierID, this._rgbMultiplier); 
+            material.SetFloat(s_curvatureID, _curvature);
+            material.SetFloat(s_vignetteWidthID, _vignetteWidth);
+            material.SetFloat(s_scanlinesMultiplierID, _scanlinesMultiplier);
+            material.SetVector(s_rgbMultiplierID, _rgbMultiplier); 
         }
     }
 }
