@@ -1,4 +1,4 @@
-namespace TheLastStand.View.LevelEditor
+namespace RSLib
 {
     using UnityEngine;
     using UnityEngine.UI;
@@ -119,7 +119,7 @@ namespace TheLastStand.View.LevelEditor
                         break;
 
                     default:
-                        Debug.LogError($"Unhandled color pick type {_pickType}.");
+                        UnityEngine.Debug.LogError($"Unhandled color pick type {_pickType}.");
                         break;
                 }
             }
