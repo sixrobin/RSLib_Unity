@@ -114,8 +114,8 @@
             Vector3 left = Quaternion.Euler(0f, 0f, -theta) * -direction;
             Vector3 right = Quaternion.Euler(0f, 0f, theta) * -direction;
             
-            Gizmos.DrawRay(position + direction, left.normalized * length);
-            Gizmos.DrawRay(position + direction, right.normalized * length);
+            Gizmos.DrawRay(position, left.normalized * length);
+            Gizmos.DrawRay(position, right.normalized * length);
         }
 
         /// <summary>
@@ -138,10 +138,10 @@
             Vector3 up = Quaternion.LookRotation(direction) * Quaternion.Euler(0f, theta, 0f) * Vector3.back;
             Vector3 down = Quaternion.LookRotation(direction) * Quaternion.Euler(0f, -theta, 0f) * Vector3.back;
             
-            Gizmos.DrawRay(position + direction, left * length);
-            Gizmos.DrawRay(position + direction, right * length);
-            Gizmos.DrawRay(position + direction, up * length);
-            Gizmos.DrawRay(position + direction, down * length);
+            Gizmos.DrawRay(position, left * length);
+            Gizmos.DrawRay(position, right * length);
+            Gizmos.DrawRay(position, up * length);
+            Gizmos.DrawRay(position, down * length);
         }
     }
 }
