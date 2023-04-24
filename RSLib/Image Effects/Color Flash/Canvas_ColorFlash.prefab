@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7776529586823760268}
   - component: {fileID: 7776529586823760269}
   m_Layer: 5
-  m_Name: Canvas - Color Flash
+  m_Name: Canvas_ColorFlash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
