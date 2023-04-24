@@ -133,6 +133,11 @@ namespace RSLib
         private void Start()
         {
             _colorPickerTexture = _colorPickerImage.sprite.texture;
+			if (!_colorPickerTexture.isReadable)
+            {
+                UnityEngine.Debug.LogWarning($"Texture {_colorPickerTexture.name} is not readable, color picker cannot work and will be disable to avoid errors.", _colorPickerTexture);
+                enabled = false;
+            }
 
             if (_hexToClipboardButton != null)
                 _hexToClipboardButton.onClick.AddListener(CopyPickedColorHexToClipboard);
