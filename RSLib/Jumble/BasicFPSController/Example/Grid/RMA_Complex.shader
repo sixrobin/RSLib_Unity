@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "Divine_Words/RMA_Complex"
+Shader "Hidden/RSLib/RMA_Complex"
 {
 	Properties
 	{

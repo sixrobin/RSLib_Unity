@@ -1,4 +1,4 @@
-Shader "Custom/WorldCoord Diffuse" {
+Shader "Hidden/RSLib/WorldCoord Diffuse" {
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_Emissive ("Emissive (RGB)", 2D) = "white" {}
