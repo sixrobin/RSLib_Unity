@@ -1,4 +1,4 @@
-namespace LDJAM50
+namespace RSLib
 {
     using UnityEngine;
     #if ODIN_INSPECTOR
