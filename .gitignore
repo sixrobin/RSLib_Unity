@@ -20,6 +20,9 @@ ExportedObj/
 *.svd
 *.pdb
 *.opendb
+# Ignore assembly definition as it's project based
+*.asmdef
+*.asmdef.meta
 
 # Unity3D generated meta files
 *.pidb.meta
