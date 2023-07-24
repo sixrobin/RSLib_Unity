@@ -1,5 +1,6 @@
 namespace RSLib.Editor
 {
+    using System.Linq;
     using UnityEngine;
     using UnityEditor;
 
@@ -32,6 +33,33 @@ namespace RSLib.Editor
             return textures.ToArray();
         }
         
+        private static Sprite[] GetSprites()
+        {
+            string[] guids = AssetDatabase.FindAssets("t:sprite");
+            System.Collections.Generic.List<Sprite> sprites = new System.Collections.Generic.List<Sprite>();
+
+            foreach (string guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+
+                if (!path.StartsWith("Assets/")
+                    || path.StartsWith("Assets/Plugins/")
+                    || path.StartsWith("Assets/TextMesh Pro/"))
+                {
+                    continue;
+                }
+                
+                Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+
+                if (sprite == null)
+                    continue;
+
+                sprites.Add(sprite);
+            }
+
+            return sprites.ToArray();
+        }
+        
         [MenuItem("RSLib/Texture Scan/Locate non multiple of 4")]
         private static void LocateNonMultipleOf4()
         {
@@ -39,8 +67,6 @@ namespace RSLib.Editor
 
             foreach (Texture2D texture2D in textures)
             {
-                string path = AssetDatabase.GetAssetPath(texture2D);
-                
                 float widthBelow = -1f;
                 float widthAbove = -1f;
                 float heightBelow = -1f;
@@ -71,6 +97,8 @@ namespace RSLib.Editor
                 // Both sides are multiple of 4.
                 if (widthAbove < 0f && heightAbove < 0f)
                     continue;
+
+                string path = AssetDatabase.GetAssetPath(texture2D);
 
                 if (widthAbove >= 0f && heightAbove < 0f) // Invalid width, valid height.
                     Debug.Log($"Texture {path} has an invalid <b>widths</b> (nearest %4 widths are <b>{widthBelow}</b>/<b>{widthAbove}</b>).", texture2D);
@@ -108,8 +136,6 @@ namespace RSLib.Editor
             
             foreach (Texture2D texture2D in textures)
             {
-                string path = AssetDatabase.GetAssetPath(texture2D);
-                
                 int width = texture2D.width;
                 int height = texture2D.height;
 
@@ -131,7 +157,35 @@ namespace RSLib.Editor
                 }
 
                 if (widthNearestPowerOf2 != 0f && heightNearestPowerOf2 != 0f)
+                {
+                    string path = AssetDatabase.GetAssetPath(texture2D);
                     Debug.Log($"Texture {path} dimensions <b>{width}x{height}</b> are near powers of 2 (nearest POT width is <b>{widthNearestPowerOf2}, nearest POT height is {heightNearestPowerOf2}</b>.", texture2D);
+                }
+            }
+        }
+
+        [MenuItem("RSLib/Texture Scan/Locate high triangles count (100 higher)")]
+        private static void LocateHighTrianglesCount()
+        {
+            Sprite[] sprites = GetSprites();
+            System.Collections.Generic.Dictionary<Sprite, int> spritesTriangles = new System.Collections.Generic.Dictionary<Sprite, int>();
+
+            foreach (Sprite sprite in sprites)
+                spritesTriangles.Add(sprite, sprite.triangles.Length);
+
+            IOrderedEnumerable<System.Collections.Generic.KeyValuePair<Sprite, int>> spritesTrianglesOrderer = spritesTriangles
+                                                                                                               .Where(o => o.Value > 2)
+                                                                                                               .OrderByDescending(o => o.Value);
+
+            int i = 0;
+            foreach (System.Collections.Generic.KeyValuePair<Sprite, int> kvp in spritesTrianglesOrderer)
+            {
+                string path = AssetDatabase.GetAssetPath(kvp.Key);
+                int triangles = kvp.Value / 3; // Triangles array's length is thrice the actual triangles count.
+                Debug.Log($"Sprite {path} has <b>{triangles}</b> triangles.", kvp.Key);
+                
+                if (++i == 100)
+                    break;
             }
         }
     }
