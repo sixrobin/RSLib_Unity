@@ -3,13 +3,27 @@ namespace RSLib.Editor
     using System.Linq;
     using UnityEngine;
     using UnityEditor;
+    using Unity.EditorCoroutines.Editor;
 
     public static class TexturesScanner
     {
-        private static Texture2D[] GetTextures()
+        #if RSLIB_EDITOR_COROUTINES
+        #region MENU ITEMS
+        [MenuItem("RSLib/Texture Scan/Locate Non Multiple of 4")]
+        private static void LocateNonMultipleOf4() => EditorCoroutineUtility.StartCoroutineOwnerless(LocateNonMultipleOf4Coroutine());
+        
+        [MenuItem("RSLib/Texture Scan/Locate Near POT")]
+        private static void LocateNearPowerOf2() => EditorCoroutineUtility.StartCoroutineOwnerless(LocateNearPowerOf2Coroutine());
+        
+        [MenuItem("RSLib/Texture Scan/Locate High Triangles Count")]
+        private static void LocateHighTrianglesCount() => EditorCoroutineUtility.StartCoroutineOwnerless(LocateHighTrianglesCountCoroutine());
+        #endregion // MENU ITEMS
+        #endif // RSLIB_EDITOR_COROUTINES
+
+        #region ASSETS ACCESSOR METHODS
+        private static System.Collections.IEnumerator GetTextures(System.Collections.Generic.ICollection<Texture2D> result)
         {
             string[] guids = AssetDatabase.FindAssets("t:texture");
-            System.Collections.Generic.List<Texture2D> textures = new System.Collections.Generic.List<Texture2D>();
 
             foreach (string guid in guids)
             {
@@ -27,16 +41,14 @@ namespace RSLib.Editor
                 if (texture2D == null)
                     continue;
 
-                textures.Add(texture2D);
+                result.Add(texture2D);
+                yield return null;
             }
-
-            return textures.ToArray();
         }
         
-        private static Sprite[] GetSprites()
+        private static System.Collections.IEnumerator GetSprites(System.Collections.Generic.ICollection<Sprite> result)
         {
             string[] guids = AssetDatabase.FindAssets("t:sprite");
-            System.Collections.Generic.List<Sprite> sprites = new System.Collections.Generic.List<Sprite>();
 
             foreach (string guid in guids)
             {
@@ -54,16 +66,17 @@ namespace RSLib.Editor
                 if (sprite == null)
                     continue;
 
-                sprites.Add(sprite);
+                result.Add(sprite);
+                yield return null;
             }
-
-            return sprites.ToArray();
         }
-        
-        [MenuItem("RSLib/Texture Scan/Locate non multiple of 4")]
-        private static void LocateNonMultipleOf4()
+        #endregion // ASSETS ACCESSOR METHODS
+
+        #region EDITOR COROUTINES
+        private static System.Collections.IEnumerator LocateNonMultipleOf4Coroutine()
         {
-            Texture2D[] textures = GetTextures();
+            System.Collections.Generic.List<Texture2D> textures = new System.Collections.Generic.List<Texture2D>();
+            yield return EditorCoroutineUtility.StartCoroutineOwnerless(GetTextures(textures));
 
             foreach (Texture2D texture2D in textures)
             {
@@ -101,16 +114,17 @@ namespace RSLib.Editor
                 string path = AssetDatabase.GetAssetPath(texture2D);
 
                 if (widthAbove >= 0f && heightAbove < 0f) // Invalid width, valid height.
-                    Debug.Log($"Texture {path} has an invalid <b>widths</b> (nearest %4 widths are <b>{widthBelow}</b>/<b>{widthAbove}</b>).", texture2D);
+                    Debug.Log($"{path} has an invalid <b>widths</b> (nearest %4 widths are <b>{widthBelow}</b>/<b>{widthAbove}</b>).", texture2D);
                 else if (widthAbove < 0f && heightAbove >= 0f) // Valid width, invalid height.
-                    Debug.Log($"Texture {path} has an invalid <b>height</b> (nearest %4 heights are <b>{heightBelow}</b>/<b>{heightAbove}</b>).", texture2D);
+                    Debug.Log($"{path} has an invalid <b>height</b> (nearest %4 heights are <b>{heightBelow}</b>/<b>{heightAbove}</b>).", texture2D);
                 else // Invalid width, invalid height.
-                    Debug.Log($"Texture {path} has invalid <b>dimensions</b> (nearest %4 widths are <b>{widthBelow}</b>/<b>{widthAbove}</b>, nearest %4 heights are <b>{heightBelow}</b>/<b>{heightAbove}</b>).", texture2D);
+                    Debug.Log($"{path} has invalid <b>dimensions</b> (nearest %4 widths are <b>{widthBelow}</b>/<b>{widthAbove}</b>, nearest %4 heights are <b>{heightBelow}</b>/<b>{heightAbove}</b>).", texture2D);
+
+                yield return null;
             }
         }
 
-        [MenuItem("RSLib/Texture Scan/Locate near power of 2")]
-        private static void LocateNearPowerOf2()
+        private static System.Collections.IEnumerator LocateNearPowerOf2Coroutine()
         {
             int[] maxDiffs =
             {
@@ -129,7 +143,8 @@ namespace RSLib.Editor
                 400, // 16384
             };
 
-            Texture2D[] textures = GetTextures();
+            System.Collections.Generic.List<Texture2D> textures = new System.Collections.Generic.List<Texture2D>();
+            yield return EditorCoroutineUtility.StartCoroutineOwnerless(GetTextures(textures));
 
             float widthNearestPowerOf2 = 0f;
             float heightNearestPowerOf2 = 0f;
@@ -159,15 +174,18 @@ namespace RSLib.Editor
                 if (widthNearestPowerOf2 != 0f && heightNearestPowerOf2 != 0f)
                 {
                     string path = AssetDatabase.GetAssetPath(texture2D);
-                    Debug.Log($"Texture {path} dimensions <b>{width}x{height}</b> are near powers of 2 (nearest POT width is <b>{widthNearestPowerOf2}, nearest POT height is {heightNearestPowerOf2}</b>.", texture2D);
+                    Debug.Log($"{path} dimensions <b>{width}x{height}</b> are near powers of 2 (nearest POT width is <b>{widthNearestPowerOf2}, nearest POT height is {heightNearestPowerOf2}</b>.", texture2D);
                 }
+
+                yield return null;
             }
         }
 
-        [MenuItem("RSLib/Texture Scan/Locate high triangles count (100 higher)")]
-        private static void LocateHighTrianglesCount()
+        private static System.Collections.IEnumerator LocateHighTrianglesCountCoroutine()
         {
-            Sprite[] sprites = GetSprites();
+            System.Collections.Generic.List<Sprite> sprites = new System.Collections.Generic.List<Sprite>();
+            yield return EditorCoroutineUtility.StartCoroutineOwnerless(GetSprites(sprites));
+            
             System.Collections.Generic.Dictionary<Sprite, int> spritesTriangles = new System.Collections.Generic.Dictionary<Sprite, int>();
 
             foreach (Sprite sprite in sprites)
@@ -177,16 +195,14 @@ namespace RSLib.Editor
                                                                                                                .Where(o => o.Value > 2)
                                                                                                                .OrderByDescending(o => o.Value);
 
-            int i = 0;
             foreach (System.Collections.Generic.KeyValuePair<Sprite, int> kvp in spritesTrianglesOrderer)
             {
                 string path = AssetDatabase.GetAssetPath(kvp.Key);
                 int triangles = kvp.Value / 3; // Triangles array's length is thrice the actual triangles count.
-                Debug.Log($"Sprite {path} has <b>{triangles}</b> triangles.", kvp.Key);
-                
-                if (++i == 100)
-                    break;
+                Debug.Log($"{path} has <b>{triangles}</b> triangles.", kvp.Key);
+                yield return null;
             }
         }
+        #endregion // EDITOR COROUTINES
     }
 }
