@@ -44,16 +44,23 @@ namespace RSLib
         #if ODIN_INSPECTOR
         [FoldoutGroup("Data")]
         #endif
+        public bool DisableOnLastFrame;
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Data")]
+        #endif
         public bool DestroyOnLastFrame;
         
         private int _currentSpriteIndex;
         private float _timer;
 
-        private void Start()
+        private void OnEnable()
         {
             if (_randomizeStartSprite)
                 _currentSpriteIndex = Random.Range(0, _sprites.Length);
-
+            else
+                _currentSpriteIndex = 0;
+                
             if (_sprites.Length > 0)
                 _spriteRenderer.sprite = _sprites[_currentSpriteIndex];
         }
@@ -73,9 +80,14 @@ namespace RSLib
                 _currentSpriteIndex = ++_currentSpriteIndex % _sprites.Length;
                 _spriteRenderer.sprite = _sprites[_currentSpriteIndex];
                 _timer = 0f;
-                
-                if (DestroyOnLastFrame && _currentSpriteIndex == 0)
-                    Destroy(gameObject);
+
+                if (this._currentSpriteIndex == 0)
+                {
+                    if (DestroyOnLastFrame)
+                        Destroy(gameObject);
+                    else if (DisableOnLastFrame)
+                        gameObject.SetActive(false);
+                }
             }
         }
 
