@@ -32,7 +32,7 @@
         private Tilemap _tilemapToClearCollision;
         
         [MenuItem("RSLib/Tilemap Tools")]
-        public static void LaunchTilemapUtilities()
+        public static void Open()
         {
             s_firstOpenFrame = true;
             GetWindow<TilemapEditorTools>("Tilemap Utilities").Show();

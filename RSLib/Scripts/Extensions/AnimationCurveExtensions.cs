@@ -4,7 +4,7 @@
 
     public static class AnimationCurveExtensions
     {
-        private static readonly Keyframe s_defaultKeyFrame = new Keyframe(0f, 0f);
+        private static readonly Keyframe DEFAULT_KEY_FRAME = new Keyframe(0f, 0f);
 
         #region GENERAL
 
@@ -26,7 +26,7 @@
             int length = curve.keys.Length;
 
             if (length == 0)
-                return s_defaultKeyFrame;
+                return DEFAULT_KEY_FRAME;
 
             int minTimeIndex = 0;
             for (int i = 1; i < length; ++i)
@@ -45,7 +45,7 @@
             int length = curve.keys.Length;
 
             if (length == 0)
-                return s_defaultKeyFrame;
+                return DEFAULT_KEY_FRAME;
 
             int maxTimeIndex = 0;
             for (int i = 1; i < length; ++i)
@@ -82,7 +82,7 @@
             int length = curve.keys.Length;
 
             if (length == 0)
-                return s_defaultKeyFrame;
+                return DEFAULT_KEY_FRAME;
 
             int minValueIndex = 0;
             for (int i = 1; i < length; ++i)
@@ -101,7 +101,7 @@
             int length = curve.keys.Length;
 
             if (length == 0)
-                return s_defaultKeyFrame;
+                return DEFAULT_KEY_FRAME;
 
             int maxValueIndex = 0;
             for (int i = 1; i < length; ++i)

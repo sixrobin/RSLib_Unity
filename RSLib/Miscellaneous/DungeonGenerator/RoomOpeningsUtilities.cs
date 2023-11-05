@@ -4,7 +4,7 @@
 
     public static class RoomTypeUtilities
     {
-        private static readonly System.Random s_rnd = new System.Random();
+        private static readonly System.Random RND = new System.Random();
 
         private static RoomType[] s_allTypes;
         private static RoomType[] AllTypes
@@ -56,13 +56,13 @@
 
         public static RoomType GetRandomFillingRoomType()
         {
-            return FILL_ROOMS_DOORS[s_rnd.Next(FILL_ROOMS_DOORS.Length)];
+            return FILL_ROOMS_DOORS[RND.Next(FILL_ROOMS_DOORS.Length)];
         }
 
         public static RoomType GetRandomRoomType(RoomType requiredOpening)
         {
             System.Collections.Generic.IEnumerable<RoomType> potentialRooms = AllTypes.Where(o => (o & requiredOpening) == requiredOpening);
-            return potentialRooms.ElementAt(s_rnd.Next(potentialRooms.Count()));
+            return potentialRooms.ElementAt(RND.Next(potentialRooms.Count()));
         }
 
         public static bool HasOpening(this RoomType r, RoomType opening)

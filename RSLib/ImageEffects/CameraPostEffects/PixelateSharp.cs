@@ -6,13 +6,13 @@
     [AddComponentMenu("RSLib/Camera Post Effects/Pixelate Sharp")]
     public class PixelateSharp : CameraPostEffect
     {
+        private static readonly int SCALE_X_ID = Shader.PropertyToID("_ScaleX");
+        private static readonly int SCALE_Y_ID = Shader.PropertyToID("_ScaleY");
+        
         [SerializeField]
         private bool _lockXY = true;
         [SerializeField]
         private Vector2 _scale = new Vector2(2f, 2f);
-
-        private static readonly int s_scaleXID = Shader.PropertyToID("_ScaleX");
-        private static readonly int s_scaleYID = Shader.PropertyToID("_ScaleY");
 
         private float _scaleX;
         private float _scaleY;
@@ -49,8 +49,8 @@
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            material.SetFloat(s_scaleXID, _scale.x);
-            material.SetFloat(s_scaleYID, _scale.y);
+            material.SetFloat(SCALE_X_ID, _scale.x);
+            material.SetFloat(SCALE_Y_ID, _scale.y);
         }
 
         private void Update()

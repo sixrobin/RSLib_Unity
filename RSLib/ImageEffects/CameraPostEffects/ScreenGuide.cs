@@ -6,6 +6,13 @@ namespace RSLib.ImageEffects.CameraPostEffects
     [AddComponentMenu("RSLib/Camera Post Effects/Screen Guide")]
     public class ScreenGuide : CameraPostEffect
     {
+        private const string ALWAYS_SHOW_CENTER_KEYWORD = "ALWAYSSHOWCENTER";
+        private static readonly int LINES_X_ID = Shader.PropertyToID("_LinesX");
+        private static readonly int LINES_Y_ID = Shader.PropertyToID("_LinesY");
+        private static readonly int COLOR_X_ID = Shader.PropertyToID("_ColorX");
+        private static readonly int COLOR_Y_ID = Shader.PropertyToID("_ColorY");
+        private static readonly int SCALE_ID = Shader.PropertyToID("_LineScale");
+        
         [Header("SETTINGS")]
         [SerializeField]
         private bool _alwaysShowCenter = false;
@@ -22,13 +29,6 @@ namespace RSLib.ImageEffects.CameraPostEffects
         
         [SerializeField, Range(1f, 10f)]
         private float _scale = 1;
-
-        private const string ALWAYS_SHOW_CENTER_KEYWORD = "ALWAYSSHOWCENTER";
-        private static readonly int s_linesXID = Shader.PropertyToID("_LinesX");
-        private static readonly int s_linesYID = Shader.PropertyToID("_LinesY");
-        private static readonly int s_colorXID = Shader.PropertyToID("_ColorX");
-        private static readonly int s_colorYID = Shader.PropertyToID("_ColorY");
-        private static readonly int s_scaleID = Shader.PropertyToID("_LineScale");
         
         protected override string ShaderName => "RSLib/Post Effects/Screen Guide";
 
@@ -39,11 +39,11 @@ namespace RSLib.ImageEffects.CameraPostEffects
             else
                 Material.DisableKeyword(ALWAYS_SHOW_CENTER_KEYWORD);
 
-            Material.SetFloat(s_linesXID, _verticalLines);
-            Material.SetFloat(s_linesYID, _horizontalLines);
-            Material.SetColor(s_colorXID, _colorX);
-            Material.SetColor(s_colorYID, _colorY);
-            Material.SetFloat(s_scaleID, _scale);
+            Material.SetFloat(LINES_X_ID, _verticalLines);
+            Material.SetFloat(LINES_Y_ID, _horizontalLines);
+            Material.SetColor(COLOR_X_ID, _colorX);
+            Material.SetColor(COLOR_Y_ID, _colorY);
+            Material.SetFloat(SCALE_ID, _scale);
         }
     }
 }

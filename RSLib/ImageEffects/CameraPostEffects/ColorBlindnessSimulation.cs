@@ -6,6 +6,9 @@ namespace RSLib.ImageEffects.CameraPostEffects
     [AddComponentMenu("RSLib/Camera Post Effects/Color Blindness Simulation")]
     public class ColorBlindnessSimulation : CameraPostEffect
     {
+        private static readonly int SEVERITY_ID = Shader.PropertyToID("_Severity");
+        private static readonly int DIFFERENCE_ID = Shader.PropertyToID("_Difference");
+        
         private enum ColorBlindnessType
         {
             [InspectorName("Protanomaly (L cone - Red)")]      PROTANOMALY,
@@ -22,9 +25,6 @@ namespace RSLib.ImageEffects.CameraPostEffects
 
         [SerializeField]
         private bool _difference = false;
-        
-        private static readonly int s_severityID = Shader.PropertyToID("_Severity");
-        private static readonly int s_differenceID = Shader.PropertyToID("_Difference");
 
         protected override string ShaderName => "RSLib/Post Effects/Color Blindness Simulation";
 
@@ -32,8 +32,8 @@ namespace RSLib.ImageEffects.CameraPostEffects
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            Material.SetFloat(s_severityID, _severity);
-            Material.SetInt(s_differenceID, _difference ? 1 : 0);
+            Material.SetFloat(SEVERITY_ID, _severity);
+            Material.SetInt(DIFFERENCE_ID, _difference ? 1 : 0);
         }
     }
 }

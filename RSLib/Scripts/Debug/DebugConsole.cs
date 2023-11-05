@@ -98,7 +98,7 @@
     
         public override string GetFormat()
         {
-            return $"{Id} [{DebugConsole.Constants.TypesFormats[typeof(T)]}]";
+            return $"{Id} [{DebugConsole.Constants.TYPES_FORMATS[typeof(T)]}]";
         }
     }
 
@@ -133,7 +133,7 @@
 
         public override string GetFormat()
         {
-            return $"{Id} [{DebugConsole.Constants.TypesFormats[typeof(T1)]}] [{DebugConsole.Constants.TypesFormats[typeof(T2)]}]";
+            return $"{Id} [{DebugConsole.Constants.TYPES_FORMATS[typeof(T1)]}] [{DebugConsole.Constants.TYPES_FORMATS[typeof(T2)]}]";
         }
     }
 
@@ -163,7 +163,7 @@
         public static class Constants
         {
             // Used to display the parameters types in a more readable way that something like **System.Int32**.
-            public static readonly Dictionary<System.Type, string> TypesFormats = new Dictionary<System.Type, string>()
+            public static readonly Dictionary<System.Type, string> TYPES_FORMATS = new Dictionary<System.Type, string>()
             {
                 { typeof(bool), "bool" },
                 { typeof(float), "float" },
@@ -172,7 +172,7 @@
             };
 
             // Set as an array of strings to handle lines spacing.
-            public static readonly string[] HotkeyHelps = new string[]
+            public static readonly string[] HOTKEY_HELPS = new string[]
             {
                 ">>> Use <b>UP</b> and <b>DOWN</b> arrows to navigate through history.",
                 ">>> Use <b>ESCAPE</b> to erase your current command <b>or</b> to cancel autocompletion.",
@@ -180,7 +180,7 @@
                 ">>> Use <b>RETURN</b> to validate autocompletion and <b>BACKSPACE</b> to cancel it."
             };
 
-            public static readonly Dictionary<HistoryLine.Validity, string> ValidityFormats = new Dictionary<HistoryLine.Validity, string>()
+            public static readonly Dictionary<HistoryLine.Validity, string> VALIDITY_FORMATS = new Dictionary<HistoryLine.Validity, string>()
             {
                 { HistoryLine.Validity.VALID, "<b>> {0}</b>" },
                 { HistoryLine.Validity.INVALID, "<b>> {0}  -  Invalid command!</b>" },
@@ -1049,23 +1049,23 @@
             {
                 float helpBoxPosY = y - Constants.HELP_BOX_HEIGHT - Constants.ENTRY_BOX_HEIGHT - _height - Constants.BOXES_SPACING * 2;
                 GUI.Box(new Rect(0f, helpBoxPosY, _width, Constants.HELP_BOX_HEIGHT), string.Empty, _consoleStyle);
-                Rect helpViewport = new Rect(0f, 0f, _width - 30f, Constants.LINES_SPACING * 0.5f + Constants.LINES_SPACING * (_registeredCmds.Count + Constants.HotkeyHelps.Length + 1));
+                Rect helpViewport = new Rect(0f, 0f, _width - 30f, Constants.LINES_SPACING * 0.5f + Constants.LINES_SPACING * (_registeredCmds.Count + Constants.HOTKEY_HELPS.Length + 1));
 
                 float helpScrollPosY = y - Constants.HELP_BOX_HEIGHT - 25f - _height;
                 _helpScroll = GUI.BeginScrollView(new Rect(5f, helpScrollPosY, _width - 10f, Constants.HELP_BOX_HEIGHT - 15f), _helpScroll, helpViewport);
 
                 // Hotkeys.
-                for (int i = Constants.HotkeyHelps.Length - 1; i >= 0; --i)
+                for (int i = Constants.HOTKEY_HELPS.Length - 1; i >= 0; --i)
                 {
                     Rect hotkeysRect = new Rect(5f, Constants.LINES_SPACING * i, helpViewport.width - 15f, 20f);
-                    GUI.Label(hotkeysRect, Constants.HotkeyHelps[i]);
+                    GUI.Label(hotkeysRect, Constants.HOTKEY_HELPS[i]);
                 }
 
                 for (int i = _registeredCmds.Count - 1; i >= 0; --i)
                 {
                     CommandBase cmd = _registeredCmds[i];
                     string cmdHelp = string.Format(Constants.CMD_HELP_FORMAT, cmd.GetFormat(), (cmd.IsConsoleNative ? "(Native) " : "") + cmd.Description);
-                    Rect cmdHelpRect = new Rect(5f, Constants.LINES_SPACING * (i + Constants.HotkeyHelps.Length + 1), helpViewport.width - 15f, 20f);
+                    Rect cmdHelpRect = new Rect(5f, Constants.LINES_SPACING * (i + Constants.HOTKEY_HELPS.Length + 1), helpViewport.width - 15f, 20f);
                     GUI.Label(cmdHelpRect, cmdHelp);
                 }
 
@@ -1080,7 +1080,7 @@
             float lineY = ComputeHistoryHeight();
             for (int i = _cmdsHistory.Count - 1; i >= 0; --i)
             {
-                string cmdDisplay = string.Format(Constants.ValidityFormats[_cmdsHistory[i].CmdValidity], _cmdsHistory[i].Cmd);
+                string cmdDisplay = string.Format(Constants.VALIDITY_FORMATS[_cmdsHistory[i].CmdValidity], _cmdsHistory[i].Cmd);
                 cmdDisplay = $"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGB(_colorsByValidity[_cmdsHistory[i].CmdValidity])}>{cmdDisplay}</color>";
                 
                 if (_historyNavIndex != -1 && i == _cmdsHistory.Count - 1 - _historyNavIndex)

@@ -4,7 +4,7 @@
 
     public static class KeyCodeSymbols
     {
-        private static readonly System.Collections.Generic.Dictionary<KeyCode, string> s_symbols = new System.Collections.Generic.Dictionary<KeyCode, string>(new RSLib.Framework.Comparers.EnumComparer<KeyCode>())
+        private static readonly System.Collections.Generic.Dictionary<KeyCode, string> SYMBOLS = new System.Collections.Generic.Dictionary<KeyCode, string>(new RSLib.Framework.Comparers.EnumComparer<KeyCode>())
         {
             { KeyCode.Ampersand, "&" },
             { KeyCode.Asterisk, "*" },
@@ -77,7 +77,7 @@
         /// <returns>The symbol if found, else the KeyCode to string.</returns>
         public static string GetSymbol(KeyCode keyCode)
         {
-            return s_symbols.TryGetValue(keyCode, out string shortName) ? shortName : keyCode.ToString();
+            return SYMBOLS.TryGetValue(keyCode, out string shortName) ? shortName : keyCode.ToString();
         }
     }
 }

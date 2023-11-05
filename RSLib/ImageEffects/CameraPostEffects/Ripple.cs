@@ -6,11 +6,16 @@
     [AddComponentMenu("RSLib/Camera Post Effects/Ripple")]
     public class Ripple : CameraPostEffect
     {
+        private static readonly int GRAD_TEX_ID = Shader.PropertyToID("_GradTex");
+        private static readonly int REFLECTION_ID = Shader.PropertyToID("_Reflection");
+        private static readonly int PARAMS1_ID = Shader.PropertyToID("_Params1");
+        private static readonly int PARAMS2_ID = Shader.PropertyToID("_Params2");
+        
         private class Droplet
         {
-            private Vector2 _pos;
+            private readonly bool _timeScaleDependent;
+            private Vector2 _position;
             private float _time;
-            private bool _timeScaleDependent;
 
             public Droplet()
             {
@@ -25,7 +30,7 @@
 
             public void Reset(float screenX, float screenY)
             {
-                _pos = new Vector2(screenX, screenY);
+                _position = new Vector2(screenX, screenY);
                 _time = 0f;
             }
 
@@ -36,7 +41,7 @@
 
             public Vector4 MakeShaderParameter(float aspect)
             {
-                return new Vector4(_pos.x * aspect, _pos.y, _time, 0f);
+                return new Vector4(_position.x * aspect, _position.y, _time, 0f);
             }
         }
         
@@ -67,11 +72,6 @@
         [SerializeField]
         private bool _timeScaleDependent = false;
 
-        private static readonly int s_gradTexID = Shader.PropertyToID("_GradTex");
-        private static readonly int s_reflectionID = Shader.PropertyToID("_Reflection");
-        private static readonly int s_params1ID = Shader.PropertyToID("_Params1");
-        private static readonly int s_params2ID = Shader.PropertyToID("_Params2");
-        
         private Camera _camera;
         private Droplet[] _droplets;
         private Texture2D _gradTexture;
@@ -123,7 +123,7 @@
             }
 
             _gradTexture.Apply();
-            Material.SetTexture(s_gradTexID, _gradTexture);
+            Material.SetTexture(GRAD_TEX_ID, _gradTexture);
         }
 
         private void Emit(float x, float y)
@@ -147,9 +147,9 @@
                 material.SetVector($"_Drop{i + 1}", _droplets[i].MakeShaderParameter(_camera.aspect));
             }
 
-            material.SetColor(s_reflectionID, _reflectionColor);
-            material.SetVector(s_params1ID, new Vector4(_camera.aspect, 1f, 1f / _waveSpeed, 0f));
-            material.SetVector(s_params2ID, new Vector4(1f, 1f / _camera.aspect, _refractionStrength, _reflectionStrength));
+            material.SetColor(REFLECTION_ID, _reflectionColor);
+            material.SetVector(PARAMS1_ID, new Vector4(_camera.aspect, 1f, 1f / _waveSpeed, 0f));
+            material.SetVector(PARAMS2_ID, new Vector4(1f, 1f / _camera.aspect, _refractionStrength, _reflectionStrength));
         }
     }
 }

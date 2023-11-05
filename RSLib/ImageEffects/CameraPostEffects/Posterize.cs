@@ -6,10 +6,10 @@ namespace RSLib.ImageEffects.CameraPostEffects
     [AddComponentMenu("RSLib/Camera Post Effects/Posterize")]
     public class Posterize : CameraPostEffect
     {
+        private static readonly int STEPS_ID = Shader.PropertyToID("_Steps");
+
         [SerializeField, Range(1, 255)]
         public int _steps = 4;
-
-        private static readonly int s_stepsID = Shader.PropertyToID("_Steps");
 
         protected override string ShaderName => "RSLib/Post Effects/Posterize";
 
@@ -21,7 +21,7 @@ namespace RSLib.ImageEffects.CameraPostEffects
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            material.SetFloat(s_stepsID, _steps);
+            material.SetFloat(STEPS_ID, _steps);
         }
     }
 }

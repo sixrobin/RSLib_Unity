@@ -4,7 +4,7 @@
 
     public static class Helpers
     {
-        private static readonly System.Random s_rnd = new System.Random();
+        private static readonly System.Random RND = new System.Random();
 
         #region BOOLEAN
 
@@ -14,7 +14,7 @@
         /// <returns>Computed boolean.</returns>
         public static bool CoinFlip()
         {
-            return s_rnd.Next(2) == 0;
+            return RND.Next(2) == 0;
         }
 
         /// <summary>
@@ -24,7 +24,7 @@
         /// <returns>Computed boolean.</returns>
         public static bool CoinFlip(float percentage01)
         {
-            return s_rnd.Next(101) < percentage01 * 100f;
+            return RND.Next(101) < percentage01 * 100f;
         }
 
         #endregion // BOOLEAN

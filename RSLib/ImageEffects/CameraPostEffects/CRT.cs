@@ -7,6 +7,11 @@ namespace RSLib.ImageEffects.CameraPostEffects
     [AddComponentMenu("RSLib/Camera Post Effects/CRT")]
     public class CRT : CameraPostEffect
     {
+        private static readonly int CURVATURE_ID = Shader.PropertyToID("_Curvature");
+        private static readonly int VIGNETTE_WIDTH_ID = Shader.PropertyToID("_VignetteWidth");
+        private static readonly int SCANLINES_MULTIPLIER_ID = Shader.PropertyToID("_ScanlinesMultiplier");
+        private static readonly int RGB_MULTIPLIER_ID = Shader.PropertyToID("_RGBMultiplier");
+        
         [SerializeField, Range(1f, 30f)]
         private float _curvature = 8f;
         [SerializeField, Range(0f, 100f)]
@@ -16,19 +21,14 @@ namespace RSLib.ImageEffects.CameraPostEffects
         [SerializeField]
         private Vector3 _rgbMultiplier = new(0.25f, 0.2f, 0.3f);
         
-        private static readonly int s_curvatureID = Shader.PropertyToID("_Curvature");
-        private static readonly int s_vignetteWidthID = Shader.PropertyToID("_VignetteWidth");
-        private static readonly int s_scanlinesMultiplierID = Shader.PropertyToID("_ScanlinesMultiplier");
-        private static readonly int s_rgbMultiplierID = Shader.PropertyToID("_RGBMultiplier");
-        
         protected override string ShaderName => "RSLib/Post Effects/CRT";
 
         protected override void OnBeforeRenderImage(RenderTexture source, RenderTexture destination, Material material)
         {
-            material.SetFloat(s_curvatureID, _curvature);
-            material.SetFloat(s_vignetteWidthID, _vignetteWidth);
-            material.SetFloat(s_scanlinesMultiplierID, _scanlinesMultiplier);
-            material.SetVector(s_rgbMultiplierID, _rgbMultiplier); 
+            material.SetFloat(CURVATURE_ID, _curvature);
+            material.SetFloat(VIGNETTE_WIDTH_ID, _vignetteWidth);
+            material.SetFloat(SCANLINES_MULTIPLIER_ID, _scanlinesMultiplier);
+            material.SetVector(RGB_MULTIPLIER_ID, _rgbMultiplier);
         }
     }
 }
