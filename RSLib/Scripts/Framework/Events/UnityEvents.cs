@@ -1,44 +1,46 @@
 ﻿namespace RSLib.Framework.Events
 {
+    using UnityEngine.Events;
+    
     [System.Serializable]
-    public class BoolEvent : UnityEngine.Events.UnityEvent<bool> { }
+    public class BoolEvent : UnityEvent<bool> { }
 
     [System.Serializable]
-    public class IntEvent : UnityEngine.Events.UnityEvent<int> { }
+    public class IntEvent : UnityEvent<int> { }
 
     [System.Serializable]
-    public class FloatEvent : UnityEngine.Events.UnityEvent<float> { }
+    public class FloatEvent : UnityEvent<float> { }
 
     [System.Serializable]
-    public class StringEvent : UnityEngine.Events.UnityEvent<string> { }
+    public class StringEvent : UnityEvent<string> { }
 
     [System.Serializable]
-    public class ColliderEvent : UnityEngine.Events.UnityEvent<UnityEngine.Collider> { }
+    public class ColliderEvent : UnityEvent<UnityEngine.Collider> { }
 
     [System.Serializable]
-    public class Collider2DEvent : UnityEngine.Events.UnityEvent<UnityEngine.Collider2D> { }
+    public class Collider2DEvent : UnityEvent<UnityEngine.Collider2D> { }
 
     [System.Serializable]
-    public class CollisionEvent : UnityEngine.Events.UnityEvent<UnityEngine.Collision> { }
+    public class CollisionEvent : UnityEvent<UnityEngine.Collision> { }
 
     [System.Serializable]
-    public class Collision2DEvent : UnityEngine.Events.UnityEvent<UnityEngine.Collision2D> { }
+    public class Collision2DEvent : UnityEvent<UnityEngine.Collision2D> { }
 
     [System.Serializable]
-    public class Vector2Event : UnityEngine.Events.UnityEvent<UnityEngine.Vector2> { }
+    public class Vector2Event : UnityEvent<UnityEngine.Vector2> { }
 
     [System.Serializable]
-    public class Vector2IntEvent : UnityEngine.Events.UnityEvent<UnityEngine.Vector2Int> { }
+    public class Vector2IntEvent : UnityEvent<UnityEngine.Vector2Int> { }
 
     [System.Serializable]
-    public class Vector3Event : UnityEngine.Events.UnityEvent<UnityEngine.Vector3> { }
+    public class Vector3Event : UnityEvent<UnityEngine.Vector3> { }
 
     [System.Serializable]
-    public class Vector3IntEvent : UnityEngine.Events.UnityEvent<UnityEngine.Vector3Int> { }
+    public class Vector3IntEvent : UnityEvent<UnityEngine.Vector3Int> { }
 
     [System.Serializable]
-    public class QuaternionEvent : UnityEngine.Events.UnityEvent<UnityEngine.Quaternion> { }
+    public class QuaternionEvent : UnityEvent<UnityEngine.Quaternion> { }
 
     [System.Serializable]
-    public class ColorEvent : UnityEngine.Events.UnityEvent<UnityEngine.Color> { }
+    public class ColorEvent : UnityEvent<UnityEngine.Color> { }
 }

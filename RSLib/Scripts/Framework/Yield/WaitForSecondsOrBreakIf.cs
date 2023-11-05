@@ -8,8 +8,8 @@
     /// </summary>
     public class WaitForSecondsOrBreakIf : CustomYieldInstruction
     {
-        private System.Func<bool> _breakCondition;
-        private System.Action _breakCallback;
+        private readonly System.Func<bool> _breakCondition;
+        private readonly System.Action _breakCallback;
         private float _seconds = 0f;
 
         public WaitForSecondsOrBreakIf(float seconds, System.Func<bool> breakCondition, System.Action breakCallback = null)

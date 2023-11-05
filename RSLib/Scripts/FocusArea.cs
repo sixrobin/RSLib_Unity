@@ -9,18 +9,17 @@
     /// </summary>
     public class FocusArea
     {
-        private float _left;
-        private float _right;
-        private float _top;
-        private float _bottom;
-
-        private BoxCollider2D _targetBox = null;
-
         public FocusArea(BoxCollider2D targetBox, Vector2 size)
         {
             _targetBox = targetBox;
             SetSize(size);
         }
+        
+        private readonly BoxCollider2D _targetBox = null;
+        private float _left;
+        private float _right;
+        private float _top;
+        private float _bottom;
 
         public Vector2 Center { get; private set; }
         public Vector2 Size { get; private set; }

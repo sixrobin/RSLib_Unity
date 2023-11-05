@@ -8,11 +8,14 @@
     public class AudioManagerDemo : MonoBehaviour
     {
         [Header("SFX")]
-        [SerializeField] private ClipProvider _playlist = null;
+        [SerializeField]
+        private ClipProvider _playlist = null;
 
         [Header("MUSIC")]
-        [SerializeField] private ClipProvider[] _musicProviders = null;
-        [SerializeField] private MusicTransitionsDatas _transitionDatas = null;
+        [SerializeField]
+        private ClipProvider[] _musicProviders = null;
+        [SerializeField]
+        private MusicTransitionsDatas _transitionDatas = null;
 
         private int _nextMusicIndex;
 

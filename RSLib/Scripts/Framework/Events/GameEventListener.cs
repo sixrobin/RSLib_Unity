@@ -4,8 +4,10 @@
 
     public class GameEventListener : MonoBehaviour
     {
-        [SerializeField] private GameEvent _event = null;
-        [SerializeField] private UnityEngine.Events.UnityEvent _onEventRaised = null;
+        [SerializeField]
+        private GameEvent _event = null;
+        [SerializeField]
+        private UnityEngine.Events.UnityEvent _onEventRaised = null;
         
         public void OnEventRaised()
         {

@@ -15,12 +15,14 @@
         #if ODIN_INSPECTOR
         [FoldoutGroup("Singleton")]
         #endif
-        [SerializeField] private bool _dontDestroy = false;
+        [SerializeField]
+        private bool _dontDestroy = false;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Singleton")]
         #endif
-        [SerializeField] private bool _verbose = false;
+        [SerializeField]
+        private bool _verbose = false;
 
         private static T s_instance;
         public static T Instance

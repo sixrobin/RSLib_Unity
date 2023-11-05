@@ -11,7 +11,8 @@
             public bool New;
         }
 
-        [SerializeField] private bool _value = false;
+        [SerializeField]
+        private bool _value = false;
 
         public delegate void ValueChangedEventHandler(ValueChangedEventArgs args);
         public event ValueChangedEventHandler ValueChanged;

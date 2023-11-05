@@ -12,8 +12,10 @@
         [System.Serializable]
         private class SFXPlayer
         {
-            [SerializeField, Min(2)] private int _audioSourcesCount = 2;
-            [SerializeField] private AudioMixerGroup _mixerGroup = null;
+            [SerializeField, Min(2)]
+            private int _audioSourcesCount = 2;
+            [SerializeField]
+            private AudioMixerGroup _mixerGroup = null;
 
             public int AudioSourcesCount => _audioSourcesCount;
             public AudioMixerGroup MixerGroup => _mixerGroup;
@@ -40,22 +42,26 @@
         #if ODIN_INSPECTOR
         [FoldoutGroup("SFX")]
         #endif
-        [SerializeField] private SFXPlayer[] _sfxPlayers = null;
+        [SerializeField]
+        private SFXPlayer[] _sfxPlayers = null;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Mixers")]
         #endif
-        [SerializeField] private AudioMixerGroup _musicMixerGroup = null;
+        [SerializeField]
+        private AudioMixerGroup _musicMixerGroup = null;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Mixers")]
         #endif
-        [SerializeField] private AudioMixerGroup _clipsDefaultMixerGroup = null;
+        [SerializeField]
+        private AudioMixerGroup _clipsDefaultMixerGroup = null;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Mixers")]
         #endif
-        [SerializeField] private AudioMixer _audioMixer = null;
+        [SerializeField]
+        private AudioMixer _audioMixer = null;
 
         private static System.Collections.Generic.Dictionary<AudioMixerGroup, RuntimeSFXPlayer> s_sfxPlayersDict;
         private static AudioSource[] s_musicSources;

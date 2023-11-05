@@ -5,7 +5,8 @@
     [CreateAssetMenu(fileName = "New Single Clip", menuName = "RSLib/Audio/Playlist/Single")]
     public class AudioSingleClip : ClipProvider
     {
-        [SerializeField] private AudioClipPlayDatas _clipPlayDatas = null;
+        [SerializeField]
+        private AudioClipPlayDatas _clipPlayDatas = null;
 
         public override AudioClipPlayDatas GetNextClipData()
         {

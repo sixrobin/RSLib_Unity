@@ -2,12 +2,12 @@
 {
     public static class Noise
     {
-        public static float[,] GenerateNoiseMap(UnityEngine.Vector2Int size, float scale, int seed, int octaves, float persistance, float lacunarity, UnityEngine.Vector2 offset)
+        public static float[,] GenerateNoiseMap(UnityEngine.Vector2Int size, float scale, int seed, int octaves, float persistence, float lacunarity, UnityEngine.Vector2 offset)
         {
-            return GenerateNoiseMap(size.x, size.y, scale, seed, octaves, persistance, lacunarity, offset);
+            return GenerateNoiseMap(size.x, size.y, scale, seed, octaves, persistence, lacunarity, offset);
         }
 
-        public static float[,] GenerateNoiseMap(int w, int h, float scale, int seed, int octaves, float persistance, float lacunarity, UnityEngine.Vector2 offset)
+        public static float[,] GenerateNoiseMap(int w, int h, float scale, int seed, int octaves, float persistence, float lacunarity, UnityEngine.Vector2 offset)
         {
             float[,] noiseMap = new float[w, h];
 
@@ -41,7 +41,7 @@
                         float perlin = UnityEngine.Mathf.PerlinNoise(sampleX, sampleY) * 2f - 1f;
 
                         noiseHeight += perlin * amplitude;
-                        amplitude *= persistance;
+                        amplitude *= persistence;
                         frequency *= lacunarity;
                     }
 

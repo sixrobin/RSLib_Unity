@@ -15,21 +15,24 @@
         [BoxGroup("Input")]
         #endif
         [Tooltip("Set as None so that gameObjects display can not be triggered without removing the script instance.")]
-        [SerializeField] private KeyCode _key = KeyCode.None;
+        [SerializeField]
+        private KeyCode _key = KeyCode.None;
 
 #pragma warning disable CS0414
         #if ODIN_INSPECTOR
         [BoxGroup("Data")]
         #endif
         [Tooltip("The script instance will be destroyed in build on awake if this is set to true.")]
-        [SerializeField] private bool _editorOnly = false;
+        [SerializeField]
+        private bool _editorOnly = false;
 #pragma warning restore CS0414
 
         #if ODIN_INSPECTOR
         [BoxGroup("Data")]
         #endif
         [Tooltip("GameObjects instances that should be displayed by the input.")]
-        [SerializeField] private GameObject[] _objectsToDisplay = null;
+        [SerializeField]
+        private GameObject[] _objectsToDisplay = null;
 
         private void Display(bool state)
         {

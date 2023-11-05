@@ -10,10 +10,14 @@
     public class AStarMeshGrid : AStarMeshMono
     {
         [Header("GRID SETTINGS")]
-        [SerializeField] private LayerMask UnwalkableMask = 0;
-        [SerializeField] private Vector2 Dimensions = Vector2.zero;
-        [SerializeField] private float NodeRadius = 1;
-        [SerializeField] private bool _diagonalNeighbours = true;
+        [SerializeField]
+        private LayerMask UnwalkableMask = 0;
+        [SerializeField]
+        private Vector2 Dimensions = Vector2.zero;
+        [SerializeField]
+        private float NodeRadius = 1;
+        [SerializeField]
+        private bool _diagonalNeighbours = true;
 
         private AStarNodeGrid[,] _mesh;
         private int _width;

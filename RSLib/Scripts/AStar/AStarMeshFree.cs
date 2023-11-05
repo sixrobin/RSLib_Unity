@@ -10,7 +10,8 @@
     {
         [Header ("NODES BAKED ON START")]
         // Nodes that are added to the mesh on start.
-        [SerializeField] private AStarNodeFreeGO[] _nodesGO = null;
+        [SerializeField]
+        private AStarNodeFreeGO[] _nodesGO = null;
 
         public System.Collections.Generic.List<AStarNodeFree> Mesh { get; } = new System.Collections.Generic.List<AStarNodeFree>();
 

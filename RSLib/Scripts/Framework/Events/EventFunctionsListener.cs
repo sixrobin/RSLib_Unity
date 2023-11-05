@@ -1,14 +1,19 @@
 namespace RSLib.Framework.Events
 {
     using UnityEngine;
+    using UnityEngine.Events;
 
     [DisallowMultipleComponent]
     public sealed class EventFunctionsListener : MonoBehaviour
     {
-        [SerializeField] private UnityEngine.Events.UnityEvent _onAwake = null;
-        [SerializeField] private UnityEngine.Events.UnityEvent _onEnable = null;
-        [SerializeField] private UnityEngine.Events.UnityEvent _onStart = null;
-        [SerializeField] private UnityEngine.Events.UnityEvent _onDisable = null;
+        [SerializeField]
+        private UnityEvent _onAwake = null;
+        [SerializeField]
+        private UnityEvent _onEnable = null;
+        [SerializeField]
+        private UnityEvent _onStart = null;
+        [SerializeField]
+        private UnityEvent _onDisable = null;
 
         private void Awake()
         {

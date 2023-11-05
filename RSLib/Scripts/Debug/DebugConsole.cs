@@ -246,7 +246,8 @@
         #if ODIN_INSPECTOR
         [FoldoutGroup("Data")]
         #endif
-        [SerializeField] private bool _buildEnabled = false;
+        [SerializeField]
+        private bool _buildEnabled = false;
 
         #if !ODIN_INSPECTOR
         [Header("STYLE")]
@@ -255,32 +256,38 @@
         #if ODIN_INSPECTOR
         [FoldoutGroup("Style")]
         #endif
-        [SerializeField, Min(512)] private int _width = 640;
+        [SerializeField, Min(512)]
+        private int _width = 640;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Style")]
         #endif
-        [SerializeField, Min(32)] private int _height = 146;
+        [SerializeField, Min(32)]
+        private int _height = 146;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Style")]
         #endif
-        [SerializeField] private Color _consoleColor = new Color(0f, 0f, 0f, 0.9f);
+        [SerializeField]
+        private Color _consoleColor = new Color(0f, 0f, 0f, 0.9f);
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Style")]
         #endif
-        [SerializeField] private Color _validColor = new Color(0f, 1f, 0f, 1f);
+        [SerializeField]
+        private Color _validColor = new Color(0f, 1f, 0f, 1f);
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Style")]
         #endif
-        [SerializeField] private Color _invalidColor = new Color(1f, 0f, 0f, 1f);
+        [SerializeField]
+        private Color _invalidColor = new Color(1f, 0f, 0f, 1f);
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Style")]
         #endif
-        [SerializeField] private Color _neutralColor = new Color(1f, 1f, 1f, 1f);
+        [SerializeField]
+        private Color _neutralColor = new Color(1f, 1f, 1f, 1f);
 
         private GUIStyle _consoleStyle;
         private GUIStyle _helpTextStyle;

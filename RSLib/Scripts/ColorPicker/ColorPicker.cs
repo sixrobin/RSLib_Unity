@@ -9,26 +9,38 @@ namespace RSLib
     [DisallowMultipleComponent]
     public class ColorPicker : MonoBehaviour
     {
-        [SerializeField] private RectTransform _colorPickerRect = null;
-        [SerializeField] private Image _colorPickerImage = null;
-        [SerializeField] private Image _previewImage = null;
-        [SerializeField] private TMPro.TextMeshProUGUI _colorHexText = null;
-        [SerializeField] private Button _hexToClipboardButton = null;
+        [SerializeField]
+        private RectTransform _colorPickerRect = null;
+        [SerializeField]
+        private Image _colorPickerImage = null;
+        [SerializeField]
+        private Image _previewImage = null;
+        [SerializeField]
+        private TMPro.TextMeshProUGUI _colorHexText = null;
+        [SerializeField]
+        private Button _hexToClipboardButton = null;
 
         [Tooltip("Defines how the color should be updated by user input.")]
-        [SerializeField] private PickType _pickType = PickType.DRAG;
+        [SerializeField]
+        private PickType _pickType = PickType.DRAG;
         [Tooltip("Does not take fully transparent pixels into account.")]
-        [SerializeField] private bool _ignoreTransparent = true;
+        [SerializeField]
+        private bool _ignoreTransparent = true;
         [Tooltip("Only pick the tint and always set the color as opaque.")]
-        [SerializeField] private bool _ignoreAlpha = true;
+        [SerializeField]
+        private bool _ignoreAlpha = true;
 
-        [SerializeField] private ColorEvent _onColorHovered = new ColorEvent();
-        [SerializeField] private ColorEvent _onColorPicked = new ColorEvent();
+        [SerializeField]
+        private ColorEvent _onColorHovered = new ColorEvent();
+        [SerializeField]
+        private ColorEvent _onColorPicked = new ColorEvent();
 
 #pragma warning disable IDE0052
 #pragma warning disable CS0414
-        [SerializeField] private Color _hoveredColorPreview = Color.white;
-        [SerializeField] private Color _clickedColorPreview = Color.white;
+        [SerializeField]
+        private Color _hoveredColorPreview = Color.white;
+        [SerializeField]
+        private Color _clickedColorPreview = Color.white;
 #pragma warning restore IDE0052
 #pragma warning restore CS0414
 
@@ -53,8 +65,8 @@ namespace RSLib
         public ColorEvent OnColorPicked => _onColorPicked;
 
         public string LastPickedColorToHtmlString => _ignoreAlpha
-                                                    ? ColorUtility.ToHtmlStringRGB(_lastPickedColor)
-                                                    : ColorUtility.ToHtmlStringRGBA(_lastPickedColor);
+                                                     ? ColorUtility.ToHtmlStringRGB(_lastPickedColor)
+                                                     : ColorUtility.ToHtmlStringRGBA(_lastPickedColor);
 
         private void PickColor(Color color)
         {

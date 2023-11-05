@@ -5,7 +5,8 @@
     [CreateAssetMenu(fileName = "New Data Color", menuName = "RSLib/Data/Color")]
     public class Color : ScriptableObject
     {
-        [SerializeField] private UnityEngine.Color _color = UnityEngine.Color.white;
+        [SerializeField]
+        private UnityEngine.Color _color = UnityEngine.Color.white;
 
         public static UnityEngine.Color Default => UnityEngine.Color.magenta;
         
@@ -25,9 +26,12 @@
     [System.Serializable]
     public class ColorField
     {
-        [SerializeField] private Color _dataColor = null;
-        [SerializeField] private UnityEngine.Color _valueColor = UnityEngine.Color.white;
-        [SerializeField] private bool _useDataValue = false;
+        [SerializeField]
+        private Color _dataColor = null;
+        [SerializeField]
+        private UnityEngine.Color _valueColor = UnityEngine.Color.white;
+        [SerializeField]
+        private bool _useDataValue = false;
 
         public UnityEngine.Color Value
         {

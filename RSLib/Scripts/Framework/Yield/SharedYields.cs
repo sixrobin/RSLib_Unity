@@ -4,8 +4,8 @@
 
     public static class SharedYields
     {
-        private static System.Collections.Generic.Dictionary<float, WaitForSeconds> s_waitsForSeconds = new System.Collections.Generic.Dictionary<float, WaitForSeconds>(100, new Framework.Comparers.FloatComparer());
-        private static System.Collections.Generic.Dictionary<float, WaitForSecondsRealtime> s_waitForFramesRealtimeCollection = new System.Collections.Generic.Dictionary<float, WaitForSecondsRealtime>(100, new Framework.Comparers.FloatComparer());
+        private static readonly System.Collections.Generic.Dictionary<float, WaitForSeconds> WAITS_FOR_SECONDS = new System.Collections.Generic.Dictionary<float, WaitForSeconds>(100, new Framework.Comparers.FloatComparer());
+        private static readonly System.Collections.Generic.Dictionary<float, WaitForSecondsRealtime> WAIT_FOR_SECONDS_REALTIME_COLLECTION = new System.Collections.Generic.Dictionary<float, WaitForSecondsRealtime>(100, new Framework.Comparers.FloatComparer());
 
         public static WaitForEndOfFrame WaitForEndOfFrame { get; } = new WaitForEndOfFrame();
         public static WaitForFixedUpdate WaitForFixedUpdate { get; } = new WaitForFixedUpdate();
@@ -28,8 +28,8 @@
         /// <returns>WaitForSeconds instance.</returns>
         public static WaitForSeconds WaitForSeconds(float duration)
         {
-            if (!s_waitsForSeconds.TryGetValue(duration, out WaitForSeconds wait))
-                s_waitsForSeconds.Add(duration, wait = new WaitForSeconds(duration));
+            if (!WAITS_FOR_SECONDS.TryGetValue(duration, out WaitForSeconds wait))
+                WAITS_FOR_SECONDS.Add(duration, wait = new WaitForSeconds(duration));
 
             return wait;
         }
@@ -41,8 +41,8 @@
         /// <returns>WaitForSecondsRealtime instance.</returns>
         public static WaitForSecondsRealtime WaitForSecondsRealtime(float duration)
         {
-            if (!s_waitForFramesRealtimeCollection.TryGetValue(duration, out WaitForSecondsRealtime wait))
-                s_waitForFramesRealtimeCollection.Add(duration, wait = new WaitForSecondsRealtime(duration));
+            if (!WAIT_FOR_SECONDS_REALTIME_COLLECTION.TryGetValue(duration, out WaitForSecondsRealtime wait))
+                WAIT_FOR_SECONDS_REALTIME_COLLECTION.Add(duration, wait = new WaitForSecondsRealtime(duration));
 
             return wait;
         }

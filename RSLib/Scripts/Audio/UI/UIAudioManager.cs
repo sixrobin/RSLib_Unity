@@ -4,16 +4,24 @@
 
     public class UIAudioManager : Framework.Singleton<UIAudioManager>
     {
-        [SerializeField] private ClipProvider _genericNavigationClipProvider = null;
-        [SerializeField] private ClipProvider _hoverClipProvider = null;
-        [SerializeField] private ClipProvider _buttonClickClipProvider = null;
-        [SerializeField] private ClipProvider _sliderValueChangedClickClipProvider = null;
-        [SerializeField] private ClipProvider _dropdownValueChangedClickClipProvider = null;
-        [SerializeField] private ClipProvider _toggleValueChangedClickClipProvider = null;
+        [SerializeField]
+        private ClipProvider _genericNavigationClipProvider = null;
+        [SerializeField]
+        private ClipProvider _hoverClipProvider = null;
+        [SerializeField]
+        private ClipProvider _buttonClickClipProvider = null;
+        [SerializeField]
+        private ClipProvider _sliderValueChangedClickClipProvider = null;
+        [SerializeField]
+        private ClipProvider _dropdownValueChangedClickClipProvider = null;
+        [SerializeField]
+        private ClipProvider _toggleValueChangedClickClipProvider = null;
 
         [Header("SOUND OVERLAP")]
-        [SerializeField, Min(1)] private int _maxClipsPerFrame = 1;
-        [SerializeField, Min(1)] private int _frameClearDelay = 1;
+        [SerializeField, Min(1)]
+        private int _maxClipsPerFrame = 1;
+        [SerializeField, Min(1)]
+        private int _frameClearDelay = 1;
 
         private static int s_playedThisFrame;
         

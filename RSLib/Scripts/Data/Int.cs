@@ -11,8 +11,10 @@
             public int New;
         }
 
-        [SerializeField] private int _value = 0;
-        [SerializeField] private Vector2Int _range = new Vector2Int(int.MinValue, int.MaxValue);
+        [SerializeField]
+        private int _value = 0;
+        [SerializeField]
+        private Vector2Int _range = new Vector2Int(int.MinValue, int.MaxValue);
 
         public delegate void ValueChangedEventHandler(ValueChangedEventArgs args);
         public event ValueChangedEventHandler ValueChanged;

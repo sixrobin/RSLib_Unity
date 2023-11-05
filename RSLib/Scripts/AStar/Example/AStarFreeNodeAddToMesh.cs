@@ -5,8 +5,10 @@
     public class AStarFreeNodeAddToMesh : MonoBehaviour
     {
         [Header("PRESS A TO ADD")]
-        [SerializeField] private AStarNodeFreeGO _freeNode = null;
-        [SerializeField] private AStarMeshFree _mesh = null;
+        [SerializeField]
+        private AStarNodeFreeGO _freeNode = null;
+        [SerializeField]
+        private AStarMeshFree _mesh = null;
 
         private void Update()
         {

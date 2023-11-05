@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework
+﻿namespace RSLib
 {
     public static class CSVReader
     {

@@ -18,7 +18,8 @@
         #if ODIN_INSPECTOR
         [FoldoutGroup("Singleton")]
         #endif
-        [SerializeField] private OptionalString _overrideLogPrefix = new OptionalString(string.Empty, false);
+        [SerializeField]
+        private OptionalString _overrideLogPrefix = new OptionalString(string.Empty, false);
 
         private string Prefix => !_overrideLogPrefix.Enabled
             ? GetType().Name

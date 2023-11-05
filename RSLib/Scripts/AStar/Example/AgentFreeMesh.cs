@@ -6,8 +6,10 @@
 
     public class AgentFreeMesh : MonoBehaviour
     {
-        [SerializeField] private AStarNodeFreeGO _start = null;
-        [SerializeField] private AStarNodeFreeGO _destination = null;
+        [SerializeField]
+        private AStarNodeFreeGO _start = null;
+        [SerializeField]
+        private AStarNodeFreeGO _destination = null;
 
         private List<AStarNodeMono> _path = new List<AStarNodeMono>();
 

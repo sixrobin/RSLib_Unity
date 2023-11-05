@@ -10,7 +10,7 @@
         private const int NB_OF_ROMAN_NUMERAL_MAPS = 13;
         private const int MAX_ROMAN_NUMERAL_LENGTH = 15;
 
-        private static readonly Dictionary<string, int> s_romanNumerals = new Dictionary<string, int>(NB_OF_ROMAN_NUMERAL_MAPS)
+        private static readonly Dictionary<string, int> ROMAN_NUMERALS = new Dictionary<string, int>(NB_OF_ROMAN_NUMERAL_MAPS)
         {
             { "M", 1000 },
             { "CM", 900 },
@@ -27,7 +27,7 @@
             { "I", 1 }
         };
 
-        private static readonly Regex s_validRomanNumeralRegex = new Regex(
+        private static readonly Regex VALID_ROMAN_NUMERAL_REGEX = new Regex(
             "^(?i:(?=[MDCLXVI])((M{0,3})((C[DM])|(D?C{0,3}))?((X[LC])|(L?XX{0,2})|L)?((I[VX])|(V?(II{0,2}))|V)?))$",
             RegexOptions.Compiled);
         
@@ -37,7 +37,7 @@
         /// <returns>True if it is valid, else false.</returns>
         public static bool IsValidRomanNumeral(this string str)
         {
-            return s_validRomanNumeralRegex.IsMatch(str);
+            return VALID_ROMAN_NUMERAL_REGEX.IsMatch(str);
         }
 
         /// <summary>
@@ -61,11 +61,11 @@
 
             while (strLength > 0)
             {
-                int digit = s_romanNumerals[str[--strLength].ToString()];
+                int digit = ROMAN_NUMERALS[str[--strLength].ToString()];
 
                 if (strLength > 0)
                 {
-                    int previousDigit = s_romanNumerals[str[strLength - 1].ToString()];
+                    int previousDigit = ROMAN_NUMERALS[str[strLength - 1].ToString()];
                     if (previousDigit < digit)
                     {
                         digit -= previousDigit;
@@ -91,7 +91,7 @@
 
             System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder(MAX_ROMAN_NUMERAL_LENGTH);
 
-            foreach (KeyValuePair<string, int> pair in s_romanNumerals)
+            foreach (KeyValuePair<string, int> pair in ROMAN_NUMERALS)
             {
                 while (i / pair.Value > 0)
                 {

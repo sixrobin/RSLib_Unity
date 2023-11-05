@@ -11,7 +11,8 @@
             public string New;
         }
 
-        [SerializeField] private string _value = string.Empty;
+        [SerializeField]
+        private string _value = string.Empty;
 
         public delegate void ValueChangedEventHandler(ValueChangedEventArgs args);
         public event ValueChangedEventHandler ValueChanged;

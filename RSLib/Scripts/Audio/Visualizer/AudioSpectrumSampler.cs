@@ -4,9 +4,12 @@
 
     public class AudioSpectrumSampler : MonoBehaviour
     {
-        [SerializeField] private AudioSource _audioSource = null;
-        [SerializeField] private SamplesCount _samplesCount = SamplesCount._512;
-        [SerializeField, Range(2, 8)] private int _frequencyBandsCount = 8;
+        [SerializeField]
+        private AudioSource _audioSource = null;
+        [SerializeField]
+        private SamplesCount _samplesCount = SamplesCount._512;
+        [SerializeField, Range(2, 8)]
+        private int _frequencyBandsCount = 8;
 
         private float[] _frequencyBandsBuffersDecrease;
         private float[] _frequencyBandsHighest;

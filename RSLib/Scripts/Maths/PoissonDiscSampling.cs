@@ -20,10 +20,10 @@ namespace RSLib.Maths
             _rejectionSamplesCount = rejectionSamplesCount;
         }
 
-        private float _radius;
-        private float _cellSize;
-        private Vector2 _sampleBox;
-        private int _rejectionSamplesCount;
+        private readonly float _radius;
+        private readonly float _cellSize;
+        private readonly Vector2 _sampleBox;
+        private readonly int _rejectionSamplesCount;
 
         public System.Collections.Generic.List<Vector2> Sample(RandomNumberGenerator rng = null)
         {

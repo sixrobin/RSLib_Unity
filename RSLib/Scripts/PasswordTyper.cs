@@ -10,17 +10,20 @@
         #if ODIN_INSPECTOR
         [BoxGroup("Data")]
         #endif
-        [SerializeField] private string _password = string.Empty;
+        [SerializeField]
+        private string _password = string.Empty;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Callbacks")]
         #endif
-        [SerializeField] private UnityEngine.Events.UnityEvent _onUnlock = null;
+        [SerializeField]
+        private UnityEngine.Events.UnityEvent _onUnlock = null;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Callbacks")]
         #endif
-        [SerializeField] private UnityEngine.Events.UnityEvent _onLock = null;
+        [SerializeField]
+        private UnityEngine.Events.UnityEvent _onLock = null;
 
         private bool _unlocked;
         private string _currentWord;

@@ -16,7 +16,8 @@
         #if ODIN_INSPECTOR
         [BoxGroup("Layer Mask")]
         #endif
-        [SerializeField] private LayerMask _mask = 0;
+        [SerializeField]
+        private LayerMask _mask = 0;
 
         #if !ODIN_INSPECTOR
         [Header("EVENTS")]
@@ -25,22 +26,26 @@
         #if ODIN_INSPECTOR
         [FoldoutGroup("Events")]
         #endif
-        [SerializeField] private Framework.Events.ColliderEvent _onTriggerEnter = null;
+        [SerializeField]
+        private Framework.Events.ColliderEvent _onTriggerEnter = null;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Events")]
         #endif
-        [SerializeField] private Framework.Events.ColliderEvent _onTriggerExit = null;
+        [SerializeField]
+        private Framework.Events.ColliderEvent _onTriggerExit = null;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Events")]
         #endif
-        [SerializeField] private Framework.Events.CollisionEvent _onCollisionEnter = null;
+        [SerializeField]
+        private Framework.Events.CollisionEvent _onCollisionEnter = null;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Events")]
         #endif
-        [SerializeField] private Framework.Events.CollisionEvent _onCollisionExit = null;
+        [SerializeField]
+        private Framework.Events.CollisionEvent _onCollisionExit = null;
 
         public delegate void ColliderEventHandler(Collider collider);
         public delegate void CollisionEventHandler(Collision collider);

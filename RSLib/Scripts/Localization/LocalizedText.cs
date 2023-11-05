@@ -5,7 +5,8 @@
     [RequireComponent(typeof(TMPro.TextMeshProUGUI))]
     public class LocalizedText : MonoBehaviour
     {
-        [SerializeField] private string _localizationKey = string.Empty;
+        [SerializeField]
+        private string _localizationKey = string.Empty;
         
         private TMPro.TextMeshProUGUI _text;
         

@@ -5,9 +5,10 @@
     [CreateAssetMenu(fileName = "New Random Playlist", menuName = "RSLib/Audio/Playlist/Random")]
     public class AudioPlaylistRandom : ClipProvider
     {
-        [SerializeField] private AudioClipPlayDatas[] _clipsPlayDatas = null;
+        [SerializeField]
+        private AudioClipPlayDatas[] _clipsPlayDatas = null;
 
-        private Framework.Collections.Loop<AudioClipPlayDatas> _clipsLoop;
+        private Collections.Loop<AudioClipPlayDatas> _clipsLoop;
 
         public override AudioClipPlayDatas GetNextClipData()
         {
@@ -20,7 +21,7 @@
         [ContextMenu("Init")]
         public override void Init()
         {
-            _clipsLoop = new Framework.Collections.Loop<AudioClipPlayDatas>(_clipsPlayDatas, true, true);
+            _clipsLoop = new Collections.Loop<AudioClipPlayDatas>(_clipsPlayDatas, true, true);
         }
     }
 }

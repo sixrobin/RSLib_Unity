@@ -15,12 +15,14 @@
         #if ODIN_INSPECTOR
         [FoldoutGroup("Refs")]
         #endif
-        [SerializeField] private SpriteRenderer _spriteRenderer = null;
+        [SerializeField]
+        private SpriteRenderer _spriteRenderer = null;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Refs")]
         #endif
-        [SerializeField] private Animator _animator = null;
+        [SerializeField]
+        private Animator _animator = null;
 
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
         public Animator Animator => _animator;

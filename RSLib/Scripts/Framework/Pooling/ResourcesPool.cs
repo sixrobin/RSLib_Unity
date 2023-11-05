@@ -2,8 +2,8 @@
 {
     public static class ResourcesPool<T> where T : UnityEngine.Object
     {
-        private static System.Collections.Generic.Dictionary<string, T> s_resources = new System.Collections.Generic.Dictionary<string, T>();
-        private static System.Collections.Generic.Dictionary<string, T[]> s_resourcesAll = new System.Collections.Generic.Dictionary<string, T[]>();
+        private static readonly System.Collections.Generic.Dictionary<string, T> RESOURCES = new System.Collections.Generic.Dictionary<string, T>();
+        private static readonly System.Collections.Generic.Dictionary<string, T[]> RESOURCES_ALL = new System.Collections.Generic.Dictionary<string, T[]>();
 
         /// <summary>
         /// Caches asset at a given path starting in Resources folder.
@@ -11,8 +11,8 @@
         /// <param name="path">Asset path.</param>
         public static void Cache(string path)
         {
-            if (!s_resources.ContainsKey(path))
-                s_resources.Add(path, UnityEngine.Resources.Load<T>(path));
+            if (!RESOURCES.ContainsKey(path))
+                RESOURCES.Add(path, UnityEngine.Resources.Load<T>(path));
         }
 
         /// <summary>
@@ -21,8 +21,8 @@
         /// <param name="path">Asset path.</param>
         public static void CacheAll(string path)
         {
-            if (!s_resourcesAll.ContainsKey(path))
-                s_resourcesAll.Add(path, UnityEngine.Resources.LoadAll<T>(path));
+            if (!RESOURCES_ALL.ContainsKey(path))
+                RESOURCES_ALL.Add(path, UnityEngine.Resources.LoadAll<T>(path));
         }
 
         /// <summary>
@@ -30,8 +30,8 @@
         /// </summary>
         public static void Clear()
         {
-            s_resources.Clear();
-            s_resourcesAll.Clear();
+            RESOURCES.Clear();
+            RESOURCES_ALL.Clear();
         }
 
         /// <summary>
@@ -41,11 +41,11 @@
         /// <returns>Loaded asset if it has been found.</returns>
         public static T Load(string path)
         {
-            if (s_resources.TryGetValue(path, out T resource))
+            if (RESOURCES.TryGetValue(path, out T resource))
                 return resource;
 
-            s_resources.Add(path, UnityEngine.Resources.Load<T>(path));
-            return s_resources[path];
+            RESOURCES.Add(path, UnityEngine.Resources.Load<T>(path));
+            return RESOURCES[path];
         }
 
         /// <summary>
@@ -55,11 +55,11 @@
         /// <returns>Loaded assets if folder has been found.</returns>
         public static T[] LoadAll(string path)
         {
-            if (s_resourcesAll.TryGetValue(path, out T[] resources))
+            if (RESOURCES_ALL.TryGetValue(path, out T[] resources))
                 return resources;
 
-            s_resourcesAll.Add(path, UnityEngine.Resources.LoadAll<T>(path));
-            return s_resourcesAll[path];
+            RESOURCES_ALL.Add(path, UnityEngine.Resources.LoadAll<T>(path));
+            return RESOURCES_ALL[path];
         }
 
         /// <summary>
@@ -69,8 +69,8 @@
         /// <returns>Loaded asset if it has been found.</returns>
         public static T Reload(string path)
         {
-            if (s_resources.ContainsKey(path))
-                s_resources.Remove(path);
+            if (RESOURCES.ContainsKey(path))
+                RESOURCES.Remove(path);
 
             return Load(path);
         }
@@ -82,8 +82,8 @@
         /// <returns>Loaded assets if folder has been found.</returns>
         public static T[] ReloadAll(string path)
         {
-            if (s_resourcesAll.ContainsKey(path))
-                s_resourcesAll.Remove(path);
+            if (RESOURCES_ALL.ContainsKey(path))
+                RESOURCES_ALL.Remove(path);
 
             return LoadAll(path);
         }

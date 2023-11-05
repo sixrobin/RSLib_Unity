@@ -7,7 +7,8 @@
     {
         public const RSLib.Maths.Curve DEFAULT = RSLib.Maths.Curve.Linear;
 
-        [SerializeField] private RSLib.Maths.Curve _curve = DEFAULT;
+        [SerializeField]
+        private RSLib.Maths.Curve _curve = DEFAULT;
 
         public RSLib.Maths.Curve Curve => _curve;
         

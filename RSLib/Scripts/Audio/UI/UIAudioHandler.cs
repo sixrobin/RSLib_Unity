@@ -10,9 +10,9 @@
         private Toggle _toggle;
         private Dropdown _dropdown; 
         private Slider _slider; 
-        private RSLib.Framework.GUI.EnhancedButton _enhancedButton;
-        private RSLib.Framework.GUI.EnhancedToggle _enhancedToggle;
-        private RSLib.Framework.GUI.EnhancedSlider _enhancedSlider;
+        private RSLib.UI.EnhancedButton _enhancedButton;
+        private RSLib.UI.EnhancedToggle _enhancedToggle;
+        private RSLib.UI.EnhancedSlider _enhancedSlider;
         // TODO: EnhancedDropdown.
         
         protected virtual void OnButtonClick()
@@ -35,17 +35,17 @@
             UIAudioManager.PlaySliderValueChangedClip();
         }
         
-        protected virtual void OnButtonPointerEnter(RSLib.Framework.GUI.EnhancedButton source)
+        protected virtual void OnButtonPointerEnter(RSLib.UI.EnhancedButton source)
         {
             UIAudioManager.PlayHoverClip();
         }
         
-        protected virtual void OnTogglePointerEnter(RSLib.Framework.GUI.EnhancedToggle source)
+        protected virtual void OnTogglePointerEnter(RSLib.UI.EnhancedToggle source)
         {
             UIAudioManager.PlayHoverClip();
         }
         
-        protected virtual void OnSliderPointerEnter(RSLib.Framework.GUI.EnhancedSlider source)
+        protected virtual void OnSliderPointerEnter(RSLib.UI.EnhancedSlider source)
         {
             UIAudioManager.PlayHoverClip();
         }
@@ -56,7 +56,7 @@
             if (_button != null)
                 _button.onClick.AddListener(OnButtonClick);
             
-            _enhancedButton = GetComponent<RSLib.Framework.GUI.EnhancedButton>();
+            _enhancedButton = GetComponent<RSLib.UI.EnhancedButton>();
             if (_enhancedButton != null)
                 _enhancedButton.PointerEnter += OnButtonPointerEnter;
 
@@ -64,7 +64,7 @@
             if (_toggle != null)
                 _toggle.onValueChanged.AddListener(OnToggleValueChanged);
 
-            _enhancedToggle = GetComponent<RSLib.Framework.GUI.EnhancedToggle>();
+            _enhancedToggle = GetComponent<RSLib.UI.EnhancedToggle>();
             if (_enhancedToggle != null)
                 _enhancedToggle.PointerEnter += OnTogglePointerEnter;
 
@@ -78,7 +78,7 @@
             if (_slider != null)
                 _slider.onValueChanged.AddListener(OnSliderValueChanged);
             
-            _enhancedSlider = GetComponent<RSLib.Framework.GUI.EnhancedSlider>();
+            _enhancedSlider = GetComponent<RSLib.UI.EnhancedSlider>();
             if (_enhancedSlider != null)
                 _enhancedSlider.PointerEnter += OnSliderPointerEnter;
         }

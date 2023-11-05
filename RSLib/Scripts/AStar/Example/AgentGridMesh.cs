@@ -7,8 +7,10 @@
 
     public class AgentGridMesh : MonoBehaviour
     {
-        [SerializeField] private AStarMeshGrid _grid = null;
-        [SerializeField] private Transform _destination = null;
+        [SerializeField]
+        private AStarMeshGrid _grid = null;
+        [SerializeField]
+        private Transform _destination = null;
 
         private List<AStarNodeMono> _path = new List<AStarNodeMono>();
         private AStarNodeMono _startNode;

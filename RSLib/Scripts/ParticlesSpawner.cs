@@ -17,8 +17,10 @@
             public Vector3 Offset;
         }
 
-        [SerializeField] private Vector3 _globalOffset = Vector3.zero;
-        [SerializeField] private Particle[] _particles = null;
+        [SerializeField]
+        private Vector3 _globalOffset = Vector3.zero;
+        [SerializeField]
+        private Particle[] _particles = null;
 
         public void SpawnParticles(Vector3 position, Transform parent = null)
         {

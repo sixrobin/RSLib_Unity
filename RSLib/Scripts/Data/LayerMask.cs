@@ -5,7 +5,8 @@
     [CreateAssetMenu(fileName = "New Data LayerMask", menuName = "RSLib/Data/LayerMask")]
     public class LayerMask : ScriptableObject
     {
-        [SerializeField] private UnityEngine.LayerMask _mask = 0;
+        [SerializeField]
+        private UnityEngine.LayerMask _mask = 0;
 
         public UnityEngine.LayerMask Mask => _mask;
         

@@ -22,7 +22,7 @@
 
 			start.AStarMesh.ResetNodes();
 			
-			Framework.Collections.Heap<T> openSet = new Framework.Collections.Heap<T>(start.AStarMesh.Size);
+			Collections.Heap<T> openSet = new Collections.Heap<T>(start.AStarMesh.Size);
 			System.Collections.Generic.HashSet<T> closeSet = new System.Collections.Generic.HashSet<T>();
 
 			openSet.Add(start);

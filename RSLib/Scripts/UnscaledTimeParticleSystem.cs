@@ -9,7 +9,8 @@
 	[RequireComponent (typeof (ParticleSystem))]
 	public class UnscaledTimeParticleSystem : MonoBehaviour
 	{
-		[SerializeField] private float _duration = 10f;
+		[SerializeField]
+		private float _duration = 10f;
 
 		private ParticleSystem _particleSystem;
 		private bool _simulating;

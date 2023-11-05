@@ -31,7 +31,6 @@
 
         public void Reset()
         {
-            Debug.LogError("Reset!");
         }
 
         private IEnumerator Wrap(IEnumerator coroutine)

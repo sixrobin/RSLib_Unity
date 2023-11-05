@@ -16,9 +16,12 @@
         [System.Serializable]
         public class PooledObject
         {
-            [SerializeField] private string _id = string.Empty;
-            [SerializeField] private GameObject _gameObject = null;
-            [SerializeField, Min(1)] private int _quantity = 10;
+            [SerializeField]
+            private string _id = string.Empty;
+            [SerializeField]
+            private GameObject _gameObject = null;
+            [SerializeField, Min(1)]
+            private int _quantity = 10;
 
             public PooledObject(GameObject gameObject, int quantity)
             {
@@ -35,20 +38,21 @@
         #if ODIN_INSPECTOR
         [FoldoutGroup("Pool")]
         #endif
-        [SerializeField] private PooledObject[] _pooledObjects = null;
+        [SerializeField]
+        private PooledObject[] _pooledObjects = null;
 
-		private static readonly Dictionary<int, Queue<GameObject>> s_poolsByGameObject = new Dictionary<int, Queue<GameObject>>();
-		private static readonly Dictionary<string, Queue<GameObject>> s_poolsById = new Dictionary<string, Queue<GameObject>>();
-        private static readonly Dictionary<GameObject, IPoolItem> s_poolItems = new Dictionary<GameObject, IPoolItem>();
+		private static readonly Dictionary<int, Queue<GameObject>> POOLS_BY_GAME_OBJECT = new Dictionary<int, Queue<GameObject>>();
+		private static readonly Dictionary<string, Queue<GameObject>> POOLS_BY_ID = new Dictionary<string, Queue<GameObject>>();
+        private static readonly Dictionary<GameObject, IPoolItem> POOL_ITEMS = new Dictionary<GameObject, IPoolItem>();
 
 		/// <summary>
         /// Clears all the pooled objects.
         /// </summary>
 		public static void Clear()
         {
-			s_poolsByGameObject.Clear();
-			s_poolsById.Clear();
-            s_poolItems.Clear();
+			POOLS_BY_GAME_OBJECT.Clear();
+			POOLS_BY_ID.Clear();
+            POOL_ITEMS.Clear();
         }
 
 		/// <summary>
@@ -61,14 +65,14 @@
 		{
 			int poolKey = gameObject.GetInstanceID();
 
-			if (!s_poolsByGameObject.ContainsKey(poolKey))
+			if (!POOLS_BY_GAME_OBJECT.ContainsKey(poolKey))
 			{
 				Instance.LogWarning("Trying to get a pooled object that has not been pooled, creating new pool of 10 objects.", Instance.gameObject);
 				GenerateNewPool(new PooledObject(gameObject, 10));
 			}
 
-			GameObject result = s_poolsByGameObject[poolKey].Dequeue();
-			s_poolsByGameObject[poolKey].Enqueue(result);
+			GameObject result = POOLS_BY_GAME_OBJECT[poolKey].Dequeue();
+			POOLS_BY_GAME_OBJECT[poolKey].Enqueue(result);
 
             EnableFromPool(result, args);
             return result;
@@ -82,14 +86,14 @@
 		/// <returns>Instance of a gameObject of the pool corresponding to the ID.</returns>
 		public static GameObject Get(string id, params object[] args)
 		{
-			if (!s_poolsById.ContainsKey(id))
+			if (!POOLS_BY_ID.ContainsKey(id))
 			{
 				Instance.LogError("Trying to get a pooled object with ID that has not been pooled.", Instance.gameObject);
 				return null;
 			}
 
-			GameObject result = s_poolsById[id].Dequeue();
-			s_poolsById[id].Enqueue(result);
+			GameObject result = POOLS_BY_ID[id].Dequeue();
+			POOLS_BY_ID[id].Enqueue(result);
 
             EnableFromPool(result, args);
             return result;
@@ -102,7 +106,7 @@
         /// <returns>True if the given Id has been found, else false.</returns>
         public static bool ContainsId(string id)
         {
-            return s_poolsById.ContainsKey(id);
+            return POOLS_BY_ID.ContainsKey(id);
         }
 
         /// <summary>
@@ -111,7 +115,7 @@
         /// <returns>IEnumerable of all Ids.</returns>
         public static IEnumerable<string> GetPoolsIds()
         {
-            return s_poolsById.Keys;
+            return POOLS_BY_ID.Keys;
         }
 
 		/// <summary>
@@ -144,7 +148,7 @@
 			UnityEngine.Assertions.Assert.IsNotNull(pooledObject.GameObject, $"Trying to generate pool with Id {pooledObject.Id} but gameObject reference is null.");
 			UnityEngine.Assertions.Assert.IsTrue(pooledObject.Quantity > 0, $"Trying to generate pool with Id {pooledObject.Id} but count is 0 or less ({pooledObject.Quantity}).");
 
-			if (s_poolsByGameObject.ContainsKey(pooledObject.GameObject.GetInstanceID()))
+			if (POOLS_BY_GAME_OBJECT.ContainsKey(pooledObject.GameObject.GetInstanceID()))
 			{
 				Instance.LogWarning("Trying to create a pool of an object that has already been pooled.");
 				return;
@@ -159,14 +163,14 @@
 				GameObject newObject = Instantiate(pooledObject.GameObject, container);
 
                 if (newObject.TryGetComponent(out IPoolItem poolItem))
-                    s_poolItems.Add(newObject, poolItem);
+                    POOL_ITEMS.Add(newObject, poolItem);
 
 				newObject.gameObject.SetActive(false);
 				newPool.Enqueue(newObject);
 			}
 
-			s_poolsByGameObject.Add(pooledObject.GameObject.GetInstanceID(), newPool);
-			s_poolsById.Add(pooledObject.Id, newPool);
+			POOLS_BY_GAME_OBJECT.Add(pooledObject.GameObject.GetInstanceID(), newPool);
+			POOLS_BY_ID.Add(pooledObject.Id, newPool);
 		}
 
         /// <summary>
@@ -179,7 +183,7 @@
         {
             gameObject.SetActive(true);
 
-            if (s_poolItems.TryGetValue(gameObject, out IPoolItem poolItem))
+            if (POOL_ITEMS.TryGetValue(gameObject, out IPoolItem poolItem))
                 poolItem.OnGetFromPool(args);
         }
 

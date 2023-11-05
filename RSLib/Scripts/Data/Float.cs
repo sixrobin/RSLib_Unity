@@ -11,8 +11,10 @@
             public float New;
         }
 
-        [SerializeField] private float _value = 0;
-        [SerializeField] private Vector2 _range = new Vector2(Mathf.NegativeInfinity, Mathf.Infinity);
+        [SerializeField]
+        private float _value = 0;
+        [SerializeField]
+        private Vector2 _range = new Vector2(Mathf.NegativeInfinity, Mathf.Infinity);
 
         public delegate void ValueChangedEventHandler(ValueChangedEventArgs args);
         public event ValueChangedEventHandler ValueChanged;

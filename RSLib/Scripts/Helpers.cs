@@ -4,7 +4,7 @@
 
     public static class Helpers
     {
-        private static System.Random s_rnd = new System.Random();
+        private static readonly System.Random s_rnd = new System.Random();
 
         #region BOOLEAN
 

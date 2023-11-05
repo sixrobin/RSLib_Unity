@@ -4,7 +4,7 @@
 
     public class WaitWhile : CustomYieldInstruction
     {
-        private System.Func<bool> _predicate;
+        private readonly System.Func<bool> _predicate;
 
         public WaitWhile(System.Func<bool> predicate)
         {

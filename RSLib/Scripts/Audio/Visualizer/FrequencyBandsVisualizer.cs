@@ -4,13 +4,20 @@
 
     public class FrequencyBandsVisualizer : MonoBehaviour
     {
-        [SerializeField] private AudioSpectrumSampler _audioSpectrumSampler = null;
-        [SerializeField] private bool _useBuffers = true;
-        [SerializeField] private GameObject _frequencyBandCube = null;
-        [SerializeField, Min(0f)] private float _spacing = 10f;
-        [SerializeField, Min(0f)] private float _minimumHeight = 2f;
-        [SerializeField, Min(0f)] private float _maximumHeight = 50f;
-        [SerializeField, Min(0f)] private float _cubeWidth = 10f;
+        [SerializeField]
+        private AudioSpectrumSampler _audioSpectrumSampler = null;
+        [SerializeField]
+        private bool _useBuffers = true;
+        [SerializeField]
+        private GameObject _frequencyBandCube = null;
+        [SerializeField, Min(0f)]
+        private float _spacing = 10f;
+        [SerializeField, Min(0f)]
+        private float _minimumHeight = 2f;
+        [SerializeField, Min(0f)]
+        private float _maximumHeight = 50f;
+        [SerializeField, Min(0f)]
+        private float _cubeWidth = 10f;
 
         private Transform[] _frequencyBandCubes;
 

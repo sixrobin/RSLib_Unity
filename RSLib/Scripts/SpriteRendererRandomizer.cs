@@ -19,7 +19,8 @@ namespace RSLib
         #if ODIN_INSPECTOR
         [FoldoutGroup("Refs")]
         #endif
-        [SerializeField] private SpriteRenderer _spriteRenderer = null;
+        [SerializeField]
+        private SpriteRenderer _spriteRenderer = null;
 
         #if !ODIN_INSPECTOR
         [Header("SPRITE (Leave sprites array empty not to randomize sprite)")]
@@ -29,7 +30,8 @@ namespace RSLib
         [FoldoutGroup("Refs")]
         [InfoBox("Leave sprites array empty not to randomize sprite.")]
         #endif
-        [SerializeField] private Sprite[] _sprites = null;
+        [SerializeField]
+        private Sprite[] _sprites = null;
         
         #if !ODIN_INSPECTOR
         [Header("FLIP")]
@@ -38,12 +40,14 @@ namespace RSLib
         #if ODIN_INSPECTOR
         [FoldoutGroup("Flip")]
         #endif
-        [SerializeField, Range(0f, 1f)] private float _flipXChance = 0.5f;
+        [SerializeField, Range(0f, 1f)]
+        private float _flipXChance = 0.5f;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Flip")]
         #endif
-        [SerializeField, Range(0f, 1f)] private float _flipYChance = 0.5f;
+        [SerializeField, Range(0f, 1f)]
+        private float _flipYChance = 0.5f;
 
         #if !ODIN_INSPECTOR
         [Header("COLOR")]
@@ -52,12 +56,14 @@ namespace RSLib
         #if ODIN_INSPECTOR
         [FoldoutGroup("Color")]
         #endif
-        [SerializeField] private Color _colorA = Color.white;
+        [SerializeField]
+        private Color _colorA = Color.white;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Color")]
         #endif
-        [SerializeField] private Color _colorB = Color.white;
+        [SerializeField]
+        private Color _colorB = Color.white;
 
         [ContextMenu("Randomize")]
         #if ODIN_INSPECTOR

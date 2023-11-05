@@ -4,7 +4,8 @@
 
     public class NoiseTextureRendererUtilities : MonoBehaviour
     {
-        [SerializeField] private Renderer _renderer = null;
+        [SerializeField]
+        private Renderer _renderer = null;
 
         public void SetRendererTexture(Texture2D texture, bool scaleRenderer = true)
         {
