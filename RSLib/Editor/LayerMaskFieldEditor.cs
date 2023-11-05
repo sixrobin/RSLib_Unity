@@ -5,7 +5,7 @@
 	using UnityEditorInternal;
 
 	/// <summary>
-	/// Allows to draw a layer mask in a custom inspector.
+	/// Draws a layer mask field in a custom inspector.
 	/// </summary>
 	public class LayerMaskFieldEditor
 	{

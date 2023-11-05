@@ -8,21 +8,22 @@ namespace RSLib.Editor
     using UnityEditor;
     using UnityEngine;
 
+    /// <summary>
+    /// Workaround solution used to fix an issue when Unity does not synchronize the solution with the project.
+    /// </summary>
     public static class SolutionSynchronizer
 	{
-		private static object s_synchronizerObject;
-		private static MethodInfo s_syncSolutionMethodInfo;
-		private static MethodInfo s_synchronizerSyncMethodInfo;
+		private static readonly object SYNCHRONIZER_OBJECT;
+		private static readonly MethodInfo SYNC_SOLUTION_METHOD_INFO;
+		private static readonly MethodInfo SYNCHRONIZER_SYNC_METHOD_INFO;
 		
 		static SolutionSynchronizer()
 		{
 			Type syncVSType = Type.GetType("UnityEditor.SyncVS,UnityEditor");
 			FieldInfo synchronizerField = syncVSType.GetField("Synchronizer", BindingFlags.NonPublic | BindingFlags.Static);
-			s_syncSolutionMethodInfo = syncVSType.GetMethod("SyncSolution", BindingFlags.Public | BindingFlags.Static);
-			
-			s_synchronizerObject = synchronizerField.GetValue(syncVSType);
-			Type synchronizerType = s_synchronizerObject.GetType();
-			s_synchronizerSyncMethodInfo = synchronizerType.GetMethod("Sync", BindingFlags.Public | BindingFlags.Instance);
+			SYNC_SOLUTION_METHOD_INFO = syncVSType.GetMethod("SyncSolution", BindingFlags.Public | BindingFlags.Static);
+			SYNCHRONIZER_OBJECT = synchronizerField.GetValue(syncVSType);
+			SYNCHRONIZER_SYNC_METHOD_INFO = SYNCHRONIZER_OBJECT.GetType().GetMethod("Sync", BindingFlags.Public | BindingFlags.Instance);
 		}
 
 		[MenuItem("Assets/Sync C# Solution", priority = 1000000)]
@@ -48,19 +49,19 @@ namespace RSLib.Editor
 
 		private static void CallSyncSolution()
 		{
-		    Debug.Log($"Call method: SyncVS.Sync()");
-			s_syncSolutionMethodInfo.Invoke(null, null);
+		    Debug.Log("Call method: SyncVS.Sync()");
+			SYNC_SOLUTION_METHOD_INFO.Invoke(null, null);
 		}
 
 		private static void CallSynchronizerSync()
 		{
-			Debug.Log($"Call method: SyncVS.Synchronizer.Sync()");
-			s_synchronizerSyncMethodInfo.Invoke(s_synchronizerObject, null);
+			Debug.Log("Call method: SyncVS.Synchronizer.Sync()");
+			SYNCHRONIZER_SYNC_METHOD_INFO.Invoke(SYNCHRONIZER_OBJECT, null);
 		}
 
 		private static IEnumerable<FileInfo> GetFilesByExtensions(DirectoryInfo dir, params string[] extensions)
 		{
-			extensions = extensions ?? new[] {"*"};
+			extensions ??= new[] {"*"};
 			IEnumerable<FileInfo> files = Enumerable.Empty<FileInfo>();
 			foreach (string ext in extensions)
 				files = files.Concat(dir.GetFiles(ext));

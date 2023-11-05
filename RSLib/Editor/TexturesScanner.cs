@@ -3,7 +3,9 @@ namespace RSLib.Editor
     using System.Linq;
     using UnityEngine;
     using UnityEditor;
+    #if RSLIB_EDITOR_COROUTINES
     using Unity.EditorCoroutines.Editor;
+    #endif
 
     public static class TexturesScanner
     {
@@ -72,6 +74,7 @@ namespace RSLib.Editor
         }
         #endregion // ASSETS ACCESSOR METHODS
 
+        #if RSLIB_EDITOR_COROUTINES
         #region EDITOR COROUTINES
         private static System.Collections.IEnumerator LocateNonMultipleOf4Coroutine()
         {
@@ -204,5 +207,6 @@ namespace RSLib.Editor
             }
         }
         #endregion // EDITOR COROUTINES
+        #endif
     }
 }

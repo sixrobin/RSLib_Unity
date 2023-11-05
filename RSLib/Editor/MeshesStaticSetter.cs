@@ -13,9 +13,9 @@
 		private bool _includeInactive;
 
         [MenuItem("RSLib/Meshes Static Setter")]
-        public static void ShowWindow()
+        public static void Open()
         {
-            GetWindow<MeshesStaticSetter>("Meshes static setter");
+            GetWindow<MeshesStaticSetter>("Meshes static setter").Show();
         }
 
         private GameObject[] GetObjectsToModify()

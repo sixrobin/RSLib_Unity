@@ -3,21 +3,17 @@
 	using UnityEngine;
 	using UnityEditor;
 
-	sealed class FilterStaticObjectMenu
-	{
-		[MenuItem("RSLib/Filter Static Objects")]
-		public static void RenameSelectedObjects()
-		{
-			FilterStaticObjectEditor.LaunchFilter();
-		}
-	}
-
+	/// <summary>
+	/// Select all gameObjects in a scene based on their static flags state.
+	/// For instance, this can be used to select all gameObject flagged as Occludee Static.
+	/// </summary>
 	public sealed class FilterStaticObjectEditor : EditorWindow
 	{
 		private StaticEditorFlags _flag;
 		private bool _include;
 
-		public static void LaunchFilter()
+		[MenuItem("RSLib/Filter Static Objects")]
+		public static void Open()
 		{
 			GetWindow<FilterStaticObjectEditor>("Filter Static Objects").Show();
 		}
@@ -25,19 +21,16 @@
         private void FilterSelection(bool include)
 		{
             Object[] gameObjects = FindObjectsOfType(typeof(GameObject));
-            GameObject[] gameObjectsArray = new GameObject[gameObjects.Length];
-			int arrayPointer = 0;
+            Object[] gameObjectsArray = new Object[gameObjects.Length];
+			int i = 0;
 
 			foreach (Object obj in gameObjects)
 			{
 				GameObject gameObject = (GameObject)obj;
 				StaticEditorFlags flags = GameObjectUtility.GetStaticEditorFlags(gameObject);
 
-				if (((flags & _flag) != 0) != include)
-					continue;
-				
-				gameObjectsArray[arrayPointer] = gameObject;
-				arrayPointer += 1;
+				if (((flags & this._flag) != 0) == include)
+					gameObjectsArray[i++] = gameObject;
 			}
 
 			Selection.objects = gameObjectsArray;
@@ -50,11 +43,9 @@
 			EditorGUILayout.BeginVertical();
 			GUILayout.Space(10f);
 
-			EditorGUILayout.LabelField("Flag to filter :", EditorStyles.boldLabel);
-            System.Array options = System.Enum.GetValues(typeof(StaticEditorFlags));
+			EditorGUILayout.LabelField("Flag to filter:", EditorStyles.boldLabel);
             _flag = (StaticEditorFlags)EditorGUILayout.EnumPopup(_flag);
-
-			_include = EditorGUILayout.Toggle("Include", _include);
+            _include = EditorGUILayout.Toggle("Include", _include);
 
 			GUILayout.Space(10f);
 

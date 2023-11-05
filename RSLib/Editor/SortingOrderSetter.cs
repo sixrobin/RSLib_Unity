@@ -4,21 +4,6 @@ namespace RSLib.Editor
 	using UnityEditor;
     using System.Linq;
 
-    public static class SpriteOrderingDataSetterMenu
-	{
-		[MenuItem("RSLib/Set Sprites Ordering Data", true)]
-		private static bool CheckIfAtLeastOneObjectIsSelected()
-		{
-			return Selection.gameObjects.Length > 0;
-		}
-
-		[MenuItem("RSLib/Set Sprites Ordering Data")]
-		public static void SetSelectedObjectsSortingOrder()
-		{
-			SpriteOrderingDataSetterEditor.LaunchSetter();
-		}
-	}
-
 	public sealed class SpriteOrderingDataSetterEditor : EditorWindow
 	{
 		private GameObject[] _selection;
@@ -29,7 +14,14 @@ namespace RSLib.Editor
 		private bool _offsetIncludeInactive;
 		private bool _layerIncludeInactive;
 
-		public static void LaunchSetter()
+		[MenuItem("RSLib/Set Sprites Ordering Data", true)]
+		private static bool CheckIfAtLeastOneObjectIsSelected()
+		{
+			return Selection.gameObjects.Length > 0;
+		}
+
+		[MenuItem("RSLib/Set Sprites Ordering Data")]
+		public static void Open()
 		{
 			GetWindow<SpriteOrderingDataSetterEditor>("Set Sprites Ordering Data").Show();
 		}

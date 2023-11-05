@@ -3,25 +3,9 @@
 	using UnityEngine;
 	using UnityEditor;
 
-    public static class GameObjectsRenamerMenu
-	{
-		private const string SHORTCUT = "%&r";
-
-		[MenuItem("GameObject/Rename Objects " + SHORTCUT, true)]
-		private static bool CheckIfAtLeastOneObjectIsSelected()
-		{
-			return Selection.gameObjects.Length > 0;
-		}
-
-		[MenuItem("GameObject/Rename Objects " + SHORTCUT)]
-		public static void RenameSelectedObjects()
-		{
-			GameObjectsRenamerEditor.LaunchRenamer();
-		}
-	}
-
     public sealed class GameObjectsRenamerEditor : EditorWindow
 	{
+		private const string SHORTCUT = "%&r";
 		private const string UNDERSCORE = "_";
 
 		private GameObject[] _selection;
@@ -30,8 +14,15 @@
 		private string _suffix;
         private bool _numbering;
 
-		public static void LaunchRenamer()
-		{
+        [MenuItem("GameObject/Rename Objects " + SHORTCUT, true)]
+        private static bool CheckIfAtLeastOneObjectIsSelected()
+        {
+	        return Selection.gameObjects.Length > 0;
+        }
+
+        [MenuItem("GameObject/Rename Objects " + SHORTCUT)]
+        public static void Open()
+        {
 			GetWindow<GameObjectsRenamerEditor>("Rename Objects").Show();
 		}
 
@@ -90,7 +81,7 @@
 			_numbering = EditorGUILayout.Toggle("Add numbering ?", _numbering);
 
 			GUILayout.Space (5);
-			EditorGUILayout.EndVertical ();
+			EditorGUILayout.EndVertical();
 			GUILayout.Space (10);
 
 			if (GUILayout.Button("Rename Selected GameObjects", GUILayout.Height(45f), GUILayout.ExpandWidth(true)))

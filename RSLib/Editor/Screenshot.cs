@@ -3,7 +3,6 @@
 	using UnityEditor;
 	using UnityEngine;
 
-	[ExecuteInEditMode]
 	public class Screenshot : EditorWindow
 	{
 		private int _resolutionWidth = Screen.width;
@@ -27,7 +26,7 @@
 
 		private string SetScreenshotName(int width, int height)
 		{
-			string screenshotName = string.Format("{0}/screen_{1}x{2}_{3}.png", _destinationFolder, width, height, System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm"));
+			string screenshotName = $"{this._destinationFolder}/screen_{width}x{height}_{System.DateTime.Now:yyyy-MM-dd_HH-mm}.png";
 			_lastScreenshot = screenshotName;
 			return screenshotName;
 		}
@@ -88,7 +87,7 @@
 			EditorGUILayout.EndHorizontal();
 			EditorGUILayout.Space();
 
-			EditorGUILayout.LabelField($"Screenshot resolution : {_resolutionWidth* _scale} x {_resolutionHeight * _scale} px", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField($"Screenshot resolution : {_resolutionWidth * _scale} x {_resolutionHeight * _scale} px", EditorStyles.boldLabel);
 
 			if (GUILayout.Button("Take Screenshot", GUILayout.MinHeight(60f)))
 			{

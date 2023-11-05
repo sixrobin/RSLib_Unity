@@ -4,8 +4,11 @@
 	using UnityEditor;
     using Extensions;
 
-    public static class LayerRecursiveSetterMenu
+    public sealed class LayerRecursiveSetterEditor : EditorWindow
 	{
+		private GameObject[] _selection;
+		private string _layerName;
+
 		[MenuItem("RSLib/Layer Recursive Setter", true)]
 		private static bool CheckSelectionCount()
 		{
@@ -13,29 +16,17 @@
 		}
 
 		[MenuItem("RSLib/Layer Recursive Setter")]
-		public static void LaunchLayerSetter()
+		public static void Open()
 		{
-			LayerRecursiveSetterEditor.LaunchSetter();
-		}
-	}
-
-    public sealed class LayerRecursiveSetterEditor : EditorWindow
-	{
-		private GameObject[] _selection;
-		private string _layerName;
-
-		public static void LaunchSetter()
-		{
-			EditorWindow window = GetWindow<LayerRecursiveSetterEditor>("Set objet's children layer");
-			window.Show();
+			GetWindow<LayerRecursiveSetterEditor>("Layer Recursive Setter").Show();
 		}
 
 		private void OnGUI()
 		{
-			_selection = Selection.gameObjects;
-
 			EditorGUILayout.LabelField("Layer Name", EditorStyles.boldLabel);
 			_layerName = EditorGUILayout.TextField(_layerName);
+
+			_selection = Selection.gameObjects;
 
 			if (GUILayout.Button("Set objet's children layer recursively", GUILayout.Height(45f), GUILayout.ExpandWidth(true)))
                 foreach (GameObject selected in _selection)

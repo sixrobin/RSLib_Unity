@@ -5,12 +5,12 @@
 
     public class FindMissingScripts : EditorWindow
     {
-        private static int s_goCount = 0;
-        private static int s_componentsCount = 0;
-        private static int s_missingCount = 0;
+        private static int s_goCount;
+        private static int s_componentsCount;
+        private static int s_missingCount;
 
         [MenuItem("RSLib/Find Missing Scripts")]
-        public static void ShowWindow()
+        public static void Open()
         {
             GetWindow<FindMissingScripts>("Find Missing Scripts").Show();
         }
@@ -18,8 +18,8 @@
         private static Object[] LoadAllAssetsAtPath(string assetPath)
         {
             return typeof(SceneAsset) == AssetDatabase.GetMainAssetTypeAtPath(assetPath)
-                ? new[] { AssetDatabase.LoadMainAssetAtPath(assetPath) }
-                : AssetDatabase.LoadAllAssetsAtPath(assetPath);
+                   ? new[] { AssetDatabase.LoadMainAssetAtPath(assetPath) }
+                   : AssetDatabase.LoadAllAssetsAtPath(assetPath);
         }
 
         private static void FindAll()

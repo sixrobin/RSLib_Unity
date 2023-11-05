@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_SpriteBlink
+  m_Name: SpriteBlink
   m_Shader: {fileID: 4800000, guid: 7693dc454b48e6348b86762b43262cac, type: 3}
   m_ValidKeywords:
   - ETC1_EXTERNAL_ALPHA

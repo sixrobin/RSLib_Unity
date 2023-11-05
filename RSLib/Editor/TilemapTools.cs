@@ -5,15 +5,6 @@
     using UnityEngine;
     using UnityEngine.Tilemaps;
 
-    public static class TilemapEditorToolsMenu
-    {
-        [MenuItem("RSLib/Tilemap Tools")]
-        public static void LaunchTilemapUtilities()
-        {
-            TilemapEditorTools.LaunchTilemapUtilities();
-        }
-    }
-
     public sealed class TilemapEditorTools : EditorWindow
     {
         private const float BUTTON_HEIGHT = 30f;
@@ -40,12 +31,11 @@
         // Clear tilemap collision.
         private Tilemap _tilemapToClearCollision;
         
+        [MenuItem("RSLib/Tilemap Tools")]
         public static void LaunchTilemapUtilities()
         {
             s_firstOpenFrame = true;
-
-            EditorWindow window = GetWindow<TilemapEditorTools>("Tilemap Utilities");
-            window.Show();
+            GetWindow<TilemapEditorTools>("Tilemap Utilities").Show();
         }
 
         private static void ClearTiles(Tilemap tilemap)
@@ -64,7 +54,7 @@
         {
             if (s_firstOpenFrame)
             {
-                Tilemap selectedTilemap = Selection.activeGameObject?.GetComponent<Tilemap>();
+                Tilemap selectedTilemap = Selection.activeGameObject != null ? Selection.activeGameObject.GetComponent<Tilemap>() : null;
 
                 _tilemapToOverrideTiles = selectedTilemap;
                 _tilemapToClear = selectedTilemap;
@@ -76,7 +66,6 @@
             GUILayout.Space(10f);
             EditorGUILayout.BeginVertical();
             GUILayout.Space(10f);
-
 
             // Override tiles.
             {
