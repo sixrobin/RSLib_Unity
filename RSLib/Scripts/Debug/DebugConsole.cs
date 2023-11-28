@@ -7,10 +7,9 @@
     #endif
 
     #region COMMANDS
-    
     public abstract class CommandBase : System.IComparable
     {
-        public CommandBase(string id, string desc, bool showInHistory, bool isConsoleNative)
+        protected CommandBase(string id, string desc, bool showInHistory, bool isConsoleNative)
         {
             Id = id;
             Description = desc;
@@ -24,17 +23,14 @@
         public bool IsConsoleNative { get; }
         public bool ShowInHistory { get; }
 
-        int System.IComparable.CompareTo(object obj)
-        {
-            return Id.CompareTo((obj as CommandBase).Id);
-        }
+        int System.IComparable.CompareTo(object obj) => Id.CompareTo(((CommandBase)obj).Id);
 
         public abstract string GetFormat();
     }
 
     public class Command : CommandBase
     {
-        private System.Action _cmd;
+        private readonly System.Action _cmd;
 
         public Command(string id, string description, System.Action cmd)
             : base(id, description, true, false)
@@ -56,20 +52,14 @@
 
         public override int ParamsCount => 0;
 
-        public void Execute()
-        {
-            _cmd.Invoke();
-        }
+        public void Execute() => _cmd.Invoke();
 
-        public override string GetFormat()
-        {
-            return Id;
-        }
+        public override string GetFormat() => Id;
     }
 
     public class Command<T> : CommandBase
     {
-        private System.Action<T> _cmd;
+        private readonly System.Action<T> _cmd;
 
         public Command(string id, string description, System.Action<T> cmd)
             : base(id, description, true, false)
@@ -91,20 +81,14 @@
 
         public override int ParamsCount => 1;
 
-        public void Execute(T param)
-        {
-            _cmd.Invoke(param);
-        }
-    
-        public override string GetFormat()
-        {
-            return $"{Id} [{DebugConsole.Constants.TYPES_FORMATS[typeof(T)]}]";
-        }
+        public void Execute(T param) => _cmd.Invoke(param);
+
+        public override string GetFormat() => $"{Id} [{DebugConsole.Constants.TYPES_FORMATS[typeof(T)]}]";
     }
 
     public class Command<T1, T2> : CommandBase
     {
-        private System.Action<T1, T2> _cmd;
+        private readonly System.Action<T1, T2> _cmd;
 
         public Command(string id, string description, System.Action<T1, T2> cmd)
             : base(id, description, true, false)
@@ -126,35 +110,26 @@
 
         public override int ParamsCount => 2;
 
-        public void Execute(T1 param1, T2 param2)
-        {
-            _cmd.Invoke(param1, param2);
-        }
+        public void Execute(T1 param1, T2 param2) => _cmd.Invoke(param1, param2);
 
-        public override string GetFormat()
-        {
-            return $"{Id} [{DebugConsole.Constants.TYPES_FORMATS[typeof(T1)]}] [{DebugConsole.Constants.TYPES_FORMATS[typeof(T2)]}]";
-        }
+        public override string GetFormat() => $"{Id} [{DebugConsole.Constants.TYPES_FORMATS[typeof(T1)]}] [{DebugConsole.Constants.TYPES_FORMATS[typeof(T2)]}]";
     }
-
     #endregion // COMMANDS
     
     /// <summary>
     /// This console system is used to access code at runtime and in build by referencing methods.
     /// It is very simple and has been made for "quick & dirty" implementation but useful results.
-    /// The console does support :
+    /// The console does support:
     /// - Methods with no parameter,
     /// - Methods with one parameter of type : bool, float, int or string,
     /// - Methods with two parameters of type : bool, float, int or string (any order).
-    /// 
     /// Methods can NOT have the same name AND the same count of parameters (the system checks the command ID and the parameters count before their types).
     /// This class is a MonoBehaviour Singleton that should have its instance created before anything else in the game.
-    /// To use the console and use custom methods :
+    /// To use the console and use custom methods:
     /// - The AddCommand method adds a new command if possible, and has an extra parameter to specify if it should override an existing command of the same type (which might be useful for same scenes/classes reloading),
     /// - The OverrideCommand method is a shortcut to call the AddCommand method with the override system enabled,
     /// - The RemoveCommand method does remove a command by its ID and the possibility to specify the parameters count.
-    /// To create a command, simply use **new RSLib.Debug.Console.DebugCommand<paramsTypes>(params)** constructor.
-    /// 
+    /// To create a command, simply use **new RSLib.Debug.Console.DebugCommand(params)** constructor.
     /// N.B.: This console system is NOT a good implementation of such a feature, simply a basic working one.
     /// </summary>
     [DisallowMultipleComponent]
@@ -242,6 +217,12 @@
         #if !ODIN_INSPECTOR
         [Header("DATA")]
         #endif
+        
+        #if ODIN_INSPECTOR
+        [FoldoutGroup("Data")]
+        #endif
+        [SerializeField]
+        private KeyCode _openKey = KeyCode.Quote;
         
         #if ODIN_INSPECTOR
         [FoldoutGroup("Data")]
@@ -518,8 +499,8 @@
 
             for (int i = 0, autoCompletionOptionsCount = _autoCompletionOptions.Count; i < autoCompletionOptionsCount; ++i)
                 _autoCompletionStr += _autoCompletionNavIndex == i
-                    ? $"{string.Format(Constants.AUTO_COMPLETION_SELECTED_FORMAT, _autoCompletionOptions[i].GetFormat())}{Constants.AUTO_COMPLETION_OPTIONS_SPLIT}"
-                    : $"{_autoCompletionOptions[i].GetFormat()}{Constants.AUTO_COMPLETION_OPTIONS_SPLIT}";
+                                      ? $"{string.Format(Constants.AUTO_COMPLETION_SELECTED_FORMAT, _autoCompletionOptions[i].GetFormat())}{Constants.AUTO_COMPLETION_OPTIONS_SPLIT}"
+                                      : $"{_autoCompletionOptions[i].GetFormat()}{Constants.AUTO_COMPLETION_OPTIONS_SPLIT}";
 
             if (!string.IsNullOrEmpty(_autoCompletionStr))
                 _autoCompletionStr = RemoveStringLastCharacters(_autoCompletionStr, Constants.AUTO_COMPLETION_OPTIONS_SPLIT.Length);
@@ -816,8 +797,8 @@
             _autoCompletionNavIndex = Mathf.Clamp(_autoCompletionNavIndex, -1, _autoCompletionOptions.Count - 1);
 
             _inputStr = _autoCompletionNavIndex == -1
-                ? _inputStrBeforeAutoComplete
-                : _inputStr = _autoCompletionOptions[_autoCompletionNavIndex].Id;
+                        ? _inputStrBeforeAutoComplete
+                        : _inputStr = _autoCompletionOptions[_autoCompletionNavIndex].Id;
         }
 
         private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode)
@@ -832,42 +813,30 @@
 
         private void RegisterNativeCommands()
         {
-            ////////////////////////////////////////////////////////////////////////////////////
-            //// Commands that are inherent in the console system (clear, help, remove command).
-            ////////////////////////////////////////////////////////////////////////////////////
-
+            AddCommand(new Command("c", "Clears commands history.", false, true, () => _cmdsHistory.Clear()));
+            AddCommand(new Command("r", "Reloads the currently active scene.", true, true, () => UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex)));
+            AddCommand(new Command<string>("loadSceneByName", "Loads a scene by its name.", true, true, UnityEngine.SceneManagement.SceneManager.LoadScene));
+            AddCommand(new Command<int>("loadSceneByIndex", "Loads a scene by its build settings index.", true, true, UnityEngine.SceneManagement.SceneManager.LoadScene));
+            AddCommand(new Command("openPersistentDataPath", "Opens Application.persistentDataPath folder.", OpenPersistentDataPath));
+            AddCommand(new Command<int>("setMonitorIndex", "Sets the monitor index on application start.", true, true, index => PlayerPrefs.SetInt("UnitySelectMonitor", index)));
+            AddCommand(new Command("playerPrefsDeleteAll", "Delete all PlayerPrefs keys.", true, true, PlayerPrefs.DeleteAll));
+            AddCommand(new Command("playerPrefsSave", "Saves PlayerPrefs keys.", true, true, PlayerPrefs.Save));
+            AddCommand(new Command<string, int>("playerPrefsSetInt", "Sets int value to PlayerPrefs.", true, true, PlayerPrefs.SetInt));
+            AddCommand(new Command<string, float>("playerPrefsSetFloat", "Sets float value to PlayerPrefs.", true, true, PlayerPrefs.SetFloat));
+            AddCommand(new Command<string, string>("playerPrefsSetString", "Sets string value to PlayerPrefs.", true, true, PlayerPrefs.SetString));
+            AddCommand(new Command<int>("targetFrameRate", "Sets application target frame rate.", true, true, fps => Application.targetFrameRate = fps));
+            AddCommand(new Command<int>("vSyncCount", "Sets vSync count.", true, true, count => QualitySettings.vSyncCount = count));
+            AddCommand(new Command<int>("setQualityLevel", "Sets quality level.", true, true, QualitySettings.SetQualityLevel));
+            AddCommand(new Command<int>("shadows", "Sets quality settings shadows.", true, true, value => QualitySettings.shadows = (ShadowQuality)Mathf.Clamp(value, 0, 2)));
+            AddCommand(new Command<int>("shadowDistance", "Sets quality settings shadow distance.", true, true, value => QualitySettings.shadowDistance = Mathf.Max(0f, value)));
+            
             AddCommand(new Command("h", "Shows available commands and hotkeys.", false, true, () =>
             {
                 _showHelp = !_showHelp;
                 if (_showHelp)
                     _registeredCmds.Sort();
             }));
-
-            //AddCommand(new DebugCommand("help", "Shows available commands and hotkeys.", false, true, () =>
-            //{
-            //    _showHelp = !_showHelp;
-            //    if (_showHelp)
-            //        _registeredCmds.Sort();
-            //}));
-
-            AddCommand(new Command("c", "Clears commands history.", false, true, () => _cmdsHistory.Clear()));
-            //AddCommand(new DebugCommand("clear", "Clears commands history.", false, true, () => _cmdsHistory.Clear()));
-            //AddCommand(new DebugCommand<string, int>("removeCmd", "Removes a registered command by ID and parameters count.", true, true, (id, paramsCount) => RemoveCommand(id, paramsCount)));
-
-
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-            //// Commands that are not inherent in the console but potentially useful in any Unity project :
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-
-            AddCommand(new Command("r", "Reloads the currently active scene.", true, true,
-                () => UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex)));
-
-            //AddCommand(new DebugCommand("reloadActiveScene", "Reloads the currently active scene.", true, true,
-            //    () => UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex)));
-
-            AddCommand(new Command<string>("loadSceneByName", "Loads a scene by its name.", true, true, UnityEngine.SceneManagement.SceneManager.LoadScene));
-            AddCommand(new Command<int>("loadSceneByIndex", "Loads a scene by its build settings index.", true, true, UnityEngine.SceneManagement.SceneManager.LoadScene));
-
+            
             AddCommand(new Command("q", "Quits application.", false, true, () =>
             {
 #if UNITY_EDITOR
@@ -876,8 +845,6 @@
                 Application.Quit();
 #endif
             }));
-
-            AddCommand(new Command("OpenPersistentDataPath", "Opens Application.persistentDataPath folder.", OpenPersistentDataPath));
         }
 
         private void ResetHistoryNavigation()
@@ -919,6 +886,12 @@
             int amountClamped = amount < 0 ? 0 : amount > str.Length ? str.Length : amount;
             return string.IsNullOrEmpty(str) ? str : str.Substring(0, str.Length - amountClamped);
         }
+
+        [ContextMenu("Open Persistent Data Path")]
+        private void OpenPersistentDataPath()
+        {
+            System.Diagnostics.Process.Start($@"{Application.persistentDataPath}");
+        }
         
         private void OnGUI()
         {
@@ -930,30 +903,26 @@
             //// GUI styles initialization.
             ///////////////////////////////
 
-            if (_consoleStyle == null)
-                _consoleStyle = ComputeConsoleStyle(Constants.ENTRY_BOX_HEIGHT, _width);
+            this._consoleStyle ??= this.ComputeConsoleStyle(Constants.ENTRY_BOX_HEIGHT, this._width);
 
-            if (_helpTextStyle == null)
-                _helpTextStyle = new GUIStyle()
-                {
-                    fontStyle = FontStyle.Italic,
-                    alignment = TextAnchor.MiddleLeft,
-                    normal = new GUIStyleState() { textColor = new Color(1f, 1f, 1f, 0.33f) }
-                };
+            this._helpTextStyle ??= new GUIStyle()
+            {
+                fontStyle = FontStyle.Italic,
+                alignment = TextAnchor.MiddleLeft,
+                normal = new GUIStyleState() {textColor = new Color(1f, 1f, 1f, 0.33f)}
+            };
 
-            if (_invalidCmdTextStyle == null)
-                _invalidCmdTextStyle = new GUIStyle()
-                {
-                    alignment = TextAnchor.MiddleLeft,
-                    normal = new GUIStyleState() { textColor = new Color(1f, 0f, 0f, 0.8f) }
-                };
+            this._invalidCmdTextStyle ??= new GUIStyle()
+            {
+                alignment = TextAnchor.MiddleLeft,
+                normal = new GUIStyleState() {textColor = new Color(1f, 0f, 0f, 0.8f)}
+            };
 
-            if (_autoCompletionTextStyle == null)
-                _autoCompletionTextStyle = new GUIStyle()
-                {
-                    alignment = TextAnchor.MiddleRight,
-                    normal = new GUIStyleState() { textColor = new Color(1f, 1f, 1f, 0.5f) }
-                };
+            this._autoCompletionTextStyle ??= new GUIStyle()
+            {
+                alignment = TextAnchor.MiddleRight,
+                normal = new GUIStyleState() {textColor = new Color(1f, 1f, 1f, 0.5f)}
+            };
 
             if (_historyLineTextStyle == null)
             {
@@ -1143,12 +1112,6 @@
             if (!_showHelp && (string.IsNullOrEmpty(_inputStr) || string.IsNullOrWhiteSpace(_inputStr)))
                 GUI.Label(logEntryRect, Constants.HELP_TEXT, _helpTextStyle);
         }
-
-        [ContextMenu("Open Persistent Data Path")]
-        private void OpenPersistentDataPath()
-        {
-            System.Diagnostics.Process.Start($@"{Application.persistentDataPath}");
-        }
         
         protected override void Awake()
         {
@@ -1174,7 +1137,7 @@
         {
             if ((_buildEnabled || Application.isEditor)
                 && !IsOpen
-                && Input.GetKeyDown(KeyCode.Quote))
+                && Input.GetKeyDown(_openKey))
             {
                 IsOpen = true;
             }
