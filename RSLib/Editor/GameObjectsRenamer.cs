@@ -69,20 +69,20 @@
 			EditorGUILayout.BeginVertical();
 			GUILayout.Space(10f);
 
-			EditorGUILayout.LabelField("SELECTED : " + _selection.Length, EditorStyles.boldLabel);
+			EditorGUILayout.LabelField("SELECTED: " + _selection.Length, EditorStyles.boldLabel);
 
 			GUILayout.Space(10f);
 			EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 			GUILayout.Space(5f);
 
-			_prefix = EditorGUILayout.TextField("Prefix : ", _prefix, EditorStyles.miniTextField, GUILayout.ExpandWidth(true));
-			_nameBody = EditorGUILayout.TextField("Name : ", _nameBody, EditorStyles.miniTextField, GUILayout.ExpandWidth(true));
-			_suffix = EditorGUILayout.TextField("Suffix : ", _suffix, EditorStyles.miniTextField, GUILayout.ExpandWidth(true));
-			_numbering = EditorGUILayout.Toggle("Add numbering ?", _numbering);
+			_prefix = EditorGUILayout.TextField("Prefix: ", _prefix, EditorStyles.miniTextField, GUILayout.ExpandWidth(true));
+			_nameBody = EditorGUILayout.TextField("Name: ", _nameBody, EditorStyles.miniTextField, GUILayout.ExpandWidth(true));
+			_suffix = EditorGUILayout.TextField("Suffix: ", _suffix, EditorStyles.miniTextField, GUILayout.ExpandWidth(true));
+			_numbering = EditorGUILayout.Toggle("Add numbering?", _numbering);
 
-			GUILayout.Space (5);
+			GUILayout.Space(5f);
 			EditorGUILayout.EndVertical();
-			GUILayout.Space (10);
+			GUILayout.Space(10f);
 
 			if (GUILayout.Button("Rename Selected GameObjects", GUILayout.Height(45f), GUILayout.ExpandWidth(true)))
 				RenameSelection();
