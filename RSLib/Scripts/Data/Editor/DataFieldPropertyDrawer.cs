@@ -7,6 +7,11 @@
     {
         protected abstract string DataFieldName { get; }
         protected abstract string ValueFieldName { get; }
+
+        protected virtual bool AddButton => false;
+        protected virtual string ButtonText => "";
+
+        protected virtual void OnButtonClicked(SerializedProperty property) { }
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -16,20 +21,29 @@
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            SerializedProperty useDataFloatProperty = property.FindPropertyRelative("_useDataValue");
-            SerializedProperty valueFloatProperty = property.FindPropertyRelative(ValueFieldName);
-            SerializedProperty dataFloatProperty = property.FindPropertyRelative(DataFieldName);
+            SerializedProperty useDataProperty = property.FindPropertyRelative("_useDataValue");
+            SerializedProperty valueProperty = property.FindPropertyRelative(ValueFieldName);
+            SerializedProperty dataProperty = property.FindPropertyRelative(DataFieldName);
 
-            position.width -= 24;
+            position.width -= AddButton ? 48 : 24;
 
-            EditorGUI.PropertyField(position, useDataFloatProperty.boolValue ? dataFloatProperty : valueFloatProperty, label, true);
+            EditorGUI.PropertyField(position, useDataProperty.boolValue ? dataProperty : valueProperty, label, true);
             
             position.x += position.width + 24;
-            position.width = EditorGUI.GetPropertyHeight(useDataFloatProperty);
+            position.width = EditorGUI.GetPropertyHeight(useDataProperty);
             position.height = position.width;
             position.x -= position.width;
-            
-            EditorGUI.PropertyField(position, useDataFloatProperty, GUIContent.none);
+
+            if (AddButton)
+            {
+                if (GUI.Button(position, ButtonText))
+                    this.OnButtonClicked(property);
+                
+                position.x += position.width + 24;
+                position.x -= position.width;
+            }
+
+            EditorGUI.PropertyField(position, useDataProperty, GUIContent.none);
         }
     }
 }
