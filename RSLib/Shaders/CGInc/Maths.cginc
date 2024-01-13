@@ -1,4 +1,5 @@
 #define DEG_2_RAD 0.01745
+#define TWO_PI    6.283185
 
 float InverseLerp(float a, float b, float v)
 {
@@ -79,4 +80,15 @@ float2 RotateVector2(float2 v, float theta, float2 pivot)
 float2 DirectionFromDegrees(float degrees)
 {
     return float2(sin(degrees * DEG_2_RAD), cos(degrees * DEG_2_RAD));
+}
+
+float2 CartesianToPolar(float2 cartesian)
+{
+    return float2(atan2(cartesian.y, cartesian.x) / TWO_PI, length(cartesian));
+}
+float2 PolarToCartesian(float2 polar)
+{
+    float2 cartesian;
+    sincos(polar.x * TWO_PI, cartesian.y, cartesian.x);
+    return cartesian * polar.y;
 }
