@@ -151,11 +151,16 @@
 		public static void ResetAll(this Transform t, bool useLocalPosition = false)
 		{
 			if (useLocalPosition)
+			{
 				t.ResetLocalPosition();
+				t.ResetLocalRotation();
+			}
 			else
+			{
 				t.ResetPosition();
+				t.ResetRotation();
+			}
 
-			t.ResetRotation();
 			t.ResetScale();
 		}
 
