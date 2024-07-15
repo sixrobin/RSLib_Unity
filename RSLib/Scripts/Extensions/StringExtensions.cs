@@ -1,7 +1,11 @@
 ﻿namespace RSLib.Extensions
 {
+    using System.Text.RegularExpressions;
+    
     public static class StringExtensions
     {
+        private static Regex s_validEmailRegex = CreateValidEmailRegex();
+        
         #region CONVERSION
 
         /// <summary>
@@ -237,6 +241,24 @@
         public static string ReplaceMultipleSpacesBySingleOne(this string str)
         {
             return System.Text.RegularExpressions.Regex.Replace(str, @"\s+", " ");
+        }
+
+        /// <summary>
+        /// Checks if a given string is a valid email.
+        /// </summary>
+        /// <returns>True if it's a valid email, else false.</returns>
+        public static bool IsValidEmail(this string str)
+        {
+            return s_validEmailRegex.IsMatch(str);
+        }
+
+        private static Regex CreateValidEmailRegex()
+        {
+            string validEmailPattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
+                                       + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
+                                       + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+
+            return new Regex(validEmailPattern, RegexOptions.IgnoreCase);
         }
 
         #endregion // GENERAL
