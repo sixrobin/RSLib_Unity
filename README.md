@@ -1,5 +1,5 @@
-# RSLib
-A collection of scripts and shaders written or found, and used over the years.
+# RSLib (Unity)
+A collection of scripts and shaders written or found, and used over the years for Unity projects.
 All of the library content is made to usable in any Unity project, although the Miscellaneous folder contains stuff that could be used but is either WIP or very specific.
 
 Please keep in mind that some of this stuff has been made a while ago, or initially for specific needs, or even for pure personal training purpose: some better working codes, even Unity packages, may already exist and do a better job at what some of my tools tend to do.
