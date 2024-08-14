@@ -72,8 +72,8 @@ List of all the types having their set of extension methods:
 
 ## Debug
 - **DebugConsole:** in game accessible console, to call methods from the application.
-- **GizmosUtilities** helper used when working with OnDrawGizmos/OnDrawGizmosSelected methods.
-- **ValuesDebugger** displays any values on screen, using OnGUI method (no canvas required).
+- **GizmosUtilities:** helper used when working with OnDrawGizmos/OnDrawGizmosSelected methods.
+- **ValuesDebugger:** displays any values on screen, using OnGUI method (no canvas required).
 
 
 ## Editor
