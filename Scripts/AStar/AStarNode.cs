@@ -1,6 +1,6 @@
 namespace RSLib.AStar
 {
-    public abstract class AStarNode<T> : Collections.IHeapElement<T>
+    public abstract class AStarNode<T> : RSLib.CSharp.Collections.IHeapElement<T>
     {
         public int GCost;
         public int HCost;

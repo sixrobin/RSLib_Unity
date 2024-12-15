@@ -1,6 +1,6 @@
 ﻿namespace RSLib.Framework.GameSettings
 {
-    using Extensions;
+    using RSLib.CSharp.Extensions;
 
     public abstract class GameSettingEnum<T> : GameSetting where T : System.Enum
     {

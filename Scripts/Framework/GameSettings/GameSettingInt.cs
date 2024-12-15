@@ -1,6 +1,6 @@
 ﻿namespace RSLib.Framework.GameSettings
 {
-    using Extensions;
+    using RSLib.CSharp.Extensions;
 
     public abstract class GameSettingInt : GameSetting
     {

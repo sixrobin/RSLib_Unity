@@ -8,7 +8,7 @@
         [SerializeField]
         private AudioClipPlayDatas[] _clipsPlayDatas = null;
 
-        private Collections.Loop<AudioClipPlayDatas> _clipsLoop;
+        private RSLib.CSharp.Collections.Loop<AudioClipPlayDatas> _clipsLoop;
 
         public override AudioClipPlayDatas GetNextClipData()
         {
@@ -21,7 +21,7 @@
         [ContextMenu("Init")]
         public override void Init()
         {
-            _clipsLoop = new Collections.Loop<AudioClipPlayDatas>(_clipsPlayDatas, true, true);
+            _clipsLoop = new RSLib.CSharp.Collections.Loop<AudioClipPlayDatas>(_clipsPlayDatas, true, true);
         }
     }
 }

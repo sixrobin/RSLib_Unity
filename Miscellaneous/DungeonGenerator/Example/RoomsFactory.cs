@@ -1,6 +1,6 @@
 ﻿namespace RSLib.DungeonGenerator
 {
-    using RSLib.Extensions;
+    using RSLib.CSharp.Extensions;
     using UnityEngine;
 
     public class RoomsFactory : MonoBehaviour
