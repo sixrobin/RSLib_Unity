@@ -171,17 +171,6 @@
             return ax * bx + ay * by;
         }
 
-        /// <summary>
-        /// Computes the rounded dot product of two vectors.
-        /// </summary>
-        /// <param name="a">First vector.</param>
-        /// <param name="b">Second vector.</param>
-        /// <returns>Rounded dot product.</returns>
-        public static float ComputeDotProduct(UnityEngine.Vector2 a, UnityEngine.Vector2 b)
-        {
-            return a.x * b.x + a.y * b.y;
-        }
-
         #endregion // DOT PRODUCT
 
         #region GENERAL
@@ -201,20 +190,6 @@
             float d = ComputeDotProduct(px - ax, py - ay, bx - ax, by - ay) / ComputeDotProduct(bx - ax, by - ay, bx - ax, by - ay);
             d = d < 0f ? 0f : d > 1f ? 1f : d;
             return System.Tuple.Create(ax + d * (bx - ax), ay + d * (by - ay));
-        }
-
-        /// <summary>
-        /// Returns the closest point on a segment to a reference point using an algorithm explained here: https://diego.assencio.com/?index=ec3d5dfdfc0b6a0d147a656f0af332bd.
-        /// </summary>
-        /// <param name="a">Segment first point.</param>
-        /// <param name="b">Segment second point.</param>
-        /// <param name="p">Reference point.</param>
-        /// <returns>Closest point to point p on the segment.</returns>
-        public static UnityEngine.Vector2 ComputeClosestPointOnSegment(UnityEngine.Vector2 a, UnityEngine.Vector2 b, UnityEngine.Vector2 p)
-        {
-            float d = UnityEngine.Vector2.Dot(p - a, b - a) / UnityEngine.Vector2.Dot(b - a, b - a);
-            d = d < 0f ? 0f : d > 1f ? 1f : d;
-            return a + d * (b - a);
         }
 
         /// <summary>
