@@ -25,7 +25,7 @@ namespace RSLib.Maths
         private readonly Vector2 _sampleBox;
         private readonly int _rejectionSamplesCount;
 
-        public System.Collections.Generic.List<Vector2> Sample(RandomNumberGenerator rng = null)
+        public System.Collections.Generic.List<Vector2> Sample(RSLib.CSharp.Framework.RandomNumberGenerator rng = null)
         {
             int[,] grid = new int[Mathf.CeilToInt(_sampleBox.x / _cellSize), Mathf.CeilToInt(_sampleBox.y / _cellSize)];
 

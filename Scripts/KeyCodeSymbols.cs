@@ -4,7 +4,7 @@
 
     public static class KeyCodeSymbols
     {
-        private static readonly System.Collections.Generic.Dictionary<KeyCode, string> SYMBOLS = new System.Collections.Generic.Dictionary<KeyCode, string>(new RSLib.Framework.Comparers.EnumComparer<KeyCode>())
+        private static readonly System.Collections.Generic.Dictionary<KeyCode, string> SYMBOLS = new System.Collections.Generic.Dictionary<KeyCode, string>(new RSLib.CSharp.Framework.Comparers.EnumComparer<KeyCode>())
         {
             { KeyCode.Ampersand, "&" },
             { KeyCode.Asterisk, "*" },

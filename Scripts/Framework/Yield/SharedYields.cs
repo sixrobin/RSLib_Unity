@@ -4,8 +4,8 @@
 
     public static class SharedYields
     {
-        private static readonly System.Collections.Generic.Dictionary<float, WaitForSeconds> WAITS_FOR_SECONDS = new System.Collections.Generic.Dictionary<float, WaitForSeconds>(100, new Framework.Comparers.FloatComparer());
-        private static readonly System.Collections.Generic.Dictionary<float, WaitForSecondsRealtime> WAIT_FOR_SECONDS_REALTIME_COLLECTION = new System.Collections.Generic.Dictionary<float, WaitForSecondsRealtime>(100, new Framework.Comparers.FloatComparer());
+        private static readonly System.Collections.Generic.Dictionary<float, WaitForSeconds> WAITS_FOR_SECONDS = new System.Collections.Generic.Dictionary<float, WaitForSeconds>(100, new RSLib.CSharp.Framework.Comparers.FloatComparer());
+        private static readonly System.Collections.Generic.Dictionary<float, WaitForSecondsRealtime> WAIT_FOR_SECONDS_REALTIME_COLLECTION = new System.Collections.Generic.Dictionary<float, WaitForSecondsRealtime>(100, new RSLib.CSharp.Framework.Comparers.FloatComparer());
 
         public static WaitForEndOfFrame WaitForEndOfFrame { get; } = new WaitForEndOfFrame();
         public static WaitForFixedUpdate WaitForFixedUpdate { get; } = new WaitForFixedUpdate();
