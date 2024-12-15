@@ -183,7 +183,7 @@
         /// <param name="csvFile">CSV localization file.</param>
         private static void LoadCSV(UnityEngine.TextAsset csvFile)
         {
-            string[,] grid = RSLib.CSVReader.SplitCSVGrid(csvFile.text);
+            string[,] grid = RSLib.CSharp.Framework.CSVReader.SplitCSVGrid(csvFile.text);
             
             // Initialize languages.
             Instance._entries = new Dictionary<string, Dictionary<string, string>>();
