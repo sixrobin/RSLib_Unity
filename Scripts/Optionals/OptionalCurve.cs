@@ -1,5 +1,6 @@
 ﻿namespace RSLib
 {
+    using RSLib.CSharp.Maths;
     using UnityEngine;
 #if UNITY_EDITOR
     using UnityEditor;
@@ -9,23 +10,23 @@
     public struct OptionalCurve
     {
         [SerializeField]
-        private Maths.Curve _value;
+        private Curve _value;
         [SerializeField]
         private bool _enabled;
 
-        public OptionalCurve(Maths.Curve initValue)
+        public OptionalCurve(Curve initValue)
         {
             _value = initValue;
             _enabled = true;
         }
 
-        public OptionalCurve(Maths.Curve initValue, bool initEnabled)
+        public OptionalCurve(Curve initValue, bool initEnabled)
         {
             _value = initValue;
             _enabled = initEnabled;
         }
 
-        public Maths.Curve Value => _value;
+        public Curve Value => _value;
         public bool Enabled => _enabled;
     }
 

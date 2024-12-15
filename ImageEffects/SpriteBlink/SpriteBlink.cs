@@ -2,7 +2,7 @@
 {
 	#if RSLIB
 	using RSLib.Extensions;
-	using RSLib.Maths;
+	using RSLib.CSharp.Maths;
 	#endif
 	using System.Collections;
 	using UnityEngine;

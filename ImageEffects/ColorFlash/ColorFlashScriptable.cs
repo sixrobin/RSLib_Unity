@@ -1,6 +1,6 @@
 ﻿namespace RSLib.ImageEffects
 {
-    using RSLib.Maths;
+    using RSLib.CSharp.Maths;
     using UnityEngine;
 
     [CreateAssetMenu(fileName = "New Color Flash Data", menuName = "RSLib/Image Effects/Color Flash")]

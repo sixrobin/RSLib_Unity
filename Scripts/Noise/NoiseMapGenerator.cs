@@ -46,7 +46,7 @@
         [SerializeField]
         private Color _heightMapColorB = Color.black;
         [SerializeField]
-        private Maths.Curve _heightMapLerpCurve = Maths.Curve.Linear;
+        private RSLib.CSharp.Maths.Curve _heightMapLerpCurve = RSLib.CSharp.Maths.Curve.Linear;
         [SerializeField]
         private ColorByHeight[] _colors = null;
 

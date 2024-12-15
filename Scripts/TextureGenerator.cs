@@ -1,6 +1,6 @@
 ﻿namespace RSLib
 {
-    using RSLib.Maths;
+    using RSLib.CSharp.Maths;
     using UnityEngine;
 
     public static class TextureGenerator
@@ -19,7 +19,7 @@
             return texture;
         }
 
-        public static Texture2D TextureFromHeightMap(float[,] heightMap, Color colorA, Color colorB, FilterMode filterMode, TextureWrapMode wrapMode, Maths.Curve lerpCurve = Maths.Curve.Linear)
+        public static Texture2D TextureFromHeightMap(float[,] heightMap, Color colorA, Color colorB, FilterMode filterMode, TextureWrapMode wrapMode, Curve lerpCurve = Curve.Linear)
         {
             int w = heightMap.GetLength(0);
             int h = heightMap.GetLength(1);

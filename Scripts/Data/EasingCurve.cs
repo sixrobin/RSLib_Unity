@@ -1,25 +1,26 @@
 ﻿namespace RSLib.Data
 {
+    using RSLib.CSharp.Maths;
     using UnityEngine;
 
     [CreateAssetMenu(fileName = "New Data Easing Curve", menuName = "RSLib/Data/Easing Curve", order = -50)]
     public class EasingCurve : ScriptableObject
     {
-        public const RSLib.Maths.Curve DEFAULT = RSLib.Maths.Curve.Linear;
+        public const Curve DEFAULT = Curve.Linear;
 
         [SerializeField]
-        private RSLib.Maths.Curve _curve = DEFAULT;
+        private Curve _curve = DEFAULT;
 
-        public RSLib.Maths.Curve Curve => _curve;
+        public Curve Curve => _curve;
         
-#region CONVERSION OPERATORS
+        #region CONVERSION OPERATORS
         
-        public static implicit operator RSLib.Maths.Curve(EasingCurve dataEasingCurve)
+        public static implicit operator Curve(EasingCurve dataEasingCurve)
         {
             return dataEasingCurve.Curve;
         }
 
-#endregion // CONVERSION OPERATORS
+        #endregion // CONVERSION OPERATORS
 
         public override string ToString()
         {

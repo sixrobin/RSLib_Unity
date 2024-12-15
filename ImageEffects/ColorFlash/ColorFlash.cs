@@ -1,7 +1,7 @@
 namespace RSLib.ImageEffects
 {
     using RSLib.Extensions;
-    using RSLib.Maths;
+    using RSLib.CSharp.Maths;
     using UnityEngine;
 
     public class ColorFlash : RSLib.Framework.Singleton<ColorFlash>

@@ -1,8 +1,6 @@
 ﻿namespace RSLib.Extensions
 {
-    #if RSLIB
-    using Maths;
-    #endif
+    using RSLib.CSharp.Maths;
     using UnityEngine;
 
     public static class VectorExtensions
@@ -332,7 +330,7 @@
         /// <param name="t">Interpolation value.</param>
         /// <param name="curve">Easing curve.</param>
         /// <returns>Interpolated value.</returns>
-        public static float Lerp(this Vector2 v, float t, RSLib.Maths.Curve curve)
+        public static float Lerp(this Vector2 v, float t, Curve curve)
         {
             return Mathf.Lerp(v.x, v.y, t.Ease(curve));
         }
@@ -344,7 +342,7 @@
         /// <param name="t">Interpolation value.</param>
         /// <param name="curve">Easing curve.</param>
         /// <returns>Interpolated value.</returns>
-        public static float LerpUnclamped(this Vector2 v, float t, RSLib.Maths.Curve curve)
+        public static float LerpUnclamped(this Vector2 v, float t, Curve curve)
         {
             return Mathf.LerpUnclamped(v.x, v.y, t.Ease(curve));
         }

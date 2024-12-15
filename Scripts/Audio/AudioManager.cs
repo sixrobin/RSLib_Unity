@@ -1,6 +1,6 @@
 ﻿namespace RSLib.Audio
 {
-    using RSLib.Maths;
+    using RSLib.CSharp.Maths;
     using UnityEngine;
     using UnityEngine.Audio;
     #if ODIN_INSPECTOR
