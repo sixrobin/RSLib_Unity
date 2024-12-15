@@ -1,10 +1,10 @@
 namespace RSLib.Unity.ImageEffects
 {
-    using RSLib.Extensions;
+    using RSLib.Unity.Extensions;
     using RSLib.CSharp.Maths;
     using UnityEngine;
 
-    public class ColorFlash : RSLib.Framework.Singleton<ColorFlash>
+    public class ColorFlash : RSLib.Unity.Framework.Singleton<ColorFlash>
     {
         [System.Serializable]
         public struct ColorFlashData
@@ -88,7 +88,7 @@ namespace RSLib.Unity.ImageEffects
             inCallback?.Invoke();
 
             if (data.Duration > 0f)
-                yield return RSLib.Yield.SharedYields.WaitForSeconds(data.Duration);
+                yield return RSLib.Unity.Yield.SharedYields.WaitForSeconds(data.Duration);
 
             if (data.OutDuration > 0f)
             {

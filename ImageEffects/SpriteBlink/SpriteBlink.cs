@@ -1,7 +1,7 @@
 ﻿namespace RSLib.Unity.ImageEffects
 {
 	#if RSLIB
-	using RSLib.Extensions;
+	using RSLib.Unity.Extensions;
 	using RSLib.CSharp.Maths;
 	#endif
 	using System.Collections;

@@ -12,9 +12,9 @@
     public class FlockBehaviourAvoidance : FilteredFlockBehaviour
     {
         [SerializeField]
-        private RSLib.OptionalFloat _smoothTime = new RSLib.OptionalFloat(0f, false);
+        private RSLib.Unity.OptionalFloat _smoothTime = new RSLib.Unity.OptionalFloat(0f, false);
         [SerializeField]
-        private RSLib.OptionalFloat _customRadius = new RSLib.OptionalFloat(0f, false);
+        private RSLib.Unity.OptionalFloat _customRadius = new RSLib.Unity.OptionalFloat(0f, false);
 
         private Vector2 _refVelocity;
 

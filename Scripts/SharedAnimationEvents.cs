@@ -25,9 +25,9 @@
             DestroyImmediate(gameObject);
         }
 
-        public void PlayAudioClip(RSLib.Audio.ClipProvider clipProvider)
+        public void PlayAudioClip(RSLib.Unity.Audio.ClipProvider clipProvider)
         {
-            RSLib.Audio.AudioManager.PlaySound(clipProvider);
+            RSLib.Unity.Audio.AudioManager.PlaySound(clipProvider);
         }
         
         public void Log(string msg)

@@ -1,7 +1,7 @@
 ﻿namespace RSLib.Unity.FPSController
 {
     using UnityEngine;
-    using RSLib.Extensions;
+    using RSLib.Unity.Extensions;
 
     /// <summary>
     /// Main class for the FPS movement. Determines the speed, the sprint settings, the ability to crouch.

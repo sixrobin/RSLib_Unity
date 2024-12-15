@@ -48,12 +48,12 @@
     {
         public static Yield.CustomCoroutine RunCustomCoroutine(this MonoBehaviour runner, System.Collections.IEnumerator coroutine)
         {
-            return new RSLib.Yield.CustomCoroutine(runner, coroutine);
+            return new RSLib.Unity.Yield.CustomCoroutine(runner, coroutine);
         }
         
-        public static Yield.CustomCoroutine RunCustomCoroutine(this MonoBehaviour runner, System.Collections.IEnumerator coroutine, System.Action<RSLib.Yield.CustomCoroutine> callback)
+        public static Yield.CustomCoroutine RunCustomCoroutine(this MonoBehaviour runner, System.Collections.IEnumerator coroutine, System.Action<RSLib.Unity.Yield.CustomCoroutine> callback)
         {
-            return new RSLib.Yield.CustomCoroutine(runner, coroutine, callback);
+            return new RSLib.Unity.Yield.CustomCoroutine(runner, coroutine, callback);
         }
     }
 }

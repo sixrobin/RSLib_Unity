@@ -1,6 +1,6 @@
 ﻿namespace RSLib.Unity
 {
-    public class FreezeFrameManager : RSLib.Framework.Singleton<FreezeFrameManager>
+    public class FreezeFrameManager : RSLib.Unity.Framework.Singleton<FreezeFrameManager>
     {
         private System.Collections.IEnumerator _freezeCoroutine;
 
@@ -24,9 +24,9 @@
 
         private static System.Collections.IEnumerator FreezeCoroutine(float duration, float delay, float targetTimeScale = 0f, System.Action callback = null)
         {
-            yield return RSLib.Yield.SharedYields.WaitForSecondsRealtime(delay);
+            yield return RSLib.Unity.Yield.SharedYields.WaitForSecondsRealtime(delay);
             UnityEngine.Time.timeScale = targetTimeScale;
-            yield return RSLib.Yield.SharedYields.WaitForSecondsRealtime(duration);
+            yield return RSLib.Unity.Yield.SharedYields.WaitForSecondsRealtime(duration);
             UnityEngine.Time.timeScale = 1f;
 
             Instance._freezeCoroutine = null;
@@ -35,7 +35,7 @@
 
         private void Update()
         {
-            RSLib.Debug.ValuesDebugger.DebugValue("time_scale", () => UnityEngine.Time.timeScale);
+            RSLib.Unity.Debug.ValuesDebugger.DebugValue("time_scale", () => UnityEngine.Time.timeScale);
         }
     }
 }

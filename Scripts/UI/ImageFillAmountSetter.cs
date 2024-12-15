@@ -10,7 +10,7 @@
 
         private UnityEngine.UI.Image _image;
         
-        private void OnValueChanged(RSLib.Data.Float.ValueChangedEventArgs args)
+        private void OnValueChanged(RSLib.Unity.Data.Float.ValueChangedEventArgs args)
         {
             _image.fillAmount = args.New;
         }

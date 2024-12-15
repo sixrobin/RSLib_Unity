@@ -11,7 +11,7 @@
     public class FlockBehaviourAlignment : FilteredFlockBehaviour
     {
         [SerializeField]
-        private RSLib.OptionalFloat _smoothTime = new RSLib.OptionalFloat(0f, false);
+        private RSLib.Unity.OptionalFloat _smoothTime = new RSLib.Unity.OptionalFloat(0f, false);
 
         private Vector2 _refVelocity;
 

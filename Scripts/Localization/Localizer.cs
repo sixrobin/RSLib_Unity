@@ -7,7 +7,7 @@
     #endif
 
     #if RSLIB
-    public class Localizer : RSLib.Framework.SingletonConsolePro<Localizer>
+    public class Localizer : RSLib.Unity.Framework.SingletonConsolePro<Localizer>
     #else
     public class Localizer : UnityEngine.MonoBehaviour
     #endif

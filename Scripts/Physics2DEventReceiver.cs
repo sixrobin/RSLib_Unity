@@ -1,6 +1,6 @@
 ﻿namespace RSLib.Unity
 {
-    using RSLib.Extensions;
+    using RSLib.Unity.Extensions;
     using UnityEngine;
     #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;

@@ -305,19 +305,19 @@
         
         private static System.Collections.IEnumerator PlaySoundDelayedCoroutine(IClipProvider clipProvider, float delay)
         {
-            yield return RSLib.Yield.SharedYields.WaitForSeconds(delay);
+            yield return RSLib.Unity.Yield.SharedYields.WaitForSeconds(delay);
             PlaySound(clipProvider);
         }
 
         private static System.Collections.IEnumerator PlaySoundDelayedCoroutine(AudioClip clip, float volume, float delay)
         {
-            yield return RSLib.Yield.SharedYields.WaitForSeconds(delay);
+            yield return RSLib.Unity.Yield.SharedYields.WaitForSeconds(delay);
             PlaySound(clip, volume);
         }
         
         private static System.Collections.IEnumerator PlaySoundsDelayedCoroutine(System.Collections.Generic.IEnumerable<IClipProvider> clipProviders, float delay)
         {
-            yield return RSLib.Yield.SharedYields.WaitForSeconds(delay);
+            yield return RSLib.Unity.Yield.SharedYields.WaitForSeconds(delay);
             PlaySounds(clipProviders);
         }
 
@@ -382,8 +382,8 @@
             InitSFXSources();
             InitMusicSources();
             
-            RSLib.Debug.Console.DebugConsole.OverrideCommand<string, float>("VolumeSetPercentage", "Sets volume parameter.", SetMixerVolumePercentage);
-            RSLib.Debug.Console.DebugConsole.OverrideCommand<string, float>("VolumeSetDecibels", "Sets volume parameter.", SetMixerVolumeDecibels);
+            RSLib.Unity.Debug.Console.DebugConsole.OverrideCommand<string, float>("VolumeSetPercentage", "Sets volume parameter.", SetMixerVolumePercentage);
+            RSLib.Unity.Debug.Console.DebugConsole.OverrideCommand<string, float>("VolumeSetDecibels", "Sets volume parameter.", SetMixerVolumeDecibels);
         }
     }
 }

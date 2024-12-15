@@ -7,7 +7,7 @@ namespace RSLib.Unity
     /// Prototype class used to store VFX prefabs that can be instantiated using an ID.
     /// This class should be used to quickly prototype games but is definitely not a solid VFX handler implementation.
     /// </summary>
-    public class VFXSpawner : RSLib.Framework.Singleton<VFXSpawner>
+    public class VFXSpawner : RSLib.Unity.Framework.Singleton<VFXSpawner>
     {
         [System.Serializable]
         public struct VFX

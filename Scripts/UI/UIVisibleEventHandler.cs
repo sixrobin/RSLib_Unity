@@ -17,7 +17,7 @@
     /// Calls an event on registered UI gameObjects when they became visible/invisible, based on their parent canvases.
     /// Listeners gameObjects must implement the IUIVisibleEventListener interface and register/unregister themselves.
     /// </summary>
-    public class UIVisibleEventHandler : RSLib.Framework.Singleton<UIVisibleEventHandler>
+    public class UIVisibleEventHandler : RSLib.Unity.Framework.Singleton<UIVisibleEventHandler>
     {
 #if UNITY_EDITOR
         [SerializeField]

@@ -10,7 +10,7 @@
     {
         protected override GameObject SpawnParticle(Particle particle, Transform parent)
         {
-            GameObject instance = RSLib.Framework.Pooling.Pool.Get(particle.Prefab);
+            GameObject instance = RSLib.Unity.Framework.Pooling.Pool.Get(particle.Prefab);
             instance.transform.SetParent(parent);
             return instance;
         }

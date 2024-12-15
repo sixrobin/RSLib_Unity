@@ -133,7 +133,7 @@
     /// N.B.: This console system is NOT a good implementation of such a feature, simply a basic working one.
     /// </summary>
     [DisallowMultipleComponent]
-    public class DebugConsole : RSLib.Framework.Singleton<DebugConsole>
+    public class DebugConsole : RSLib.Unity.Framework.Singleton<DebugConsole>
     {
         public static class Constants
         {

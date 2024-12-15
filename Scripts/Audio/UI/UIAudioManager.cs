@@ -106,7 +106,7 @@
         private static System.Collections.IEnumerator ClearPlayedThisFrameCoroutine()
         {
             for (int i = 0; i < Instance._frameClearDelay; ++i)
-                yield return RSLib.Yield.SharedYields.WaitForEndOfFrame;
+                yield return RSLib.Unity.Yield.SharedYields.WaitForEndOfFrame;
     
             s_playedThisFrame = 0;
         }

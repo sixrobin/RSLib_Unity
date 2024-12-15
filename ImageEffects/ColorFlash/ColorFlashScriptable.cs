@@ -9,7 +9,7 @@
         [SerializeField]
         private Color _color = Color.white;
         [SerializeField]
-        private RSLib.OptionalFloat _overrideAlpha = new RSLib.OptionalFloat(1f, false);
+        private RSLib.Unity.OptionalFloat _overrideAlpha = new RSLib.Unity.OptionalFloat(1f, false);
         [SerializeField]
         private float _inDuration = 0f;
         [SerializeField]

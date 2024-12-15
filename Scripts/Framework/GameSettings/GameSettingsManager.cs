@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    public class GameSettingsManager : RSLib.Framework.Singleton<GameSettingsManager>
+    public class GameSettingsManager : RSLib.Unity.Framework.Singleton<GameSettingsManager>
     {
         private const string XML_CONTAINER_NAME = "GameSettings";
 
@@ -167,9 +167,9 @@
             if (_saveOnAwake)
                 SaveXML();
 
-            RSLib.Debug.Console.DebugConsole.OverrideCommand("SettingsSave", "Saves settings.", () => SaveXML());
-            RSLib.Debug.Console.DebugConsole.OverrideCommand("SettingsLoad", "Tries to load settings.", () => TryLoadXML());
-            RSLib.Debug.Console.DebugConsole.OverrideCommand("SettingsLog", "Log settings values.", DebugLogSettings);
+            RSLib.Unity.Debug.Console.DebugConsole.OverrideCommand("SettingsSave", "Saves settings.", () => SaveXML());
+            RSLib.Unity.Debug.Console.DebugConsole.OverrideCommand("SettingsLoad", "Tries to load settings.", () => TryLoadXML());
+            RSLib.Unity.Debug.Console.DebugConsole.OverrideCommand("SettingsLog", "Log settings values.", DebugLogSettings);
         }
 
         [ContextMenu("Save")]
@@ -191,8 +191,8 @@
             
             Log(log, gameObject, true);
             
-            if (RSLib.Debug.Console.DebugConsole.Instance.IsOpen)
-                RSLib.Debug.Console.DebugConsole.LogExternal(log);
+            if (RSLib.Unity.Debug.Console.DebugConsole.Instance.IsOpen)
+                RSLib.Unity.Debug.Console.DebugConsole.LogExternal(log);
         }
 
         protected virtual string DebugGetSettingsLog()

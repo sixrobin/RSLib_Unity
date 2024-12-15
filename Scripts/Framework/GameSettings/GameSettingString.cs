@@ -84,7 +84,7 @@
         {
             for (int i = 0; i < Options.Length; ++i)
                 if (Options[i].StringValue == Value.StringValue)
-                    return Options[RSLib.Helpers.Mod(i - 1, Options.Length)];
+                    return Options[RSLib.Unity.Helpers.Mod(i - 1, Options.Length)];
 
             UnityEngine.Debug.LogError($"Current value {Value} was not found in options to get previous one.");
             return default;
