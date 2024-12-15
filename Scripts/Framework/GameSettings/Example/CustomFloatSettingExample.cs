@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework.GameSettings.Example
+﻿namespace RSLib.Unity.Framework.GameSettings.Example
 {
     using UnityEngine;
 

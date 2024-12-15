@@ -1,4 +1,4 @@
-﻿namespace RSLib.Audio.Demo
+﻿namespace RSLib.Unity.Audio.Demo
 {
     using UnityEngine;
 #if UNITY_EDITOR

@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework
+﻿namespace RSLib.Unity.Framework
 {
     using UnityEngine;
 #if UNITY_EDITOR

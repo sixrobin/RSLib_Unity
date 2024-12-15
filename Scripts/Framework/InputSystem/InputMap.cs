@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework.InputSystem
+﻿namespace RSLib.Unity.Framework.InputSystem
 {
     using System.Linq;
     using System.Xml.Linq;

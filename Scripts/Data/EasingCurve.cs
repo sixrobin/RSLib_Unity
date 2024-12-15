@@ -1,4 +1,4 @@
-﻿namespace RSLib.Data
+﻿namespace RSLib.Unity.Data
 {
     using RSLib.CSharp.Maths;
     using UnityEngine;

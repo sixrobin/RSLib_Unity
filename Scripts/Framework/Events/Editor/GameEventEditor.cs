@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework.Events.Editor
+﻿namespace RSLib.Unity.Framework.Events.Editor
 {
     using UnityEditor;
     using UnityEngine;

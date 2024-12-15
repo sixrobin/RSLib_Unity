@@ -1,4 +1,4 @@
-namespace RSLib.AStar
+namespace RSLib.Unity.AStar
 {
     public abstract class AStarNode<T> : RSLib.CSharp.Collections.IHeapElement<T>
     {

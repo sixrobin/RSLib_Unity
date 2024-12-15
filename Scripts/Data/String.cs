@@ -1,4 +1,4 @@
-﻿namespace RSLib.Dynamics
+﻿namespace RSLib.Unity.Dynamics
 {
     using UnityEngine;
 

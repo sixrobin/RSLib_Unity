@@ -1,4 +1,4 @@
-﻿namespace RSLib.Audio
+﻿namespace RSLib.Unity.Audio
 {
     public abstract class ClipProvider : UnityEngine.ScriptableObject, IClipProvider
     {

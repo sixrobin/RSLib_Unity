@@ -1,4 +1,4 @@
-﻿namespace RSLib.UI
+﻿namespace RSLib.Unity.UI
 {
     /// <summary>
     /// Class that allows the creation of an empty Graphic, avoiding overdraw.

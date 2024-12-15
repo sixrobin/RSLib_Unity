@@ -1,4 +1,4 @@
-﻿namespace RSLib.AStar
+﻿namespace RSLib.Unity.AStar
 {
     using UnityEngine;
 

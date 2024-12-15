@@ -1,4 +1,4 @@
-﻿namespace RSLib
+﻿namespace RSLib.Unity
 {
 	public class CheckChangeArray<T> where T : class
 	{

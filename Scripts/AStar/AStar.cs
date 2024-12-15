@@ -1,4 +1,4 @@
-﻿namespace RSLib.AStar
+﻿namespace RSLib.Unity.AStar
 {
 	public sealed class AStar<T> where T : AStarNode<T>
 	{

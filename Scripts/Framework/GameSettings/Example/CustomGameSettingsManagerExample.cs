@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework.GameSettings.Example
+﻿namespace RSLib.Unity.Framework.GameSettings.Example
 {
     public class CustomGameSettingsManagerExample : GameSettingsManager
     {

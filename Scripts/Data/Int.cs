@@ -1,4 +1,4 @@
-﻿namespace RSLib.Data
+﻿namespace RSLib.Unity.Data
 {
     using UnityEngine;
     

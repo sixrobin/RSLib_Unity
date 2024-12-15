@@ -1,4 +1,4 @@
-﻿namespace RSLib.Data.Editor
+﻿namespace RSLib.Unity.Data.Editor
 {
     using UnityEditor;
 

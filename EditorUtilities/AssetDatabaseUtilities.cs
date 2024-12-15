@@ -1,5 +1,5 @@
 ﻿#if UNITY_EDITOR
-namespace RSLib.EditorUtilities
+namespace RSLib.Unity.EditorUtilities
 {
     using UnityEngine;
 

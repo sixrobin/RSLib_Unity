@@ -1,4 +1,4 @@
-﻿namespace RSLib
+﻿namespace RSLib.Unity
 {
     using RSLib.Extensions;
     using UnityEngine;

@@ -1,4 +1,4 @@
-﻿namespace RSLib.Data.Editor
+﻿namespace RSLib.Unity.Data.Editor
 {
     [UnityEditor.CustomPropertyDrawer(typeof(FloatField))]
     public class FloatFieldPropertyDrawer : DataFieldPropertyDrawer

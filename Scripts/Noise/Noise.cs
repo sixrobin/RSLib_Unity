@@ -1,4 +1,4 @@
-﻿namespace RSLib.Noise
+﻿namespace RSLib.Unity.Noise
 {
     public static class Noise
     {

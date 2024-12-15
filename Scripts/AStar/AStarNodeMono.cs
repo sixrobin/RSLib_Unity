@@ -1,4 +1,4 @@
-﻿namespace RSLib.AStar
+﻿namespace RSLib.Unity.AStar
 {
 	/// <summary>
 	/// Main class of any A* mesh type node.

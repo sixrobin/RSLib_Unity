@@ -1,4 +1,4 @@
-﻿namespace RSLib.Audio.UI
+﻿namespace RSLib.Unity.Audio.UI
 {
     using UnityEngine;
 

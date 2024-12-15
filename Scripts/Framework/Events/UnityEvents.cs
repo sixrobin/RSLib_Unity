@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework.Events
+﻿namespace RSLib.Unity.Framework.Events
 {
     using UnityEngine.Events;
     

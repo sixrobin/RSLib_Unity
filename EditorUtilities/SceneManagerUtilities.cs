@@ -1,4 +1,4 @@
-﻿namespace RSLib.EditorUtilities
+﻿namespace RSLib.Unity.EditorUtilities
 {
     public static class SceneManagerUtilities
     {

@@ -1,5 +1,5 @@
 ﻿#if UNITY_POST_PROCESSING_STACK_V2 // Comment this while working on the code.
-namespace RSLib.ImageEffects
+namespace RSLib.Unity.ImageEffects
 {
 	using RSLib.Maths;
 	using UnityEngine;

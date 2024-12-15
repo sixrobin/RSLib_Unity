@@ -1,4 +1,4 @@
-﻿namespace RSLib.Flock
+﻿namespace RSLib.Unity.Flock
 {
     using System.Collections.Generic;
     using UnityEngine;

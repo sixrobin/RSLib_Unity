@@ -1,4 +1,4 @@
-﻿namespace RSLib.DungeonGenerator
+﻿namespace RSLib.Unity.DungeonGenerator
 {
     /// <summary>
     /// Class containing basic information about a room.

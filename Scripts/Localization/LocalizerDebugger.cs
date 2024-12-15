@@ -1,4 +1,4 @@
-﻿namespace RSLib.Localization
+﻿namespace RSLib.Unity.Localization
 {
     using UnityEngine;
 

@@ -1,4 +1,4 @@
-﻿namespace RSLib.Yield
+﻿namespace RSLib.Unity.Yield
 {
     using UnityEngine;
 

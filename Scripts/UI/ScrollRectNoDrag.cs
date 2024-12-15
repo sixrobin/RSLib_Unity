@@ -1,4 +1,4 @@
-﻿namespace RSLib.UI
+﻿namespace RSLib.Unity.UI
 {
     public class ScrollRectNoDrag : UnityEngine.UI.ScrollRect
     {

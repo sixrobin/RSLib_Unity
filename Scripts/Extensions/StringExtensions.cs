@@ -1,4 +1,4 @@
-﻿namespace RSLib.Extensions
+﻿namespace RSLib.Unity.Extensions
 {
     using System.Text.RegularExpressions;
     

@@ -1,4 +1,4 @@
-﻿namespace RSLib.DungeonGenerator
+﻿namespace RSLib.Unity.DungeonGenerator
 {
     using UnityEngine;
 

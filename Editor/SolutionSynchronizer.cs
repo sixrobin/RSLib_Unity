@@ -1,4 +1,4 @@
-namespace RSLib.Editor
+namespace RSLib.Unity.Editor
 {
     using System;
     using System.Collections.Generic;

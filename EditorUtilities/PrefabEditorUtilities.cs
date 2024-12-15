@@ -1,4 +1,4 @@
-﻿namespace RSLib.EditorUtilities
+﻿namespace RSLib.Unity.EditorUtilities
 {
 #if UNITY_EDITOR
     using UnityEditor.SceneManagement;

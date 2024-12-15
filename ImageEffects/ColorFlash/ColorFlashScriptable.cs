@@ -1,4 +1,4 @@
-﻿namespace RSLib.ImageEffects
+﻿namespace RSLib.Unity.ImageEffects
 {
     using RSLib.CSharp.Maths;
     using UnityEngine;

@@ -1,4 +1,4 @@
-﻿namespace RSLib
+﻿namespace RSLib.Unity
 {
     /// <summary>
     /// Empty sealed class only used not to destroy the gameObject it is attached to when leaving a scene.

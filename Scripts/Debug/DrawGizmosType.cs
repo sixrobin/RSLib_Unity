@@ -1,4 +1,4 @@
-namespace RSLib.Debug
+namespace RSLib.Unity.Debug
 {
     public enum DrawGizmosType
     {

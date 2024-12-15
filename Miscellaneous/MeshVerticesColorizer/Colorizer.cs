@@ -1,4 +1,4 @@
-﻿namespace RSLib.MeshVerticesColorizer
+﻿namespace RSLib.Unity.MeshVerticesColorizer
 {
 	using System.Collections.Generic;
 	using UnityEngine;

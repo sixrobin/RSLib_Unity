@@ -1,4 +1,4 @@
-﻿namespace RSLib.ImageEffects
+﻿namespace RSLib.Unity.ImageEffects
 {
 	#if RSLIB
 	using RSLib.Extensions;

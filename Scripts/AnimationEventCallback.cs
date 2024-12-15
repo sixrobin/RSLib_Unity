@@ -1,4 +1,4 @@
-namespace RSLib
+namespace RSLib.Unity
 {
     #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;

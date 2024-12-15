@@ -1,4 +1,4 @@
-﻿namespace RSLib.FPSController
+﻿namespace RSLib.Unity.FPSController
 {
     using UnityEngine;
 

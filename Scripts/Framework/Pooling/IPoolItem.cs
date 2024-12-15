@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework.Pooling
+﻿namespace RSLib.Unity.Framework.Pooling
 {
     /// <summary>
     /// Any class attached to a pooled gameObject that should have a specific behaviour when getting enabled

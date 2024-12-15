@@ -1,4 +1,4 @@
-﻿namespace RSLib.Audio.Visualizer
+﻿namespace RSLib.Unity.Audio.Visualizer
 {
     using UnityEngine;
 

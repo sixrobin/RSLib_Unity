@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework.Pooling
+﻿namespace RSLib.Unity.Framework.Pooling
 {
 	using System.Collections.Generic;
     using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace RSLib.AStar
+﻿namespace RSLib.Unity.AStar
 {
 	using System.Collections.Generic;
 	using UnityEngine;

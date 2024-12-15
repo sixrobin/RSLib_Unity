@@ -1,4 +1,4 @@
-﻿namespace RSLib.DungeonGenerator
+﻿namespace RSLib.Unity.DungeonGenerator
 {
     [System.Flags]
     public enum RoomType : byte

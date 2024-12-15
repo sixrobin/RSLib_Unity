@@ -1,4 +1,4 @@
-﻿namespace RSLib.Noise
+﻿namespace RSLib.Unity.Noise
 {
     using UnityEngine;
 

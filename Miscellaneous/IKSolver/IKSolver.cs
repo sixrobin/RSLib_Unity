@@ -1,4 +1,4 @@
-namespace RSLib.IKSolver
+namespace RSLib.Unity.IKSolver
 {
     using UnityEngine;
 

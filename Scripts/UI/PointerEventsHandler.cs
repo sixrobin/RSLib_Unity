@@ -1,4 +1,4 @@
-﻿namespace RSLib.UI
+﻿namespace RSLib.Unity.UI
 {
     using UnityEngine;
     using UnityEngine.EventSystems;

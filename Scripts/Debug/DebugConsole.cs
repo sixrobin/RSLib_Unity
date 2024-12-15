@@ -1,4 +1,4 @@
-﻿namespace RSLib.Debug.Console
+﻿namespace RSLib.Unity.Debug.Console
 {
     using System.Collections.Generic;
     using UnityEngine;

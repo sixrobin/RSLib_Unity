@@ -1,4 +1,4 @@
-﻿namespace RSLib.Encryption
+﻿namespace RSLib.Unity.Encryption
 {
     using System.Security.Cryptography;
 

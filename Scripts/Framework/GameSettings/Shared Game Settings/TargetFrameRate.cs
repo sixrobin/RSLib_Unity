@@ -1,4 +1,4 @@
-﻿namespace RSLib.Framework.GameSettings
+﻿namespace RSLib.Unity.Framework.GameSettings
 {
     public class TargetFrameRate : GameSettingInt
     {
