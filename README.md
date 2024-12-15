@@ -4,17 +4,18 @@ All of the library content is made to usable in any Unity project, although the 
 
 Please keep in mind that some of this stuff has been made a while ago, or initially for specific needs, or even for pure personal training purpose: some better working codes, even Unity packages, may already exist and do a better job at what some of my tools tend to do.
 
+### This library needs to be cloned alongside https://github.com/sixrobin/RSLib_CSharp to work!
+
 
 ## Scripts folders content
 - **A\*:** generic A* pathfinding implementation, with some demo scripts and scene.
 - **Audio:** audio management system, working with ScriptableObjects.
-- **Collections:** FixedSizedConcurrentQueue, Heap, Loop and WeightedList (for probability stuff).
 - **ColorPicker:** UI color wheel and script to click on a color to select it.
 - **Data:** ScriptableObjects containing data, such as integers, floats, strings, layer masks, etc.
 - **Disabled:** custom script to reproduce Odin Inspector's ReadOnly attribute.
 - **Encryption:** Rjindeal encryption implementation.
 - **Localization:** custom localization implementation working with .csv files.
-- **Maths:** lots of math functions (geometry, algebra, BowyerWatson triangulation, easing curves, etc.).
+- **Maths:** maths functions (BowyerWatson triangulation, bullet aim prediction, etc.).
 - **Noise:** scripts related to noise functions or textures generation.
 - **Optionals:** bound between a bool and another value, to make some fields optional to the users.
 - **UI:** user interface related scripts.
@@ -29,7 +30,6 @@ _And some more minor standalone scripts..._
 
 ## Framework
 - **Events:** ScriptableObjects based event system.
-- **FSM:** generic finite state machine implementation.
 - **GameSettings:** game settings, accessible to players, generic implementation.
 - **InputSystem:** input manager with a remapping and save/load system.
 - **Pooling:** custom pooling system, with an IPoolItem interface for any pooled objects.
@@ -44,30 +44,22 @@ _And some more minor standalone scripts..._
 List of all the types having their set of extension methods:
 - AnimationCurve
 - Animator
-- Array
 - BoxCollider2D
 - CircleCollider2D
 - Color
-- Dictionary
-- Float
 - GameObject
-- IList
-- Int
 - KeyCode
 - LayerMask
 - MonoBehaviour
 - Quaternion
-- Queue
 - RectTransform
 - Renderer
 - Rigidbody
 - Selectable
 - SpriteRenderer
-- Stack
 - String
 - Texture2D
 - Vector2/Vector3
-- XDocument
 
 
 ## Debug
